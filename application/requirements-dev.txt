@@ -1,0 +1,2 @@
+# Development and test dependencies. Not installed in the container image.
+pytest==8.3.4

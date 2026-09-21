@@ -175,9 +175,20 @@ for understanding why, so this section is not boilerplate.
   manually upgrade to a paid account, which this course never asks you to do.** When the
   trial ends, workloads stop rather than bill you. (Verified 2026-09-21 — re-check the
   current terms at signup; see `course/references.md`.)
-- The $300 is a **ceiling, not a target**. Course labs are designed to use a small
-  fraction of it. Marks are never awarded for spending more.
+- **Every lab is designed to run inside Google Cloud's Always Free tier.** Expected total
+  spend for the whole course is **well under $1** — the only resource that reliably costs
+  anything is an external IP address in Lab 2, at half a cent per hour. The $300 credit is
+  a **buffer against mistakes, not a budget**. Marks are never awarded for spending more.
+- Staying free is a **skill you are being taught**, not a constraint imposed on you. Every
+  cloud lab asks you to say *which* free-tier allowance covers what you built and *what
+  would take you outside it*. "It's free" is not an acceptable answer; "it's free because
+  one `e2-micro` per month in `us-central1` is covered, and a second one would not be" is.
+- Two things that surprise almost everyone, both of which you will meet deliberately:
+  a **reserved IP address you are not using costs twice as much as one you are**, and the
+  free tier is counted **per billing account, not per project** — so a second project does
+  not give you a second allowance.
 - **Budget alerts are notifications, not a spending cap.** An alert does not stop anything.
+  Yours will be set at $1, because in a correctly-run course it should never fire.
 - Every cloud lab ends with a teardown step and a **teardown verification** step. Some
   resources keep costing money after the compute is stopped — disks, static addresses,
   buckets, images, logs. Verifying is part of the mark.

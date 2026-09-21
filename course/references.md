@@ -59,17 +59,78 @@ early September 2026; a 7.46.1 maintenance release dated 2026-09-04 also present
 note that v8.0.0 contained breaking changes — configurations written against 7.x are not
 guaranteed to apply.
 
-## R-04 · Google Cloud pricing
+## R-04 · Google Cloud pricing (per-SKU list)
 <https://cloud.google.com/pricing/list>
-**NOT VERIFIED for specific rates.** Two pricing pages were fetched on 2026-09-21
+**PARTIALLY VERIFIED.** Two Compute Engine pricing pages were fetched on 2026-09-21
 (`/compute/all-pricing` and `/products/compute/pricing/general-purpose`) and **neither
-returned usable E2-family figures**.
+returned usable E2-family figures**. No `e2-micro` on-demand rate therefore appears in this
+repository, and none was invented.
 
-**Therefore no per-service dollar rate appears anywhere in this repository.** Fabricating a
-plausible-looking price would be worse than leaving the field empty, because a student
-would believe it. `operations/cost-model.md` states the method, the quantities and the
-region, and leaves the rate cells blank with the retrieval procedure attached. Rates are
-filled in during Stage C, each stamped with its retrieval date.
+This turned out not to matter: under the free-tier-first policy (D-19) the `e2-micro` in
+`us-central1` is covered by the Always Free tier (R-01), so the course does not need its
+on-demand rate. The rates the course *does* depend on — external IP, Artifact Registry,
+Firestore, Cloud Run — were each fetched individually and appear below as R-09 … R-12.
+
+Students still retrieve rates themselves in Lab 6; this entry is the starting point.
+
+## R-09 · VPC network pricing — external IP addresses
+<https://cloud.google.com/vpc/network-pricing>
+**FETCHED 2026-09-21.**
+
+Confirmed: static **and** ephemeral external IPv4 addresses attached to a **running standard
+VM** cost **$0.005/hour**; on preemptible or Spot VMs **$0.0025/hour**; a **static address
+reserved but not attached to anything costs $0.01/hour** — double the attached rate. Free
+tier: **one hour per month per account**, for addresses on standard VM instances.
+
+Also confirmed: a **static** IP counts as "in use" while its VM is *stopped*; an
+**ephemeral** IP counts as in use only while the instance is *running*.
+
+*Used by:* decision D-21, and the central cost lesson in `operations/cost-model.md` §2 and §6.
+This is the only resource in the whole course that reliably costs money.
+
+## R-10 · Artifact Registry pricing
+<https://cloud.google.com/artifact-registry/pricing>
+**FETCHED 2026-09-21.** Storage 0–0.5 GiB/month is **free**; above that,
+**$0.000136986 per GiB-hour** (≈ $0.10 per GiB-month). No fixed or idle charge for having a
+repository — you pay for stored bytes only.
+
+*Used by:* Lab 4's cost model and the image-cleanup step. 0.5 GiB is small enough that
+accumulated rebuild layers are a genuine risk, which is why deleting old images is part of
+the lab rather than a footnote.
+
+## R-11 · Firestore pricing and free quota
+<https://cloud.google.com/firestore/pricing>
+**FETCHED 2026-09-21.**
+
+Confirmed free quota (Standard edition): **1 GiB stored per database**, **50,000 document
+reads / 20,000 writes / 20,000 deletes per day**, 10 GiB outbound transfer per month.
+Quotas reset daily around midnight US Pacific. Crucially: **no fixed or idle cost** — an
+unused Firestore database charges nothing.
+
+Two constraints that decide how the lab is written: **one free database per project**, and a
+**named (non-default) database does not qualify for the free quota at all** — billing must be
+enabled and charges start immediately. TTL deletes, PITR, backup, restore and clone are
+outside the free quota.
+
+*Used by:* decision D-20, which resolves Q-03. This is why Firestore was chosen over Cloud
+SQL, which has no free tier and bills hourly when idle.
+
+## R-12 · Cloud Run pricing
+<https://cloud.google.com/run/pricing>
+**FETCHED 2026-09-21.**
+
+Confirmed free tier (request-based billing): **2,000,000 requests**, **180,000 vCPU-seconds**,
+**360,000 GiB-seconds** per month. Instance-based billing has a different allowance
+(240,000 vCPU-s, 450,000 GiB-s). **Free tier is aggregated across projects per billing
+account**, and resets monthly.
+
+Confirmed: a service with **`min-instances = 0`** and no traffic costs **$0.00** — there is
+no charge for a deployed service merely existing, and idle instances that are not minimum
+instances are not charged. CPU and memory are billed while an instance is starting, shutting
+down, or processing a request.
+
+*Used by:* Lab 4's cost model, and the explicit teaching point that setting minimum instances
+above zero converts request-priced execution into always-on execution.
 
 ## R-05 · NIST SP 800-145, *The NIST Definition of Cloud Computing*
 Mell, P. and Grance, T., NIST, September 2011.
@@ -134,7 +195,8 @@ comparative claim.
 |---|---|
 | Re-fetch R-01 and R-02 (trial terms) | Before each offering, and before finalising setup instructions |
 | Re-fetch R-03 (provider version) and re-test `infra/` | Before each offering |
-| Fill R-04 rates and stamp the date | Stage C, per lab |
+| Re-fetch R-09 … R-12 (the rates and allowances the design depends on) | Before each offering |
+| Re-check each lab's quantities against the current free-tier allowances | Before each offering |
 | Re-check R-07 and R-08 access | Before assigning them |
 
 Every claim about current GCP behaviour, pricing, quotas or trial limits in this repository

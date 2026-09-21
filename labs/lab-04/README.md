@@ -11,7 +11,7 @@ lab content and must not be issued to students.
 | Task | Containerise and deploy to managed execution, run a bounded load experiment, and compare latency, throughput, scaling behaviour and operational responsibility against the Lab 2 VM. |
 | Outcomes | CLO-2, CLO-5, CLO-6 |
 | Weight | 7.5% of the final grade |
-| Cloud resources | Managed container execution, image storage, build minutes. Experiment bounds — max 5 min per run, max 3 runs, max concurrency 50, instance count capped — are the actual cost control. |
+| Cloud resources | Cloud Run (`--min-instances=0`), Artifact Registry, Cloud Build. **Estimated cost: $0.00** — all inside Always Free. Experiment bounds — max 5 min per run, max 3 runs, max concurrency 50, max-instances capped — are what keep it there. |
 
 **Design note.** Minimum instance count is set to zero and the lab explains why: a non-zero minimum turns request-priced execution into always-on execution.
 

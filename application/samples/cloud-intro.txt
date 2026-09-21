@@ -1,0 +1,15 @@
+Cloud computing is a model for enabling convenient, on-demand network access to a shared
+pool of configurable computing resources. The resources can be rapidly provisioned and
+released with minimal management effort.
+
+Five characteristics are usually named. On-demand self-service means a consumer can obtain
+capacity without human interaction with the provider. Broad network access means the
+capacity is reached over the network by standard mechanisms. Resource pooling means the
+provider serves many consumers from the same physical hardware. Rapid elasticity means
+capacity can grow and shrink quickly, and can appear unlimited to the consumer. Measured
+service means usage is metered, and therefore billed.
+
+Metering is the characteristic students underestimate. A resource that is provisioned is
+metered whether or not anyone is using it. This is why an idle virtual machine still costs
+money, and why a reserved address that is attached to nothing can cost more than one doing
+useful work.

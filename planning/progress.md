@@ -3,19 +3,21 @@
 **Resume from this file.** It records what exists, what has been validated and at what
 level, and the single next concrete action. Do not restart the design from the brief.
 
-Last updated: **2026-09-21** · Current stage: **A complete → B not started**
+Last updated: **2026-09-21** · Current stage: **A and B complete → C not started**
 
 ---
 
 ## Next concrete action
 
-> **Build the course application** (`application/`): a minimal Python document/job-processing
-> service that runs locally with synchronous behaviour only — submit a synthetic input,
-> store it on local disk, request processing, poll status, read the result. No storage
-> service, no queue, no container yet. Then write Lab 1 against it and time a novice run.
-
-Stage B is deliberately narrow: the application and Lab 1 become the template every later
-lab reuses, so they are validated before scope expands.
+> **Author Lab 2 and weeks 4–5** (compute and networking). Before writing any steps, verify
+> on a real unupgraded trial account that: one `e2-micro` in `us-central1` is genuinely free;
+> an ephemeral external IP behaves as `operations/cost-model.md` §2 claims; and the whole lab
+> can be created and destroyed inside the free tier. Then write the lab to the Lab 1 template
+> — same section list, same four rubric bands, same predict → implement → measure → explain
+> cycle.
+>
+> Lab 2 also needs `operations/cleanup.md`, which is a placeholder until a lab creates
+> something billable.
 
 ---
 
@@ -68,33 +70,67 @@ mapped to CLO-4 and to CLO-7 conceptual material taught in that same session. It
 assesses CLO-5 and CLO-6, and touches CLO-7 only through the cleanup thread students have
 practised since Lab 2.
 
+**Free-tier-first policy added 2026-09-21 (D-19 … D-22)**, on instruction to minimise cost.
+Consequences: Q-03 resolved to Firestore on idle-cost grounds (D-20); Lab 2 uses an ephemeral
+IP and deletes rather than stops its VM (D-21); ceilings cut from $30/$75 to $5/$15 (D-22);
+`us-central1` became a condition rather than a preference (D-18). Expected spend per student
+for the whole course is now **under $1**, with the external IP in Lab 2 (~$0.04) as the only
+reliably charged item. Four further pricing sources were fetched and cited (R-09 … R-12), so
+`operations/cost-model.md` now carries **verified rates** rather than empty cells.
+
 **Facts verified 2026-09-21 by fetching official sources:**
 - Free Trial: $300 credit, 90 days, new users only, payment method required for identity
   verification, workloads stop at expiry, upgrade to paid is manual. (R-01, R-02)
 - Always Free tier limits for Compute Engine, Cloud Storage, Cloud Run, Pub/Sub, Logging. (R-01)
 - `hashicorp/google` Terraform provider is on the 8.x line as of 2026-09-04. (R-03)
 
-**Deliberately not done in Stage A:** no specific dollar figures for VM/storage/queue
-pricing were recorded, because the official per-SKU pages could not be read reliably in
-this session. Inventing them would be worse than their absence. `operations/cost-model.md`
-states the method, the quantities, and where the rate goes; rates are filled in Stage C
-from `cloud.google.com/pricing/list` with the date of retrieval.
+**Still deliberately absent:** the `e2-micro` on-demand rate. Two Compute Engine pricing
+pages were fetched and neither returned usable E2-family figures. It turned out not to
+matter — under D-19 that VM is free-tier — and no plausible-looking number was invented to
+fill the gap. See R-04.
 
 ---
 
-## Stage B — teaching foundation · NOT STARTED
+## Stage B — teaching foundation · COMPLETE
 
-| Artefact | Status |
-|---|---|
-| `application/` minimal local service | not started |
-| `application/` tests (meaningful behaviour, not implementation mirrors) | not started |
-| `operations/student-setup.md` (Windows + macOS paths) | not started |
-| `labs/lab-01/` brief, rubric, starter | not started |
-| `weeks/week-01/`, `weeks/week-02/`, `weeks/week-03/` | not started |
-| Novice workload estimate for Lab 1 | not started |
+| Artefact | Status | Validation |
+|---|---|---|
+| `application/docapp/` — 11 modules, stdlib only | done | **EXECUTED** — runs, serves traffic, verified by curl |
+| `application/tests/` — 47 standard tests | done | **EXECUTED** — all pass |
+| `application/tests/test_lab01_filejobstore.py` — 14 acceptance tests | done | **EXECUTED** — fail as intended until the student implements `FileJobStore` |
+| `application/tools/measure.py` | done | **EXECUTED** — produced real measurements at concurrency 1 and 4 |
+| `application/Dockerfile` + `.dockerignore` | done | **REVIEWED, NOT BUILT** — no container runtime was available. Build on Apple Silicon and Intel before week 2. |
+| `application/README.md`, `samples/` | done | REVIEWED |
+| `operations/check_environment.py` | done | **EXECUTED** — 7 pass, 2 warn, 0 fail on the authoring machine |
+| `operations/student-setup.md` | done | **REVIEWED** — Windows and macOS paths **not executed on those platforms** |
+| `labs/lab-01/README.md` + `rubric.md` | done | REVIEWED |
+| Instructor solution + teaching notes (private repo) | done | **EXECUTED** — reference `FileJobStore` passes all 14 lab01 tests and the 47 standard tests |
+| `weeks/week-01…03/` teaching guides + student notes | done | REVIEWED |
 
-Gate before Stage C: Lab 1 runs end-to-end locally on both platform paths, and its
-estimated novice completion time fits the Week 2–3 budget.
+**Gate passed?** Partly, and the gap is named rather than papered over:
+
+- ✅ The application runs end-to-end and its tests pass.
+- ✅ Lab 1's exercise has a verified reference solution.
+- ⚠️ **Not verified on Windows or macOS.** Authoring happened on Linux. Both platform paths
+  are reviewed, not executed.
+- ⚠️ **The Dockerfile has never been built.** Lab 1 Part 2 depends on it.
+- ⚠️ **Novice completion time is an estimate only.** ~2 h guided + ~5 h independent. Nobody
+  has been timed. `course/workload-budget.md` says why that number is worth little until a
+  pilot happens.
+
+### Real measurements recorded this session
+
+From `tools/measure.py` against the local server, `DOCAPP_PROCESSING_DELAY_MS=200`, 12
+requests, one run each, client and server on the same host (a Linux container, **not** a
+student laptop):
+
+| Concurrency | Wall time | Throughput | p50 | p95 |
+|---|---|---|---|---|
+| 1 | 2.489 s | 4.82 req/s | 208.3 ms | 209.0 ms |
+| 4 | 0.623 s | 19.26 req/s | 207.4 ms | 208.4 ms |
+
+**Measured, not illustrative.** Filed in the private repo as pilot evidence. Deliberately
+**not** printed in the student lab — producing their own numbers is the exercise.
 
 ---
 

@@ -1,0 +1,8 @@
+# Runtime dependencies: none.
+#
+# This is deliberate, not an omission. The application uses only the Python standard
+# library. See application/README.md for why, and what it buys the course.
+#
+# Labs 3, 4 and 5 add cloud client libraries here, pinned, one at a time:
+#   Lab 3  google-cloud-storage, google-cloud-firestore
+#   Lab 5  google-cloud-pubsub

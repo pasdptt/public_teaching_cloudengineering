@@ -11,7 +11,7 @@ lab content and must not be issued to students.
 | Task | Move stored artefacts out of the instance into object storage, then externalise application state to one managed data service and justify the design in a decision record. |
 | Outcomes | CLO-4, CLO-5 |
 | Weight | 7.5% of the final grade |
-| Cloud resources | Object storage plus **one** managed data service — not several for comparison. Highest cost risk in the course because a managed database is typically billed whether idle or not. |
+| Cloud resources | Cloud Storage (`us-central1`) plus **Firestore**, the project's single free `(default)` database. **Estimated cost: $0.00** — both sit inside Always Free allowances. |
 
 **Design note.** The data service is **not yet chosen** (D-14 / Q-03). It is decided by trial compatibility and idle-cost behaviour, not by which is most interesting to teach.
 

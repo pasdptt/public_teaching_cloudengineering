@@ -15,7 +15,7 @@ and before finalising setup instructions** — terms change.
 
 | Fact | Detail | Consequence for the course |
 |---|---|---|
-| Credit | $300 "Welcome credit" | A ceiling, not a target. Labs are designed to use a small fraction. |
+| Credit | $300 "Welcome credit" | **A buffer against mistakes, not a budget.** Under the free-tier-first policy (D-19) the labs are designed to cost under $1 in total. |
 | Duration | 90 days from that student's own signup | The window must reach week 15. This is the binding constraint. |
 | Eligibility | Never a paying customer of Google Cloud, Google Maps Platform or Firebase; never previously used the trial | **Not all students will qualify.** Section 4 exists for them. |
 | Payment method | Required, for identity verification. A temporary authorisation of roughly $0–$1 may appear for 1–14 business days | Some students have no card. Section 4 covers them too. |
@@ -51,24 +51,28 @@ fails in practice.
 
 Authored **with** each lab, not bolted on afterwards.
 
-1. **Trial compatibility.** Verify each service, quota, region and feature works on an
+1. **Free tier first (D-19).** Every resource a lab creates must sit inside an Always Free
+   allowance, or the lab is redesigned. Verify against `operations/cost-model.md` §1, which
+   lists each allowance with its source and retrieval date.
+2. **Trial compatibility.** Verify each service, quota, region and feature works on an
    **unupgraded** trial account. Never require a feature that needs a paid upgrade.
-2. **Region.** `us-central1` by default (D-18) — it overlaps the Always Free regions, which
-   lowers the floor cost of anything long-lived.
-3. **Bounded experiments.** Every load or failure experiment states a maximum duration,
+3. **Region is a condition, not a preference.** `us-central1` (D-18). The Always Free
+   `e2-micro` and Cloud Storage allowances exist **only** in `us-west1`, `us-central1` and
+   `us-east1`. The same lab run in `asia-southeast1` is a billed lab.
+4. **Bounded experiments.** Every load or failure experiment states a maximum duration,
    request count, concurrency and instance count. "Run it until it breaks" is not an
    instruction this course gives.
-4. **No always-on resources without a reason.** If something must persist between sessions,
+5. **No always-on resources without a reason.** If something must persist between sessions,
    the lab says why and what it costs to leave running.
-5. **Cost estimated before deploying.** Quantity × duration × rate, with region and
+6. **Cost estimated before deploying.** Quantity × duration × rate, with region and
    retrieval date. See `operations/cost-model.md`.
-6. **Explicit create → verify → stop/delete → verify-gone.** The last step is graded.
+7. **Explicit create → verify → stop/delete → verify-gone.** The last step is graded.
    Resources that outlive compute are the trap: persistent disks, static external
    addresses, storage buckets, container images, snapshots, and retained logs.
-7. **Budget alerts are notifications, not caps.** Configure them in week 4, and say plainly
-   in the same breath that an alert stops nothing. A student who believes an alert is a
-   spending cap has been actively misinformed.
-8. **No credentials in code, ever.** Application identities get narrowly scoped roles.
+8. **Budget alerts are notifications, not caps.** Configure them in week 4 with a **$1 first
+   threshold**, and say plainly in the same breath that an alert stops nothing. A student who
+   believes an alert is a spending cap has been actively misinformed.
+9. **No credentials in code, ever.** Application identities get narrowly scoped roles.
    Project-owner is never used for a workload. A committed key is permanent — rotate it,
    do not just delete the commit.
 
@@ -99,7 +103,7 @@ reasoning, evidence and explanation, and the fallback produces all three.
 |---|---|---|---|
 | 1 | Local already | — | None |
 | 2 VM + networking | VM, firewall rule, external address | Local container with an explicit published-port and host-firewall exercise; read a supplied trace of the cloud path | **Cannot reproduce:** a real provider network path, provider identity, or the difference between a security-group rule and a host firewall. Supplied instructor evidence covers what the student cannot observe. |
-| 3 Object + managed data store | Cloud Storage + one managed service | An S3-compatible object store run locally, and a local database engine | **Cannot reproduce:** real durability guarantees, cross-zone replication, or a managed service's operational boundary. The *API shape and access-pattern reasoning* do transfer. |
+| 3 Object + managed data store | Cloud Storage + Firestore `(default)` (D-20) | An S3-compatible object store run locally, and a local database engine | **Cannot reproduce:** real durability guarantees, cross-zone replication, or a managed service's operational boundary. The *API shape and access-pattern reasoning* do transfer. |
 | 4 Managed execution + load | Cloud Run + bounded load test | Container + local load generator, with a scaling discussion against supplied evidence | **Cannot reproduce:** cold start, real autoscaling feedback, or provider-side concurrency. This is the largest gap in the fallback and must be labelled as such. |
 | 5 Queue + resilience | Pub/Sub + failure injection | Local queue broker with the same at-least-once semantics; same idempotency and duplicate exercises | **Small gap.** Duplicate delivery, retry, backoff and idempotency are all demonstrable locally. Managed dead-lettering configuration is not. |
 | 6 Terraform + cost | Real apply/destroy | `terraform validate` and `terraform plan` against the real provider **without applying**, plus a local-provider apply/destroy to demonstrate state | **Cannot reproduce:** drift against real infrastructure, or a real bill. The cost estimate is still produced from published rates — that exercise is identical. |
@@ -168,7 +172,10 @@ check both activation dates in week 11 when they submit the proposal.
 Stated plainly, because a plan that hides its own risks is not a plan:
 
 - That every student qualifies for a trial.
-- That $300 covers unbounded experimentation — it covers the bounded labs as designed.
+- That $300 covers unbounded experimentation. It is not meant to be spent at all: the labs
+  as designed cost under $1, and the credit is there so that a mistake is survivable.
+- That "free tier" means "cannot be charged". The free tier is a **discount, not a cap** —
+  exceed an allowance and billing starts silently at the normal rate.
 - That the 90-day window fits the real semester. **Unverified until Q-01 is answered.**
 - That the fallback path is pedagogically equal. It is *assessably* equal; the table in
   section 4 is honest about what it cannot show.

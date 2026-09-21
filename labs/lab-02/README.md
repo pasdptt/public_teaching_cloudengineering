@@ -11,7 +11,7 @@ lab content and must not be issued to students.
 | Task | Deploy the service on a small VM, configure narrow access, trace the network path hop by hop, and explain the identity and responsibility boundary at each one. |
 | Outcomes | CLO-3 |
 | Weight | 7.5% of the final grade |
-| Cloud resources | VM, boot disk, firewall rule, external address. Quantities and ceilings in `operations/cost-model.md`. First lab with a graded teardown verification. |
+| Cloud resources | One `e2-micro` in `us-central1` (Always Free), 10 GB standard disk (free), firewall rule, and an **ephemeral** external IP. **Estimated cost ≈ $0.04** — the IP is the only charged item in the entire course. First lab with a graded teardown verification. |
 
 **Design note.** Scripted creation and teardown start here — the script students maintain by hand is what makes Terraform in Lab 6 feel like an answer rather than a new tool.
 

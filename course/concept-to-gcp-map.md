@@ -56,8 +56,10 @@ Two warnings this file exists to prevent:
 | Document / key-value store | Schema-flexible, query by key or index | Firestore | Access-pattern-first design | Query limitations and index requirements differ sharply between document stores |
 | Managed cache | In-memory store, evictable by design | Memorystore | Cache invalidation reasoning | Engine versions and failover behaviour |
 
-*Lab 3's actual managed data service is not yet fixed — see decision D-14 and Q-03. It is
-chosen on trial compatibility and cost, not on which is most interesting.*
+*Lab 3 uses **Firestore**, the project's single free `(default)` database (decision D-20).
+Chosen on idle cost: Firestore charges nothing when unused, while Cloud SQL bills per hour
+whether or not anything connects. Worth saying to students explicitly — the course picked its
+database the way a cost-conscious engineer would, and the reasoning is the lesson.*
 
 ## Asynchrony
 
@@ -85,6 +87,8 @@ chosen on trial compatibility and cost, not on which is most interesting.*
 | Secret handling | Secrets out of code and out of images | Secret Manager | Never commit a secret; a committed secret is permanent | Access model and versioning |
 | Cost model | Metered resources, billed per unit time or operation | Cloud Billing, budgets | Estimate-before-deploy; know what accrues when idle | SKU structure, free tiers, sustained-use discounts |
 | Cost guardrails | Notification on threshold | Budget alerts | **A budget alert is a notification, not a cap.** True everywhere and always worth saying twice | Alert configuration and quota mechanisms |
+| Free tier | A recurring allowance, not a spending limit | Always Free | **Every major provider has one, and on every one it is a discount rather than a cap** — exceeding it bills silently. Reasoning about allowances transfers directly | Which services, which regions, and how the allowance is counted (GCP counts per *billing account*, not per project) |
+| Idle cost | Paying for provisioned capacity nobody is using | — | **The most transferable cost lesson there is.** A reserved-but-unattached IP costs twice an attached one; a min-instance kept warm bills like a running server | Which specific resources bill when idle differs by provider — the *habit of asking* does not |
 
 ---
 

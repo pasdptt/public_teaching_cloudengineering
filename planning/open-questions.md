@@ -24,6 +24,10 @@ expiry — at which point student workloads stop.
 the arithmetic to re-run. Authoring continues; dates are the last thing fixed.
 
 ### Q-02 · Is there any institutional GCP sandbox, education credit, or billing account?
+*Priority lowered 2026-09-21.* Under the free-tier-first design (D-19) expected spend is under
+$1 per student, so this is no longer about funding — it now matters **only** for students who
+cannot pass the trial's eligibility or payment-method check. Still worth pursuing, but it is
+no longer a cost question.
 **Owner:** instructor / department IT
 **Blocks:** whether the personal-trial path is the primary access model or a fallback.
 **Why it matters:** the personal trial requires each student to have a payment method and
@@ -37,14 +41,16 @@ account discovered later only makes things easier.
 
 ## Material — needed during Stage B/C authoring
 
-### Q-03 · Which managed data service for Lab 3?
-**Owner:** authoring, resolved by evidence not preference (see D-14)
-**Blocks:** Lab 3 content and the Lab 3 cost model.
-**Decision inputs required:** availability on an **unupgraded** trial account; whether any
-component is always-on and therefore accrues charges between lab sessions; free-tier
-overlap; and whether the consistency/durability lesson can actually be demonstrated in
-about 60 minutes of guided work.
-**Note:** the brief forbids deploying several databases for comparison. One service is chosen.
+### ~~Q-03 · Which managed data service for Lab 3?~~ — **RESOLVED 2026-09-21**
+**Answer: Firestore**, using the project's single free `(default)` database. Recorded as D-20.
+
+Decided exactly as D-14 required — on idle cost, not preference. Firestore has **no fixed or
+idle charge** and a real free quota (1 GiB, 50k reads / 20k writes / 20k deletes per day).
+Cloud SQL was rejected because it has no free tier and bills per hour whether or not anything
+connects; one forgotten instance would cost more than every other lab combined.
+
+Remaining detail for Stage C authoring, not a blocker: which specific consistency behaviour
+the lab demonstrates within about 60 minutes of guided work.
 
 ### Q-04 · Container tooling students install
 **Owner:** instructor, informed by the Week 1 environment check
@@ -97,3 +103,5 @@ Default until answered: no separate track.
 | Assessment weights? | 20 / 45 / 35 | D-02 |
 | IaC tool? | Terraform | D-03 |
 | Semester calendar? | Supplied later; build relative weeks | D-04, Q-01 |
+| How much should the labs cost? | **Free tier wherever possible**; credit is a buffer, not a budget | D-19, D-22 |
+| Lab 3 data service? | **Firestore**, free `(default)` database — zero idle cost | D-20 |

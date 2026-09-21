@@ -1,0 +1,59 @@
+# ---------------------------------------------------------------------------
+# This is a PUBLIC repository. Nothing that reveals assessment answers may be
+# committed here. Instructor material lives in a separate private repository:
+#   ../cloudengineering-instructor
+# See planning/decisions.md (D-01) and operations/publishing-checklist.md.
+# ---------------------------------------------------------------------------
+
+# Defence in depth: if instructor material is ever created inside this tree by
+# mistake, git will not stage it.
+instructor/
+**/solution/
+**/solutions/
+*-solution.*
+*-key.*
+*answer-key*
+
+# Credentials and cloud state — never commit
+*.json.key
+*-credentials.json
+service-account*.json
+.env
+.env.*
+!.env.example
+gcloud-config/
+application_default_credentials.json
+
+# Terraform
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+crash.log
+override.tf
+override.tf.json
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.pytest_cache/
+.coverage
+htmlcov/
+*.egg-info/
+
+# Lab run artefacts (measurements are submitted, not committed)
+runs/
+results/
+*.local.md
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp

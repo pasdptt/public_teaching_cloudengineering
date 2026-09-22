@@ -17,12 +17,27 @@ terraform {
     }
   }
 
-  # State is local for this course. That is fine for one student on one machine and wrong
-  # for a team -- two people applying against separate local state files will fight, and
-  # neither will know. Lab 6 asks you what a shared backend would change.
+  # State is local, and stays local for week 12. That is fine for one student on one
+  # machine and wrong for a team -- two people applying against separate local state files
+  # will fight, and neither will be told.
+  #
+  # In week 13 it stops being a matter of taste. A pipeline runs on a fresh machine every
+  # time, so local state is EMPTY on every run: the second deploy tries to create
+  # everything again and fails on resources that already exist. The pipeline is the second
+  # actor the paragraph above was warning about, and it arrives whether you invited it or
+  # not.
+  #
+  # Lab 6 Part 4 has you uncomment this and migrate. Note what is deliberately absent from
+  # it: the bucket name. It is supplied with `-backend-config` at init time, because a
+  # backend block may not use variables at all -- which is itself a consequence of the
+  # chicken-and-egg problem below.
+  #
+  # And the chicken and egg: this bucket CANNOT be created by this configuration. Terraform
+  # needs somewhere to put state before it can create anything, including the somewhere.
+  # So it is made by hand, once, with a gcloud command, and that is not a workaround -- it
+  # is what every team does, and the usual name for it is bootstrapping.
   #
   # backend "gcs" {
-  #   bucket = "your-tfstate-bucket"
   #   prefix = "docapp"
   # }
 }

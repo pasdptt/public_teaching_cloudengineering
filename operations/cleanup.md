@@ -42,6 +42,8 @@ order students actually get caught:
 | **Cloud Run with `min-instances > 0`** | having no traffic | It looks idle; it is provisioned |
 | **Firestore *named* database** | — | Works identically to the free `(default)` one and qualifies for no free quota at all |
 | **A `dev` environment left up while `prod` runs** | attention | Two environments is two of everything, and the free tier allows one |
+| **The Terraform state bucket** | every `destroy` | It is the record of the system rather than part of it, so nothing that removes the system removes it. Versioning is deliberately on, so check for old versions too |
+| **A Workload Identity Federation pool** | everything | Costs nothing and grants something: a standing trust relationship between a repository and a project. Delete it, or it outlives the course |
 | **A service account and its role bindings** | the thing it was created for | Costs nothing, grants something. An identity with write access to a bucket, outliving the service it was made for, is a finding rather than untidiness — and deleting the account does not always remove every binding it appears in |
 
 ## Per-lab teardown
@@ -53,7 +55,7 @@ order students actually get caught:
 | 3 | manual — the commands are in the lab | Bucket contents and object versions; the Firestore database |
 | 4 | `labs/lab-04/starter/06-teardown.sh` then `07-verify-clean.sh` | **Old images in Artifact Registry** — invisible from the Cloud Run console; also the runtime service account |
 | 5 | `labs/lab-05/starter/06-teardown.sh` then `07-verify-clean.sh` | **The subscription, deleted first** — an abandoned one retains messages and bills for them. Also a second service account, and two topics |
-| 6 | `terraform destroy` for **each** environment, then verify | State says it is gone; verify independently that it is |
+| 6 | `terraform destroy` for **each** environment, then verify | State says it is gone; verify independently that it is. Then, in order: registry images, deployer account and WIF pool, and **the state bucket last** |
 
 ## Verifying by hand
 

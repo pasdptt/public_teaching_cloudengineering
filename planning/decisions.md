@@ -113,6 +113,18 @@ them. `plan` and `apply` remain **NOT run** — they need a project and credenti
 
 ---
 
+## B6. Decisions taken while authoring week 13 (2026-09-22)
+
+| ID | Decision | Rationale |
+|---|---|---|
+| D-43 | **Remote Terraform state becomes a requirement in week 13, not an optional extra**, and the state bucket is bootstrapped by hand. `deploy.yml` carries a `TODO` for the backend and `versions.tf` explains the chicken-and-egg. | `deploy.yml` as written would have applied with **local** state on a fresh runner every run: the first deploy succeeds and the second fails on resources that already exist. That is a real defect, and it is also the best possible motivation for a shared backend — week 12 argues the case abstractly, week 13 makes the pipeline the second actor that forces it. The bootstrap step is kept manual and named, because "Terraform needs somewhere to put state before it can create anything, including that somewhere" is a genuine constraint every team meets once. |
+| D-44 | **The workflow selects a Terraform workspace, and not doing so is left as a `TODO` that fails on the second run.** | Same class of bug as D-43 and deliberately paired with it: without a workspace, `dev` and `prod` share one state file. Both defects are invisible on a first run and obvious on a second, which is exactly how this family of mistake behaves in practice. Lab 6 Part 5 now asks students to merge **twice** before concluding anything works, and to name what the two bugs have in common. |
+| D-45 | **The pipeline's smoke test authenticates**, with an explicit `--audiences`, and Lab 6 asks why that is needed for a service account and not for a human. | Follows from D-41: the Terraform-managed service is private, so the previous unauthenticated `curl` would have returned 403 on every healthy deployment. Fixing it surfaces a genuinely non-obvious distinction — a token minted for a service account is issued *for* something and Cloud Run checks it — that students would otherwise meet as an inexplicable 401. |
+| D-46 | **The breadth of the deployer identity is named in the material rather than quietly minimised**, in `deploy.yml`, Lab 6 Part 4 and the week 13 notes, with three acceptable answers offered including "nothing, and here is why". | The deployer account must create service accounts and grant project-level IAM, so by the end of Lab 6 it is close to the most powerful principal in the project, acting on whatever is on the main branch. Pretending otherwise would teach least privilege for eleven weeks and then abandon it silently at the one point where it is genuinely hard. Naming the tension, and accepting a reasoned "this is acceptable here", is the honest treatment. |
+| D-47 | **Week 13's session is 90 concepts / 40 design review / 40 practical**, rather than the usual 60-minute practical. | The design review is CLO-8 evidence and is the only scheduled point at which a project's scope is checked before it is built. It cannot move to week 14, which already carries Quiz 7 and peer review. The practical loses 20 minutes instead, which is affordable because most of Lab 6 Parts 4–6 is independent work either way — and recorded here rather than absorbed silently. |
+
+---
+
 ## C. Adopted defaults (revisable)
 
 | ID | Default | Why this default | What would change it |

@@ -9,19 +9,21 @@ Last updated: **2026-09-22** · Current stage: **A and B complete → C in progr
 
 ## Next concrete action
 
-> **Author weeks 13 and 14.** Week 13 is Lab 6's second half — the delivery pipeline, gates,
-> and Workload Identity Federation — and `.github/workflows/deploy.yml` already exists with its
-> TODOs. Week 14 is synthesis plus evidence-based evaluation, and it now has a great deal to
-> draw on: Lab 4's confounds paragraph and Lab 5's proves/does-not-prove paragraph are both
-> rehearsals for it, and both have rubric language worth reusing.
+> **Author week 14** — synthesis and evidence-based evaluation — and then the assessment
+> package. Week 14 is the last teaching week with content to write (week 15 is demonstrations
+> and cleanup, and `course/weekly-schedule.md` already specifies its shape in full).
 >
-> One thing to check while writing week 13: `deploy.yml` predates Labs 4 and 5 and predates
-> today's `infra/` changes. Confirm that the roles it asks the deployer account to hold still
-> cover fourteen resources including Pub/Sub, and that its smoke test can reach a **private**
-> service (D-41) — a plain `curl` against it will now return 403.
+> Week 14 has an unusual amount to draw on. Lab 4's confounds paragraph, Lab 5's
+> proves/does-not-prove paragraph and Lab 6's difference table are all rehearsals for it, and
+> each has rubric language worth reusing rather than reinventing. It also carries **Quiz 7**
+> and the structured peer review.
 >
-> After that: quizzes 1–7 and keys, the project package, instructor solutions for Labs 2, 4
-> and 6.
+> After that, in order of how much is blocked on them:
+> 1. **Quizzes 1–7 and their keys** — seven files here, seven in the private repo. Nothing
+>    else depends on them, and they are the largest remaining gap.
+> 2. **The project package** — `project/brief.md`, `milestones.md` and `rubric.md` exist as
+>    placeholders and are referenced from weeks 10, 13 and 14.
+> 3. Instructor solutions for Labs 2, 4 and 6.
 
 ---
 
@@ -67,7 +69,7 @@ piloted the labs under the intended access model.
 **Mechanical audit (`python3 planning/audit.py`) passes**, checking: all 11 relative links
 resolve · all 15 weekly workload rows sum to exactly 180 · assessment weights total 100%
 and 6 × 7.5% = 45% · 153 files scanned, no answer-key or credential-shaped content · all
-nine CLOs present in the assessment plan · **all 12 authored session plans sum to exactly 180
+nine CLOs present in the assessment plan · **all 13 authored session plans sum to exactly 180
 contact minutes** (check 6, added 2026-09-22). Run it before every commit.
 
 **One inconsistency was found and fixed during the audit:** Quiz 6 (week 12) had been
@@ -299,15 +301,43 @@ credentials. Nothing in `infra/` has ever created a resource.
    environment and called it reproducible. Found by reading `infra/` against Labs 3–5 rather
    than by any tool.
 
+### Week 13 authored, and three pipeline defects fixed (2026-09-22)
+
+| Artefact | Status | Validation |
+|---|---|---|
+| `.github/workflows/deploy.yml` — rewritten (D-43…D-46) | done | **EXECUTED** — YAML parses; the `needs: test` gate, both permissions and the absence of any third, the empty `STATE_BUCKET`, the non-cancelling concurrency, the authenticated smoke test and the sha-tagged image are all asserted programmatically |
+| `infra/versions.tf` — the backend, and why it is bootstrapped | done | **VALIDATED** — `tofu validate` and `fmt` still clean |
+| `labs/lab-06/README.md` — Parts 4–6 rewritten | done | REVIEWED |
+| `operations/cleanup.md` — teardown order, state bucket, WIF pool | done | REVIEWED |
+| `weeks/week-13` guide + notes | done | REVIEWED |
+
+**Three real defects in the pipeline, all of which would have bitten a student:**
+
+1. **Local state in CI.** `terraform init` configured no backend, and a runner is a fresh
+   machine every run — so the first deploy succeeds and the **second** fails on resources that
+   already exist. Now a `TODO` with a bootstrapped state bucket behind it (D-43), and it turns
+   out to be the best available motivation for the shared backend week 12 argues for
+   abstractly.
+2. **No workspace selection.** `dev` and `prod` would have shared one state file. Same class of
+   bug, also invisible on a first run (D-44). Lab 6 now tells students to merge **twice**
+   before concluding anything works, and asks what the two have in common.
+3. **The smoke test could not reach its own service.** Since D-41 made the service private, the
+   unauthenticated `curl` would have returned 403 on every healthy deployment (D-45).
+
+**One thing named rather than minimised (D-46):** the deployer account has to create service
+accounts and grant project-level IAM, so by the end of Lab 6 it is close to the most powerful
+principal in the project, acting on whatever is on `main`. Teaching least privilege for eleven
+weeks and then going quiet at the one genuinely hard point would have been the wrong call, so
+`deploy.yml`, the lab and the notes all state it and invite a reasoned answer — including
+"nothing, and here is why".
+
 ### Still to author
 
-Weeks 13–14 teaching content · quizzes 1–7 and keys · the project package · instructor
-solutions for Labs 2, 4 and 6. Operational guidance is authored **with** each cloud exercise,
-never afterwards.
+Week 14 · quizzes 1–7 and keys · the project package · instructor solutions for Labs 2, 4
+and 6. Operational guidance is authored **with** each cloud exercise, never afterwards.
 
-**Carried forward:** `.github/workflows/deploy.yml` predates Labs 4 and 5 and today's `infra/`
-changes. Its deployer roles and its smoke test both need checking against a fourteen-resource,
-**private** service — week 13's problem, named in the next action above.
+**Nothing is carried forward this session.** Both items on the previous list — validating
+`infra/` and reconciling the pipeline with Labs 4 and 5 — are closed.
 
 ## Stage D — audit and package · NOT STARTED
 

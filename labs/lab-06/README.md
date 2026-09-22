@@ -169,9 +169,40 @@ assertion — for *your* repository specifically — and exchanges it for a shor
 token. **No long-lived credential exists anywhere.**
 
 Set up a pool and a provider with an attribute condition restricting it to your repository,
-create a deployer service account, and grant it the narrow roles this pipeline needs.
-(Detailed commands: the teaching guide and Google's current documentation. Check the docs
-rather than copying a blog — this area changes.)
+create a deployer service account, and grant it the roles this pipeline needs. (Detailed
+commands: the teaching guide and Google's current documentation. Check the docs rather than
+copying a blog — this area changes.)
+
+**Then bootstrap the state bucket**, because the pipeline cannot work without it:
+
+```bash
+gcloud storage buckets create "gs://${PROJECT_ID}-tfstate" \
+  --project="$PROJECT_ID" --location=US-CENTRAL1 \
+  --uniform-bucket-level-access --public-access-prevention
+gcloud storage buckets update "gs://${PROJECT_ID}-tfstate" --versioning
+```
+
+Then uncomment the `backend "gcs"` block in `infra/versions.tf` and migrate what you already
+have:
+
+```bash
+cd infra
+terraform init -migrate-state \
+  -backend-config="bucket=${PROJECT_ID}-tfstate" -backend-config="prefix=docapp"
+```
+
+**Three things to answer about this**, and the first is the one people skip:
+
+1. **Why is the state bucket created by hand rather than by Terraform?** There is a real
+   answer, it has a name, and it is not "because we were lazy".
+2. Week 12 told you local state was fine for one student on one laptop. **What changed?**
+   Name the new actor, and say what it does on every run that you do not.
+3. You just turned on object versioning for this bucket, which costs money and which Lab 3
+   taught you to be suspicious of. **Why is it right here and wrong there?**
+
+> **Do not skip the migration and start clean.** `-migrate-state` moving your existing dev
+> environment into the bucket is the interesting part: the resources do not change, the
+> record of them moves, and watching that work is what makes state concrete.
 
 **Checkpoint.** The `auth` step in `deploy.yml` succeeds and the run log shows an
 authenticated identity. **No secret containing a key exists in your repository settings.**
@@ -184,23 +215,44 @@ forking it and deploying into your project?** Be specific — name the mechanism
 granted and justify each. If you used Editor, say so and say what you would use instead —
 honesty here scores better than a tidy lie.
 
+**And then the uncomfortable question**, which the bottom of `deploy.yml` sets up. Add up
+what this account must be able to do: create service accounts, grant project-level IAM,
+administer Cloud Run, own two buckets and a Pub/Sub topology, and write to the registry.
+
+By the end of this lab **the pipeline's identity is close to the most powerful principal in
+your project**, and it acts on whatever is on the main branch. That is not a flaw in the
+design — it is what "the pipeline deploys the infrastructure" means, and every team doing
+this lives with it.
+
+Say what you would do about it. Branch protection is one answer. A separate, plan-only
+identity for pull requests is another. "Nothing, and here is why that is acceptable in this
+context" is also defensible **if you make the argument**.
+
 ## Part 5 — Build once, deploy, and watch a gate hold (~60 min)
 
 Complete the `TODO` blocks in `.github/workflows/deploy.yml`. Then:
 
+There are four `TODO` blocks in the deploy job and they are not all the same size. Two of
+them — the backend and the workspace — are bugs that will bite you on the *second* run rather
+than the first, which is exactly how this class of mistake behaves in real life. Read the
+comments before you run anything.
+
 1. **Merge to main.** Watch it test, build, push, apply to `dev`, and smoke-test.
-2. **Confirm the image tag is the commit sha**, not `latest`.
-3. **Break a test on purpose.** Change an assertion in `application/tests/test_processing.py`
+2. **Merge again**, with a trivial change. If you left either of the first two TODOs
+   unfixed, this is the run that fails, and **the failure is the lesson** — record what it
+   said before you fix it.
+3. **Confirm the image tag is the commit sha**, not `latest`.
+4. **Break a test on purpose.** Change an assertion in `application/tests/test_processing.py`
    so it fails. Commit. Push.
-4. **Watch the gate hold.** The `test` job fails; `deploy` never runs.
-5. Fix it. Watch it go green and deploy.
-6. **Promote to prod**: run the workflow manually with `environment: prod`.
+5. **Watch the gate hold.** The `test` job fails; `deploy` never runs.
+6. Fix it. Watch it go green and deploy.
+7. **Promote to prod**: run the workflow manually with `environment: prod`.
 
 **Record:** links to (or output from) the red run and the green run, and the image reference
 deployed to each environment. **They must be the same image.** If they are not, find out why —
 that is a more valuable finding than a clean run.
 
-**Answer these four:**
+**Answer these six:**
 
 1. `deploy` declares `needs: test`. Delete that line and describe exactly what becomes
    possible. Why is a removed gate worse than an absent one?
@@ -210,6 +262,11 @@ that is a more valuable finding than a clean run.
    workflow write access to everything and move on?
 4. The smoke test fails the *run*, but the bad revision is already serving traffic. What
    would you add, and what would it cost you? You do not have to build it.
+5. The smoke test carries an identity token with an explicit `--audiences`. Why is that
+   needed for the pipeline and not when you `curl` the service from your laptop?
+6. **Local state in a pipeline.** Describe what the second run did before you fixed it, and
+   why the first run looked fine. This is the general shape of a whole family of bugs —
+   name what they have in common.
 
 ## Part 6 — Cost, teardown, and proof (~40 min) · **graded**
 
@@ -230,9 +287,23 @@ terraform workspace select prod && terraform destroy -var-file=envs/prod.tfvars 
 terraform workspace select dev  && terraform destroy -var-file=envs/dev.tfvars  -var="image=$IMAGE"
 ```
 
+**Then the things Terraform does not know about**, in this order and not another:
+
+| Order | Resource | Why here |
+|---|---|---|
+| 1 | Both environments (above) | While state still exists to describe them |
+| 2 | Artifact Registry images | The pipeline pushed them; they were never in state |
+| 3 | Deployer service account, WIF pool and provider | A standing trust relationship and a broad identity |
+| 4 | **The state bucket, last** | Delete it earlier and Terraform forgets what it owns while it still owns things |
+
+> **Row 4 is the one to get right, and it is a good final lesson.** The state bucket is not a
+> resource of the system; it is the record *of* the system. Destroy the record first and you
+> are left doing cleanup by hand, from memory, in a console — which is exactly the condition
+> Lab 6 spent two weeks arguing against.
+
 Then verify **independently of Terraform**, using `operations/cleanup.md`. State saying a
-thing is gone is a claim by the tool that deleted it, and Artifact Registry images are not in
-that state at all — the pipeline pushed them.
+thing is gone is a claim by the tool that deleted it, and the registry images and the state
+bucket were never in that state at all.
 
 **Include the verification output.** Claiming cleanup is not verifying it.
 
@@ -248,8 +319,9 @@ that state at all — the pipeline pushed them.
    drift.
 4. **Federation** — what stops a fork deploying into your project; the roles you granted and
    why.
-5. **The pipeline** — red run, green run, and the image references for both environments.
-6. **Your four answers** from Part 5.
+5. **The pipeline** — red run, green run, the second-run failure if you had one, and the
+   image references for both environments.
+6. **Your six answers** from Part 5, plus the three state-bucket answers from Part 4.
 7. **Cost estimate vs actual**, and the per-project/per-account allowance answer.
 8. **Teardown verification output.**
 9. **AI-assistance disclosure.**
@@ -266,7 +338,8 @@ that state at all — the pipeline pushed them.
 | Push service account | yes | `terraform destroy` | Two identities per environment, four in total |
 | Artifact Registry images | **no — shared** | manual | **Not in Terraform state.** Every pipeline run adds one; the allowance is 0.5 GiB |
 | WIF pool and provider | no | manual | No charge, but it is a standing trust relationship |
-| Deployer service account | no | manual | Delete it, or its permissions outlive the course |
+| Deployer service account | no | manual | Delete it, or its permissions outlive the course — and they are broad |
+| **Terraform state bucket** | **no — shared** | manual, **last** | Delete it before the environments and Terraform forgets what it owns. Versioning is on, so check for old versions |
 
 ## Troubleshooting
 

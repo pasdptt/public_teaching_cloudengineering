@@ -52,6 +52,10 @@ env:
   REGION: us-central1
   REPOSITORY: docapp
   SERVICE_BASE: docapp
+  # TODO(lab06): the bucket holding Terraform state, created by hand in Part 4. It
+  # is configuration, not a secret -- but note that anyone who can read it can read
+  # your state, and week 12 told you what state contains.
+  STATE_BUCKET: ''
 
 jobs:
   test:
@@ -125,7 +129,39 @@ jobs:
           ENVIRONMENT: ${{ inputs.environment || 'dev' }}
         run: |
           set -euo pipefail
+
+          # --- state -------------------------------------------------------------------
+          #
+          # TODO(lab06): this `init` configures no backend, which means LOCAL state -- and
+          # a runner is a brand new machine every time. Work out what that means before you
+          # fix it: run the pipeline twice as written and describe, in your submission, what
+          # the second run tries to do and how it fails.
+          #
+          # Then fix it by pointing `init` at the state bucket you create in Part 4:
+          #
+          #   terraform init -input=false \
+          #     -backend-config="bucket=${STATE_BUCKET}" \
+          #     -backend-config="prefix=docapp"
+          #
+          # ...which also needs the backend block in infra/versions.tf uncommented, and your
+          # existing local state migrated into it with `terraform init -migrate-state`.
+          #
+          # Two questions, and the second is the interesting one:
+          #   * why can the state bucket NOT be created by this Terraform configuration?
+          #   * week 12 said local state was "fine for one student on one laptop". What
+          #     exactly changed? Name the new actor.
           terraform init -input=false
+
+          # --- which environment -------------------------------------------------------
+          #
+          # TODO(lab06): nothing here selects a workspace, so `dev` and `prod` would share
+          # one state file. Predict what a prod deploy does to dev's resources in that
+          # situation -- then add:
+          #
+          #   terraform workspace select -or-create "$ENVIRONMENT"
+          #
+          # It is the same mistake the lab warns you about locally, made by a machine that
+          # never thinks to run `terraform workspace show` first.
 
           # TODO(lab06): this runs `apply` straight away. Add a `terraform plan` step first
           # and print it, so the run's log shows WHAT changed before it changed.
@@ -145,8 +181,22 @@ jobs:
         run: |
           set -euo pipefail
           URL="$(terraform output -raw service_url)"
+
+          # The service is PRIVATE -- there is no allUsers binding anywhere in infra/ --
+          # so an unauthenticated curl gets 403, and this step would fail every time on a
+          # perfectly healthy deployment. The pipeline has an identity; it has to use it.
+          #
+          # --audiences matters here and does not when you do this by hand. A token minted
+          # for a service account is issued FOR something, and Cloud Run checks it was
+          # issued for this service.
+          TOKEN="$(gcloud auth print-identity-token --audiences="$URL")"
+
+          # TODO(lab06): this also needs the deployer account to be ALLOWED to invoke the
+          # service -- the second `TODO` in infra/main.tf. If this step returns 403 rather
+          # than timing out, that grant is what is missing, and a 403 here is a different
+          # failure from a 503. Say which you saw.
           for i in $(seq 1 10); do
-            if curl -fsS --max-time 10 "$URL/healthz"; then
+            if curl -fsS --max-time 10 -H "Authorization: Bearer $TOKEN" "$URL/healthz"; then
               echo "healthy"; exit 0
             fi
             echo "not ready yet ($i/10)"; sleep 6
@@ -165,3 +215,19 @@ jobs:
       # `gcloud artifacts docker images list` and `... delete` are what you need. Bound it:
       # a cleanup step that can delete the image currently in production is worse than no
       # cleanup step at all.
+
+      # --- One last thing to notice, and it is not a TODO ---------------------------------
+      #
+      # Count what the deployer service account has to be allowed to do for this file to
+      # work. It creates service accounts. It grants project-level IAM. It writes to
+      # Artifact Registry, administers Cloud Run, and owns two buckets and a Pub/Sub
+      # topology.
+      #
+      # By the end of this lab the pipeline's identity is close to the most powerful
+      # principal in your project -- and it acts on whatever is on the main branch.
+      #
+      # That is not a flaw in this design. It is what "the pipeline deploys the
+      # infrastructure" means, and every team that does this lives with it. Say in your
+      # submission what you would do about it: branch protection is one answer, a separate
+      # plan-only identity for pull requests is another, and "nothing, and here is why that
+      # is acceptable here" is defensible if you can make the argument.

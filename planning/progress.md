@@ -9,22 +9,22 @@ Last updated: **2026-09-22** · Current stage: **A and B complete → C in progr
 
 ## Next concrete action
 
-> **Author Lab 5 and weeks 10–11** (queues, duplicates, idempotency, resilience). The seam is
-> already in place: `docapp/queue.py` has the `Queue` Protocol and `InlineQueue`, and
-> `build_queue` has the branch comment where Pub/Sub goes. `config.py`'s `queue_backend`
-> currently accepts only `("inline",)` and must gain the new value there as well.
+> **Author weeks 12–14 teaching content.** Lab 6 (`labs/lab-06/`), the Terraform skeleton
+> (`infra/`) and both workflows (`.github/workflows/`) already exist from the DevOps session;
+> what is missing is the teaching. Weeks 12 and 13 are the two halves of Lab 6, and week 14 is
+> synthesis plus evidence, which now has a great deal of material to draw on — Lab 4's
+> confounds paragraph and Lab 5's proves/does-not-prove paragraph are both rehearsals for it.
 >
-> Write it to the Lab 3/Lab 4 template — same section list, same four rubric bands, same
-> predict → implement → measure → explain cycle. The assessed idea is **idempotency**, not the
-> queue product; `service.run_job` already returns early for terminal jobs, and Lab 5's job is
-> to make students prove that early return is load-bearing rather than decorative.
+> Two things to resolve while writing week 12:
+> - `infra/` has **never been run through `terraform validate`**, let alone `plan`. No binary
+>   and no project were available. Either install Terraform and validate the HCL, or record
+>   prominently that week 12's practical rests on unverified configuration.
+> - Lab 6 predates Lab 5 and does not mention the topic, the subscription or the second
+>   service account. Its Terraform must now create them, or the environments it builds will
+>   not be able to run the application students finished in week 11.
 >
-> Two things to get right before writing steps:
-> - **A subscription with no consumer retains messages and bills for storage.** Teardown must
->   name it explicitly, and `operations/cleanup.md` already has the row.
-> - Lab 5 reuses Lab 4's Cloud Run service, which Lab 4 tears down. Decide whether week 10
->   redeploys from the same image or whether Lab 4's teardown should keep the registry — and
->   record the decision either way.
+> After that: quizzes 1–7 and keys, the project package, instructor solutions for Labs 2, 4
+> and 6.
 
 ---
 
@@ -70,7 +70,7 @@ piloted the labs under the intended access model.
 **Mechanical audit (`python3 planning/audit.py`) passes**, checking: all 11 relative links
 resolve · all 15 weekly workload rows sum to exactly 180 · assessment weights total 100%
 and 6 × 7.5% = 45% · 153 files scanned, no answer-key or credential-shaped content · all
-nine CLOs present in the assessment plan · **all 9 authored session plans sum to exactly 180
+nine CLOs present in the assessment plan · **all 11 authored session plans sum to exactly 180
 contact minutes** (check 6, added 2026-09-22). Run it before every commit.
 
 **One inconsistency was found and fixed during the audit:** Quiz 6 (week 12) had been
@@ -237,11 +237,46 @@ headings carrying their own durations were corrected to match, and
 `course/weekly-schedule.md`'s envelope sentence now accounts for the break rather than
 implying 180 minutes of teaching plus a break.
 
+### Lab 5 authored (2026-09-22)
+
+| Artefact | Status | Validation |
+|---|---|---|
+| `labs/lab-05/README.md` + `rubric.md` | done | REVIEWED |
+| `labs/lab-05/starter/` — `lib.sh`, `config.env.example`, 7 scripts | done | **EXECUTED** — `bash -n` clean on all 8; the new message-retention guard triggered correctly on all five cases (empty, non-numeric, too short, too long, valid) |
+| `docapp/threadqueue.py` — supplied local broker (D-35) | done | **EXECUTED** — async delivery, reproducible duplicates, bounded retry and dead-lettering, all covered by 9 new tests |
+| `docapp/pubsub_queue.py` — student stub, two TODOs | done | **EXECUTED** — parses, imports lazily, raises actionable errors |
+| `docapp/app.py` — `POST /tasks/process` push endpoint | done | **EXECUTED** — exercised over a real socket by 4 tests |
+| `config.py` / `queue.py` / `wiring.py` — three queue backends | done | **EXECUTED** — factory now takes the whole Config; all call sites updated |
+| `tests/test_threadqueue.py` — 9 tests | done | **EXECUTED** — suite grew 65 → **74 tests, all passing** |
+| `tests/test_lab05_queue.py` — 16 acceptance tests | done | **EXECUTED** — 14 offline tests **fail against the stub and pass against the instructor reference** (D-39); the 2 real-Pub/Sub tests skip cleanly with nothing configured |
+| `requirements.txt` — `google-cloud-pubsub==2.41.0` | done | **MEASURED** — adds only ~6 MB on top of storage + firestore, because grpc is already there |
+| `weeks/week-10`, `week-11` guides + notes | done | REVIEWED |
+| `operations/cleanup.md` — subscription rows, teardown ordering | done | REVIEWED |
+| Instructor reference (private repo) | done | **PARTLY EXECUTED** — `decode_push_envelope` verified against all 14 offline tests; `PubSubQueue.submit` reviewed against google-cloud-pubsub 2.x and **not run** |
+
+**The cloud half of Lab 5 has not touched Google Cloud.** No topic, subscription or
+deployment was created. Specific things a pilot must confirm (**NEEDS CLOUD**): that the push
+subscription's two IAM grants are as the lab describes; that dead-lettering fires at the
+configured attempt count; that the retry intervals are wide enough to produce a readable
+timeline in Part 5; and that `PubSubQueue.submit` works as the private reference has it.
+
+**Measured while authoring:** adding `google-cloud-pubsub` to a tree that already has
+`google-cloud-storage` and `google-cloud-firestore` costs about **6 MB**, not the ~40 MB the
+package looks like in isolation, because grpc is already pulled in by Firestore. The marginal
+cost of a dependency depends on what is already there. Recorded in `requirements.txt`, along
+with the fact that the earlier 63 MB Linux figure and today's 80 MB macOS/arm64 figure for
+the first two packages disagree — a platform difference, not worth chasing, and not silently
+overwritten.
+
 ### Still to author
 
-Labs 5 · weeks 10–14 teaching content · quizzes 1–7 and keys · the project package ·
-instructor solutions for Labs 2, 4, 5, 6. Operational guidance is authored **with** each
-cloud exercise, never afterwards.
+Weeks 12–14 teaching content · quizzes 1–7 and keys · the project package · instructor
+solutions for Labs 2, 4 and 6. Operational guidance is authored **with** each cloud exercise,
+never afterwards.
+
+**Carried forward, and growing:** `infra/` still has not been validated with a Terraform
+binary, and Lab 6 has not been revised to account for Labs 4 and 5 existing. Both are week
+12's problem and both are named in the next action above.
 
 ## Stage D — audit and package · NOT STARTED
 

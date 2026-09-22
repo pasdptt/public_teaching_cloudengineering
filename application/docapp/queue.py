@@ -6,7 +6,9 @@ simplest thing that can possibly work, and it is genuinely what the application 
 until there is a reason for anything more.
 
 The reason arrives in Lab 4, when students watch this design saturate under load, and is
-answered in Lab 5, when a real queue is put behind the same interface.
+answered in Lab 5, when a real queue is put behind the same interface. Three implementations
+now satisfy it -- work done here and now, work done later in this process, and work done
+later somewhere else entirely -- and the application cannot tell them apart.
 
 Keeping the seam here from week 2 means Lab 5 adds a class; it does not restructure the
 application. Students should notice that the interface below says nothing about *when* the
@@ -16,7 +18,10 @@ work happens — which is exactly why it can be satisfied both by "now, right he
 
 from __future__ import annotations
 
-from typing import Callable, Protocol
+from typing import TYPE_CHECKING, Callable, Protocol
+
+if TYPE_CHECKING:  # import only for type checkers: no runtime cycle with config.py
+    from .config import Config
 
 
 class QueueError(RuntimeError):
@@ -49,11 +54,31 @@ class InlineQueue:
         self._handler(job_id)
 
 
-def build_queue(backend: str, handler: Callable[[str], None]) -> Queue:
-    """Factory. Lab 5 adds a Pub/Sub branch here."""
+def build_queue(config: "Config", handler: Callable[[str], None]) -> Queue:
+    """Factory. Takes the whole config, because the queue backends need different parts.
+
+    ``InlineQueue`` needs nothing, ``ThreadQueue`` needs its duplication and retry
+    settings, and ``PubSubQueue`` needs a project and a topic. Passing the config rather
+    than a growing list of arguments keeps the call site in ``wiring.py`` unchanged as
+    backends are added -- which is the same reason the seam exists at all.
+    """
+    backend = config.queue_backend
     if backend == "inline":
         return InlineQueue(handler)
+    if backend == "thread":
+        from .threadqueue import ThreadQueue
+
+        return ThreadQueue(
+            handler,
+            workers=config.queue_workers,
+            duplicate_percent=config.queue_duplicate_percent,
+            max_attempts=config.queue_max_attempts,
+        )
+    if backend == "pubsub":
+        from .pubsub_queue import PubSubQueue
+
+        return PubSubQueue(config.project_id, config.queue_topic)
     raise QueueError(
-        f"Unknown queue backend {backend!r}. This build supports: inline. "
-        f"(Lab 5 adds a Pub/Sub backend.)"
+        f"Unknown queue backend {backend!r}. This build supports: "
+        f"inline, thread, pubsub."
     )

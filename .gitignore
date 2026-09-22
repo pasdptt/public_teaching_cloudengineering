@@ -65,3 +65,4 @@ Thumbs.db
 # adding a lab is a deliberate act and a stray config.env somewhere else is still visible.
 labs/lab-02/starter/config.env
 labs/lab-04/starter/config.env
+labs/lab-05/starter/config.env

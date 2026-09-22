@@ -210,6 +210,13 @@ class DocumentService:
             "jobstore": self.config.jobstore_backend,
             "queue": self.config.queue_backend,
         }
+        # Some queues can say something about themselves: depth, retries, how many
+        # duplicates they injected. Asked for by duck typing rather than declared on the
+        # Protocol, because a queue that cannot introspect itself -- which includes every
+        # real broker, from inside the application -- is still a perfectly good queue.
+        describe = getattr(self._queue, "describe", None)
+        if callable(describe):
+            data["queue"] = describe()
         return data
 
 

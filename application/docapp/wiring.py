@@ -22,5 +22,5 @@ def build_application(config: Config) -> Application:
     # The queue calls back into the service, and the service submits to the queue. The knot
     # is tied here rather than inside either of them, so neither has to know how the other
     # was built.
-    service.attach_queue(build_queue(config.queue_backend, service.run_job))
+    service.attach_queue(build_queue(config, service.run_job))
     return Application(service)

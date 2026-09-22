@@ -23,6 +23,8 @@ from dataclasses import dataclass
 # the free tier and inside the lab's time budget.
 MAX_DOCUMENT_BYTES_LIMIT = 1_048_576  # 1 MiB. Bigger documents teach nothing extra.
 MAX_PROCESSING_DELAY_MS = 5_000       # 5 s. Enough to see queuing, short enough to wait.
+MAX_QUEUE_WORKERS = 16                # More than this teaches nothing and hides the effect.
+MAX_QUEUE_ATTEMPTS = 10               # A retry budget. Unbounded retries are a retry storm.
 
 
 class ConfigError(RuntimeError):
@@ -80,6 +82,10 @@ class Config:
     storage_backend: str
     jobstore_backend: str
     queue_backend: str
+    queue_topic: str
+    queue_workers: int
+    queue_duplicate_percent: int
+    queue_max_attempts: int
     data_dir: str
     bucket: str
     project_id: str
@@ -101,7 +107,20 @@ class Config:
             port=_env_int("PORT", 8080, minimum=1, maximum=65535),
             storage_backend=_env_choice("DOCAPP_STORAGE", "local", ("local", "gcs")),
             jobstore_backend=_env_choice("DOCAPP_JOBSTORE", "memory", ("memory", "file", "firestore")),
-            queue_backend=_env_choice("DOCAPP_QUEUE", "inline", ("inline",)),
+            # inline = do it now, on the request thread (weeks 2-9).
+            # thread = do it later, in this process (Lab 5, and the offline fallback).
+            # pubsub = do it later, somewhere else entirely (Lab 5).
+            queue_backend=_env_choice("DOCAPP_QUEUE", "inline",
+                                      ("inline", "thread", "pubsub")),
+            queue_topic=os.environ.get("DOCAPP_QUEUE_TOPIC", "").strip(),
+            queue_workers=_env_int("DOCAPP_QUEUE_WORKERS", 1,
+                                   minimum=1, maximum=MAX_QUEUE_WORKERS),
+            # 0 by default: a queue that duplicates without being asked would be a
+            # mystery rather than a lesson. Lab 5 turns it up to 100 deliberately.
+            queue_duplicate_percent=_env_int("DOCAPP_QUEUE_DUPLICATE_PERCENT", 0,
+                                             minimum=0, maximum=100),
+            queue_max_attempts=_env_int("DOCAPP_QUEUE_MAX_ATTEMPTS", 3,
+                                        minimum=1, maximum=MAX_QUEUE_ATTEMPTS),
             data_dir=_env_str("DOCAPP_DATA_DIR", "./data"),
             # Only needed by the cloud backends. Empty is fine on the local path, and each
             # backend raises its own actionable error if it is missing when required.
@@ -132,6 +151,10 @@ class Config:
             "storage": self.storage_backend,
             "jobstore": self.jobstore_backend,
             "queue": self.queue_backend,
+            "queue_topic": self.queue_topic,
+            "queue_workers": self.queue_workers,
+            "queue_duplicate_percent": self.queue_duplicate_percent,
+            "queue_max_attempts": self.queue_max_attempts,
             "data_dir": self.data_dir,
             "bucket": self.bucket,
             "project_id": self.project_id,

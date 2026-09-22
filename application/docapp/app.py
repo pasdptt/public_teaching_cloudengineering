@@ -29,6 +29,7 @@ from . import logs
 from .config import Config
 from .jobstore import JobNotFound
 from .models import new_id
+from .queue import QueueError
 from .service import DocumentService, ValidationError
 from .storage import NotFound as StorageNotFound
 from .storage import StorageError
@@ -60,6 +61,7 @@ class Application:
             ("POST",   re.compile(r"^/jobs$"),                       self.create_job),
             ("GET",    re.compile(r"^/jobs$"),                       self.list_jobs),
             ("GET",    re.compile(r"^/jobs/(?P<job_id>[\w\-]+)$"),   self.get_job),
+            ("POST",   re.compile(r"^/tasks/process$"),              self.process_push),
         ]
 
     def dispatch(self, method: str, path: str, query: dict[str, list[str]],
@@ -151,6 +153,46 @@ class Application:
             return 200, self.service.get_job(job_id).to_dict()
         except JobNotFound:
             return 404, {"error": f"No job with id {job_id!r}."}
+
+    def process_push(self, body: bytes, **_: Any) -> tuple[int, dict[str, Any]]:
+        """The consumer end of an external queue: the broker POSTs work to us.
+
+        Supplied rather than set as an exercise, because the interesting decisions here are
+        not about HTTP -- they are about status codes, and they are worth stating plainly:
+
+        **200 means "do not send this again".** A broker that gets anything else will
+        redeliver, which is exactly right for a failure it should retry and exactly wrong
+        for one it should not. So:
+
+          * a message we cannot decode gets **400**, and is not retried, because a
+            malformed message will be just as malformed in thirty seconds;
+          * a job that does not exist gets **200**, because the message has outlived its
+            job record and redelivering it forever helps nobody;
+          * a job that fails *processing* is recorded as failed and still gets **200** --
+            the failure is durable in the job record, and the broker retrying would only
+            fail it again;
+          * anything unexpected gets **500**, and the broker retries. That is the one case
+            where a retry might genuinely help.
+
+        Lab 5 Part 4 asks you to argue with two of these.
+        """
+        from .pubsub_queue import decode_push_envelope
+
+        try:
+            job_id = decode_push_envelope(body)
+        except QueueError as exc:
+            logs.warning("undecodable push message, acknowledging", error=str(exc))
+            return 400, {"error": str(exc)}
+
+        try:
+            job = self.service.run_job(job_id)
+        except JobNotFound:
+            # Already logged by the service. Acknowledge: there is nothing to retry toward.
+            return 200, {"status": "dropped", "job_id": job_id,
+                         "reason": "no such job"}
+        return 200, {"status": job.status, "job_id": job.id,
+                     "attempts": job.attempts,
+                     "instance_id": self.service.config.instance_id}
 
     def list_jobs(self, query: dict[str, list[str]], **_: Any) -> tuple[int, dict[str, Any]]:
         raw = query.get("limit", ["50"])[0]

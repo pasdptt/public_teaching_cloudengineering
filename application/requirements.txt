@@ -1,18 +1,34 @@
 # Runtime dependencies.
 #
-# The application runs on the standard library alone with its LOCAL backends. The two
+# The application runs on the standard library alone with its LOCAL backends -- including
+# the local queue, so Lab 5's exercises can be done end to end with nothing installed. The
 # packages below are needed only from Lab 3, when documents move to Cloud Storage and job
-# records to Firestore. They are imported lazily, inside the cloud backend modules, so a
-# student on the local or fallback path never needs them installed.
+# records to Firestore, and from Lab 5, when submission goes to a broker. All three are
+# imported lazily, inside the backend modules, so a student on the local or fallback path
+# never needs any of them.
 #
 # Pinned exactly. A dependency that changes under you is a reproducibility bug waiting for
 # the worst possible moment -- the same reasoning as the provider pin in infra/versions.tf.
 #
-# Measured 2026-09-22: these two add ~63 MB to site-packages (storage ~39, firestore ~24).
-# That matters because the image goes to Artifact Registry, whose free allowance is 0.5 GiB
-# (course/references.md R-10). The dependency layer is built once and cached; each later
-# build pushes only the small source layer. Comfortable -- provided old images are cleaned
-# up, which is why that is a step in Lab 6 rather than a footnote.
+# Measured, because guessing at this is how a 0.5 GiB free allowance gets exceeded by
+# surprise (course/references.md R-10):
+#
+#   storage + firestore       ~80 MB on macOS/arm64, Python 3.14 (measured 2026-09-22)
+#                             ~63 MB on Linux (measured 2026-09-22, a different machine)
+#   + pubsub                  **~6 MB more**
+#
+# The platform difference is real and not worth chasing; the useful figure is the last one.
+# Pub/Sub looks almost free to add because grpc -- some 40 MB of it -- is already pulled in
+# by Firestore. That is worth noticing rather than just enjoying: the marginal cost of a
+# dependency depends entirely on what is already there, and the same package added to a
+# different project would have cost seven times as much.
+#
+# The dependency layer is built once and cached; each later build pushes only the small
+# source layer. Comfortable -- provided old images are cleaned up, which is a step in
+# Labs 4 and 6 rather than a footnote.
 
 google-cloud-storage==3.14.1
 google-cloud-firestore==2.31.0
+
+# From Lab 5, when job submission stops doing the work and starts handing it to a broker.
+google-cloud-pubsub==2.41.0

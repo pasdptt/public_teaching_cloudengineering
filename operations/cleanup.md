@@ -38,7 +38,7 @@ order students actually get caught:
 | **Object versions / soft-deleted objects** | deleting the visible object | Versioning keeps paying for data you believe is gone |
 | **Container images in Artifact Registry** | deleting the service | Layers accumulate on every rebuild; the free allowance is 0.5 GiB |
 | **Disk snapshots and custom images** | the source disk | — |
-| **Pub/Sub subscription with no consumer** | deleting the publisher | Retained messages are billable storage |
+| **Pub/Sub subscription with no consumer** | deleting the publisher, and deleting the consumer | Retained messages are billable storage. This is Lab 5's version of the idle IP: the cost comes from something you **stopped** using |
 | **Cloud Run with `min-instances > 0`** | having no traffic | It looks idle; it is provisioned |
 | **Firestore *named* database** | — | Works identically to the free `(default)` one and qualifies for no free quota at all |
 | **A `dev` environment left up while `prod` runs** | attention | Two environments is two of everything, and the free tier allows one |
@@ -52,7 +52,7 @@ order students actually get caught:
 | 2 | `labs/lab-02/starter/05-teardown.sh` then `06-verify-clean.sh` | Boot disk; any address you reserved |
 | 3 | manual — the commands are in the lab | Bucket contents and object versions; the Firestore database |
 | 4 | `labs/lab-04/starter/06-teardown.sh` then `07-verify-clean.sh` | **Old images in Artifact Registry** — invisible from the Cloud Run console; also the runtime service account |
-| 5 | *authored with the lab* | The subscription — an abandoned one retains and bills |
+| 5 | `labs/lab-05/starter/06-teardown.sh` then `07-verify-clean.sh` | **The subscription, deleted first** — an abandoned one retains messages and bills for them. Also a second service account, and two topics |
 | 6 | `terraform destroy` for **each** environment, then verify | State says it is gone; verify independently that it is |
 
 ## Verifying by hand
@@ -77,6 +77,11 @@ gcloud firestore databases list      --project="$PROJECT_ID"
 gcloud iam service-accounts list     --project="$PROJECT_ID"   # identities outlive their services
 ```
 
+**Order matters for one pair.** Delete a Pub/Sub subscription *before* the service it pushes
+to. The other way round, every retained message is redelivered to an endpoint that returns
+404 until the broker gives up — harmless, noisy, and a decent illustration of why teardown is
+a sequence rather than a set.
+
 One of these lies to you by omission. `gcloud run services list` shows nothing after Lab 4's
 teardown, and the images that lab pushed can still be sitting in Artifact Registry using the
 0.5 GiB allowance. A repository that still exists needs its contents checked:
@@ -96,8 +101,9 @@ gcloud billing accounts list
 
 Then open the billing report in the console and look at the **daily** view for your project.
 Expected shape for this course: flat at zero, with a few cents around Lab 2 and Lab 6.
-Lab 4 should show **nothing at all** — if it does not, the first two things to check are
-`min-instances` and how much is sitting in Artifact Registry.
+Labs 4 and 5 should show **nothing at all** — if they do not, the three things to check are
+`min-instances`, how much is sitting in Artifact Registry, and whether a subscription is
+still holding messages.
 
 A line you cannot explain is the important one. Find out what it is before it becomes a
 pattern — the amount will be trivial, and the reason will not be.

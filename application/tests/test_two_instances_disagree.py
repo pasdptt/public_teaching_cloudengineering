@@ -33,7 +33,7 @@ from docapp.storage import build_storage
 def _instance(config, storage, jobs) -> DocumentService:
     """One instance of the service, assembled from parts we choose to share or not."""
     service = DocumentService(config, storage, jobs)
-    service.attach_queue(build_queue(config.queue_backend, service.run_job))
+    service.attach_queue(build_queue(config, service.run_job))
     return service
 
 

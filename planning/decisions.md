@@ -77,6 +77,19 @@ still totals exactly 180), `labs/lab-06/`, `infra/`, and `.github/workflows/`.
 
 ---
 
+## B4. Decisions taken while authoring Lab 5 (2026-09-22)
+
+| ID | Decision | Rationale |
+|---|---|---|
+| D-34 | **Lab 4's teardown stays absolute; Lab 5 rebuilds the service from source.** The registry, the service and the runtime identity are all recreated by Lab 5's scripts. | The alternative was to have Lab 4 keep its registry so Lab 5 could reuse the image, which would mean teaching "tear everything down" and then making an exception for the resource that actually accrues. Rebuilding costs a few minutes of free Cloud Build and buys the first real test of whether a deployment is reproducible rather than remembered — which is precisely the gap Lab 6 exists to close, met here as an experience first. |
+| D-35 | **A supplied local queue backend, `ThreadQueue` (`DOCAPP_QUEUE=thread`), with duplicate injection under a configuration flag.** Lab 5 Parts 0–2 are done entirely on a laptop. | A real broker duplicates when it feels like it, which is a terrible way to learn what at-least-once means. With `DOCAPP_QUEUE_DUPLICATE_PERCENT=100` every message arrives twice, every time, and the lesson is reproducible in seconds. It is also the fallback path the lab placeholder required, and it means a student blocked on cloud access still meets the entire conceptual content of the lab. Its limits are stated in its own docstring rather than glossed. |
+| D-36 | **Push subscription, not pull.** The consumer is an HTTP route on the existing service; there is no worker process. | A pull consumer on managed execution needs something always running to do the pulling, which means `--min-instances=1`, which is the one thing the cost policy forbids (D-19). Push also forces the identity lesson to the surface: the broker must authenticate to a service that refuses anonymous callers, so a *second* service account exists and the difference between "the identity it runs as" and "the identity that calls it" becomes concrete rather than abstract. |
+| D-37 | **Lab 5 demonstrates duplicate handling by publishing the same message repeatedly, and says plainly that this is not the broker redelivering.** | A broker cannot be made to redeliver on demand, and pretending otherwise would teach students to overclaim from their evidence. Publishing twice exercises the identical code path, so it is a fair test of *the service*; it is not evidence about *Pub/Sub*. Distinguishing the two is assessed in band B1 and is the same skill as Lab 4's confounds paragraph, one level harder. |
+| D-38 | **The check-then-act race in `run_job` is described in the lab and deliberately not fixed.** | Fixing it needs a conditional write, which is week 7's transaction material. Naming a race you are not going to fix, and costing the fix, is a more useful and more honest skill than a `# TODO: fix race` that students copy. |
+| D-39 | **`decode_push_envelope` is a student exercise with fourteen offline acceptance tests**, separate from the two that need a real topic. | The base64 trap is the single most expensive mistake in this lab and costs two seconds to find locally versus an hour to find as a 404 against a live broker. Verified 2026-09-22: all fourteen fail against the shipped stub and pass against the instructor reference, so the specification is satisfiable. |
+
+---
+
 ## C. Adopted defaults (revisable)
 
 | ID | Default | Why this default | What would change it |

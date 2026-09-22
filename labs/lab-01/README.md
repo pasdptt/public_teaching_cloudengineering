@@ -5,8 +5,8 @@
 | | |
 |---|---|
 | **Cloud resources** | None. No account, no billing, no spend. **$0.00.** |
-| **Outcomes** | CLO-2 (execution models), CLO-3 (tracing a request), CLO-5 (state and design) |
-| **Estimated novice time** | ~2 h guided in class (2 × 60 min) + ~5 h independent over two weeks |
+| **Outcomes** | CLO-2 (execution models), CLO-3 (tracing a request), CLO-5 (state and design), CLO-9 (delivery — the CI thread starts here) |
+| **Estimated novice time** | ~2 h guided in class (2 × 60 min) + ~5.3 h independent over two weeks (Part 6 adds ~20 min) |
 | **Observed pilot time** | *not yet measured — no pilot has been run* |
 
 > The estimate above is a design estimate for a student meeting the stated prerequisites.
@@ -27,9 +27,12 @@ hidden and nothing costs money. By the end of this lab you will have:
 - watched the same program behave differently inside and outside a container, and understood
   which differences are isolation and which are configuration,
 - deliberately destroyed some state and been unsurprised by which parts survived,
-- and fixed it — by moving state somewhere that outlives the process.
+- fixed it — by moving state somewhere that outlives the process,
+- and made your tests run automatically on every push, so that from now on the repository
+  tells you when you have broken something.
 
-That last step is the lab. The rest is the reason it matters.
+The state fix is the lab. The rest is the reason it matters, and the last part is the habit
+that carries you to week 13.
 
 ## Prerequisites
 
@@ -297,6 +300,46 @@ with your machine and the delay setting stated.
 
 Do not guess at numbers you did not observe. If a run failed, report that it failed.
 
+
+## Part 6 — Make the tests run without you (~20 min)
+
+You now have a test suite that tells you whether the application works. It only helps if
+someone runs it. This part makes that automatic.
+
+A workflow file already exists at `.github/workflows/ci.yml`. **Read it before you use it** —
+it is short, and every block in it is a decision you should be able to explain.
+
+1. Push your work to your own fork or branch on GitHub.
+2. Open the **Actions** tab. You should see a run for your push.
+3. Watch it: check out, install pytest, compile every module, run the suite.
+4. **Break something on purpose.** Change an assertion in `tests/test_processing.py` so it is
+   wrong, commit, push, and watch the run go red.
+5. Put it back. Watch it go green.
+
+**Checkpoint.** A red run and a green run, both from your own pushes.
+
+**Cost:** zero. GitHub Actions minutes are free for public repositories (verified
+2026-09-22 — `course/references.md` R-13). This is the only thing in the course that is free
+because of a platform policy rather than a free-tier allowance, which is worth noticing: the
+policy could change, and the allowance is contractual.
+
+**Questions to answer:**
+
+1. The workflow runs on Python 3.10 **and** 3.12, and `fail-fast` is set to `false`. What
+   would you lose if `fail-fast` were left at its default?
+2. The workflow declares `permissions: contents: read`. What is that protecting against,
+   given that this workflow only runs tests?
+3. The Lab 1 acceptance tests (`-m lab01`) are deliberately **not** in the pipeline. Read the
+   comment at the bottom of the file explaining why, then answer: you have now finished Lab 1,
+   so should you add them? Give the reason either way.
+4. Your tests passed, so the change is safe to deploy. Say why that sentence is wrong — name
+   one specific thing that this pipeline cannot catch.
+
+You will not be taught what a pipeline *is* until week 13. That is deliberate: by then you
+will have watched this one run on every push for ten weeks, and you will have been stopped by
+it at least once. Question 4 is the one week 13 comes back to.
+
+
 ---
 
 ## What to submit
@@ -311,8 +354,10 @@ the rubric rewards precision, not length.
    predictions held.
 5. **Your FileJobStore**, plus your four design answers.
 6. **The experiment** — your measurement table and your ~150-word explanation.
-7. **Resource inventory and cleanup** (below).
-8. **AI-assistance disclosure**, per the course policy.
+7. **CI** — a link to (or screenshot of) one red run and one green run, plus your four
+   answers from Part 6.
+8. **Resource inventory and cleanup** (below).
+9. **AI-assistance disclosure**, per the course policy.
 
 Evidence means commands and their output, not screenshots. Measurements need units and
 conditions. An experiment that did not work still earns full analysis credit when the
@@ -366,6 +411,11 @@ WSL2. See `operations/student-setup.md`.
 **Your `-m lab01` tests hang** — almost certainly the concurrency test, and almost certainly
 a lock you take twice on the same thread. Look for a method holding the lock that calls
 another method which also takes it.
+
+**No runs appear in the Actions tab** — check that Actions is enabled for your fork
+(Settings → Actions), and that you pushed to a branch the workflow triggers on: `main`, or a
+pull request targeting it. A push to `my-branch` with no pull request open runs nothing, by
+design.
 
 **Something else** — post it in the class issue log before spending a second 30 minutes on
 it. One person's solved problem is everyone's solved problem, and that is the only

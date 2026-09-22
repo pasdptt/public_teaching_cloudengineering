@@ -29,17 +29,19 @@ and never something first encountered in a lab that has not yet been completed.
 | 3 | 6 | 3–5 | CLO-3, CLO-4 (intro) |
 | 4 | 8 | 5–7 | CLO-1, CLO-2, CLO-4 |
 | 5 | 10 | 7–9 | CLO-5, CLO-6 (intro) |
-| 6 | 12 | 9–11 | CLO-5, CLO-6, CLO-7 (cleanup thread only) |
-| 7 | 14 | 11–13 | CLO-6, CLO-7, CLO-8 |
+| 6 | 12 | 9–11 | CLO-5, CLO-6; CLO-7 and CLO-9 via their threads only |
+| 7 | 14 | 11–13 | CLO-6, CLO-7, CLO-8, CLO-9 |
 
 Each quiz's opening line states the weeks it draws on, so students can prepare honestly
 inside the 30-minute reading budget.
 
 **One case needs care.** Quiz 6 sits in week 12, the same session in which declarative
-infrastructure and cost models are first taught. It therefore assesses CLO-7 **only through
-the cleanup and resource-handling thread** that students have been practising since Lab 2 —
-never the Terraform or cost-model material from that day's lecture. CLO-7's conceptual
-content is assessed in Quiz 7 and Lab 6.
+infrastructure, environments and cost models are first taught. It therefore assesses those
+outcomes **only through the threads students have already been living with**: CLO-7 through
+the cleanup and resource-handling routine practised since Lab 2, and CLO-9 through the CI
+workflow running on their pushes since week 3. It must **not** assess Terraform, environment
+management or cost-model material from that day's lecture. The conceptual content of CLO-7
+and CLO-9 is assessed in Quiz 7, in Lab 6 and in the project.
 
 ### Question style
 
@@ -65,15 +67,17 @@ A 12-mark quiz and an 18-mark quiz therefore count equally.
 
 **Missed quizzes:** policy is the instructor's to set (see `planning/open-questions.md`).
 Dropping the single lowest quiz is safe for CLO-1 … CLO-7, each of which appears in at
-least two quizzes — that redundancy is deliberate. **CLO-8 appears in Quiz 7 only**, but its
-primary evidence is the project defence, so no outcome loses its evidence base if one quiz
-is dropped.
+least two quizzes — that redundancy is deliberate. **CLO-8 and CLO-9 appear in Quiz 7 only**
+(CLO-9 also in Quiz 6, but only through its thread). Their primary evidence is the project
+defence and Lab 6 respectively, so no outcome loses its evidence base if one quiz is dropped.
 
 ---
 
 ## Labs — 45%
 
-Six labs, equally weighted at **7.5% each**. Individual submission (D-17).
+Six labs, equally weighted at **7.5% each**. Individual submission (D-17). Labs 1–5 span two
+weeks each; **Lab 6 spans weeks 12–13** (D-24), sharing its second week with the start of the
+project.
 
 ### Rubric bands — the same four for every lab
 
@@ -122,14 +126,21 @@ a late lab compounds. A per-lab grace window is preferable to an open late polic
 
 ## Project — 35%
 
-Released week 10 · proposal week 11 · built weeks 13–15 · demonstrated week 15.
+Released week 10 · proposal week 11 · built weeks 13–15 (week 13 shared with the end of
+Lab 6) · demonstrated week 15.
+
+**The project inherits the delivery path.** Its reproducible-deployment and environment
+requirements are met by reusing the Terraform configuration and pipeline built in Lab 6, not
+by building new ones (D-28). A project proposing to build its own pipeline from scratch has
+been scoped wrong, and the week-13 design review exists partly to catch that.
 
 ### Required deliverables
 
 | Deliverable | Where it is assessed |
 |---|---|
 | Architecture diagram and concise decision record | Architecture & reasoning |
-| Reproducible deployment and a verified cleanup path | Reproducibility, security & cost |
+| Reproducible deployment **through the Lab 6 pipeline**, and a verified cleanup path — reuse, not rebuild (D-28) | Reproducibility, security & cost |
+| A named `dev`/`prod` split, with every difference between them accounted for | Reproducibility, security & cost |
 | One performance experiment | Experiments & interpretation |
 | One controlled failure/recovery experiment | Experiments & interpretation |
 | Measured results with stated limitations | Experiments & interpretation |
@@ -199,6 +210,7 @@ group, not a longer session.
 | CLO-5 | Q5, Q6, Lab 4, Lab 5, project |
 | CLO-6 | Q5, Q6, Q7, Lab 4, Lab 5, project |
 | CLO-7 | Q6 (cleanup thread), Q7, Lab 6, project cleanup |
+| CLO-9 | Q6 (CI thread), Q7, Lab 1 Part 6, Lab 6, project |
 | CLO-8 | Q7, project defence |
 
 Every outcome has at least two independent pieces of evidence, and at least one that is not

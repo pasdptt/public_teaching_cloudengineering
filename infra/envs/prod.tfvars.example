@@ -1,0 +1,24 @@
+# prod environment. Copy to prod.tfvars and set project_id.
+#
+# Compare this with dev.tfvars line by line. Lab 6 asks you to account for EVERY difference
+# -- and, just as importantly, for what is deliberately the SAME. Same image, same region,
+# same configuration shape. If prod differs from dev in a way you did not choose, then dev
+# was never a test of prod.
+
+project_id  = "your-project-id-here"
+environment = "prod"
+region      = "us-central1"
+
+# The pipeline passes the real image. Note it is the SAME image dev ran: built once,
+# promoted unchanged, never rebuilt.
+image = "us-central1-docker.pkg.dev/your-project-id-here/docapp/docapp:latest"
+
+# Room to scale, still bounded. Still free at course volumes, because min_instance_count
+# is zero and nothing runs when nothing is being called.
+max_instances = 3
+
+# Realistic work.
+processing_delay_ms = 250
+
+# Quieter, because nobody is reading every line and log volume has a cost above 50 GiB.
+log_level = "info"

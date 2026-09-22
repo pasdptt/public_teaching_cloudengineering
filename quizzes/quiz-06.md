@@ -6,8 +6,9 @@ This file is a placeholder so the repository structure is visible and reviewable
 not content, and it is not a summary of content that exists elsewhere.
 
 Sits in **week 12**, in the discussion block. 10–15 minutes. Covers **weeks 9–11** only —
-never same-day material. Outcomes: **CLO-5, CLO-6**, plus **CLO-7 through the cleanup and resource-handling thread
-only** — practised since Lab 2. This quiz must **not** assess the Terraform or cost-model
+never same-day material. Outcomes: **CLO-5, CLO-6**, plus **CLO-7 and CLO-9 through their threads only** — cleanup and
+resource handling practised since Lab 2, and the CI workflow running on every push since
+week 3. This quiz must **not** assess the Terraform, environment-management or cost-model
 material taught in the same session.
 
 Question style: short scenarios, diagram interpretation, measurement interpretation, and

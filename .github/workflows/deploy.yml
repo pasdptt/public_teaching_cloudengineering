@@ -1,0 +1,167 @@
+# Delivery pipeline — Lab 6 (week 13).
+#
+# INCOMPLETE ON PURPOSE. The TODO blocks are your work, and each one is a decision.
+#
+# What this is meant to do:
+#   1. run the tests          — the gate
+#   2. build the image ONCE   — tagged with the commit sha, not "latest"
+#   3. deploy to dev          — automatically, on merge to main
+#   4. promote to prod        — deliberately, by running the workflow by hand
+#
+# The same image reaches prod that was tested in dev. It is never rebuilt. A rebuild means
+# deploying something you did not test, and "but the source was identical" is not the same
+# claim as "the artefact was identical".
+#
+# COST: $0. Actions minutes are free on public repositories (references.md R-13). Cloud Run
+# with min_instance_count = 0 costs nothing when idle (R-12). Artifact Registry is free below
+# 0.5 GiB (R-10) -- which is why step 7 exists.
+
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Which environment to deploy to'
+        required: true
+        default: 'dev'
+        type: choice
+        options: [dev, prod]
+
+# The two permissions the pipeline needs, and no others.
+#
+#   contents: read    -- check out the code
+#   id-token: write   -- mint a short-lived OIDC token that proves to Google Cloud
+#                        "this is workflow X in repository Y, running on commit Z"
+#
+# That second one is the whole reason no service-account key exists anywhere in this
+# repository. Google's own documentation says a key "must be treated like a password" and
+# "by default, these credentials never expire" (references.md R-14). This pipeline never
+# creates one.
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false   # do not cancel a deploy halfway. Think about why.
+
+env:
+  REGION: us-central1
+  REPOSITORY: docapp
+  SERVICE_BASE: docapp
+
+jobs:
+  test:
+    name: Test (the gate)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r application/requirements-dev.txt
+      - name: Run the test suite
+        working-directory: application
+        run: python -m pytest -q
+
+  deploy:
+    name: Build once, deploy to ${{ inputs.environment || 'dev' }}
+    runs-on: ubuntu-latest
+    # This is the gate. Without it, a failing test would not stop a deployment -- and a gate
+    # you have removed is worse than no gate, because you still believe you have one.
+    needs: test
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # --- 1. Authenticate, without a key -------------------------------------------------
+      #
+      # TODO(lab06): fill in the two values below from the Workload Identity Federation pool
+      # you create in Part 2. Both are configuration, not secrets -- they identify a trust
+      # relationship, they do not grant anything on their own. The trust only works for the
+      # repository named in the pool's attribute condition, which is what makes publishing
+      # them safe.
+      #
+      # Before you fill them in, answer this in your submission: what stops someone forking
+      # this public repository and using these same values to deploy into YOUR project?
+      - id: auth
+        name: Authenticate to Google Cloud (keyless)
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: '' # TODO(lab06): projects/NUM/locations/global/workloadIdentityPools/POOL/providers/PROVIDER
+          service_account: ''            # TODO(lab06): deployer SA email
+
+      - uses: google-github-actions/setup-gcloud@v2
+
+      # --- 2. Build the artefact, once ----------------------------------------------------
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker "${REGION}-docker.pkg.dev" --quiet
+
+      - name: Build and push the image
+        id: build
+        run: |
+          set -euo pipefail
+          # Tagged with the commit sha. NOT "latest".
+          #
+          # TODO(lab06): explain in your submission why ":latest" would break the promise
+          # this pipeline makes. There is a specific failure it allows that a sha tag does
+          # not -- name it.
+          IMAGE="${REGION}-docker.pkg.dev/${{ steps.auth.outputs.project_id }}/${REPOSITORY}/docapp:${GITHUB_SHA}"
+          docker build -t "$IMAGE" application/
+          docker push "$IMAGE"
+          echo "image=$IMAGE" >> "$GITHUB_OUTPUT"
+
+      # --- 3. Deploy that exact artefact --------------------------------------------------
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: '1.9.8'
+
+      - name: Terraform apply
+        working-directory: infra
+        env:
+          ENVIRONMENT: ${{ inputs.environment || 'dev' }}
+        run: |
+          set -euo pipefail
+          terraform init -input=false
+
+          # TODO(lab06): this runs `apply` straight away. Add a `terraform plan` step first
+          # and print it, so the run's log shows WHAT changed before it changed.
+          #
+          # Then answer: a plan you do not read is not a safety measure. What would have to
+          # be true of this pipeline for the plan to actually protect you?
+
+          terraform apply -input=false -auto-approve \
+            -var-file="envs/${ENVIRONMENT}.tfvars" \
+            -var="image=${{ steps.build.outputs.image }}"
+
+          terraform output -raw service_url
+
+      # --- 4. Confirm it is actually up ---------------------------------------------------
+      - name: Smoke test the deployment
+        working-directory: infra
+        run: |
+          set -euo pipefail
+          URL="$(terraform output -raw service_url)"
+          for i in $(seq 1 10); do
+            if curl -fsS --max-time 10 "$URL/healthz"; then
+              echo "healthy"; exit 0
+            fi
+            echo "not ready yet ($i/10)"; sleep 6
+          done
+          echo "Service did not become healthy." >&2
+          exit 1
+
+      # TODO(lab06): the smoke test fails the RUN, but the bad revision is already serving
+      # traffic. Describe, in your submission, what you would add here and what it would
+      # cost you. You do not have to build it.
+
+      # --- 5. Keep the registry inside its free allowance ---------------------------------
+      # TODO(lab06): every run pushes a new image. The free Artifact Registry allowance is
+      # 0.5 GiB. Add a step that deletes images older than the most recent few.
+      #
+      # `gcloud artifacts docker images list` and `... delete` are what you need. Bound it:
+      # a cleanup step that can delete the image currently in production is worse than no
+      # cleanup step at all.

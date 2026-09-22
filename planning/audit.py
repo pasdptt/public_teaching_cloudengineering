@@ -118,10 +118,10 @@ notes.append(f"files scanned for private content: {scanned}")
 # ------------------------------------------------- 5. every CLO is assessed
 if plan.exists():
     text = plan.read_text(encoding="utf-8")
-    for i in range(1, 9):
+    for i in range(1, 10):
         if f"CLO-{i}" not in text:
             problems.append(f"CLO-{i} never appears in course/assessment-plan.md")
-    notes.append("CLO-1..8 presence in assessment plan: checked")
+    notes.append("CLO-1..9 presence in assessment plan: checked")
 
 # ------------------------------------------------------------------ report
 print("Course repository audit")

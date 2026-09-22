@@ -174,6 +174,33 @@ so students see that retry and jitter reasoning is not GCP-specific. Note for th
 guide: a vendor engineering blog is a good source for a mechanism and a poor source for a
 comparative claim.
 
+## R-13 · GitHub Actions pricing
+<https://github.com/pricing>
+**FETCHED 2026-09-22.** Confirmed: Actions minutes are **free for public repositories**. The
+Free plan includes 2,000 CI/CD minutes per month and the Team plan 3,000, but those
+allowances apply to **private** repositories — "Minutes are free for public repositories".
+
+*Used by:* decision D-26. This course repository is public, so CI costs nothing, and the CI
+thread from week 3 (D-23) adds $0 to the course's cost model.
+
+## R-14 · `google-github-actions/auth`
+<https://github.com/google-github-actions/auth>
+**FETCHED 2026-09-22.**
+
+Confirmed: **Workload Identity Federation is the preferred method** — it "obviates the need
+to export a long-lived credential and establishes a trust delegation relationship between a
+particular GitHub Actions workflow invocation and permissions on Google Cloud". Service
+Account Key JSON is explicitly discouraged: such keys "are long-lived credentials and must be
+treated like a password", and "by default, these credentials never expire, which is why the
+former authentication options are much preferred". Direct WIF is most preferred but not all
+resources support `principalSet` identities and its token lasts at most 10 minutes.
+
+Minimum workflow permissions confirmed as `contents: read` and `id-token: write`.
+
+*Used by:* decision D-26 and Lab 6. The warning against exported keys is quoted to students
+directly — the course has been saying "never embed credentials" since week 4, and this is
+where they get to implement it.
+
 ---
 
 ## Deliberately not used
@@ -196,6 +223,7 @@ comparative claim.
 | Re-fetch R-01 and R-02 (trial terms) | Before each offering, and before finalising setup instructions |
 | Re-fetch R-03 (provider version) and re-test `infra/` | Before each offering |
 | Re-fetch R-09 … R-12 (the rates and allowances the design depends on) | Before each offering |
+| Re-fetch R-13 (Actions remains free for public repos) and R-14 (WIF guidance and action version) | Before each offering |
 | Re-check each lab's quantities against the current free-tier allowances | Before each offering |
 | Re-check R-07 and R-08 access | Before assigning them |
 

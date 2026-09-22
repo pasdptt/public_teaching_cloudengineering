@@ -3,7 +3,7 @@
 **Resume from this file.** It records what exists, what has been validated and at what
 level, and the single next concrete action. Do not restart the design from the brief.
 
-Last updated: **2026-09-21** · Current stage: **A and B complete → C not started**
+Last updated: **2026-09-22** · Current stage: **A and B complete → C in progress**
 
 ---
 
@@ -134,11 +134,47 @@ student laptop):
 
 ---
 
-## Stage C — progressive development · NOT STARTED
+## Stage C — progressive development · IN PROGRESS
 
-Labs 2–6, weeks 4–15, quizzes 1–7 and keys, project package, `infra/`.
-Operational guidance (cost, cleanup, resource inventory) is authored **with** each cloud
-exercise, never afterwards.
+### DevOps added to the curriculum, 2026-09-22 (D-23 … D-28)
+
+On instruction to cover DevOps for cloud engineers. A **re-sequencing**, not an addition on
+top — 15 weeks and 180 min/week are fixed.
+
+- **CLO-9** added: build and operate an automated delivery path across environments, and
+  explain what each gate protects. Nine outcomes now.
+- **CI is a thread from week 3**, not a week-12 topic. Lab 1 gained Part 6.
+- **Lab 6 became a two-week lab (weeks 12–13)**: infrastructure and environments, then the
+  delivery pipeline. The week-13 synthesis lecture moved to week 14.
+- **GitHub Actions + keyless Workload Identity Federation.** No service-account key exists
+  anywhere in this course.
+- **Two environments, `dev` and `prod`**, from one configuration and two variable files.
+- **Every week still totals exactly 180 minutes** (verified by `audit.py`). Week 3 gave up
+  5 minutes of reading for CI setup; week 13 splits 110/50 between Lab 6 and the project.
+  The project lost ~1.5 h, recorded as a deliberate trade in D-28 because it now inherits a
+  working pipeline instead of building one.
+
+### Authored this session
+
+| Artefact | Status | Validation |
+|---|---|---|
+| `.github/workflows/ci.yml` | done | **EXECUTED** — YAML parsed and asserted; every command it runs was executed locally and passes |
+| `.github/workflows/deploy.yml` (Lab 6 starter, TODOs) | done | **EXECUTED** — YAML parsed; the `needs: test` gate and the `contents:read`/`id-token:write` permissions asserted programmatically |
+| `labs/lab-01/` Part 6 + rubric band B1b | done | REVIEWED |
+| `labs/lab-02/README.md` + `rubric.md` | done | REVIEWED |
+| `labs/lab-02/starter/` — 7 scripts | done | **EXECUTED** — `bash -n` clean on all 7; the config, project-id, free-tier-region and firewall-range guard rails each triggered correctly in isolation |
+| `labs/lab-06/README.md` + `rubric.md` | done | REVIEWED |
+| `infra/` — Terraform, 4 `.tf` + 2 tfvars examples | done | **HCL PARSES** (verified with a parser). `terraform validate`/`plan` **NOT run** — no binary, no project. Provider schemas and argument names are reviewed, not verified. |
+| `operations/cleanup.md` | done | REVIEWED |
+| `weeks/week-04`, `week-05` guides + notes | done | REVIEWED |
+| `weeks/week-12…14` placeholders | corrected to the new structure | — |
+| Course docs updated for CLO-9 and the re-sequence | done | **audit.py passes**, now checking CLO-1…9 |
+
+### Still to author
+
+Labs 3, 4, 5 · weeks 6–11 · weeks 12–14 teaching content · quizzes 1–7 and keys · the project
+package · instructor solutions for Labs 2–6. Operational guidance is authored **with** each
+cloud exercise, never afterwards.
 
 ## Stage D — audit and package · NOT STARTED
 

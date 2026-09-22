@@ -6,7 +6,7 @@ This file is a placeholder so the repository structure is visible and reviewable
 not content, and it is not a summary of content that exists elsewhere.
 
 Sits in **week 14**, in the discussion block. 10–15 minutes. Covers **weeks 11–13** only —
-never same-day material. Outcomes: **CLO-6, CLO-7, CLO-8**.
+never same-day material. Outcomes: **CLO-6, CLO-7, CLO-8, CLO-9**.
 
 Question style: short scenarios, diagram interpretation, measurement interpretation, and
 two-to-four-sentence explanations. No service-name recall, no pricing trivia, no console

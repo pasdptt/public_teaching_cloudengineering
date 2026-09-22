@@ -31,6 +31,9 @@ application_default_credentials.json
 *.tfstate.*
 *.tfvars
 !*.tfvars.example
+infra/envs/*.tfvars
+!infra/envs/*.tfvars.example
+.terraform.tfstate.lock.info
 crash.log
 override.tf
 override.tf.json
@@ -57,3 +60,6 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+
+# Lab 2 student config (holds a project id)
+labs/lab-02/starter/config.env

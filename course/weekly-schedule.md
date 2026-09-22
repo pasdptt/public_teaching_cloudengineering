@@ -38,8 +38,16 @@ failure, the impossibility of distinguishing "slow" from "dead"; where state liv
 it is the hard part; failure boundaries and blast radius.
 **Discussion:** trace a request on paper, then predict what breaks if one component stops.
 **Practical:** complete **Lab 1** — trace a request end to end, separate state from
-execution, induce and explain a local failure.
-**Outcomes:** CLO-2, CLO-3 (foundations), CLO-5 (foundations). **Due:** Lab 1.
+execution, induce and explain a local failure, and **set up continuous integration** so the
+test suite runs on every push (Lab 1 Part 6).
+**Outcomes:** CLO-2, CLO-3 (foundations), CLO-5 (foundations), CLO-9 (thread begins).
+**Due:** Lab 1.
+
+> **The CI thread starts here (D-23).** Fifteen minutes of the discussion block, and about
+> twenty minutes of student time. From now on every push runs the tests, and every later lab
+> submits through a repository whose checks are green. Students live with a pipeline for ten
+> weeks before week 13 teaches them what one is — the same pattern as meeting idempotency in
+> week 2 and the queue that needs it in week 10.
 
 ---
 
@@ -112,7 +120,7 @@ execution on latency, throughput, scaling behaviour and operational responsibili
 
 ---
 
-## Phase 5 — Asynchrony, failure, reproducibility (weeks 10–12)
+## Phase 5 — Asynchrony, failure, delivery (weeks 10–13)
 
 ### Week 10 · Queues and event-driven processing
 **Concepts:** why slow work leaves the request path; queues and their delivery guarantees;
@@ -134,39 +142,47 @@ controlled failure experiment, and show the evidence you used to explain it.
 *(Workload note: this is the tightest week in the course. The budget in
 `workload-budget.md` reallocates reading time to absorb the proposal.)*
 
-### Week 12 · Declarative infrastructure and cost
+### Week 12 · Declarative infrastructure and environments
 **Concepts:** imperative vs declarative provisioning; what Terraform state is and why it
-exists; drift; configuration and secret handling — and why a secret in a repository is
-permanent; cloud cost models, what actually accrues charges, and how to estimate before
-deploying rather than after.
-**Discussion block:** **Quiz 6** (CLO-5, CLO-6; CLO-7 via the cleanup thread only — never that day's Terraform or cost material).
-**Practical:** **Lab 6** (single week) — complete a supplied Terraform skeleton, recreate
-the environment, produce a cost estimate, destroy it, and verify the teardown.
-**Outcomes:** CLO-7. **Due:** Lab 6.
+exists; drift; **environment management** — one configuration, two variable files, and the
+difference between what `dev` and `prod` are *allowed* to differ in and what they must never
+differ in; configuration and secrets, and why a secret in a repository is permanent; cloud
+cost models and estimating before deploying rather than after.
+**Discussion block:** **Quiz 6** (CLO-5, CLO-6; CLO-7 and CLO-9 via the threads students have
+been living with — cleanup since Lab 2, CI since week 3 — never that day's Terraform material).
+**Practical:** start **Lab 6** — complete the supplied Terraform skeleton, bring up `dev`,
+destroy it, bring up `prod`, and account for every difference between them.
+**Outcomes:** CLO-7, CLO-9.
 
----
+### Week 13 · Delivery pipelines
+**Concepts:** what a pipeline is for — each stage as a **gate**, and what each gate protects
+against; build once, promote the same artefact, never rebuild per environment; why a pipeline
+needs an identity and why that identity must not be a long-lived key; **Workload Identity
+Federation** as the keyless answer, and OIDC federation as the pattern it belongs to; what a
+pipeline can and cannot catch.
+**Practical:** complete **Lab 6** — deploy to `dev` automatically on merge, promote to `prod`
+deliberately, break a test on purpose and watch the gate hold, then tear both environments
+down and verify. **Project implementation begins**, with an **instructor design review** for
+each student or pair.
+**Outcomes:** CLO-9, CLO-7, CLO-8 (design review). **Due:** Lab 6.
 
-## Phase 6 — Project (weeks 13–15)
+> **Week 13 is the second-tightest week in the course**, carrying the end of Lab 6 and the
+> start of the project. `course/workload-budget.md` splits it 110/50 and names the first
+> remedy if it proves too much.
 
-Weeks 13–15 replace new labs with supervised project work. The project reuses the
-application and infrastructure already built, so it is not a second implementation effort.
+### Week 14 · Synthesis and evidence-based evaluation
+**Concepts (~60 min):** architecture synthesis — putting the pieces together, security review
+and cost review as habits, recognising where a managed service has become a dependency and
+what migration would actually cost; then what makes a measurement trustworthy, confounds and
+the limits of a single run, and presenting a tradeoff honestly including the option you
+rejected.
+**Discussion block:** **Quiz 7** (CLO-6, CLO-7, CLO-8, CLO-9).
+**Practical (extended):** project experiments; structured **peer review** of another group's
+architecture and evidence.
+**Outcomes:** CLO-6, CLO-8, CLO-9.
 
-### Week 13 · Architecture synthesis
-**Concepts (shorter block, ~60 min):** putting the pieces together — a reference
-architecture walkthrough; security review as a habit; cost review as a habit; recognising
-where a managed service has become a dependency and what migration would actually cost.
-**Practical (extended):** project implementation with an **instructor design review** for
-each student or pair. This review is formative — it exists to catch an infeasible or
-unmeasurable design while there is time to change it.
-**Outcomes:** CLO-8.
-
-### Week 14 · Evidence-based evaluation
-**Concepts (~60 min):** what makes a measurement trustworthy; confounds and what a single
-run cannot tell you; presenting a tradeoff honestly, including the option you rejected.
-**Discussion block:** **Quiz 7** (CLO-6, CLO-7, CLO-8).
-**Practical (extended):** run project experiments; structured **peer review** of another
-group's architecture and evidence.
-**Outcomes:** CLO-6, CLO-8.
+> The synthesis material moved here from week 13 when Lab 6 became a two-week lab (D-24). It
+> sits well beside evaluation: both are about judging a design rather than building one.
 
 ### Week 15 · Demonstration and defence
 The full three hours are used differently from every other week.
@@ -188,7 +204,7 @@ The full three hours are used differently from every other week.
 |---|---|---|---|---|---|
 | 1 | Cloud characteristics, service models, shared responsibility | Environment check + local run | — | — | 1 |
 | 2 | Processes, isolation, VMs, containers, HTTP | Lab 1 start | **Q1** | — | 1, 2 |
-| 3 | Distributed basics, state, latency, failure | Lab 1 finish | — | **Lab 1** | 2, 3, 5 |
+| 3 | Distributed basics, state, latency, failure | Lab 1 finish + **CI set up** | — | **Lab 1** | 2, 3, 5, 9 |
 | 4 | Hierarchy, regions/zones, VMs, identity | Trial activation · Lab 2 start | **Q2** | — | 1, 3 |
 | 5 | Virtual networking, access boundaries, least privilege | Lab 2 finish | — | **Lab 2** | 3 |
 | 6 | Block/file/object/database; durability | Lab 3 start | **Q3** | — | 4 |
@@ -197,9 +213,9 @@ The full three hours are used differently from every other week.
 | 9 | Horizontal scaling, concurrency, latency/throughput | Lab 4 finish + load experiment | — | **Lab 4** | 2, 5, 6 |
 | 10 | Queues, retries, duplicates, idempotency | Lab 5 start · **project brief out** | **Q5** | — | 5 |
 | 11 | Partial failure, resilience, observability, SLOs | Lab 5 finish + failure experiment | — | **Lab 5**, proposal | 5, 6 |
-| 12 | Declarative infra, state, secrets, cost models | Lab 6 (single week) | **Q6** | **Lab 6** | 5, 6, 7 |
-| 13 | Architecture synthesis, security & cost review | Project + design review | — | — | 8 |
-| 14 | Evidence, tradeoffs, alternatives | Project experiments + peer review | **Q7** | — | 6, 8 |
+| 12 | Declarative infra, **environments**, state, secrets, cost | Lab 6 start | **Q6** | — | 5, 6, 7, 9 |
+| 13 | **Delivery pipelines**, gates, keyless pipeline identity | Lab 6 finish · project + design review | — | **Lab 6** | 7, 8, 9 |
+| 14 | **Synthesis** + evidence, tradeoffs, alternatives | Project experiments + peer review | **Q7** | — | 6, 8, 9 |
 | 15 | Defence, synthesis, transfer | Demonstrations, cleanup, reflection | — | **Project** | 7, 8 |
 
 ---
@@ -220,6 +236,18 @@ writes to local disk — which is exactly the confusion the sequence is meant to
 **Why the queue (10) comes after scaling (9).** The load experiment in Lab 4 is what makes
 the queue feel necessary rather than decorative: students see the synchronous path
 saturate, then remove the slow work from it.
+
+**Why CI arrives in week 3 but pipelines are taught in week 13.** A pipeline is a small
+amount of YAML and a large amount of judgement. The YAML is cheap, so students get it in
+week 3 and live with it: they watch tests run on every push for ten weeks, and at some point
+a red check stops them shipping something broken. Week 13 then teaches gates to people who
+have already been stopped by one. Teaching it the other way round produces students who can
+draw a pipeline and have never been saved by one.
+
+**Why delivery and environments are one lab, not two.** A pipeline that cannot target a named
+environment is a script; an environment you cannot deploy to is a diagram. Separating them
+would let students pass both halves without ever connecting them — which is precisely the gap
+the two-week Lab 6 exists to close.
 
 **Why infrastructure-as-code is late (12) but introduced early.** Students need something
 worth reproducing before reproducibility is meaningful. Scripted creation and teardown

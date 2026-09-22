@@ -1,0 +1,86 @@
+# Continuous integration for the course application.
+#
+# Introduced in Lab 1 Part 6 (week 3) and runs for the rest of the course. Every push and
+# every pull request runs the test suite. By week 13, when pipelines are taught properly,
+# you will have been living with one for ten weeks — and, if things go normally, it will
+# have stopped you shipping something broken at least once.
+#
+# COST: $0. GitHub Actions minutes are free for public repositories, and this repository is
+# public. Verified 2026-09-22 — see course/references.md R-13.
+#
+# Read this file. It is short on purpose, and every block is doing something you should be
+# able to explain in the week 13 discussion.
+
+name: CI
+
+# WHEN this runs. Pushes to main, and every pull request aimed at main.
+# Note what is NOT here: a schedule, and a trigger on every branch. Both are defensible
+# choices; both would burn minutes for no added signal on a course repository.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  # Lets you run it by hand from the Actions tab, which is useful when you are debugging the
+  # workflow itself rather than the code.
+  workflow_dispatch:
+
+# Least privilege, for the pipeline itself. This workflow only reads the repository; it
+# deploys nothing and needs nothing else. Lab 6 adds `id-token: write` — and only there,
+# because that is where it is actually needed.
+permissions:
+  contents: read
+
+# If you push twice quickly, cancel the older run. Saves minutes and gets you an answer
+# about your newest commit sooner, which is the one you care about.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Tests on Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      # Do not stop the 3.12 job because 3.10 failed. You want to know whether this is a
+      # version-specific problem, and that information is lost if the other job is killed.
+      fail-fast: false
+      matrix:
+        # The floor the course supports, and a current version. If it passes on both, a
+        # student on either is not about to hit a surprise.
+        python-version: ["3.10", "3.12"]
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install test dependencies
+        # The application itself has no dependencies. This installs pytest and nothing else.
+        run: pip install -r application/requirements-dev.txt
+
+      - name: Check every module compiles
+        # Catches a syntax error in a file the tests happen not to import. Cheap, and it
+        # fails with a clearer message than a mysterious collection error would.
+        run: python -m compileall -q application/docapp application/tools
+
+      - name: Run the test suite
+        working-directory: application
+        run: python -m pytest -q
+
+      # The Lab 1 acceptance tests are NOT run here, deliberately. They fail by design until
+      # you implement FileJobStore, and a pipeline that is always red teaches you to ignore
+      # it — which is the single most expensive habit in this whole subject. Once you have
+      # finished Lab 1, you may add them:
+      #
+      #   - name: Lab 1 acceptance tests
+      #     working-directory: application
+      #     run: python -m pytest -m lab01 -q
+      #
+      # Think about what you are choosing when you do. A gate you have switched off is worse
+      # than no gate, because you still believe you have one.

@@ -1,0 +1,21 @@
+# dev environment. Copy to dev.tfvars and set project_id.
+#
+# The differences from prod.tfvars are the point of this file. Every one of them should be
+# a choice you can defend; anything that differs by accident is a bug waiting for a bad day.
+
+project_id = "your-project-id-here"
+environment = "dev"
+region      = "us-central1"
+
+# Placeholder. The pipeline passes the real image with -var; this value only matters when
+# you apply by hand.
+image = "us-central1-docker.pkg.dev/your-project-id-here/docapp/docapp:latest"
+
+# Cheaper to be wrong here, so the guard rail can be tighter.
+max_instances = 1
+
+# Faster feedback while developing.
+processing_delay_ms = 50
+
+# Noisier, because in dev you are the one reading the logs.
+log_level = "debug"

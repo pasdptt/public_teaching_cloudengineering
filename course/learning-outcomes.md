@@ -1,6 +1,6 @@
 # Learning outcomes
 
-Eight course learning outcomes (CLOs). Each is written so that a marker can tell, from a
+Nine course learning outcomes (CLOs). Each is written so that a marker can tell, from a
 student's submitted artefact, whether it was met — and each is mapped to where it is
 taught and where the evidence comes from.
 
@@ -73,6 +73,18 @@ the declarative tool tracks in state and why a resource can survive a deleted VM
 *Evidence looks like:* a resource inventory before and after, and a teardown verification
 that names resources that outlive compute (disks, addresses, buckets, images, logs).
 
+### CLO-9 — Delivery and environment management
+**…can** build and operate an automated delivery path — tests run on every change, an
+artefact is built once, and that same artefact is promoted to a named environment — and can
+explain what each gate in the path protects against; can describe what distinguishes one
+environment from another and what must *not* differ; and can authenticate a pipeline to a
+cloud provider **without creating a long-lived credential**.
+
+*Evidence looks like:* a pipeline run that failed on a deliberately broken test and blocked
+the deploy, plus an explanation of what would have reached production without that gate. And
+a statement of what the student's `dev` and `prod` differ in, what they deliberately share,
+and why a difference they did not choose is a bug rather than a detail.
+
 ### CLO-8 — Defending an architecture
 **…can** present an architecture against stated requirements and defend it under
 questioning on security, reliability, cost and provider dependence; identify which design
@@ -98,10 +110,11 @@ graded evidence.
 | CLO-5 Cloud-native design | 8, 9, 10 | Lab 4, Lab 5 | Quiz 5, Lab 4, Lab 5, Project | Stateless handler + external state + queue, working |
 | CLO-6 Measurement & explanation | 9, 11, 14 | Lab 4, Lab 5 | Quiz 5, Quiz 6, Quiz 7, Lab 4, Lab 5, Project | Load experiment and failure experiment with conditions |
 | CLO-7 Reproducibility & teardown | 12 (cleanup thread from wk 4) | Lab 6 (and cleanup from Lab 2 on) | Quiz 6 (cleanup thread), Quiz 7, Lab 6, Project | Teardown verification showing nothing billable remains |
-| CLO-8 Architecture defence | 13, 14, 15 | Weeks 13–15 | Project defence, Quiz 7 | Individual oral answer under questioning |
+| CLO-8 Architecture defence | 14, 15 | Weeks 13–15 | Project defence, Quiz 7 | Individual oral answer under questioning |
+| CLO-9 Delivery & environments | 12, 13 (CI thread from wk 3) | Lab 1 Part 6, Lab 6, project | Quiz 6, Quiz 7, Lab 6, project | A pipeline run that blocked a bad change, and the dev/prod difference justified |
 
 Cost reasoning, identity/least privilege and cleanup are **not** separate outcomes; they
-are threaded through CLO-3, CLO-4, CLO-7 and CLO-8 and are assessed in every cloud lab
+are threaded through CLO-3, CLO-4, CLO-7, CLO-8 and CLO-9 and are assessed in every cloud lab
 rubric's reproducibility/security/resource-handling band.
 
 ---
@@ -110,10 +123,11 @@ rubric's reproducibility/security/resource-handling band.
 
 | Check | Result |
 |---|---|
-| Every CLO has at least one graded artefact | ✅ all eight |
+| Every CLO has at least one graded artefact | ✅ all nine |
 | Every CLO is taught before first assessment | ✅ see week numbers above |
 | Every quiz maps only to outcomes already taught | ✅ verified in `assessment-plan.md` |
 | Every CLO is assessed by something other than a quiz | ✅ each has a lab or project artefact |
+| CLO-9 is taught before it is assessed | ✅ practised from week 3 as a thread (D-23); taught in weeks 12–13; assessed in Quiz 6, Quiz 7, Lab 6 and the project |
 | No CLO depends on resources the course cannot guarantee | ✅ CLO-3 … CLO-7 have documented local fallbacks (`operations/cloud-access-and-fallback.md`) |
 
 ---
@@ -124,6 +138,10 @@ These would not be honestly assessable in 15 weeks with ~180 min/week of indepen
 and no TA, so they are not claimed:
 
 - Operating a Kubernetes cluster.
+- Running a full release process: approval workflows, change advisory, canary and blue-green
+  deployment, feature flags, rollback automation. CLO-9 covers **one** automated path to
+  **two** environments. Students are told what the next steps would be, and are not assessed
+  on them.
 - Designing for multi-region or multi-cloud availability.
 - Production-grade security engineering or threat modelling.
 - Capacity planning or cost optimisation at organisational scale.

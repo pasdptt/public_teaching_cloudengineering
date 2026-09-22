@@ -43,6 +43,28 @@ Last updated: 2026-09-21.
 
 ---
 
+## B2. DevOps added to the curriculum (2026-09-22)
+
+Instruction: the course must cover DevOps for cloud engineers, including CI/CD and
+environment management. Fifteen weeks and ~180 min/week are fixed, so this is a
+re-sequencing, not an addition on top.
+
+| ID | Decision | Rationale |
+|---|---|---|
+| D-23 | **CI is a thread from week 3, not a topic in week 12.** A GitHub Actions workflow runs the existing test suite on every push, starting as Part 6 of Lab 1. Students live with a pipeline for ten weeks before they are taught what one is. | The tests already exist from Lab 1, so CI costs about 20 minutes to set up and roughly 15 minutes of teaching. By week 13 "the pipeline" is something they have experience of rather than a diagram. Same reasoning as introducing idempotency in week 2 and the queue in week 10. |
+| D-24 | **Lab 6 becomes a two-week lab across weeks 12–13: "Delivery, environments and reproducibility."** Week 12 is declarative infrastructure and environment management; week 13 is the delivery pipeline and pipeline security. The former week-13 architecture-synthesis lecture folds into week 14. | CI/CD and environment management are one subject — a pipeline that cannot target a named environment is a script, and an environment you cannot deploy to is a diagram. Splitting them across two labs would teach both badly. |
+| D-25 | **CLO-9 added:** build and operate an automated delivery path across environments, and explain what each gate protects. | Chosen over folding it into CLO-7. An outcome that is taught but not separately assessed becomes decorative, and this is the part of the course an employer most directly means by "cloud engineer". Quiz 6 and Quiz 7 both cover it, and it has its own rubric line in Lab 6 and the project. |
+| D-26 | **CI platform: GitHub Actions, authenticating to Google Cloud with keyless Workload Identity Federation.** No service-account key is ever created. | Actions minutes are **free for public repositories** (R-13), and this course repository is already public, so CI costs nothing. WIF is Google's own recommended method and the `google-github-actions/auth` documentation explicitly warns against exporting service-account keys (R-14). That turns the course's standing "never embed credentials" rule into something students implement rather than recite, and OIDC federation is a pattern that transfers to every other provider. Cloud Build remains available and is discussed; it is not the taught path. |
+| D-27 | **Two environments: `dev` and `prod`.** One Terraform configuration, two variable files. | Enough to teach parameterisation, promotion, config/secret separation and why prod is not dev with a different name. A third environment would double the resources for no new concept, and risks pushing past the single free `e2-micro` and the single free Firestore database per project (D-19, D-20). |
+| D-28 | **The project's reproducible-deployment requirement is satisfied by reusing the Lab 6 pipeline**, not by building a new one. | Protects A-07: the project must not become a second implementation workload. Weeks 13–15 give the project ~345 minutes of independent time (down from ~455 before this change), which is workable **only** because the delivery path already exists. If a pilot shows otherwise, the first remedy is to reduce the project's experiment requirements, not to extend the week. |
+
+**Consequences recorded elsewhere:** `course/learning-outcomes.md` (CLO-9 and a revised map),
+`course/weekly-schedule.md` (weeks 12–14), `course/assessment-plan.md` (quiz coverage, Lab 6
+spans two weeks), `course/workload-budget.md` (weeks 2, 3, 12, 13 re-balanced; every week
+still totals exactly 180), `labs/lab-06/`, `infra/`, and `.github/workflows/`.
+
+---
+
 ## C. Adopted defaults (revisable)
 
 | ID | Default | Why this default | What would change it |

@@ -1,4 +1,4 @@
-# Week 12 — Teaching guide: Declarative infrastructure and cost
+# Week 12 — Teaching guide: Declarative infrastructure and environments
 
 **STATUS: not yet authored — scheduled for Stage C.**
 
@@ -7,10 +7,13 @@ not teaching content.
 
 | | |
 |---|---|
-| Conceptual focus | Imperative vs declarative provisioning; Terraform state and why it exists; drift; configuration and secrets, and why a committed secret is permanent; cloud cost models and estimating before deploying |
-| Practical | Lab 6 (single week) |
-| Assessment | Quiz 6 |
-| Outcomes | CLO-7 |
+| Conceptual focus | Imperative vs declarative provisioning; Terraform state and why it exists; drift; **environment management** — one configuration, two variable files, and the difference between what dev and prod are *allowed* to differ in and what must never differ; configuration vs secrets, and why a committed secret is permanent; cost models and estimating before deploying |
+| Practical | Lab 6 first half — complete the Terraform skeleton, bring up `dev`, produce drift deliberately, add `prod` |
+| Assessment | Quiz 6 (CLO-5, CLO-6; CLO-7 and CLO-9 through their threads only — never that day's material) |
+| Outcomes | CLO-7, CLO-9 |
+
+> **Restructured 2026-09-22 (D-24).** Lab 6 became a two-week lab covering delivery and
+> environments together. This week is its first half.
 
 ## Session plan (3 hours)
 

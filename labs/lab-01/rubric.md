@@ -33,9 +33,16 @@ failing to start is Developing at best.
 
 This is the largest band. Split across four pieces of work:
 
-### B1 · Predictions, written before Part 3 (6 marks)
+### B1 · Predictions, written before Part 3 (4 marks)
 All three answered, with reasons. **Being wrong costs nothing.** Not committing to an answer,
 or quietly editing a prediction after seeing the result, costs everything in this band.
+
+### B1b · Continuous integration, Part 6 (2 marks)
+Red run and green run both evidenced from the student's own pushes, and the four questions
+answered. Full marks need question 4 to name something **specific** the pipeline cannot
+catch — a deployment problem, a performance regression, an untested code path, a bad
+configuration value — rather than "tests don't catch everything". This is the seed week 13
+grows, so mark it for precision rather than length.
 
 ### B2 · Request trace and the process boundary (12 marks)
 | | Looks like |

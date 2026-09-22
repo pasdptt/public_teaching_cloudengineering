@@ -171,7 +171,7 @@ with a budget.
 | Lab 3 | $0.00 |
 | Lab 4 | $0.00 |
 | Lab 5 | $0.00 |
-| Lab 6 | ~$0.01 |
+| Lab 6 | ~$0.02 |
 | Project | ~$0.00–0.20 |
 | **Total per student** | **well under $1** |
 
@@ -246,6 +246,7 @@ Taught, not merely documented. This is how a student unexpectedly spends money.
 | Disk snapshots and custom images | Deleting the source disk | — | billed |
 | Pub/Sub subscription with no consumer | Deleting the publisher | Retained messages are billable storage | inside 10 GiB free, then billed |
 | **Cloud Run with `min-instances > 0`** | Having no traffic | It looks idle; it is provisioned | billed as running |
+| **A second `e2-micro`, or a second Firestore database, created for a second environment** | Attention | Those two allowances are *one per account* and *one per project* — unlike Cloud Run and buckets, which duplicate for free | the second one bills in full |
 | **Firestore *named* (non-default) database** | — | It works identically but **qualifies for no free quota at all** | billed from the first operation (R-11) |
 | Retained logs above the free allowance | Deleting the service | Retention outlives the workload | inside 50 GiB free, then billed |
 | Load balancer forwarding rules | Deleting the backends | Forwarding rules bill independently | billed |

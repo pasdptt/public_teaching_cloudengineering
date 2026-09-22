@@ -90,6 +90,31 @@ A grep is a safety net, not a substitute for knowing what you are committing.
 
 ---
 
+## Pushing workflow files needs an extra permission
+
+A token that can push code **cannot** push `.github/workflows/` unless it is told so
+separately. The push is rejected with:
+
+```text
+! [remote rejected] main -> main (refusing to allow a Personal Access Token to create or
+  update workflow `.github/workflows/ci.yml` without `workflow` scope)
+```
+
+Nothing is written when this happens — fix the credential and push again.
+
+| Credential | What to do |
+|---|---|
+| Classic token | Add the **`workflow`** scope alongside `repo`. Scopes are editable on an existing token; no need to regenerate. |
+| Fine-grained token | Set the **Workflows** repository permission to *Read and write*, alongside Contents. |
+| SSH key | Nothing. SSH has no scopes, so workflow files push normally. |
+| `gh auth login` | Recent versions request the workflow scope during login. |
+
+Worth pointing out to students when it happens to them, because it is the course's own
+lesson arriving uninvited: a credential scoped to exactly what it was asked for refused to
+do something adjacent. That is least privilege working, not failing — and it is the same
+reasoning behind Lab 6 giving its pipeline a federated identity with narrow roles instead of
+a key that can do anything.
+
 ## Producing a clean student package
 
 Students normally just clone this repository — it is already student-safe by construction,

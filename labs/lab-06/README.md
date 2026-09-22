@@ -4,7 +4,7 @@
 
 | | |
 |---|---|
-| **Cloud resources** | Cloud Run × 2 (`dev`, `prod`), Cloud Storage × 2, Artifact Registry × 1, service accounts, a Workload Identity Federation pool |
+| **Cloud resources** | Per environment: Cloud Run, a bucket, a topic, a dead-letter topic, a push subscription and two service accounts — × 2 for `dev` and `prod`. Shared: Artifact Registry, a Workload Identity Federation pool, a deployer account |
 | **Estimated cost** | **~$0.02.** Everything sits inside Always Free; GitHub Actions is free on public repositories. |
 | **Outcomes** | CLO-9 (delivery and environments), CLO-7 (reproduce and remove) |
 | **Estimated novice time** | ~2 h guided (2 × 60 min) + ~4.3 h independent across weeks 12–13 |
@@ -40,7 +40,9 @@ it all down.
 - [ ] CI has been running on your pushes since week 3 (Lab 1 Part 6).
 - [ ] Your trial has not expired. Check the date — if it is close, tell the instructor
       **now**, not in week 15.
-- [ ] `terraform` installed (`terraform -version`, 1.5 or newer).
+- [ ] `terraform` installed (`terraform -version`, 1.5 or newer). **OpenTofu works too** —
+      `tofu` is a drop-in for everything this lab does, and is what the configuration was
+      validated with. Use either; say which in your submission.
 
 ---
 
@@ -51,16 +53,25 @@ it all down.
 Read `infra/` in this order: `versions.tf`, `variables.tf`, `main.tf`, then both
 `envs/*.tfvars.example`.
 
+Every resource in `main.tf` is one you created by hand in Labs 3, 4 or 5. **Find each of
+them**, and find in particular the two grants Pub/Sub makes on its own behalf — the ones that
+cost you twenty minutes and an error message in Lab 5. They are four lines here.
+
 **Predict, in writing, before running anything:**
 
 1. `terraform plan` against a project where nothing exists. How many resources will it create,
-   and can you name them without running it?
+   and can you name them without running it? (There are fourteen, plus one `data` block that
+   creates nothing — work out why it does not appear in the count. Getting the number wrong
+   is fine; not being able to name most of them means read the file again.)
 2. You `apply` with `dev.tfvars`, then `apply` again with `prod.tfvars` in the same working
    directory. What happens to the dev resources? (Think about what state is, not about what
    you would like to happen.)
 3. `infra/README.md` says this configuration deliberately does not create a Firestore
    database. Why not — and what does that tell you about what "two environments in one
    project" can and cannot mean?
+4. The subscription carries an explicit `depends_on`, naming **one** of the two dead-letter
+   grants. Read the comment, then answer in your own words why the other one cannot be listed
+   there, and why that is correct rather than a limitation.
 
 ## Part 2 — Bring up `dev` (~60 min)
 
@@ -74,7 +85,21 @@ terraform apply -var-file=envs/dev.tfvars -var="image=$SOME_IMAGE"
 
 Use an image you already built in Lab 4.
 
-**Checkpoint.** `terraform output service_url`, then `curl $URL/healthz`.
+**Checkpoint.** `terraform output service_url`, then:
+
+```bash
+curl -H "Authorization: Bearer $(gcloud auth print-identity-token)" "$(terraform output -raw service_url)/healthz"
+```
+
+**The token is not optional.** This service is private, exactly as in Labs 4 and 5 — there is
+no `allUsers` binding anywhere in `infra/`. Completing the second `TODO` in `main.tf` is what
+lets you and your pipeline in, and the plain `curl` without a token should return 403 until
+then.
+
+**Then submit a job and watch it complete**, which exercises the whole graph at once: the
+service publishes to the topic, the subscription pushes back to the service, and the job
+reaches `succeeded`. If that works, Terraform has just reproduced three labs' worth of
+clicking in about ninety seconds.
 
 **Read the plan before applying.** Then answer: the plan said *create*. What would it have to
 say for you to stop and investigate rather than type yes?
@@ -109,8 +134,16 @@ differ between the environments, and give it different values in each tfvars fil
 | `processing_delay_ms` | | | | |
 | `log_level` | | | | |
 | `force_destroy` on the bucket | | | | |
+| `message_retention_seconds` | | | | |
+| `ack_deadline_seconds` | | | | |
+| `max_delivery_attempts` | | | | |
 | *your new variable* | | | | |
 | **container image** | | | **identical, on purpose** | |
+
+> **One of those three queue differences is defensible, one is arguable, and one is closer to
+> a mistake.** Say which is which and why. The `ack_deadline_seconds` row in particular: dev
+> uses 10 seconds because it makes redelivery easy to trigger while experimenting. What does
+> that do to the fidelity of dev as a test of prod?
 
 **Then the harder half:** list three things that are deliberately the **same**, and say what
 would break if each drifted apart. Full marks in this lab are in that second list. Anyone can
@@ -227,7 +260,10 @@ that state at all — the pipeline pushed them.
 |---|---|---|---|
 | Cloud Run service | yes | `terraform destroy` | — |
 | Cloud Storage bucket | yes | `terraform destroy` | `force_destroy` is false in prod, on purpose |
+| Topic + dead-letter topic | yes | `terraform destroy` | — |
+| **Push subscription** | yes | `terraform destroy` | **Retains messages and bills for them.** Two of them now |
 | Runtime service account | yes | `terraform destroy` | — |
+| Push service account | yes | `terraform destroy` | Two identities per environment, four in total |
 | Artifact Registry images | **no — shared** | manual | **Not in Terraform state.** Every pipeline run adds one; the allowance is 0.5 GiB |
 | WIF pool and provider | no | manual | No charge, but it is a standing trust relationship |
 | Deployer service account | no | manual | Delete it, or its permissions outlive the course |
@@ -245,8 +281,17 @@ typo in the repository name.
 workspace. `terraform workspace show`. **Read every plan.** This is the failure mode the
 habit exists to prevent.
 
-**Cloud Run deploys but returns 403** — the `run.invoker` binding. Part 3 of Lab 6's
-`main.tf` makes it public; check it applied.
+**Cloud Run returns 403 when you curl it** — correct, until you complete the invoker `TODO`
+in `main.tf`. The service is private by design. Carry an identity token, as in Labs 4 and 5.
+
+**Jobs stay `pending` after an apply** — the push path. Check `terraform output
+subscription_name` exists, then check the subscription's push endpoint ends in
+`/tasks/process`. If the endpoint is right, it is the invoker binding for the push account —
+which Terraform does create, so look for an apply that partially failed.
+
+**`Error: Cycle:` on plan** — you have added a `depends_on` that points at something which
+depends back on the resource declaring it. Part 1's fourth prediction is about exactly this;
+the existing `depends_on` in `main.tf` shows the shape of the fix.
 
 **Bucket destroy fails: "bucket is not empty"** — `force_destroy` is false in prod, on
 purpose. Empty it deliberately, and notice the guard did its job.

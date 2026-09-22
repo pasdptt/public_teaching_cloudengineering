@@ -9,19 +9,16 @@ Last updated: **2026-09-22** · Current stage: **A and B complete → C in progr
 
 ## Next concrete action
 
-> **Author weeks 12–14 teaching content.** Lab 6 (`labs/lab-06/`), the Terraform skeleton
-> (`infra/`) and both workflows (`.github/workflows/`) already exist from the DevOps session;
-> what is missing is the teaching. Weeks 12 and 13 are the two halves of Lab 6, and week 14 is
-> synthesis plus evidence, which now has a great deal of material to draw on — Lab 4's
-> confounds paragraph and Lab 5's proves/does-not-prove paragraph are both rehearsals for it.
+> **Author weeks 13 and 14.** Week 13 is Lab 6's second half — the delivery pipeline, gates,
+> and Workload Identity Federation — and `.github/workflows/deploy.yml` already exists with its
+> TODOs. Week 14 is synthesis plus evidence-based evaluation, and it now has a great deal to
+> draw on: Lab 4's confounds paragraph and Lab 5's proves/does-not-prove paragraph are both
+> rehearsals for it, and both have rubric language worth reusing.
 >
-> Two things to resolve while writing week 12:
-> - `infra/` has **never been run through `terraform validate`**, let alone `plan`. No binary
->   and no project were available. Either install Terraform and validate the HCL, or record
->   prominently that week 12's practical rests on unverified configuration.
-> - Lab 6 predates Lab 5 and does not mention the topic, the subscription or the second
->   service account. Its Terraform must now create them, or the environments it builds will
->   not be able to run the application students finished in week 11.
+> One thing to check while writing week 13: `deploy.yml` predates Labs 4 and 5 and predates
+> today's `infra/` changes. Confirm that the roles it asks the deployer account to hold still
+> cover fourteen resources including Pub/Sub, and that its smoke test can reach a **private**
+> service (D-41) — a plain `curl` against it will now return 403.
 >
 > After that: quizzes 1–7 and keys, the project package, instructor solutions for Labs 2, 4
 > and 6.
@@ -70,7 +67,7 @@ piloted the labs under the intended access model.
 **Mechanical audit (`python3 planning/audit.py`) passes**, checking: all 11 relative links
 resolve · all 15 weekly workload rows sum to exactly 180 · assessment weights total 100%
 and 6 × 7.5% = 45% · 153 files scanned, no answer-key or credential-shaped content · all
-nine CLOs present in the assessment plan · **all 11 authored session plans sum to exactly 180
+nine CLOs present in the assessment plan · **all 12 authored session plans sum to exactly 180
 contact minutes** (check 6, added 2026-09-22). Run it before every commit.
 
 **One inconsistency was found and fixed during the audit:** Quiz 6 (week 12) had been
@@ -268,15 +265,49 @@ with the fact that the earlier 63 MB Linux figure and today's 80 MB macOS/arm64 
 the first two packages disagree — a platform difference, not worth chasing, and not silently
 overwritten.
 
+### Week 12 authored, and the infrastructure gap closed (2026-09-22)
+
+| Artefact | Status | Validation |
+|---|---|---|
+| `infra/main.tf` — rewritten, 14 resources (D-40, D-41) | done | **VALIDATED** — see below |
+| `infra/variables.tf`, `outputs.tf`, both tfvars examples | done | **VALIDATED** — every `validation` block passes for both environments, and bad values are rejected |
+| `infra/README.md` — status, provenance table, guard rails | done | REVIEWED |
+| `labs/lab-06/README.md` + `rubric.md` — updated for Labs 4–5 | done | REVIEWED |
+| `weeks/week-12` guide + notes | done | REVIEWED |
+
+**The Terraform gap carried since the DevOps session is closed.** `tofu validate` **passes**
+against the real `hashicorp/google` provider, which resolved to **8.3.0** under the `~> 8.0`
+pin. Every resource type, argument name and type is now checked rather than reviewed; `fmt` is
+clean; both variable files pass validation and deliberately bad values were confirmed to be
+rejected.
+
+**Caveat, stated rather than glossed:** validated with **OpenTofu 1.12.6**, not Terraform.
+Homebrew no longer ships Terraform (BUSL), and OpenTofu is the drop-in D-03 already nominated.
+Same HCL, same provider — a meaningful check, and not the same claim as "terraform validate
+passes" (D-42). **`plan` and `apply` have still never been run**; they need a project and
+credentials. Nothing in `infra/` has ever created a resource.
+
+**Two real defects found, one of them only findable by validating:**
+
+1. **A dependency cycle.** The push subscription declared `depends_on` both dead-letter IAM
+   grants, and one of them is made *on the subscription*. Review had missed it across two
+   readings; `validate` rejected it immediately. The fix is one line, and why one grant can be
+   ordered and the other cannot is now a Lab 6 prediction question.
+2. **The configuration would have deployed a broken service.** `DOCAPP_JOBSTORE` was never set,
+   so Terraform would have brought up Cloud Run on the **in-memory job store** — the exact bug
+   Lab 4 spends a week teaching. Week 12's practical would have handed students a broken
+   environment and called it reproducible. Found by reading `infra/` against Labs 3–5 rather
+   than by any tool.
+
 ### Still to author
 
-Weeks 12–14 teaching content · quizzes 1–7 and keys · the project package · instructor
+Weeks 13–14 teaching content · quizzes 1–7 and keys · the project package · instructor
 solutions for Labs 2, 4 and 6. Operational guidance is authored **with** each cloud exercise,
 never afterwards.
 
-**Carried forward, and growing:** `infra/` still has not been validated with a Terraform
-binary, and Lab 6 has not been revised to account for Labs 4 and 5 existing. Both are week
-12's problem and both are named in the next action above.
+**Carried forward:** `.github/workflows/deploy.yml` predates Labs 4 and 5 and today's `infra/`
+changes. Its deployer roles and its smoke test both need checking against a fourteen-resource,
+**private** service — week 13's problem, named in the next action above.
 
 ## Stage D — audit and package · NOT STARTED
 

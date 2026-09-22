@@ -90,6 +90,29 @@ still totals exactly 180), `labs/lab-06/`, `infra/`, and `.github/workflows/`.
 
 ---
 
+## B5. Decisions taken while authoring week 12 (2026-09-22)
+
+| ID | Decision | Rationale |
+|---|---|---|
+| D-40 | **`infra/` brought up to date with Labs 3, 4 and 5.** It now declares the queue, the dead-letter topic, the push subscription, the push service account, the two grants Pub/Sub makes on its own behalf, and the Firestore and job-store configuration the service needs. Fourteen resources. | The configuration predated Labs 4 and 5 and would have deployed a service with `DOCAPP_JOBSTORE` unset — that is, on the in-memory job store, which is precisely the bug Lab 4 spends a week teaching students to find. Week 12's practical would have handed them a broken environment and called it reproducible. |
+| D-41 | **The Terraform-managed service is private.** No `allUsers` binding exists anywhere in `infra/`; the only `run.invoker` grant is for the push identity, on one service. A `TODO` asks the student to grant themselves or their pipeline the narrowest invoke permission that works. | Labs 4 and 5 both insist on a private service and make the student carry a token. Lab 6 publishing the same service to the internet for convenience would retract the course's own standard at the last opportunity to reinforce it. Lab 5's architecture also forces the right answer: a push subscription needs an authenticated caller, so the identity lesson is structural rather than exhortative. |
+| D-42 | **`infra/` is validated with OpenTofu 1.12.6, and the status is recorded with that caveat named.** Terraform remains the taught tool (D-03). | Homebrew no longer distributes Terraform, which is now BUSL-licensed; OpenTofu is the drop-in this course already nominated as its fallback and accepts the same HCL and the same `hashicorp/google` provider. Validating with it is far better than not validating, and overstating it as "terraform validate passes" would be the kind of claim this repository exists not to make. Lab 6 now tells students either tool works. |
+
+**What validation found, having been deferred through three sessions:** a genuine **dependency
+cycle**. The push subscription declared `depends_on` both dead-letter IAM grants, and one of
+those grants is made *on the subscription* — so the subscription depended on something that
+depended on it. `validate` rejected it outright. Review had not, across two readings, because
+the cycle is only visible once you trace the resource graph rather than read the file top to
+bottom. The fix is one line; the explanation of *why* one grant can be ordered and the other
+cannot is now a prediction question in Lab 6 Part 1.
+
+Also confirmed by validating: the `~> 8.0` provider pin resolves to **8.3.0**; every resource
+type and argument name in the directory matches the real provider schema; both example
+variable files pass every `validation` block; and deliberately bad values are rejected by
+them. `plan` and `apply` remain **NOT run** — they need a project and credentials.
+
+---
+
 ## C. Adopted defaults (revisable)
 
 | ID | Default | Why this default | What would change it |

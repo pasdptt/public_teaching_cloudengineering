@@ -19,3 +19,16 @@ processing_delay_ms = 50
 
 # Noisier, because in dev you are the one reading the logs.
 log_level = "debug"
+
+# Queue settings. These differ, and Lab 6 Part 3 asks you to say whether they SHOULD.
+#
+# Short retention in dev: nothing here is worth keeping, and a subscription you abandon
+# mid-experiment should forget about it quickly.
+message_retention_seconds = 600
+
+# A short ack deadline makes redelivery easy to trigger while you are experimenting.
+ack_deadline_seconds = 10
+
+# Give up quickly. In dev, a message that cannot be processed is usually a bug you are
+# about to fix, not work you need to preserve.
+max_delivery_attempts = 5

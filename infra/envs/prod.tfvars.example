@@ -22,3 +22,17 @@ processing_delay_ms = 250
 
 # Quieter, because nobody is reading every line and log volume has a cost above 50 GiB.
 log_level = "info"
+
+# Queue settings. Compare these against dev line by line, and be ready to say which of the
+# three differences you would defend and which you would argue is a mistake.
+
+# Longer retention: a consumer outage in prod should not silently destroy work.
+message_retention_seconds = 3600
+
+# A realistic deadline. Too short and a slow-but-healthy instance gets its work
+# redelivered, which turns a latency problem into a duplicate-work problem.
+ack_deadline_seconds = 60
+
+# More patience before giving up on a message, because in prod the failure is more likely
+# to be transient than to be your bug.
+max_delivery_attempts = 10

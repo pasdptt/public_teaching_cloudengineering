@@ -30,9 +30,12 @@ Developing rather than Limited.
 ## B · Explanation and evidence — 40 marks
 
 ### B1 · Predictions (4)
-Three answers, written before running. Question 2 (what happens when you apply prod over dev
-in one working directory) is the one that separates students who understand state from
-students who have used Terraform.
+Four answers, written before running. Question 2 (what happens when you apply prod over dev in
+one working directory) is the one that separates students who understand state from students
+who have used Terraform. Question 4 — why one dead-letter grant can be named in `depends_on`
+and the other cannot — is the one that separates students who read `main.tf` from students who
+skimmed it; "it would be a cycle" earns the mark only with the direction of the dependency
+stated.
 
 ### B2 · Drift (6)
 What the plan said after the manual console change, and a real answer to "which is right?".
@@ -68,7 +71,7 @@ not be, and can say why that distinction holds.
 
 | | Marks | Looks like |
 |---|---|---|
-| Excellent | 13–15 | Cost estimated **before** deploying, compared with actuals, difference explained. The per-project vs per-account allowance question answered correctly. Both environments destroyed and verified **independently of Terraform**, including Artifact Registry images, which state does not track. No key, no secret, no tfvars committed. |
+| Excellent | 13–15 | Cost estimated **before** deploying, compared with actuals, difference explained. The per-project vs per-account allowance question answered correctly. Both environments destroyed and verified **independently of Terraform** — including Artifact Registry images, which state does not track, and **both push subscriptions**, which retain billable messages. No key, no secret, no tfvars committed. |
 | Good | 10–12 | Verified clean; estimate present but not compared, or registry images overlooked. |
 | Developing | 5–9 | Teardown claimed without verification, or one environment left running. |
 | Limited | 0–4 | Resources still running, or a credential in the repository. |

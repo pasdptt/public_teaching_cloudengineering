@@ -30,6 +30,8 @@ def make_config(tmp_path, **overrides) -> Config:
         jobstore_backend="memory",
         queue_backend="inline",
         data_dir=str(tmp_path),
+        bucket="",
+        project_id="",
         max_document_bytes=65_536,
         processing_delay_ms=0,   # no artificial delay: tests should be fast and honest
         log_level="error",

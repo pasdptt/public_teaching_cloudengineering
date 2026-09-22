@@ -3,7 +3,7 @@
 **Resume from this file.** It records what exists, what has been validated and at what
 level, and the single next concrete action. Do not restart the design from the brief.
 
-Last updated: **2026-09-22** · Current stage: **A and B complete → C in progress**
+Last updated: **2026-09-22** · Current stage: **A and B complete → C in progress** · tagged **v0.3.0**
 
 ---
 
@@ -170,10 +170,22 @@ top — 15 weeks and 180 min/week are fixed.
 | `weeks/week-12…14` placeholders | corrected to the new structure | — |
 | Course docs updated for CLO-9 and the re-sequence | done | **audit.py passes**, now checking CLO-1…9 |
 
+### Lab 3 authored (2026-09-22)
+
+| Artefact | Status | Validation |
+|---|---|---|
+| `tests/contracts.py` — shared backend contract | done | **EXECUTED** — the storage and job-store rules now live once and run against every backend; suite grew 47 → **62 tests**, all passing |
+| `docapp/gcs_storage.py`, `docapp/firestore_jobstore.py` (student stubs) | done | **EXECUTED** — parse, import lazily, and raise actionable errors; wired into both factories without breaking the zero-dependency local path |
+| `tests/test_lab03_cloud_backends.py` | done | **EXECUTED** — 22 tests **skip cleanly** with nothing configured, so they never run or bill by accident |
+| `requirements.txt` — pinned clients | done | **MEASURED** — the two libraries add ~63 MB to site-packages (storage ~39, firestore ~24), which is what justified using them rather than hand-rolling the REST API against the 0.5 GiB Artifact Registry allowance |
+| `labs/lab-03/README.md` + `rubric.md` | done | REVIEWED |
+| `weeks/week-06`, `week-07` guides + notes | done | REVIEWED |
+| Instructor reference backends (private repo) | done | **NOT EXECUTED** — reviewed against google-cloud-storage 3.x and google-cloud-firestore 2.x; no project was available |
+
 ### Still to author
 
-Labs 3, 4, 5 · weeks 6–11 · weeks 12–14 teaching content · quizzes 1–7 and keys · the project
-package · instructor solutions for Labs 2–6. Operational guidance is authored **with** each
+Labs 4, 5 · weeks 8–11 · weeks 12–14 teaching content · quizzes 1–7 and keys · the project
+package · instructor solutions for Labs 2, 4, 5, 6. Operational guidance is authored **with** each
 cloud exercise, never afterwards.
 
 ## Stage D — audit and package · NOT STARTED

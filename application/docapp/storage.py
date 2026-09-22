@@ -132,11 +132,17 @@ def _quietly_remove(path: str) -> None:
         pass
 
 
-def build_storage(backend: str, data_dir: str) -> Storage:
-    """Factory. Lab 3 adds a branch here; nothing else in the application changes."""
+def build_storage(backend: str, data_dir: str, bucket: str = "") -> Storage:
+    """Factory. One branch per backend, and nothing else in the application changes.
+
+    The Cloud Storage import happens inside its own module, not here, so the local path
+    starts with no third-party packages installed at all.
+    """
     if backend == "local":
         return LocalStorage(os.path.join(data_dir, "documents"))
+    if backend == "gcs":
+        from .gcs_storage import GcsStorage
+        return GcsStorage(bucket)
     raise StorageError(
-        f"Unknown storage backend {backend!r}. This build supports: local. "
-        f"(Lab 3 adds a Cloud Storage backend.)"
+        f"Unknown storage backend {backend!r}. This build supports: local, gcs."
     )

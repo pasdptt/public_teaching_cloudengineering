@@ -81,6 +81,8 @@ class Config:
     jobstore_backend: str
     queue_backend: str
     data_dir: str
+    bucket: str
+    project_id: str
     max_document_bytes: int
     processing_delay_ms: int
     log_level: str
@@ -97,10 +99,14 @@ class Config:
             # Managed execution platforms tell a container which port to listen on via
             # $PORT. Honouring it now means Lab 4 needs no code change.
             port=_env_int("PORT", 8080, minimum=1, maximum=65535),
-            storage_backend=_env_choice("DOCAPP_STORAGE", "local", ("local",)),
-            jobstore_backend=_env_choice("DOCAPP_JOBSTORE", "memory", ("memory", "file")),
+            storage_backend=_env_choice("DOCAPP_STORAGE", "local", ("local", "gcs")),
+            jobstore_backend=_env_choice("DOCAPP_JOBSTORE", "memory", ("memory", "file", "firestore")),
             queue_backend=_env_choice("DOCAPP_QUEUE", "inline", ("inline",)),
             data_dir=_env_str("DOCAPP_DATA_DIR", "./data"),
+            # Only needed by the cloud backends. Empty is fine on the local path, and each
+            # backend raises its own actionable error if it is missing when required.
+            bucket=os.environ.get("DOCAPP_BUCKET", "").strip(),
+            project_id=os.environ.get("DOCAPP_PROJECT_ID", "").strip(),
             max_document_bytes=_env_int(
                 "DOCAPP_MAX_DOCUMENT_BYTES", 65_536,
                 minimum=1, maximum=MAX_DOCUMENT_BYTES_LIMIT,
@@ -127,6 +133,8 @@ class Config:
             "jobstore": self.jobstore_backend,
             "queue": self.queue_backend,
             "data_dir": self.data_dir,
+            "bucket": self.bucket,
+            "project_id": self.project_id,
             "max_document_bytes": self.max_document_bytes,
             "processing_delay_ms": self.processing_delay_ms,
             "instance_id": self.instance_id,

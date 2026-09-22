@@ -16,8 +16,8 @@ from .storage import build_storage
 
 
 def build_application(config: Config) -> Application:
-    storage = build_storage(config.storage_backend, config.data_dir)
-    jobs = build_jobstore(config.jobstore_backend, config.data_dir)
+    storage = build_storage(config.storage_backend, config.data_dir, config.bucket)
+    jobs = build_jobstore(config.jobstore_backend, config.data_dir, config.project_id)
     service = DocumentService(config, storage, jobs)
     # The queue calls back into the service, and the service submits to the queue. The knot
     # is tied here rather than inside either of them, so neither has to know how the other

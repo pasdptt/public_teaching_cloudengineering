@@ -192,12 +192,16 @@ class FileJobStore:
             raise
 
 
-def build_jobstore(backend: str, data_dir: str) -> JobStore:
-    """Factory. Lab 3 adds a Firestore branch here; nothing else changes."""
+def build_jobstore(backend: str, data_dir: str, project_id: str = "") -> JobStore:
+    """Factory. One branch per backend; nothing else in the application changes."""
     if backend == "memory":
         return MemoryJobStore()
     if backend == "file":
         return FileJobStore(os.path.join(data_dir, "jobs", "jobs.json"))
+    if backend == "firestore":
+        from .firestore_jobstore import FirestoreJobStore
+        return FirestoreJobStore(project_id)
     raise JobStoreError(
-        f"Unknown job store backend {backend!r}. This build supports: memory, file."
+        f"Unknown job store backend {backend!r}. "
+        f"This build supports: memory, file, firestore."
     )

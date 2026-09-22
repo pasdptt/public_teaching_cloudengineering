@@ -1,8 +1,18 @@
-# Runtime dependencies: none.
+# Runtime dependencies.
 #
-# This is deliberate, not an omission. The application uses only the Python standard
-# library. See application/README.md for why, and what it buys the course.
+# The application runs on the standard library alone with its LOCAL backends. The two
+# packages below are needed only from Lab 3, when documents move to Cloud Storage and job
+# records to Firestore. They are imported lazily, inside the cloud backend modules, so a
+# student on the local or fallback path never needs them installed.
 #
-# Labs 3, 4 and 5 add cloud client libraries here, pinned, one at a time:
-#   Lab 3  google-cloud-storage, google-cloud-firestore
-#   Lab 5  google-cloud-pubsub
+# Pinned exactly. A dependency that changes under you is a reproducibility bug waiting for
+# the worst possible moment -- the same reasoning as the provider pin in infra/versions.tf.
+#
+# Measured 2026-09-22: these two add ~63 MB to site-packages (storage ~39, firestore ~24).
+# That matters because the image goes to Artifact Registry, whose free allowance is 0.5 GiB
+# (course/references.md R-10). The dependency layer is built once and cached; each later
+# build pushes only the small source layer. Comfortable -- provided old images are cleaned
+# up, which is why that is a step in Lab 6 rather than a footnote.
+
+google-cloud-storage==3.14.1
+google-cloud-firestore==2.31.0

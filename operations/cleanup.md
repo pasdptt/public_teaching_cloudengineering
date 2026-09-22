@@ -42,6 +42,7 @@ order students actually get caught:
 | **Cloud Run with `min-instances > 0`** | having no traffic | It looks idle; it is provisioned |
 | **Firestore *named* database** | — | Works identically to the free `(default)` one and qualifies for no free quota at all |
 | **A `dev` environment left up while `prod` runs** | attention | Two environments is two of everything, and the free tier allows one |
+| **A service account and its role bindings** | the thing it was created for | Costs nothing, grants something. An identity with write access to a bucket, outliving the service it was made for, is a finding rather than untidiness — and deleting the account does not always remove every binding it appears in |
 
 ## Per-lab teardown
 
@@ -49,8 +50,8 @@ order students actually get caught:
 |---|---|---|
 | 1 | `rm -rf application/data`; `docker rmi docapp:lab1` | Nothing billable. The habit only. |
 | 2 | `labs/lab-02/starter/05-teardown.sh` then `06-verify-clean.sh` | Boot disk; any address you reserved |
-| 3 | *authored with the lab* | Bucket contents and object versions; the Firestore database |
-| 4 | *authored with the lab* | Old images in Artifact Registry; `min-instances` |
+| 3 | manual — the commands are in the lab | Bucket contents and object versions; the Firestore database |
+| 4 | `labs/lab-04/starter/06-teardown.sh` then `07-verify-clean.sh` | **Old images in Artifact Registry** — invisible from the Cloud Run console; also the runtime service account |
 | 5 | *authored with the lab* | The subscription — an abandoned one retains and bills |
 | 6 | `terraform destroy` for **each** environment, then verify | State says it is gone; verify independently that it is |
 
@@ -73,6 +74,16 @@ gcloud pubsub subscriptions list     --project="$PROJECT_ID"
 gcloud pubsub topics list            --project="$PROJECT_ID"
 gcloud artifacts repositories list   --project="$PROJECT_ID"
 gcloud firestore databases list      --project="$PROJECT_ID"
+gcloud iam service-accounts list     --project="$PROJECT_ID"   # identities outlive their services
+```
+
+One of these lies to you by omission. `gcloud run services list` shows nothing after Lab 4's
+teardown, and the images that lab pushed can still be sitting in Artifact Registry using the
+0.5 GiB allowance. A repository that still exists needs its contents checked:
+
+```bash
+gcloud artifacts docker images list \
+  "${REGION}-docker.pkg.dev/${PROJECT_ID}/docapp" --project="$PROJECT_ID"
 ```
 
 Empty output from all of these is what "clean" means.
@@ -85,6 +96,8 @@ gcloud billing accounts list
 
 Then open the billing report in the console and look at the **daily** view for your project.
 Expected shape for this course: flat at zero, with a few cents around Lab 2 and Lab 6.
+Lab 4 should show **nothing at all** — if it does not, the first two things to check are
+`min-instances` and how much is sitting in Artifact Registry.
 
 A line you cannot explain is the important one. Find out what it is before it becomes a
 pattern — the amount will be trivial, and the reason will not be.

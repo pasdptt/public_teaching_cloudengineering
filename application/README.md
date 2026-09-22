@@ -132,6 +132,12 @@ idempotency key returns the same job, that reprocessing a finished job does no w
 failed job is recorded as failed rather than crashing the worker, and that ten simultaneous
 requests produce ten jobs.
 
+Two files pin the course's two hardest lessons as tests rather than as prose.
+`test_state_is_not_in_the_process.py` is Lab 1's: state inside a process dies with it.
+`test_two_instances_disagree.py` is Lab 4's: two healthy instances, nothing crashed, and two
+different answers to the same question — including an idempotency key that silently stops
+working. Read both before the labs that need them.
+
 ## How the code is laid out
 
 ```text
@@ -147,7 +153,18 @@ docapp/
   logs.py         Structured JSON logs to stdout
   wiring.py       Builds the object graph from config
   __main__.py     Entry point
+
+tools/
+  measure.py      Load measurement: N requests, C in flight, latency percentiles
+  instances.py    How many instances answered a burst, read from X-Instance-Id
 ```
+
+Both tools are standard-library only and bounded by default — an unbounded request
+generator pointed at a metered service is how a free tier becomes a bill. Both take a
+repeatable `--header`, which is how Lab 4 measures a service that refuses callers with no
+identity. **Read the `--help` epilogue of each before drawing a conclusion from its output**:
+the limitations printed there are part of what the course is teaching, and several marks in
+Lab 4 are sitting in them.
 
 The three `Protocol` classes are the seams. Each lab supplies a new implementation of one
 of them and changes an environment variable; no lab rewrites the application. That is the

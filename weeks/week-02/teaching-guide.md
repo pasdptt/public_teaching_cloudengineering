@@ -23,15 +23,17 @@
 
 | Block | Min | Content |
 |---|---|---|
-| Processes | 20 | What the OS gives a process. Isolation as the base case. |
-| Ports and binding | 15 | Live demo: two servers, one port. Then loopback vs all-interfaces. |
-| HTTP | 25 | Live `curl -i`. Methods, status classes, headers. Request-id tracing. |
+| Processes | 15 | What the OS gives a process. Isolation as the base case. |
+| Ports and binding | 10 | Live demo: two servers, one port. Then loopback vs all-interfaces. |
+| HTTP | 20 | Live `curl -i`. Methods, status classes, headers. Request-id tracing. |
 | Break | 10 | |
-| Virtualization | 20 | Hypervisor, guest OS, the cost of a whole OS per tenant |
-| Containers | 30 | Namespaces and cgroups. **The shared-kernel demo.** Images and layers. |
+| Virtualization | 15 | Hypervisor, guest OS, the cost of a whole OS per tenant |
+| Containers | 25 | Namespaces and cgroups. **The shared-kernel demo.** Images and layers. |
 | **Quiz 1** | 15 | Covers week 1 |
-| Discussion | 15 | Lab 1 prediction questions, hands up, before anyone runs anything |
+| Discussion | 10 | Lab 1 prediction questions, hands up, before anyone runs anything |
 | Practical | 60 | Lab 1 Parts 1–2 |
+
+**180 minutes exactly.** 85 concepts · 15 quiz · 10 discussion · 60 practical, plus the break.
 
 ---
 
@@ -98,7 +100,7 @@ Hand it back the following week. Ten students, short answers — budget 30–45 
 
 ---
 
-## Discussion: Lab 1 predictions (15 min)
+## Discussion: Lab 1 predictions (10 min)
 
 Put the three prediction questions from `labs/lab-01/README.md` on screen. Take a **show of
 hands** on question 3 — will median latency rise, fall, or stay flat as concurrency goes up?

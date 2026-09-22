@@ -21,15 +21,17 @@
 
 | Block | Min | Content |
 |---|---|---|
-| Four abstractions | 30 | Each by access pattern. Block → their Lab 2 boot disk. |
+| Four abstractions | 25 | Each by access pattern. Block → their Lab 2 boot disk. |
 | **Object storage properly** | 25 | No partial write, no append. Why that changed architecture. |
-| Durability vs availability | 20 | What eleven nines does and does not claim |
+| Durability vs availability | 15 | What eleven nines does and does not claim |
 | Break | 10 | |
-| Access control on storage | 15 | Uniform access, public access prevention. Week 1's boundary, made concrete. |
-| Storage cost | 15 | Storage, operations, egress. **Class A vs Class B asymmetry.** |
+| Access control on storage | 10 | Uniform access, public access prevention. Week 1's boundary, made concrete. |
+| Storage cost | 10 | Storage, operations, egress. **Class A vs Class B asymmetry.** |
 | **Quiz 3** | 15 | Weeks 3–5 |
-| Discussion | 15 | The Lab 3 selection decision, argued aloud before anyone writes it |
+| Discussion | 10 | The Lab 3 selection decision, argued aloud before anyone writes it |
 | Practical | 60 | Lab 3 Parts 1–2 |
+
+**180 minutes exactly.** 85 concepts · 15 quiz · 10 discussion · 60 practical, plus the break.
 
 ---
 
@@ -77,7 +79,7 @@ pass the tests. Do not tell them which is which; question 3 in the stub docstrin
 
 ---
 
-## Discussion (15 min): argue the selection out loud
+## Discussion (10 min): argue the selection out loud
 
 Put the two workloads on screen with their access patterns. Two teams: one argues job records
 belong in object storage, the other that documents belong in a database. Both are wrong, and

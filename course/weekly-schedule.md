@@ -2,8 +2,11 @@
 
 Relative weeks 1–15. Real dates come from `planning/calendar-worksheet.md` (Q-01).
 
-Session envelope every week: **90 min concepts · 30 min discussion or quiz · 60 min guided
-practical**. Quizzes take discussion time, never extra time.
+Session envelope every week: **~90 min concepts · ~30 min discussion or quiz · 60 min guided
+practical**, totalling the 180-minute contact block. Quizzes take discussion time, never extra
+time. Most weeks also spend 10 of those minutes on a break, which comes out of the concept
+allowance and leaves ~80–90 — so the per-week plans in `weeks/*/teaching-guide.md` are the
+authoritative arithmetic, and `planning/audit.py` checks that each one sums to exactly 180.
 
 Threads that run through the whole course rather than sitting in one week: identity and
 least privilege, cost awareness, cleanup, and observability. Each is introduced with the
@@ -254,8 +257,10 @@ worth reproducing before reproducibility is meaningful. Scripted creation and te
 start in Lab 2; Terraform in week 12 replaces a script students have already been
 maintaining by hand, so the declarative model answers a problem they have felt.
 
-**Why Lab 6 is a single week.** It reuses components from Labs 2–5 rather than building
-anything new, and week 12 must end the billable phase early enough to leave trial slack
-for the project.
+**Why Lab 6 spans two weeks and still adds no implementation workload.** It reuses
+components from Labs 2–5 rather than building anything new: week 12 replaces scripts students
+have been maintaining by hand since Lab 2, and week 13 wires up a pipeline around a test suite
+that has been running since week 3. The billable phase still ends in week 13, early enough to
+leave trial slack for the project (D-24, D-28).
 
 Any change to this sequence is recorded with its reason in `planning/decisions.md`.

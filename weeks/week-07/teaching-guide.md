@@ -22,14 +22,16 @@
 
 | Block | Min | Content |
 |---|---|---|
-| Replication | 15 | What it buys; the disagreement window it creates |
-| **Consistency models** | 30 | Three models by observable behaviour, not by definition |
-| Per-operation reasoning | 20 | Two reads in *their* application with different requirements |
+| Replication | 10 | What it buys; the disagreement window it creates |
+| **Consistency models** | 25 | Three models by observable behaviour, not by definition |
+| Per-operation reasoning | 15 | Two reads in *their* application with different requirements |
 | Break | 10 | |
-| **Transactions and the race** | 25 | **Live: find the check-then-act in `service.py`** |
-| Choosing a data service | 20 | The checklist. Idle cost, and why it decided this course. |
-| Discussion | 30 | Same workload, three candidate stores, defend one |
+| **Transactions and the race** | 20 | **Live: find the check-then-act in `service.py`** |
+| Choosing a data service | 15 | The checklist. Idle cost, and why it decided this course. |
+| Discussion | 25 | Same workload, three candidate stores, defend one |
 | Practical | 60 | Lab 3 Parts 3–5 |
+
+**180 minutes exactly.** 85 concepts · 25 discussion · 60 practical, plus the break.
 
 ---
 
@@ -82,7 +84,7 @@ was **contextual**, not a ranking of databases.
 
 ---
 
-## Discussion (30 min): defend one
+## Discussion (25 min): defend one
 
 One workload — "a small service storing 50,000 user profiles, read by id on every request,
 updated rarely, with an occasional report grouping users by country". Three candidates: a

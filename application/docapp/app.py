@@ -259,10 +259,28 @@ def _monotonic_ms() -> int:
     return int(time.monotonic() * 1000)
 
 
+class _Server(ThreadingHTTPServer):
+    """The stdlib server with one default corrected.
+
+    ``socketserver`` listens with a backlog of 5: at most five connections may sit waiting
+    to be accepted, and the sixth arrival is refused by the operating system before any
+    Python code sees it. That is invisible at concurrency 4 and very visible at concurrency
+    20, where it shows up as a scatter of connection errors that look like the application
+    failing and are nothing of the sort.
+
+    It matters here because Lab 4 compares this server under load against a managed
+    platform, and a comparison is worthless if one side is capped by an accidental default
+    nobody chose. 128 is not a tuned number; it is "larger than any concurrency this
+    course's tools can generate", which is the honest justification for it.
+    """
+
+    request_queue_size = 128
+
+
 def make_server(config: Config, application: Application) -> ThreadingHTTPServer:
     """Build the server without starting it, so tests can drive it on a random port."""
     handler = type("BoundHandler", (Handler,), {"application": application})
-    server = ThreadingHTTPServer((config.host, config.port), handler)
+    server = _Server((config.host, config.port), handler)
     # Threads do not outlive the process. Under Ctrl-C a request in flight is abandoned
     # rather than blocking shutdown -- acceptable here, and a topic revisited in week 11
     # when graceful shutdown starts to matter.

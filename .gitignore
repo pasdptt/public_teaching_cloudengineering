@@ -61,5 +61,7 @@ Thumbs.db
 .vscode/
 *.swp
 
-# Lab 2 student config (holds a project id)
+# Student lab config (holds a project id). One line per lab rather than a glob, so that
+# adding a lab is a deliberate act and a stray config.env somewhere else is still visible.
 labs/lab-02/starter/config.env
+labs/lab-04/starter/config.env

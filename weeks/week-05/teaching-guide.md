@@ -23,13 +23,15 @@
 
 | Block | Min | Content |
 |---|---|---|
-| VPC, subnets, routes | 20 | Software-defined networking. The global-VPC quirk, named as a real difference. |
+| VPC, subnets, routes | 15 | Software-defined networking. The global-VPC quirk, named as a real difference. |
 | Firewall rules | 25 | Allow-lists, default deny, source ranges, **target scoping** |
 | **Two boundaries** | 25 | `DOCAPP_HOST` vs the rule. **The refused-vs-hung demo.** |
-| Public and private | 15 | Private-only as a default for things that need no inbound traffic |
+| Public and private | 10 | Private-only as a default for things that need no inbound traffic |
 | Load balancing | 15 | Stable front door, health checks — and the same slow-vs-dead problem |
 | Discussion | 30 | Architecture exercise: narrow an over-permissive design |
 | Practical | 60 | Lab 2 Parts 3–6, ending with verified teardown |
+
+**180 minutes exactly.** 90 concepts · 30 discussion · 60 practical. No break row: take one inside the firewall block, which is the longest.
 
 ---
 

@@ -23,15 +23,16 @@
 
 | Block | Min | Content |
 |---|---|---|
-| Crossing the boundary | 20 | Latency table. The chatty-design worked example. |
+| Crossing the boundary | 15 | Latency table. The chatty-design worked example. |
 | **Slow vs dead** | 25 | The core idea. Timeouts as guesses. The retry dilemma. |
-| Idempotency | 20 | The escape. **Live demo** in the application. |
+| Idempotency | 15 | The escape. **Live demo** in the application. |
 | Break | 10 | |
-| Where state lives | 25 | Three levels. Tie directly to what they saw in Lab 1 Part 3. |
-| Stateless execution | 15 | What it unlocks; what forecloses it |
-| Failure boundaries | 15 | Blast radius; the two questions |
-| **Discussion** | 30 | Lab 1 Part 3 results compared across the room |
+| Where state lives | 20 | Three levels. Tie directly to what they saw in Lab 1 Part 3. |
+| Stateless execution | 15 | What it unlocks, what forecloses it, and the blast radius that follows |
+| **Discussion** | 20 | Lab 1 Part 3 results compared across the room |
 | Practical | 60 | Lab 1 Parts 4–5 |
+
+**180 minutes exactly.** 90 concepts · 20 discussion · 60 practical, plus the break.
 
 ---
 
@@ -87,7 +88,7 @@ and it is the problem Lab 3 solves.
 
 ---
 
-## Discussion: compare Part 3 results (30 min)
+## Discussion: compare Part 3 results (20 min)
 
 Ask for hands: who predicted the document would survive the restart? Who predicted the job
 would? Then who predicted correctly for the *container* case?

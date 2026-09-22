@@ -4,7 +4,7 @@ Every entry is either **CONFIRMED** (settled by the academic team) or **DEFAULT*
 (a design proposal adopted so work can proceed; revisable without redesigning the course).
 Do not re-open CONFIRMED entries without recording a superseding decision here.
 
-Last updated: 2026-09-21.
+Last updated: 2026-09-22.
 
 ---
 
@@ -62,6 +62,18 @@ re-sequencing, not an addition on top.
 `course/weekly-schedule.md` (weeks 12–14), `course/assessment-plan.md` (quiz coverage, Lab 6
 spans two weeks), `course/workload-budget.md` (weeks 2, 3, 12, 13 re-balanced; every week
 still totals exactly 180), `labs/lab-06/`, `infra/`, and `.github/workflows/`.
+
+---
+
+## B3. Decisions taken while authoring Lab 4 (2026-09-22)
+
+| ID | Decision | Rationale |
+|---|---|---|
+| D-29 | **The Lab 4 service is deployed private (`--no-allow-unauthenticated`) and stays private**, with the load generator carrying an identity token. `measure.py` and the new `tools/instances.py` gained a generic repeatable `--header` flag to make that possible. | Every tutorial for this service makes it public with one flag, and a course that teaches least privilege and then opens a public endpoint for convenience has taught the opposite of what it said. Keeping it closed also removes a real risk: a bounded 40-request experiment stops being bounded if anyone on the internet can contribute to it. The flag is generic rather than Google-specific so the tool stays honest about being a plain HTTP client. |
+| D-30 | **Lab 4 compares against the students' recorded Lab 2 and Lab 3 numbers rather than re-creating the VM.** Re-creating it is offered as an optional extra costing ~$0.01, which must be declared. | Re-creating the VM would put a billed external IP back into a lab whose cost table says $0.00, for a comparison that can be made from data students already have. The confounds that come with comparing across weeks are then turned into the assessed content of band B4 — which is more valuable than a clean table, and is the same skill week 14 and the project need. |
+| D-31 | **The first Lab 4 deployment is deliberately half-correct**: documents in Cloud Storage, job records in each instance's memory. | A fully-broken configuration (local storage as well) makes job creation fail with a 400 before the interesting failure can happen, because the second instance cannot see the document. Sharing the documents isolates the variable, so the student sees two kinds of state treated identically by the code and behaving differently — which is the lesson — rather than a confusing cascade. |
+| D-32 | **Session plans are checked mechanically against the 180-minute contact block** (`audit.py` check 6). | Found by authoring week 8: the session plans in weeks 1, 2, 3, 5, 6 and 7 summed to between 190 and 220 minutes. Nothing caught it, because the existing workload check covers independent study only. An over-long plan is not a plan — the block that gets cut on the day is whichever is last, and in every guide that is the practical. All six were rebalanced by trimming concept blocks; the 60-minute practical and the quiz were left untouched in every case. |
+| D-33 | **The container image creates `/app/data` and gives it to the unprivileged user.** | Found while authoring Lab 4, not by running it: `/app` is owned by root, the process is not, and the local storage backend calls `os.makedirs` at startup. The container would have failed to start on Cloud Run with a permission error arriving from Iowa. The Dockerfile has still never been built (no container runtime has been available in any authoring session), so this is a reviewed fix, not a verified one. |
 
 ---
 

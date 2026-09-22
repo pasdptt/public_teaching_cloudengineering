@@ -24,15 +24,17 @@ By the end of the session a student can:
 
 | Block | Min | Content |
 |---|---|---|
-| Opening | 10 | What the course is and is not. The one-application promise. |
-| The problem | 20 | Pre-cloud capacity planning. Build to the peak. Statistical multiplexing. |
-| Five characteristics | 25 | NIST's five, each with its consequence |
+| Opening | 5 | What the course is and is not. The one-application promise. |
+| The problem | 15 | Pre-cloud capacity planning. Build to the peak. Statistical multiplexing. |
+| Five characteristics | 20 | NIST's five, each with its consequence |
 | **Metering, properly** | 15 | Provisioned ≠ used. The idle-IP example. Why teardown is graded. |
 | Break | 10 | |
-| Service models | 20 | The stack, and who operates each layer |
-| Shared responsibility | 20 | The rule, then three worked incidents |
-| **Discussion** | 30 | Incident attribution exercise (below) |
+| Service models | 15 | The stack, and who operates each layer |
+| Shared responsibility | 15 | The rule, then three worked incidents |
+| **Discussion** | 25 | Incident attribution exercise (below) |
 | **Practical** | 60 | Environment check, first run, troubleshooting |
+
+**180 minutes exactly.** 85 concepts · 25 discussion · 60 practical, plus the break.
 
 Quizzes replace part of the discussion block in weeks 2, 4, 6, 8, 10, 12 and 14. This week
 the discussion block is intact.
@@ -86,7 +88,7 @@ back in week 11.
 
 ---
 
-## Discussion exercise (30 min)
+## Discussion exercise (25 min)
 
 Four incidents on a slide. Small groups, five minutes each, then whole-room.
 

@@ -9,15 +9,22 @@ Last updated: **2026-09-22** · Current stage: **A and B complete → C in progr
 
 ## Next concrete action
 
-> **Author Lab 2 and weeks 4–5** (compute and networking). Before writing any steps, verify
-> on a real unupgraded trial account that: one `e2-micro` in `us-central1` is genuinely free;
-> an ephemeral external IP behaves as `operations/cost-model.md` §2 claims; and the whole lab
-> can be created and destroyed inside the free tier. Then write the lab to the Lab 1 template
-> — same section list, same four rubric bands, same predict → implement → measure → explain
-> cycle.
+> **Author Lab 5 and weeks 10–11** (queues, duplicates, idempotency, resilience). The seam is
+> already in place: `docapp/queue.py` has the `Queue` Protocol and `InlineQueue`, and
+> `build_queue` has the branch comment where Pub/Sub goes. `config.py`'s `queue_backend`
+> currently accepts only `("inline",)` and must gain the new value there as well.
 >
-> Lab 2 also needs `operations/cleanup.md`, which is a placeholder until a lab creates
-> something billable.
+> Write it to the Lab 3/Lab 4 template — same section list, same four rubric bands, same
+> predict → implement → measure → explain cycle. The assessed idea is **idempotency**, not the
+> queue product; `service.run_job` already returns early for terminal jobs, and Lab 5's job is
+> to make students prove that early return is load-bearing rather than decorative.
+>
+> Two things to get right before writing steps:
+> - **A subscription with no consumer retains messages and bills for storage.** Teardown must
+>   name it explicitly, and `operations/cleanup.md` already has the row.
+> - Lab 5 reuses Lab 4's Cloud Run service, which Lab 4 tears down. Decide whether week 10
+>   redeploys from the same image or whether Lab 4's teardown should keep the registry — and
+>   record the decision either way.
 
 ---
 
@@ -62,8 +69,9 @@ piloted the labs under the intended access model.
 
 **Mechanical audit (`python3 planning/audit.py`) passes**, checking: all 11 relative links
 resolve · all 15 weekly workload rows sum to exactly 180 · assessment weights total 100%
-and 6 × 7.5% = 45% · 80 files scanned, no answer-key or credential-shaped content · all
-eight CLOs present in the assessment plan. Run it before every commit.
+and 6 × 7.5% = 45% · 153 files scanned, no answer-key or credential-shaped content · all
+nine CLOs present in the assessment plan · **all 9 authored session plans sum to exactly 180
+contact minutes** (check 6, added 2026-09-22). Run it before every commit.
 
 **One inconsistency was found and fixed during the audit:** Quiz 6 (week 12) had been
 mapped to CLO-4 and to CLO-7 conceptual material taught in that same session. It now
@@ -182,10 +190,57 @@ top — 15 weeks and 180 min/week are fixed.
 | `weeks/week-06`, `week-07` guides + notes | done | REVIEWED |
 | Instructor reference backends (private repo) | done | **NOT EXECUTED** — reviewed against google-cloud-storage 3.x and google-cloud-firestore 2.x; no project was available |
 
+### Lab 4 authored (2026-09-22)
+
+| Artefact | Status | Validation |
+|---|---|---|
+| `labs/lab-04/README.md` + `rubric.md` | done | REVIEWED |
+| `labs/lab-04/starter/` — `lib.sh`, `config.env.example`, 7 scripts | done | **EXECUTED** — `bash -n` clean on all 8; all **seven guard rails triggered correctly in isolation** (missing config, unedited project id, non-free-tier region, `MIN_INSTANCES != 0`, `MAX_INSTANCES > 10`, non-numeric max, and the all-valid path) |
+| `tools/instances.py` — counts the instances answering a burst | done | **EXECUTED** — run against a live local server at concurrency 10 and 30 |
+| `tools/measure.py` — repeatable `--header` (D-29) | done | **EXECUTED** — run with and without headers; existing behaviour unchanged |
+| `tests/test_two_instances_disagree.py` — 3 tests | done | **EXECUTED** — suite grew 62 → **65 tests, all passing** |
+| `docapp/app.py` — listen backlog raised to 128 | done | **EXECUTED** — see below |
+| `Dockerfile` — `/app/data` created and chowned (D-33) | done | **REVIEWED, NOT BUILT** — still no container runtime in any authoring session |
+| `weeks/week-08`, `week-09` guides + notes | done | REVIEWED |
+| `operations/cleanup.md` — Lab 4 rows, service-account row, registry check | done | REVIEWED |
+| `audit.py` check 6 — session plans sum to 180 | done | **EXECUTED** — found 6 real defects, see below |
+
+**Nothing in Lab 4 has been run against Google Cloud.** No `gcloud` command in it has been
+executed, no image has been built, no service deployed. Every command is reviewed against
+current documentation and none is verified. Specific things a pilot must confirm
+(**NEEDS CLOUD**): that `gcloud auth print-identity-token` is accepted by a private Cloud Run
+service without an explicit `--audiences`; that the roles a student picks in
+`04-runtime-identity.sh` are sufficient and minimal; that the Part 3 fan-out reproduces often
+enough to teach with; and that a 15-minute idle really scales to zero.
+
+**Two real bugs were found and fixed while authoring, neither by running the lab:**
+
+1. **The server's listen backlog was the stdlib default of 5**, so roughly a third of a
+   30-request concurrent burst was refused by the operating system before Python saw it.
+   Invisible at the concurrency Labs 1 and 3 use, and it would have corrupted the local
+   baseline Lab 4 compares against. Raised to 128 in `docapp/app.py`; the same burst now
+   completes 60/60 with zero failures. **Measured before and after.**
+2. **The container image could not have started on Cloud Run.** `/app` is owned by root, the
+   process runs as `appuser`, and `LocalStorage` calls `os.makedirs` at startup. Fixed in the
+   Dockerfile (D-33) — but still not built, so this is reasoning, not evidence.
+
+### A course-wide defect found and fixed (D-32)
+
+Adding the session-plan check to `audit.py` immediately failed **six of the seven authored
+teaching guides**: weeks 1, 2, 3, 5, 6 and 7 had session plans summing to 190–220 minutes
+against a fixed 180-minute contact block. Only week 4 was correct.
+
+Nothing had caught it — the existing workload check covers independent study only. All six
+were rebalanced by trimming concept blocks; **the 60-minute practical and every quiz were
+left untouched**, because the last block is what actually gets cut on the day. Section
+headings carrying their own durations were corrected to match, and
+`course/weekly-schedule.md`'s envelope sentence now accounts for the break rather than
+implying 180 minutes of teaching plus a break.
+
 ### Still to author
 
-Labs 4, 5 · weeks 8–11 · weeks 12–14 teaching content · quizzes 1–7 and keys · the project
-package · instructor solutions for Labs 2, 4, 5, 6. Operational guidance is authored **with** each
+Labs 5 · weeks 10–14 teaching content · quizzes 1–7 and keys · the project package ·
+instructor solutions for Labs 2, 4, 5, 6. Operational guidance is authored **with** each
 cloud exercise, never afterwards.
 
 ## Stage D — audit and package · NOT STARTED

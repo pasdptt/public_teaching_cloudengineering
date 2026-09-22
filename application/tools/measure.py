@@ -43,10 +43,13 @@ class Result:
         self.error = error
 
 
-def one_request(base: str, document_id: str, operation: str, timeout: float) -> Result:
+def one_request(base: str, document_id: str, operation: str, timeout: float,
+                extra_headers: dict[str, str] | None = None) -> Result:
     payload = json.dumps({"document_id": document_id, "operation": operation}).encode()
     req = urllib.request.Request(base + "/jobs", data=payload, method="POST")
     req.add_header("Content-Type", "application/json")
+    for name, value in (extra_headers or {}).items():
+        req.add_header(name, value)
     started = time.perf_counter()
     try:
         with urllib.request.urlopen(req, timeout=timeout) as resp:
@@ -60,7 +63,8 @@ def one_request(base: str, document_id: str, operation: str, timeout: float) -> 
         return Result((time.perf_counter() - started) * 1000, 0, type(exc).__name__)
 
 
-def upload_document(base: str, path: str | None) -> str:
+def upload_document(base: str, path: str | None,
+                    extra_headers: dict[str, str] | None = None) -> str:
     if path:
         with open(path, "rb") as fh:
             data = fh.read()
@@ -69,12 +73,15 @@ def upload_document(base: str, path: str | None) -> str:
     req = urllib.request.Request(base + "/documents", data=data, method="POST")
     req.add_header("Content-Type", "text/plain")
     req.add_header("X-Document-Name", "measure.txt")
+    for name, value in (extra_headers or {}).items():
+        req.add_header(name, value)
     with urllib.request.urlopen(req, timeout=30) as resp:
         return json.loads(resp.read().decode())["id"]
 
 
 def run(base: str, document_id: str, operation: str, total: int, concurrency: int,
-        timeout: float, deadline: float) -> list[Result]:
+        timeout: float, deadline: float,
+        extra_headers: dict[str, str] | None = None) -> list[Result]:
     results: list[Result] = []
     lock = threading.Lock()
     counter = {"sent": 0}
@@ -85,7 +92,7 @@ def run(base: str, document_id: str, operation: str, total: int, concurrency: in
                 if counter["sent"] >= total or time.monotonic() > deadline:
                     return
                 counter["sent"] += 1
-            result = one_request(base, document_id, operation, timeout)
+            result = one_request(base, document_id, operation, timeout, extra_headers)
             with lock:
                 results.append(result)
 
@@ -110,6 +117,25 @@ def percentile(values: list[float], p: float) -> float:
     return ordered[index]
 
 
+def parse_headers(raw: list[str]) -> dict[str, str]:
+    """Turn ``["Name: value", ...]`` into a dict, or say precisely what was wrong.
+
+    Values are never printed back by this tool. One of them is usually a bearer token, and
+    a load generator that echoes credentials into a terminal — or into a lab submission —
+    has created a problem bigger than the measurement it was taking.
+    """
+    headers: dict[str, str] = {}
+    for item in raw:
+        name, sep, value = item.partition(":")
+        if not sep or not name.strip() or not value.strip():
+            raise ValueError(
+                f"--header must look like 'Name: value', but got {item!r}. "
+                f"Example: --header 'Authorization: Bearer <token>'"
+            )
+        headers[name.strip()] = value.strip()
+    return headers
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description=__doc__,
@@ -128,6 +154,18 @@ Honest limitations — read these before concluding anything
   * This tool measures job *creation*. Whether the work is finished when the response
     arrives depends on the queue backend — and noticing that difference is the whole point
     of Lab 5.
+
+Measuring a service that requires an identity
+---------------------------------------------
+  Lab 4 deploys a service that refuses unauthenticated callers. Pass the credential as a
+  header, and keep it out of your shell history and out of your submission:
+
+    python3 tools/measure.py --url "$SERVICE_URL" \
+      --header "Authorization: Bearer $(gcloud auth print-identity-token)"
+
+  The header is sent on every request, so a token that expires mid-run shows up as a wall
+  of HTTP 401s rather than as slow requests. That is a real failure mode, and reading it
+  correctly off this report is part of the exercise.
 """)
     parser.add_argument("--url", default="http://127.0.0.1:8080", help="base URL of the service")
     parser.add_argument("--requests", type=int, default=30, help=f"total requests (max {MAX_REQUESTS})")
@@ -135,6 +173,9 @@ Honest limitations — read these before concluding anything
     parser.add_argument("--operation", default="wordcount", choices=("wordcount", "checksum", "extract"))
     parser.add_argument("--document", help="path to a document to upload first (default: built-in)")
     parser.add_argument("--timeout", type=float, default=30.0, help="per-request timeout in seconds")
+    parser.add_argument("--header", action="append", default=[], metavar="NAME: VALUE",
+                        help="extra request header; repeatable. Used in Lab 4 to carry an "
+                             "identity token to a service that requires one.")
     parser.add_argument("--json", action="store_true", help="emit JSON instead of a table")
     args = parser.parse_args(argv)
 
@@ -144,9 +185,14 @@ Honest limitations — read these before concluding anything
     if not 1 <= args.concurrency <= MAX_CONCURRENCY:
         parser.error(f"--concurrency must be between 1 and {MAX_CONCURRENCY}.")
 
+    try:
+        extra_headers = parse_headers(args.header)
+    except ValueError as exc:
+        parser.error(str(exc))
+
     base = args.url.rstrip("/")
     try:
-        document_id = upload_document(base, args.document)
+        document_id = upload_document(base, args.document, extra_headers)
     except Exception as exc:  # noqa: BLE001
         print(f"Could not upload the test document to {base}: {exc}\n"
               f"Is the service running, and is --url right?", file=sys.stderr)
@@ -155,7 +201,7 @@ Honest limitations — read these before concluding anything
     wall_start = time.perf_counter()
     deadline = time.monotonic() + MAX_DURATION_S
     results = run(base, document_id, args.operation, args.requests,
-                  args.concurrency, args.timeout, deadline)
+                  args.concurrency, args.timeout, deadline, extra_headers)
     wall_s = time.perf_counter() - wall_start
 
     ok = [r for r in results if 200 <= r.status < 300]

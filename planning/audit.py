@@ -7,7 +7,8 @@ Checks that can be made mechanically, so they are not re-argued every session:
   2. Every row of the weekly workload table sums to exactly 180 minutes.
   3. Assessment weights sum to 100%.
   4. No answer-key, solution or credential-shaped content in this public repo.
-  5. Every course learning outcome (CLO-1..8) is referenced in the assessment plan.
+  5. Every course learning outcome (CLO-1..9) is referenced in the assessment plan.
+  6. Every authored teaching guide's session plan sums to exactly 180 contact minutes.
 
 Run from anywhere:  python3 planning/audit.py
 Exit code 0 = clean, 1 = problems found.
@@ -122,6 +123,43 @@ if plan.exists():
         if f"CLO-{i}" not in text:
             problems.append(f"CLO-{i} never appears in course/assessment-plan.md")
     notes.append("CLO-1..9 presence in assessment plan: checked")
+
+# -------------------------------------- 6. session plans = 180 contact min
+#
+# A-05/A-06 fix the session at three hours. A session plan that sums to more than that is
+# not a plan, it is a wish: the block that gets cut on the day is whichever one is last,
+# which in every one of these guides is the practical. Checking it mechanically is the only
+# way it stays true as the guides are edited.
+SESSION_ROW = re.compile(r"^\|\s*(?!Block\b)([^|]+?)\s*\|\s*(\d+)\s*\|")
+guides = 0
+for wk in range(1, 16):
+    guide = ROOT / "weeks" / f"week-{wk:02d}" / "teaching-guide.md"
+    if not guide.exists():
+        continue
+    text = guide.read_text(encoding="utf-8")
+    if "STATUS: not yet authored" in text:
+        continue
+    lines = text.splitlines()
+    try:
+        start = next(i for i, ln in enumerate(lines)
+                     if ln.strip().startswith("| Block") and "Min" in ln)
+    except StopIteration:
+        problems.append(f"week {wk:02d} teaching guide has no session-plan table")
+        continue
+    total = 0
+    for ln in lines[start + 2:]:
+        if not ln.strip().startswith("|"):
+            break
+        m = SESSION_ROW.match(ln.strip())
+        if m:
+            total += int(m.group(2))
+    guides += 1
+    if total != 180:
+        problems.append(
+            f"week {wk:02d} session plan sums to {total} min, not 180 "
+            f"(the contact block is three hours, A-05/A-06)"
+        )
+notes.append(f"authored session plans checked: {guides}")
 
 # ------------------------------------------------------------------ report
 print("Course repository audit")

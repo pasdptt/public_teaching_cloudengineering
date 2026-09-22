@@ -9,20 +9,25 @@ Last updated: **2026-09-22** · Current stage: **A and B complete → C in progr
 
 ## Next concrete action
 
-> **Author week 14** — synthesis and evidence-based evaluation — and then the assessment
-> package. Week 14 is the last teaching week with content to write (week 15 is demonstrations
-> and cleanup, and `course/weekly-schedule.md` already specifies its shape in full).
+> **Author week 15, then the assessment package.**
 >
-> Week 14 has an unusual amount to draw on. Lab 4's confounds paragraph, Lab 5's
-> proves/does-not-prove paragraph and Lab 6's difference table are all rehearsals for it, and
-> each has rubric language worth reusing rather than reinventing. It also carries **Quiz 7**
-> and the structured peer review.
+> **Week 15 is small but is not nothing**, and its placeholder currently *contradicts*
+> `course/weekly-schedule.md`: the placeholder carries the standard 90/30/60 session plan,
+> while the schedule specifies demonstrations up to 120 min · synthesis ~30 · cleanup and
+> reflection ~30. The schedule is right. `audit.py` does not catch this because it skips
+> files still marked "not yet authored" — worth fixing the file rather than the check.
 >
-> After that, in order of how much is blocked on them:
-> 1. **Quizzes 1–7 and their keys** — seven files here, seven in the private repo. Nothing
->    else depends on them, and they are the largest remaining gap.
-> 2. **The project package** — `project/brief.md`, `milestones.md` and `rubric.md` exist as
->    placeholders and are referenced from weeks 10, 13 and 14.
+> Week 15 needs: a demonstration running order and timing discipline for up to ten
+> presentations, the individual-question protocol for pairs (A-11 requires individual
+> accountability), the transfer discussion, and the in-session verified teardown, which is the
+> last chance to catch an orphaned resource before the trial lapses.
+>
+> Then, in order of how much is blocked on them:
+> 1. **Quizzes 1–7 and their keys** — seven files here, seven in the private repo. The largest
+>    remaining gap, and nothing depends on them.
+> 2. **The project package** — `project/brief.md`, `milestones.md` and `rubric.md` are
+>    placeholders and are referenced from weeks 10, 13, 14 and 15. The brief is released in
+>    week 10, so it is the more urgent of the two.
 > 3. Instructor solutions for Labs 2, 4 and 6.
 
 ---
@@ -69,7 +74,7 @@ piloted the labs under the intended access model.
 **Mechanical audit (`python3 planning/audit.py`) passes**, checking: all 11 relative links
 resolve · all 15 weekly workload rows sum to exactly 180 · assessment weights total 100%
 and 6 × 7.5% = 45% · 153 files scanned, no answer-key or credential-shaped content · all
-nine CLOs present in the assessment plan · **all 13 authored session plans sum to exactly 180
+nine CLOs present in the assessment plan · **all 14 authored session plans sum to exactly 180
 contact minutes** (check 6, added 2026-09-22). Run it before every commit.
 
 **One inconsistency was found and fixed during the audit:** Quiz 6 (week 12) had been
@@ -331,13 +336,38 @@ weeks and then going quiet at the one genuinely hard point would have been the w
 `deploy.yml`, the lab and the notes all state it and invite a reasoned answer — including
 "nothing, and here is why".
 
+### Week 14 authored (2026-09-22)
+
+| Artefact | Status | Validation |
+|---|---|---|
+| `weeks/week-14/teaching-guide.md` | done | REVIEWED — session plan sums to 180 (D-48) |
+| `weeks/week-14/student-notes.md` | done | REVIEWED |
+
+The last week with substantial new teaching content. Three things in it are new rather than
+assembly:
+
+- **The three-pass method for reading an architecture** — where state lives, where the
+  boundaries are, what each identity may do — which is what both the peer review and the
+  week 15 defence actually require.
+- **Lock-in priced in weeks**, with a per-component table for the course's own application
+  (D-50). Their `Protocol` seams made object storage cheap to move; Terraform and the queue's
+  semantics are the expensive pieces, and seeing that is the payoff for a design decision made
+  in week 2.
+- **The structured peer review** (D-49): four written questions, answered in silence, and the
+  author may not defend. Not graded.
+
+Everything else is deliberately revision. Lab 4's confounds paragraph and Lab 5's
+proves/does-not-prove paragraph are named in the guide as the rehearsals they were, and their
+rubric language is reused rather than reinvented.
+
 ### Still to author
 
-Week 14 · quizzes 1–7 and keys · the project package · instructor solutions for Labs 2, 4
+**Week 15** · quizzes 1–7 and keys · the project package · instructor solutions for Labs 2, 4
 and 6. Operational guidance is authored **with** each cloud exercise, never afterwards.
 
-**Nothing is carried forward this session.** Both items on the previous list — validating
-`infra/` and reconciling the pipeline with Labs 4 and 5 — are closed.
+**Carried forward:** `weeks/week-15/` is still a placeholder, and its session plan contradicts
+`course/weekly-schedule.md` — see the next action above. `audit.py` skips unauthored files, so
+nothing flagged it.
 
 ## Stage D — audit and package · NOT STARTED
 

@@ -125,6 +125,16 @@ them. `plan` and `apply` remain **NOT run** — they need a project and credenti
 
 ---
 
+## B7. Decisions taken while authoring week 14 (2026-09-22)
+
+| ID | Decision | Rationale |
+|---|---|---|
+| D-48 | **Week 14 runs 60 concepts · 15 quiz · 95 practical**, the largest practical block in the course. | `course/weekly-schedule.md` already called this "the extended practical"; this is what it means in minutes. Almost all of week 14's conceptual content is assembly of things taught earlier, and the actual skill — applying it to somebody else's design — cannot be lectured. Ninety-five minutes buys a real peer review plus supervised project work in the last week where cutting scope is still possible. |
+| D-49 | **The peer review is four written questions answered in silence before anyone speaks, and the author may not defend.** It is not graded. | Unstructured peer review produces politeness. The four questions force the three-pass reading method onto a design the reviewer did not build, and question 3 — "what would have to be true for this claim to be wrong?" — is the evidence standard from Labs 4 and 5 applied to someone else's work. The no-defence rule is the load-bearing part: the entire value is hearing how a design reads to an outsider, and a defence ends that in one sentence. Not graded because grading it would turn it back into a performance; it is CLO-8 evidence of engagement and preparation for the week 15 defence. |
+| D-50 | **Lock-in is taught as an estimate in weeks, with a per-component table for the course's own application**, not as a yes/no property or a warning. | "Are we locked in?" has no useful answer and invites either complacency or a cloud-agnostic architecture nobody needs. "Roughly how many weeks, and which component dominates?" is answerable, is the question a team is actually asked, and lets students see that their own `Protocol` seams made some pieces cheap and that Terraform and the queue's semantics are the expensive ones. It is also deliberately not an argument against managed services — they have spent Lab 2 and every teardown since learning what operating things yourself costs. |
+
+---
+
 ## C. Adopted defaults (revisable)
 
 | ID | Default | Why this default | What would change it |

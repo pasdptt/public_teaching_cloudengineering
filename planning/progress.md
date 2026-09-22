@@ -5,30 +5,32 @@ level, and the single next concrete action. Do not restart the design from the b
 
 Last updated: **2026-09-22** · Current stage: **A and B complete → C in progress** · tagged **v0.3.0**
 
+> **All 15 weeks of teaching content and all 6 labs now exist.** What remains in Stage C is
+> the assessment package: seven quizzes and their keys, and the project brief, milestones and
+> rubric. Nothing in the teaching sequence is blocked on them.
+
 ---
 
 ## Next concrete action
 
-> **Author week 15, then the assessment package.**
+> **Author the quizzes: 1–7 here, and their keys in the private repository.** This is now the
+> largest remaining gap by a distance, and nothing else is blocked on it.
 >
-> **Week 15 is small but is not nothing**, and its placeholder currently *contradicts*
-> `course/weekly-schedule.md`: the placeholder carries the standard 90/30/60 session plan,
-> while the schedule specifies demonstrations up to 120 min · synthesis ~30 · cleanup and
-> reflection ~30. The schedule is right. `audit.py` does not catch this because it skips
-> files still marked "not yet authored" — worth fixing the file rather than the check.
+> The specification already exists and should not be re-argued. `course/assessment-plan.md`
+> fixes which weeks each quiz draws on and which outcomes it assesses, states the question
+> styles that are in scope, and — importantly — lists what is **not** used: service-name
+> recall, pricing trivia, console paths, or anything answerable from a comparison table.
 >
-> Week 15 needs: a demonstration running order and timing discipline for up to ten
-> presentations, the individual-question protocol for pairs (A-11 requires individual
-> accountability), the transfer discussion, and the in-session verified teardown, which is the
-> last chance to catch an orphaned resource before the trial lapses.
+> Two constraints that have already been got wrong once each, so check both per quiz:
+> - **Never assess material from that day's session.** Quiz 6 sits in the week declarative
+>   infrastructure is first taught and must reach CLO-7 and CLO-9 only through the threads
+>   students have lived with — cleanup since Lab 2, CI since week 3.
+> - **Quiz 7 is the only quiz assessing CLO-8**, which is why dropping a lowest quiz stays
+>   safe for every other outcome. Do not weaken it.
 >
-> Then, in order of how much is blocked on them:
-> 1. **Quizzes 1–7 and their keys** — seven files here, seven in the private repo. The largest
->    remaining gap, and nothing depends on them.
-> 2. **The project package** — `project/brief.md`, `milestones.md` and `rubric.md` are
->    placeholders and are referenced from weeks 10, 13, 14 and 15. The brief is released in
->    week 10, so it is the more urgent of the two.
-> 3. Instructor solutions for Labs 2, 4 and 6.
+> Then: **the project package** (`project/brief.md` is released in week 10 and is referenced
+> from weeks 10, 13, 14 and 15, so it is the more urgent of the two files), and instructor
+> solutions for Labs 2, 4 and 6.
 
 ---
 
@@ -74,8 +76,9 @@ piloted the labs under the intended access model.
 **Mechanical audit (`python3 planning/audit.py`) passes**, checking: all 11 relative links
 resolve · all 15 weekly workload rows sum to exactly 180 · assessment weights total 100%
 and 6 × 7.5% = 45% · 153 files scanned, no answer-key or credential-shaped content · all
-nine CLOs present in the assessment plan · **all 14 authored session plans sum to exactly 180
-contact minutes** (check 6, added 2026-09-22). Run it before every commit.
+nine CLOs present in the assessment plan · **all 15 weekly session plans sum to exactly 180
+contact minutes, and all 15 weeks have authored guides and notes** (check 6, added and then
+tightened 2026-09-22). Run it before every commit.
 
 **One inconsistency was found and fixed during the audit:** Quiz 6 (week 12) had been
 mapped to CLO-4 and to CLO-7 conceptual material taught in that same session. It now
@@ -360,14 +363,41 @@ Everything else is deliberately revision. Lab 4's confounds paragraph and Lab 5'
 proves/does-not-prove paragraph are named in the guide as the rehearsals they were, and their
 rubric language is reused rather than reinvented.
 
+### Week 15 authored — **all 15 weeks now exist** (2026-09-22)
+
+| Artefact | Status | Validation |
+|---|---|---|
+| `weeks/week-15/teaching-guide.md` | done | REVIEWED — session plan sums to 180 (D-51) |
+| `weeks/week-15/student-notes.md` | done | REVIEWED |
+| `planning/audit.py` check 6, tightened (D-54) | done | **EXECUTED** — verified by deliberately reverting two files and confirming three problems reported |
+
+The placeholder contradiction flagged last session is resolved: week 15 is **120 min
+demonstrations · 30 synthesis · 30 cleanup and reflection**, which is what
+`course/weekly-schedule.md` has said since Stage A. Twelve minutes × ten groups is 120
+exactly, so the timing is a constraint rather than a suggestion.
+
+Two things in the guide are operational rather than conceptual, and both are deliberate:
+**teardown happens in the room and is watched** (D-52), because it is the last opportunity
+before the trial lapses; and a student who **finds** a resource still running is told
+explicitly that this is a good outcome (D-53), because the alternative is a cohort with an
+incentive not to look.
+
+The guide also carries the "after the session" list that this repository has been accumulating
+debts against all along: **every "Observed pilot time" field still says *not yet measured***,
+and week 15 is the session that ends that. Demonstration timings, teardown timings and per-lab
+completion times all get recorded in the private repository.
+
+**The audit that let the week 15 defect through is now the one that catches it.** Check 6
+requires all 15 weeks to have an authored guide and authored student notes, and reports a
+reverted placeholder rather than skipping it.
+
 ### Still to author
 
-**Week 15** · quizzes 1–7 and keys · the project package · instructor solutions for Labs 2, 4
+**Quizzes 1–7 and their keys** · the project package · instructor solutions for Labs 2, 4
 and 6. Operational guidance is authored **with** each cloud exercise, never afterwards.
 
-**Carried forward:** `weeks/week-15/` is still a placeholder, and its session plan contradicts
-`course/weekly-schedule.md` — see the next action above. `audit.py` skips unauthored files, so
-nothing flagged it.
+**Nothing is carried forward.** The week 15 placeholder contradiction is closed, and so is the
+check that allowed it.
 
 ## Stage D — audit and package · NOT STARTED
 

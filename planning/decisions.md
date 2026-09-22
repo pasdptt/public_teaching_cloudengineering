@@ -135,6 +135,17 @@ them. `plan` and `apply` remain **NOT run** — they need a project and credenti
 
 ---
 
+## B8. Decisions taken while authoring week 15 (2026-09-22)
+
+| ID | Decision | Rationale |
+|---|---|---|
+| D-51 | **Week 15 is 120 min demonstrations · 30 synthesis · 30 cleanup and reflection**, with no break block and no lecture. The placeholder's standard 90/30/60 plan was wrong and is corrected. | `course/weekly-schedule.md` has specified this shape since Stage A; the placeholder contradicted it and nothing caught the contradiction, because `audit.py` skipped files marked "not yet authored". Twelve minutes × ten groups is 120 exactly, with nothing spare, so the timing is a real constraint rather than a guide. |
+| D-52 | **Teardown is done together, in the session, and watched** — not assigned as homework. | It is the last opportunity before the trial lapses, a student who leaves with a running resource will not return to it, and the teardown order for Lab 6 (state bucket last) is the one thing in the course where getting the sequence wrong leaves someone doing cleanup from memory in a console. Twenty minutes of supervised time is cheap insurance, and it produces the cleanup evidence the project rubric requires. |
+| D-53 | **A student who finds a resource still running is told, explicitly, that this is a good outcome**, and is asked how it survived. | The alternative is a cohort with an incentive to not look. The explanation — created by clicking, a script that failed partway, a resource type nobody checked — is the most useful thing anyone says in that session, and it is the same reasoning `operations/cleanup.md` has carried since Lab 2. |
+| D-54 | **`audit.py` check 6 now requires all 15 weeks to have an authored teaching guide and authored student notes**, and reports a reverted placeholder as a problem rather than skipping it. | The week 15 contradiction survived three sessions precisely because the check skipped unauthored files. Now that every week is authored, a placeholder reappearing is a regression, and the check that let the defect through is the one that should catch it. Verified by deliberately reverting two files and confirming three problems are reported. |
+
+---
+
 ## C. Adopted defaults (revisable)
 
 | ID | Default | Why this default | What would change it |

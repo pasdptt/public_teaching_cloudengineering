@@ -8,7 +8,8 @@ Checks that can be made mechanically, so they are not re-argued every session:
   3. Assessment weights sum to 100%.
   4. No answer-key, solution or credential-shaped content in this public repo.
   5. Every course learning outcome (CLO-1..9) is referenced in the assessment plan.
-  6. Every authored teaching guide's session plan sums to exactly 180 contact minutes.
+  6. Every teaching guide's session plan sums to exactly 180 contact minutes, and every
+     week has an authored guide and authored student notes.
 
 Run from anywhere:  python3 planning/audit.py
 Exit code 0 = clean, 1 = problems found.
@@ -131,13 +132,32 @@ if plan.exists():
 # which in every one of these guides is the practical. Checking it mechanically is the only
 # way it stays true as the guides are edited.
 SESSION_ROW = re.compile(r"^\|\s*(?!Block\b)([^|]+?)\s*\|\s*(\d+)\s*\|")
+PLACEHOLDER = "STATUS: not yet authored"
 guides = 0
+notes_checked = 0
 for wk in range(1, 16):
-    guide = ROOT / "weeks" / f"week-{wk:02d}" / "teaching-guide.md"
+    week_dir = ROOT / "weeks" / f"week-{wk:02d}"
+    guide = week_dir / "teaching-guide.md"
+    student_notes = week_dir / "student-notes.md"
+
+    # Student notes are checked for existence and for having been authored, but not for
+    # length or content -- those are judgements, and this file only makes mechanical claims.
+    if not student_notes.exists():
+        problems.append(f"week {wk:02d} has no student-notes.md")
+    elif PLACEHOLDER in student_notes.read_text(encoding="utf-8"):
+        problems.append(f"week {wk:02d} student notes have reverted to a placeholder")
+    else:
+        notes_checked += 1
+
     if not guide.exists():
+        problems.append(f"week {wk:02d} has no teaching-guide.md")
         continue
     text = guide.read_text(encoding="utf-8")
-    if "STATUS: not yet authored" in text:
+    if PLACEHOLDER in text:
+        # Every week is authored as of 2026-09-22, so a placeholder reappearing is a
+        # regression rather than work in progress. It is reported and skipped, because a
+        # placeholder's session plan is boilerplate and summing it would just add noise.
+        problems.append(f"week {wk:02d} teaching guide has reverted to a placeholder")
         continue
     lines = text.splitlines()
     try:
@@ -159,7 +179,9 @@ for wk in range(1, 16):
             f"week {wk:02d} session plan sums to {total} min, not 180 "
             f"(the contact block is three hours, A-05/A-06)"
         )
-notes.append(f"authored session plans checked: {guides}")
+if guides != 15:
+    problems.append(f"{guides} of 15 weekly session plans are authored and checkable")
+notes.append(f"session plans checked: {guides}/15 · student notes: {notes_checked}/15")
 
 # ------------------------------------------------------------------ report
 print("Course repository audit")

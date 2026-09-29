@@ -61,8 +61,25 @@ git check-ignore -v instructor/ 2>/dev/null || echo "WARNING: instructor/ is not
 
 A grep is a safety net, not a substitute for knowing what you are committing.
 
+## Confirm the repository's actual visibility
+
+Do not infer it from the name, and do not infer it from whether a page loads for you — a
+fetch can 404 for reasons that have nothing to do with the repository. Ask the API:
+
+```bash
+gh repo view pasdptt/public_teaching_cloudengineering --json visibility,pushedAt
+```
+
+`PUBLIC` means every rule in this file is live right now. `PRIVATE` means the rules still
+apply, because the day it flips public the whole history flips with it — but it also means
+students cannot clone it yet, which is worth knowing before you hand out the URL.
+
+Check this at the start of each offering. It takes one command and it is the assumption
+everything else here rests on.
+
 ## Before the repository is first made public, or before a new offering
 
+- [ ] Visibility confirmed with `gh repo view ... --json visibility` (above), not assumed
 - [ ] `git log --all --name-only | sort -u` reviewed for anything that should never have
       been added — **including files deleted later**
 - [ ] No quiz key, solution or credential appears anywhere in history

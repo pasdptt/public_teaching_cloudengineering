@@ -144,6 +144,14 @@ them. `plan` and `apply` remain **NOT run** — they need a project and credenti
 | D-53 | **A student who finds a resource still running is told, explicitly, that this is a good outcome**, and is asked how it survived. | The alternative is a cohort with an incentive to not look. The explanation — created by clicking, a script that failed partway, a resource type nobody checked — is the most useful thing anyone says in that session, and it is the same reasoning `operations/cleanup.md` has carried since Lab 2. |
 | D-54 | **`audit.py` check 6 now requires all 15 weeks to have an authored teaching guide and authored student notes**, and reports a reverted placeholder as a problem rather than skipping it. | The week 15 contradiction survived three sessions precisely because the check skipped unauthored files. Now that every week is authored, a placeholder reappearing is a regression, and the check that let the defect through is the one that should catch it. Verified by deliberately reverting two files and confirming three problems are reported. |
 
+## B9. Decisions taken while authoring the quizzes (2026-09-30)
+
+| ID | Decision | Rationale |
+|---|---|---|
+| D-55 | **Quiz 4 assesses CLO-2 through the VM students operated in Lab 2**, asking them to cost a machine for a stated workload. | Quiz 4 sits in week 8, which introduces managed execution, so that material is off limits under the same-day rule. CLO-2's evidence is "a recommendation that names a concrete cost of the choice", and Lab 2 is the one execution model every student has now run end to end, including deleting it. The key does not require managed execution by name. |
+| D-56 | **Quiz 7 gives CLO-8 six of its fifteen marks (Q5–Q6)**, drawn from the "what transfers / what does not" sections of weeks 8, 10, 12 and 13 and from the Lab 6 shared-Firestore compromise. If the quiz overruns in practice, Q4 (error budget) is cut, never Q5 or Q6. | Quiz 7 is the only quiz evidence for CLO-8, and it runs after week 14's concept block on the same day, so it cannot use that framing. Every student has already written about the Firestore compromise in Lab 6; a question on it assesses defence of a real decision rather than recall of a lecture. |
+| D-57 | **`audit.py` check 7**: every quiz authored, states its weeks in the opening lines, has per-question marks summing to its stated total, and Quiz 6's questions contain no week 12 infrastructure vocabulary. | The first three are the mechanical halves of promises `course/assessment-plan.md` already makes. The Quiz 6 term check guards the one assessment defect this repository has made before. It is a tripwire, not a proof: it catches the vocabulary, not a question that assesses the idea in other words. |
+
 ---
 
 ## C. Adopted defaults (revisable)

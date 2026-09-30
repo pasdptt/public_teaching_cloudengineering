@@ -3,34 +3,31 @@
 **Resume from this file.** It records what exists, what has been validated and at what
 level, and the single next concrete action. Do not restart the design from the brief.
 
-Last updated: **2026-09-22** · Current stage: **A and B complete → C in progress** · tagged **v0.3.0**
+Last updated: **2026-09-30** · Current stage: **A and B complete → C in progress** · tagged **v0.3.0**
 
-> **All 15 weeks of teaching content and all 6 labs now exist.** What remains in Stage C is
-> the assessment package: seven quizzes and their keys, and the project brief, milestones and
-> rubric. Nothing in the teaching sequence is blocked on them.
+> **All 15 weeks, all 6 labs and all 7 quizzes now exist**, with quiz keys in the private
+> repository. What remains in Stage C is the project package and instructor solutions for
+> Labs 2, 4 and 6.
 
 ---
 
 ## Next concrete action
 
-> **Author the quizzes: 1–7 here, and their keys in the private repository.** This is now the
-> largest remaining gap by a distance, and nothing else is blocked on it.
+> **Author the project package, starting with `project/brief.md`.** It is released in week 10
+> and referenced from weeks 10, 13, 14 and 15, so it is the most urgent file left; then
+> `milestones.md` and `rubric.md`, and `project-guidance.md` in the private repository.
 >
-> The specification already exists and should not be re-argued. `course/assessment-plan.md`
-> fixes which weeks each quiz draws on and which outcomes it assesses, states the question
-> styles that are in scope, and — importantly — lists what is **not** used: service-name
-> recall, pricing trivia, console paths, or anything answerable from a comparison table.
+> The specification already exists and should not be re-argued: `course/assessment-plan.md`
+> §Project fixes the deliverables, the rubric bands (D-16), the one-or-two-person rule
+> (A-11), reuse of the Lab 6 pipeline (D-28), and the 12-minute demonstration slot (D-51).
 >
-> Two constraints that have already been got wrong once each, so check both per quiz:
-> - **Never assess material from that day's session.** Quiz 6 sits in the week declarative
->   infrastructure is first taught and must reach CLO-7 and CLO-9 only through the threads
->   students have lived with — cleanup since Lab 2, CI since week 3.
-> - **Quiz 7 is the only quiz assessing CLO-8**, which is why dropping a lowest quiz stays
->   safe for every other outcome. Do not weaken it.
+> Two constraints to check against, each of which the quizzes also had to respect:
+> - **The minimum project is scoped for one person** inside the weekly budget. A pair is not
+>   required to build twice as much.
+> - **The migration discussion is analysis, not deployment**, and it is the project's main
+>   CLO-8 evidence alongside the defence. Quiz 7 Q5–Q6 are the only other CLO-8 evidence.
 >
-> Then: **the project package** (`project/brief.md` is released in week 10 and is referenced
-> from weeks 10, 13, 14 and 15, so it is the more urgent of the two files), and instructor
-> solutions for Labs 2, 4 and 6.
+> Then: instructor solutions for Labs 2, 4 and 6, and the Lab 1 Docker Desktop fix below.
 
 ---
 
@@ -391,13 +388,38 @@ completion times all get recorded in the private repository.
 requires all 15 weeks to have an authored guide and authored student notes, and reports a
 reverted placeholder rather than skipping it.
 
+### Quizzes 1–7 authored, with keys (2026-09-30)
+
+| Artefact | Status | Validation |
+|---|---|---|
+| `quizzes/quiz-01.md` … `quiz-07.md` | done | REVIEWED — each question checked against the student notes for the weeks it covers, and against the same-day rule |
+| Private: `quiz-keys/quiz-01-key.md` … `quiz-07-key.md` | done | REVIEWED — expected answer, reasoning, misconceptions, partial-credit allocation and expected time for every question |
+| `planning/audit.py` check 7 (D-57) | done | **EXECUTED** — verified on a scratch copy by breaking four things (a placeholder, a wrong total, a missing coverage line, a Terraform term in Quiz 6) and confirming four problems reported |
+
+Every quiz is 12–15 marks and designed for 11–13 minutes of answering inside the 15-minute
+block. **Those times are design estimates** and each key says so; the first delivery should
+record the real distribution. Quiz 7 is the tightest, and its key says what to cut if it
+overruns (Q4, never the CLO-8 questions).
+
+Two design choices worth knowing before editing any quiz:
+- **Quiz 4 assesses CLO-2 through Lab 2** (D-55), because it sits in the session that
+  introduces managed execution and cannot use it.
+- **Quiz 7 gives CLO-8 six of fifteen marks** (D-56), all answerable from the "what transfers"
+  sections of weeks 8–13 and the Lab 6 Firestore compromise — not from week 14's concept block,
+  which runs before the quiz on the same day.
+
+### Found while authoring, not yet fixed
+
+- **Lab 1 Part 2 checkpoint is wrong on Docker Desktop.** It says the container's process
+  appears in the laptop's `ps aux`. On macOS and Windows, containers run inside a Linux VM
+  that Docker Desktop manages, so it does not — and the course expects a Windows/macOS mix
+  (D-10). The PID-namespace and `/proc` evidence in the same part still holds. The Quiz 2 key
+  already accepts the correct answer; the lab README needs a sentence.
+
 ### Still to author
 
-**Quizzes 1–7 and their keys** · the project package · instructor solutions for Labs 2, 4
-and 6. Operational guidance is authored **with** each cloud exercise, never afterwards.
-
-**Nothing is carried forward.** The week 15 placeholder contradiction is closed, and so is the
-check that allowed it.
+The project package · instructor solutions for Labs 2, 4 and 6. Operational guidance is
+authored **with** each cloud exercise, never afterwards.
 
 ## Stage D — audit and package · NOT STARTED
 

@@ -10,6 +10,8 @@ Checks that can be made mechanically, so they are not re-argued every session:
   5. Every course learning outcome (CLO-1..9) is referenced in the assessment plan.
   6. Every teaching guide's session plan sums to exactly 180 contact minutes, and every
      week has an authored guide and authored student notes.
+  7. Every quiz is authored, states the weeks it covers, has question marks that add up to
+     its stated total, and Quiz 6 does not reach into same-day infrastructure material.
 
 Run from anywhere:  python3 planning/audit.py
 Exit code 0 = clean, 1 = problems found.
@@ -182,6 +184,45 @@ for wk in range(1, 16):
 if guides != 15:
     problems.append(f"{guides} of 15 weekly session plans are authored and checkable")
 notes.append(f"session plans checked: {guides}/15 · student notes: {notes_checked}/15")
+
+# ------------------------------------------------------------ 7. quizzes
+#
+# Mechanical claims only: authored, honest about coverage, marks that add up. Whether a
+# question is any good is a judgement this file does not make.
+#
+# Quiz 6 gets one content check, because it is the defect this repository has already made
+# once: it sits in the week declarative infrastructure is first taught, and may reach CLO-7
+# and CLO-9 only through the cleanup and CI threads (assessment-plan.md). The terms below are
+# week 12 vocabulary that no Quiz 6 question should need.
+QUIZ_TOTAL = re.compile(r"^\*\*(\d+) marks\b", re.M)
+QUESTION_MARKS = re.compile(r"^## Question \d+\b.*\((\d+) marks?\)\s*$", re.M)
+SAME_DAY_Q6 = re.compile(r"\b(terraform|opentofu|tfvars|workspace|drift|state file)\b", re.I)
+quizzes_checked = 0
+for n in range(1, 8):
+    quiz = ROOT / "quizzes" / f"quiz-{n:02d}.md"
+    if not quiz.exists():
+        problems.append(f"quiz {n} is missing")
+        continue
+    text = quiz.read_text(encoding="utf-8")
+    if PLACEHOLDER in text:
+        problems.append(f"quiz {n} is still a placeholder")
+        continue
+    head = "\n".join(text.splitlines()[:4])
+    if not re.search(r"\*\*Covers weeks? [\d\u2013-]+", head):
+        problems.append(f"quiz {n} does not state the weeks it covers in its opening lines")
+    total = QUIZ_TOTAL.search(text)
+    parts = [int(m) for m in QUESTION_MARKS.findall(text)]
+    if not total or not parts:
+        problems.append(f"quiz {n}: cannot find its stated total or per-question marks")
+    elif sum(parts) != int(total.group(1)):
+        problems.append(
+            f"quiz {n}: questions carry {sum(parts)} marks but the quiz states {total.group(1)}")
+    if n == 6:
+        body = text.split("\n---\n", 1)[-1]  # questions only; the header may name what is excluded
+        for m in sorted({m.group(0).lower() for m in SAME_DAY_Q6.finditer(body)}):
+            problems.append(f"quiz 6 uses same-day week 12 material: '{m}'")
+    quizzes_checked += 1
+notes.append(f"quizzes authored and consistent: {quizzes_checked}/7")
 
 # ------------------------------------------------------------------ report
 print("Course repository audit")

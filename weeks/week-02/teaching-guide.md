@@ -48,11 +48,25 @@ terminal. `Address already in use`. Ask *why the OS bothers to prevent this*. Th
 **Demo 2 — the shared kernel.** This is the session's centrepiece and it must be rehearsed.
 
 ```bash
+docker run --rm python:3.12-slim uname -r # a Debian-based image
+docker run --rm alpine uname -r           # a different distribution entirely
 uname -r                                  # on the host
-docker run --rm python:3.12-slim uname -r # inside a container
 ```
 
-Same kernel version. Then:
+The two containers report **the same kernel version**, even though one is Debian and the other
+Alpine: two "operating systems" with one kernel between them. That is the point, and it holds on
+every platform.
+
+The third line depends on the laptop, so **rehearse it on the one you will present from**:
+- **Linux host:** it matches too. The containers share *your* kernel.
+- **macOS or Windows (Docker Desktop):** it does **not** match. The host prints its own kernel
+  (a Darwin or Windows version), while the containers print a Linux version that often says
+  `linuxkit` or `microsoft`. Say why out loud: Docker Desktop runs containers inside a small
+  Linux VM, and the kernel they share is *that VM's*. This is not a failed demo. It shows both
+  of today's boundaries together: containers share a kernel, and a VM supplies one. Half the
+  room is on a Mac or Windows laptop and will see exactly this in Lab 1, so show it first.
+
+Then:
 
 ```bash
 docker run --rm python:3.12-slim python3 -c \

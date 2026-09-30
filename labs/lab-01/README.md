@@ -163,17 +163,25 @@ docker exec docapp-lab1 python3 -c \
 # What filesystem does it see?
 docker exec docapp-lab1 ls /
 
-# And on your own machine, for comparison:
+# And from outside, for comparison:
+docker top docapp-lab1    # the container's process, with the PID the host kernel gave it
 ps aux | grep -c .        # roughly how many processes your laptop is running
-ps aux | grep docapp      # the container's process, from the outside
+ps aux | grep docapp      # the container's process in your laptop's list (Linux only)
 ```
 
 **Checkpoint.** Inside, a very short list of process ids — probably two or three, with the
-application at PID 1. Outside, hundreds of processes, including the container's, with an
-entirely different PID.
+application at PID 1. Outside, `docker top` shows the same program with an entirely different
+PID.
 
 That mismatch is the first hard evidence of the boundary: the *same running program* has two
 different process ids depending on who is asking.
+
+> **On macOS or Windows**, the last command finds nothing, and that is correct rather than a
+> mistake. Docker Desktop runs your containers inside a small Linux virtual machine, so the
+> kernel they share is *that VM's* kernel, not your laptop's, and your laptop's process list
+> never contains them. `docker top` asks the VM's kernel, which is why it works everywhere. On
+> Linux, the container's process appears directly in `ps aux`, because there the shared kernel
+> is your own. Say which case you are in when you answer question 1.
 
 **Questions to answer:**
 

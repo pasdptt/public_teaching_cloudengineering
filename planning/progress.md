@@ -27,7 +27,7 @@ Last updated: **2026-09-30** · Current stage: **A and B complete → C in progr
 > - **The migration discussion is analysis, not deployment**, and it is the project's main
 >   CLO-8 evidence alongside the defence. Quiz 7 Q5–Q6 are the only other CLO-8 evidence.
 >
-> Then: instructor solutions for Labs 2, 4 and 6, and the Lab 1 Docker Desktop fix below.
+> Then: instructor solutions for Labs 2, 4 and 6.
 
 ---
 
@@ -408,13 +408,17 @@ Two design choices worth knowing before editing any quiz:
   sections of weeks 8–13 and the Lab 6 Firestore compromise — not from week 14's concept block,
   which runs before the quiz on the same day.
 
-### Found while authoring, not yet fixed
+### Found while authoring, and fixed (2026-09-30)
 
-- **Lab 1 Part 2 checkpoint is wrong on Docker Desktop.** It says the container's process
-  appears in the laptop's `ps aux`. On macOS and Windows, containers run inside a Linux VM
-  that Docker Desktop manages, so it does not — and the course expects a Windows/macOS mix
-  (D-10). The PID-namespace and `/proc` evidence in the same part still holds. The Quiz 2 key
-  already accepts the correct answer; the lab README needs a sentence.
+- **Lab 1 Part 2 and the week 2 shared-kernel demo assumed a Linux host.** On macOS and Windows,
+  Docker Desktop runs containers inside a Linux VM. There the laptop's `ps aux` never lists the
+  container, and the host's `uname -r` differs from the container's, so Demo 2 would have
+  seemed to disprove its own point on the instructor's laptop. The course expects a
+  Windows/macOS mix (D-10). Fixed: Lab 1 now uses `docker top`, which works everywhere, and
+  explains the Docker Desktop case. Demo 2 compares two containers from different
+  distributions, and the teaching guide turns the mismatched host line into a teaching moment.
+  The Lab 1 instructor notes and the Quiz 2 key accept the Docker Desktop observation.
+  REVIEWED, not executed. **Needs one run on a Mac or Windows laptop before week 2.**
 
 ### Still to author
 

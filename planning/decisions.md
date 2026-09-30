@@ -152,6 +152,14 @@ them. `plan` and `apply` remain **NOT run** — they need a project and credenti
 | D-56 | **Quiz 7 gives CLO-8 six of its fifteen marks (Q5–Q6)**, drawn from the "what transfers / what does not" sections of weeks 8, 10, 12 and 13 and from the Lab 6 shared-Firestore compromise. If the quiz overruns in practice, Q4 (error budget) is cut, never Q5 or Q6. | Quiz 7 is the only quiz evidence for CLO-8, and it runs after week 14's concept block on the same day, so it cannot use that framing. Every student has already written about the Firestore compromise in Lab 6; a question on it assesses defence of a real decision rather than recall of a lecture. |
 | D-57 | **`audit.py` check 7**: every quiz authored, states its weeks in the opening lines, has per-question marks summing to its stated total, and Quiz 6's questions contain no week 12 infrastructure vocabulary. | The first three are the mechanical halves of promises `course/assessment-plan.md` already makes. The Quiz 6 term check guards the one assessment defect this repository has made before. It is a tripwire, not a proof: it catches the vocabulary, not a question that assesses the idea in other words. |
 
+## B10. Decisions taken while authoring the project brief (2026-09-30)
+
+| ID | Decision | Rationale |
+|---|---|---|
+| D-58 | **The project is a fixed baseline (B1–B7) plus exactly one extension**, chosen from four options (close the check-then-act race, make dead letters useful, compute-bound work, protect the service from its callers) or proposed by the student and approved at the week 13 design review. | A fully open brief makes scope unmanageable without a TA and makes projects hard to mark comparably. A single prescribed feature gives the defence nothing to probe. Each menu option is a "describe, don't build" question from Labs 3–5 or weeks 7–9, so it is small in code and large in reasoning, and it is already motivated. A pair chooses one extension too (A-11): depth, not a second feature. |
+| D-59 | **The cost model is priced at the stated workload and at ten times it**, and must name the setting that bounds the worst overnight bug. | One price point cannot show which cost grows with use and which does not, and that difference is the cost reasoning the course has taught since week 4. Naming an actual setting, not "we'd notice", turns week 14's question into something a marker can check. |
+| D-60 | **The brief names what an own-proposal may not be**: Kubernetes, multi-region or multi-provider deployment, canary or blue-green machinery, a second cloud project, or a new service rather than a new behaviour. | Each is either listed in `learning-outcomes.md` as deliberately excluded or would break the free tier (a second project gets no second free tier). Saying so in the brief saves a design-review conversation per student. |
+
 ---
 
 ## C. Adopted defaults (revisable)

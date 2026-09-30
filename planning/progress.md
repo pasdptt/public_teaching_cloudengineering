@@ -13,21 +13,20 @@ Last updated: **2026-09-30** · Current stage: **A and B complete → C in progr
 
 ## Next concrete action
 
-> **Author the project package, starting with `project/brief.md`.** It is released in week 10
-> and referenced from weeks 10, 13, 14 and 15, so it is the most urgent file left; then
-> `milestones.md` and `rubric.md`, and `project-guidance.md` in the private repository.
+> **Author `project/milestones.md`, then `project/rubric.md`.** The brief is written and
+> links to both: it sends students to `milestones.md` for the proposal format, and it cannot be
+> released in week 10 while either is a placeholder.
 >
-> The specification already exists and should not be re-argued: `course/assessment-plan.md`
-> §Project fixes the deliverables, the rubric bands (D-16), the one-or-two-person rule
-> (A-11), reuse of the Lab 6 pipeline (D-28), and the 12-minute demonstration slot (D-51).
+> - `milestones.md`: the one-page proposal template (the brief's week 11 checklist is its
+>   content), what the week 13 design review checks (its three questions are in the week 13
+>   teaching guide), and the week 14 and 15 deliverables. The brief's "What you submit" list
+>   is the final-submission contract; do not restate it differently.
+> - `rubric.md`: four achievement levels per band (D-16), written against the brief's
+>   baseline B1–B7, the extension, and the two experiments. The individual band is scored per
+>   student.
 >
-> Two constraints to check against, each of which the quizzes also had to respect:
-> - **The minimum project is scoped for one person** inside the weekly budget. A pair is not
->   required to build twice as much.
-> - **The migration discussion is analysis, not deployment**, and it is the project's main
->   CLO-8 evidence alongside the defence. Quiz 7 Q5–Q6 are the only other CLO-8 evidence.
->
-> Then: instructor solutions for Labs 2, 4 and 6.
+> Then `project-guidance.md` in the private repository, and instructor solutions for Labs 2,
+> 4 and 6.
 
 ---
 
@@ -420,9 +419,19 @@ Two design choices worth knowing before editing any quiz:
   The Lab 1 instructor notes and the Quiz 2 key accept the Docker Desktop observation.
   REVIEWED, not executed. **Needs one run on a Mac or Windows laptop before week 2.**
 
+### Project brief authored (2026-09-30)
+
+| Artefact | Status | Validation |
+|---|---|---|
+| `project/brief.md` | done | REVIEWED against `assessment-plan.md` §Project, the workload budget, the week 10–15 notes and guides, the cost model and the fallback plan. Links checked by `audit.py` |
+
+The shape is **a baseline every project meets (B1–B7), plus one extension from a menu of four
+or the student's own** (D-58). Every menu option is something an earlier lab asked students to
+describe and not build, so the project finishes work the course has already set up.
+
 ### Still to author
 
-The project package · instructor solutions for Labs 2, 4 and 6. Operational guidance is
+`project/milestones.md` and `project/rubric.md` · `project-guidance.md` (private) · instructor solutions for Labs 2, 4 and 6. Operational guidance is
 authored **with** each cloud exercise, never afterwards.
 
 ## Stage D — audit and package · NOT STARTED

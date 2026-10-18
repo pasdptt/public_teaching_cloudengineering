@@ -13,17 +13,14 @@ Last updated: **2026-09-30** · Current stage: **A and B complete → C in progr
 
 ## Next concrete action
 
-> **Author `project/milestones.md`, then `project/rubric.md`.** The brief is written and
-> links to both: it sends students to `milestones.md` for the proposal format, and it cannot be
-> released in week 10 while either is a placeholder.
+> **Author `project/rubric.md`.** It is the last placeholder that `brief.md` and
+> `milestones.md` link to, and the brief cannot be released in week 10 without it.
 >
-> - `milestones.md`: the one-page proposal template (the brief's week 11 checklist is its
->   content), what the week 13 design review checks (its three questions are in the week 13
->   teaching guide), and the week 14 and 15 deliverables. The brief's "What you submit" list
->   is the final-submission contract; do not restate it differently.
-> - `rubric.md`: four achievement levels per band (D-16), written against the brief's
->   baseline B1–B7, the extension, and the two experiments. The individual band is scored per
->   student.
+> Four achievement levels per band (D-16: architecture 25 · implementation 20 · experiments 25 ·
+> reproducibility/security/cost 20 · communication and individual understanding 10), written
+> against the brief's baseline B1–B7, the one extension, and the two experiments. The
+> individual band is scored per student. Reuse the labs' rubric language where it fits, as week
+> 14 already does, rather than inventing new wording.
 >
 > Then `project-guidance.md` in the private repository, and instructor solutions for Labs 2,
 > 4 and 6.
@@ -423,6 +420,7 @@ Two design choices worth knowing before editing any quiz:
 
 | Artefact | Status | Validation |
 |---|---|---|
+| `project/milestones.md` | done | REVIEWED against weeks 10–15, the workload budget and the week 13/14 teaching guides. Includes the one-page proposal template |
 | `project/brief.md` | done | REVIEWED against `assessment-plan.md` §Project, the workload budget, the week 10–15 notes and guides, the cost model and the fallback plan. Links checked by `audit.py` |
 
 The shape is **a baseline every project meets (B1–B7), plus one extension from a menu of four
@@ -431,7 +429,7 @@ describe and not build, so the project finishes work the course has already set 
 
 ### Still to author
 
-`project/milestones.md` and `project/rubric.md` · `project-guidance.md` (private) · instructor solutions for Labs 2, 4 and 6. Operational guidance is
+`project/rubric.md` · `project-guidance.md` (private) · instructor solutions for Labs 2, 4 and 6. Operational guidance is
 authored **with** each cloud exercise, never afterwards.
 
 ## Stage D — audit and package · NOT STARTED

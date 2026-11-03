@@ -3,7 +3,7 @@
 **Resume from this file.** It records what exists, what has been validated and at what
 level, and the single next concrete action. Do not restart the design from the brief.
 
-Last updated: **2026-09-30** · Current stage: **A and B complete → C in progress** · tagged **v0.3.0**
+Last updated: **2026-11-04** · Current stage: **A and B complete → C in progress** · tagged **v0.3.0**
 
 > **All 15 weeks, all 6 labs and all 7 quizzes now exist**, with quiz keys in the private
 > repository. What remains in Stage C is the project package and instructor solutions for
@@ -13,17 +13,19 @@ Last updated: **2026-09-30** · Current stage: **A and B complete → C in progr
 
 ## Next concrete action
 
-> **Author `project/rubric.md`.** It is the last placeholder that `brief.md` and
-> `milestones.md` link to, and the brief cannot be released in week 10 without it.
+> **Write `project-guidance.md` in the private repository.** The student-facing project package
+> (brief, milestones, rubric) is complete and releasable in week 10. What the instructor still
+> lacks is the side that cannot be public:
 >
-> Four achievement levels per band (D-16: architecture 25 · implementation 20 · experiments 25 ·
-> reproducibility/security/cost 20 · communication and individual understanding 10), written
-> against the brief's baseline B1–B7, the one extension, and the two experiments. The
-> individual band is scored per student. Reuse the labs' rubric language where it fits, as week
-> 14 already does, rather than inventing new wording.
+> - for each extension option A–D: what a sound smallest version looks like, the usual way it
+>   goes wrong, and the design-review intervention for it;
+> - how to run the 3–4 minute design review against `rubric.md`, and what to write down;
+> - defence questions per option, beyond the five generic ones in week 15's notes, including
+>   individual questions for pairs;
+> - calibration examples for the levels in rubric bands A3, C3 and E, which are the bands most
+>   open to judgement.
 >
-> Then `project-guidance.md` in the private repository, and instructor solutions for Labs 2,
-> 4 and 6.
+> Then instructor solutions for Labs 2, 4 and 6.
 
 ---
 
@@ -420,6 +422,7 @@ Two design choices worth knowing before editing any quiz:
 
 | Artefact | Status | Validation |
 |---|---|---|
+| `project/rubric.md` | done | REVIEWED: criteria sum to the D-16 band weights (25/20/25/20/10); levels and caps follow the Lab 6 rubric's form |
 | `project/milestones.md` | done | REVIEWED against weeks 10–15, the workload budget and the week 13/14 teaching guides. Includes the one-page proposal template |
 | `project/brief.md` | done | REVIEWED against `assessment-plan.md` §Project, the workload budget, the week 10–15 notes and guides, the cost model and the fallback plan. Links checked by `audit.py` |
 
@@ -429,7 +432,7 @@ describe and not build, so the project finishes work the course has already set 
 
 ### Still to author
 
-`project/rubric.md` · `project-guidance.md` (private) · instructor solutions for Labs 2, 4 and 6. Operational guidance is
+`project-guidance.md` (private) · instructor solutions for Labs 2, 4 and 6. Operational guidance is
 authored **with** each cloud exercise, never afterwards.
 
 ## Stage D — audit and package · NOT STARTED
@@ -438,6 +441,30 @@ Coverage, sequencing, assessment fairness, timing, trial restrictions, cost assu
 cleanup, student/instructor separation.
 
 ---
+
+### Observed once, not reproduced: a RecursionError from the test suite
+
+**2026-11-04.** One run of `python3 -m pytest` in `application/` ended with
+`RecursionError: maximum recursion depth exceeded while calling a Python object`. It has
+**not reproduced in roughly fifteen subsequent runs**, including five consecutive timed
+full runs (74 passed, 52 deselected, exit 0, ~6.0s each).
+
+Recorded rather than dismissed, because a suite that fails one run in fifteen is worse for
+students than one that fails every time: the first teaches them to re-run until it is
+green, which is exactly the habit Lab 6 week 13 argues against.
+
+What is known:
+- Exit code was **0** on every reproduction attempt; the suite is not failing its assertions.
+- The likeliest suspects are the threaded tests — `test_concurrent_requests_are_all_served`
+  (ten simultaneous HTTP submissions) and `MemoryJobStore`'s twenty-thread write test —
+  interacting with `logs.py`, which writes to stdout under a lock while pytest is capturing
+  stdout. A thread logging during capture teardown would fit the shape of the error.
+- Not yet investigated: whether it is specific to Python 3.10, which is what this machine
+  has. CI runs 3.10 and 3.12, so a version-specific flake would show there over time.
+
+Next step if it recurs: run with `-p no:logging -s` to take pytest's capture out of the
+picture, and check whether `logs.py`'s module-level lock is held across a `sys.stdout`
+that pytest has already replaced.
 
 ## Standing constraints for every future session
 

@@ -464,7 +464,7 @@ Lecture decks for weeks 4–7, from each week's teaching guide, in the same them
 conventions as weeks 1–3 (timing markers sum to 180; presenter notes carry commands, timing
 and a guide pointer only). Short logistics decks for the three non-teaching weeks 8, 14 and
 15. `audit.py` checks all ten decks. Rendered and inspected slide by slide; see
-`course/slides/README.md`. Weeks 9–13 have no deck yet.
+`course/slides/README.md`. Weeks 9–13 followed the same day; see below.
 
 ### Found while authoring the week 6–7 decks, and fixed (2026-11-05)
 
@@ -479,9 +479,50 @@ Class A/B allowance asymmetry itself (writes and lists vs reads) was right and i
 Also fixed: the week 15 guide said every teardown listing should be empty, but
 `gcloud iam service-accounts list` always shows the default service accounts Google creates.
 
+### Slide decks, weeks 9–13 (2026-11-05)
+
+Lecture decks for the five remaining teaching weeks, from each week's teaching guide, in the
+same theme and conventions. **Every week of the course now has a deck.**
+
+| Deck | Slides | Validation |
+|---|---|---|
+| `weeks/week-09/slides.md` | 36 | **EXECUTED** — rendered, every slide inspected |
+| `weeks/week-10/slides.md` | 33 | **EXECUTED** — rendered, every slide inspected |
+| `weeks/week-11/slides.md` | 35 | **EXECUTED** — rendered, every slide inspected |
+| `weeks/week-12/slides.md` | 33 | **EXECUTED** — rendered, every slide inspected |
+| `weeks/week-13/slides.md` | 43 | **EXECUTED** — rendered, every slide inspected |
+
+`audit.py` passes with all 15 decks summing to 180 minutes. Each deck was rendered through
+`render.sh` to PDF and HTML, then to one PNG per slide and inspected on contact sheets; the
+rendered HTML was also measured for content running past the frame or the right edge (none).
+Inspection found what measurement could not: Marp shrinks a code block with an over-long line
+by a transform, so its font size reads unchanged. Four such blocks were rewrapped (the
+README now says to keep code lines to 80 characters), a split
+"250 / ms" was bound, one punch line was reworded to match the clock, a missing `cd` was added
+before `tools/instances.py`, and the week 10 load curve became a drawn ASCII pair.
+
+**The PDF path in `render.sh` now works** — first exercised here, on macOS with Chrome. Before
+this it had never run. `render.sh` now passes `--no-stdin`: without it, Marp waits silently for
+input whenever stdin is not a terminal (a background job, a script, CI), which looked like a
+hang. Confirmed by running it as a background job.
+
+The same 80-character check run over the older decks found two blocks in weeks 3 and 4 that
+were being shrunk, both rewrapped and re-inspected. Week 4's metadata query now builds the URL
+from an `MD=` variable, so the slide no longer matches the guide's one-line command character
+for character; it is the same request.
+
+Choices worth knowing when teaching from them:
+- Lab 1's authoring measurements (4.82 vs 19.26 req/s) are in week 10's **presenter notes**
+  only, never on a slide — the lab withholds them so students produce their own.
+- Week 13 is the longest deck because it carries two former weeks; most of its slides are a
+  single question, and its notes say what to cut first (from the guide).
+- The week 9 guide says to leave the service on the *broken* configuration at the end of the
+  session, while Lab 4 Part 3 ends with the fix. The deck says to leave it broken **if the fix
+  has not been reached**. Worth settling in the guide.
+
 ### Still to author
 
-Lecture decks for weeks 9–13 · midterm and final papers and keys (private, `exam-papers/`) · instructor solutions for Labs 2, 4
+Midterm and final papers and keys (private, `exam-papers/`) · instructor solutions for Labs 2, 4
 and 6. Operational guidance is
 authored **with** each cloud exercise, never afterwards.
 
@@ -525,7 +566,7 @@ guides, which stay authoritative for the teaching.
 | Artefact | Status | Validation |
 |---|---|---|
 | `course/slides/theme.css` | done | **EXECUTED** — renders; light background and large type chosen for bright rooms |
-| `course/slides/render.sh` | done | **EXECUTED** — `bash -n` clean; HTML path verified. **PDF path unverified** — needs a browser, and neither machine available had one |
+| `course/slides/render.sh` | done | **EXECUTED** — `bash -n` clean; HTML path verified. PDF path verified later the same day (weeks 9–13, macOS with Chrome) |
 | `weeks/week-01/slides.md` (41 slides) | done | **EXECUTED** — rendered to 40 PNGs and **inspected slide by slide; no overflow** |
 | `weeks/week-02/slides.md` (38 slides) | done | **EXECUTED** — renders; not visually inspected |
 | `weeks/week-03/slides.md` (37 slides) | done | **EXECUTED** — renders; not visually inspected |
@@ -540,7 +581,7 @@ found two defects, both fixed: prose wrapped in the source became ragged mid-sen
 on the slide, and terminal slides shrank their commands because Marp's code auto-fit was
 measuring a collapsed container. The earlier unverified centring is now confirmed.
 
-Still unverified: the PDF path, and a slide-by-slide look at weeks 2 and 3.
+Still unverified: a slide-by-slide look at weeks 2 and 3. (The PDF path was verified with the week 9–13 decks.)
 
 Weeks 4–15 have no decks yet.
 

@@ -83,6 +83,11 @@ paragraph, list item and quotation on **one source line**, however long. Wrappin
 columns, as the rest of the repository does, produces sentences broken mid-phrase on the
 wall. Separate lines that should be separate with a blank line.
 
+**Keep every code line at 80 characters or fewer.** At the theme's 21px mono, a code block
+holds about 81 characters. One longer line and Marp shrinks the **whole block** to fit, so a
+single long `gcloud` command makes six lines of commands hard to read from the back of the
+room. Break long commands with `\` and a two-space continuation indent.
+
 ### Presenter notes
 
 HTML comments become presenter notes. They carry **only** what you need while standing up:
@@ -114,7 +119,11 @@ directive and does not become a note.
 | 6 | Storage abstractions | 34 |
 | 7 | Replication, consistency, choosing | 33 |
 | 8 | Midterm — logistics only | 12 |
-| 9–13 | not yet authored | — |
+| 9 | Managed containers and serverless | 36 |
+| 10 | Horizontal scaling and measurement | 33 |
+| 11 | Queues and event-driven processing | 35 |
+| 12 | Partial failure, resilience and observability | 33 |
+| 13 | Infrastructure as code, environments, pipelines | 43 |
 | 14 | Final exam and peer review — logistics only | 11 |
 | 15 | Demonstration and defence — logistics only | 13 |
 
@@ -132,6 +141,17 @@ Weeks 4–8, 14 and 15 (added 2026-11-05) were rendered to HTML and every slide 
 on a contact sheet with the real Plex faces: no overflow after fixes (the week 15 running order
 was split into two columns to fit ten slots; three titles were shortened to one line).
 
-**Not validated:** the PDF path in `render.sh`. It needs a browser on the rendering machine,
-and neither machine used here had one available to Marp. Weeks 2 and 3 render, but they were
-checked structurally, not looked at slide by slide.
+Weeks 9–13 (added 2026-11-05) were rendered through `render.sh` to both PDF and HTML, then
+to one PNG per slide, and all 180 slides were looked at on contact sheets with the real Plex
+faces. The rendered HTML was also measured: no slide's content runs past its frame, and no
+table or code block runs past the right edge. The look caught what the measurement could not —
+Marp shrinks a code block with an over-long line by a transform, so the font size reads
+unchanged — and four such blocks were rewrapped. Week 13 is the longest deck (43 slides)
+because it carries what were two weeks; most of its slides are single questions.
+
+**The PDF path works.** It was first exercised on 2026-11-05, on macOS with Google Chrome
+installed, rendering weeks 9–13 with `--pdf-notes`. It still needs a browser on the rendering
+machine; that requirement is unchanged.
+
+**Not validated:** weeks 2 and 3 render, but they were checked structurally, not looked at
+slide by slide.

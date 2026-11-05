@@ -30,12 +30,12 @@ render_one() {
   echo "==> week $week"
   npx --yes @marp-team/marp-cli@latest "$src" \
       --theme-set "$theme" \
-      --allow-local-files \
+      --allow-local-files --no-stdin \
       --pdf --pdf-notes \
       -o "$out/week-$week.pdf"
   npx --yes @marp-team/marp-cli@latest "$src" \
       --theme-set "$theme" \
-      --allow-local-files \
+      --allow-local-files --no-stdin \
       -o "$out/week-$week.html"
   echo "    $out/week-$week.pdf"
   echo "    $out/week-$week.html"

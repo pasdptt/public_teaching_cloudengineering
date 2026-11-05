@@ -232,8 +232,8 @@ The surprise: your code on a VM has an identity, and **nobody put a credential o
 ## Ask the machine who it is
 
 ```bash
-curl -sS -H "Metadata-Flavor: Google" \
-  http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/email
+MD=http://metadata.google.internal/computeMetadata/v1/instance
+curl -sS -H "Metadata-Flavor: Google" "$MD/service-accounts/default/email"
 ```
 
 Run on the instance. The same service will hand out a **token** for that identity.

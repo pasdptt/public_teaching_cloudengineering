@@ -382,8 +382,10 @@ them about it, don't fail it); forgetting to release the idempotency key on dele
 ## Part 5 — the experiment
 
 ```bash
-python3 tools/measure.py --url http://127.0.0.1:8080 --requests 12 --concurrency 1
-python3 tools/measure.py --url http://127.0.0.1:8080 --requests 12 --concurrency 4
+python3 tools/measure.py --url http://127.0.0.1:8080 \
+  --requests 12 --concurrency 1
+python3 tools/measure.py --url http://127.0.0.1:8080 \
+  --requests 12 --concurrency 4
 ```
 
 **Run each three times.** Then try 8, 16, 32.

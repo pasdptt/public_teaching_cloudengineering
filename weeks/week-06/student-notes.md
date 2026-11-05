@@ -36,7 +36,7 @@ and a price per gigabyte far below the others.
 
 That last property is why object storage changed how applications are built. Before it, "the
 files" lived on a server, and that server was special. After it, they live nowhere in
-particular, and no server is special. Everything about stateless execution in weeks 8–11
+particular, and no server is special. Everything about stateless execution in weeks 9–12
 follows from that.
 
 ### Databases

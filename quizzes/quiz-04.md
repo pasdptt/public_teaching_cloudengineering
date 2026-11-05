@@ -1,6 +1,6 @@
 # Quiz 4 — Storage, consistency, and what a machine commits you to
 
-**Covers weeks 5–7**, including Labs 2 and 3. Taken in week 8, in the discussion block — the
+**Covers weeks 5–7**, including Labs 2 and 3. Taken in week 9, in the discussion block — the
 managed-execution material taught in that session is not assessed here. Outcomes: CLO-1,
 CLO-2, CLO-4.
 

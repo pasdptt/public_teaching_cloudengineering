@@ -45,7 +45,7 @@ pause between them, and the room decides when.
 - **Ask for one slide, or none.** The demonstration is of a working system, not of slides. A
   student who cannot show the system running should say so at the start and spend their time
   on the evidence instead — which is a recoverable position, and pretending is not.
-- **Check the trial expiry dates** you collected in week 14. If anyone's has lapsed, their
+- **Check the trial expiry dates** students reported in the week 8 trial check. If anyone's has lapsed, their
   demonstration is of their evidence and their repository, and that is arranged before the
   session rather than discovered during it.
 - **Have the marking sheet per student**, not per group. The individual band is scored per
@@ -73,7 +73,7 @@ over, and they have no way to protest.
 
 ### Questions worth asking
 
-Three per group is plenty. Draw from the same three passes week 14 taught, because students
+Three per group is plenty. Draw from the same three passes the week 14 reading sets out and the peer review used, because students
 have practised answering them:
 
 - **Where does state live in this, and what happens if the thing holding it is replaced
@@ -109,7 +109,9 @@ be reconstructible afterwards.
 ## Synthesis (30 min): what transfers, what was a commitment
 
 Not a lecture. Build one table on the board with the whole cohort, from what they have all
-just seen.
+just seen. Since the compression (D-66) this is the only time the dependency and price-of-leaving
+material is discussed in the room — students met it as week 14 reading, and the background notes
+are in `weeks/week-14/teaching-guide.md`. Lean on it here.
 
 Two columns: **transfers** and **commitment to this provider**. Ask for entries, and make each
 one be defended in a sentence.
@@ -129,7 +131,8 @@ Expect, roughly:
 Then the two questions that make it worth the thirty minutes:
 
 1. **Look at the right-hand column. Roughly how many weeks?** They each estimated this for
-   their own system in week 14. Compare answers across the room and ask why they differ.
+   their own system for the project's migration discussion (A3), using the week 14 reading.
+   Compare answers across the room and ask why they differ.
 2. **Which commitments would you make again?** Not all lock-in is regrettable. Firestore's
    idle cost is why this course could run at all — the commitment bought something. Ask what
    each one bought, and whether it was worth it.

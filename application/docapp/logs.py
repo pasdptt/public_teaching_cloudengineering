@@ -6,7 +6,7 @@ content rather than style preference:
   * **stdout, not a file.** A container has nowhere useful to write a log file, and
     anything it does write disappears with the container. Every managed platform collects
     stdout. Writing to a file now would mean rewriting this in Lab 4.
-  * **JSON, not prose.** In week 11 students query logs by field. A log line that reads
+  * **JSON, not prose.** In week 12 students query logs by field. A log line that reads
     nicely to a human and cannot be filtered by job id is a log line that is useless at
     exactly the moment it is needed.
 

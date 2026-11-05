@@ -19,14 +19,19 @@ Status: **unfilled — awaiting Q-01.** Do not date the syllabus from anywhere e
 | 5 |  |  |
 | 6 |  |  |
 | 7 |  |  |
-| 8 |  |  |
+| 8 |  | ← **midterm exam** · trial check (no teaching) |
 | 9 |  |  |
-| 10 |  | ← project brief released |
-| 11 |  | ← project proposal due |
-| 12 |  |  |
-| 13 |  |  |
-| 14 |  |  |
+| 10 |  |  |
+| 11 |  | ← project brief released |
+| 12 |  | ← project proposal due, with Lab 5 |
+| 13 |  | ← last teaching week · Lab 6 (one week) · design review |
+| 14 |  | ← **final exam** · Lab 6 due · peer review (no teaching) |
 | 15 |  | ← demonstrations + final submission |
+
+Twelve teaching weeks (1–7, 9–13), and three that do not teach (8, 14, 15) — D-66. If the
+institution fixes its own exam weeks, put the midterm and final there and move **only** the
+exam; the teaching sequence does not depend on which week the exam occupies, as long as the
+midterm falls between Lab 3 and Lab 4 and the final after Lab 6.
 
 Also record: add/drop deadline · withdrawal deadline · final grade submission deadline ·
 any institutional holiday that cancels a session · any week where the room or duration differs.
@@ -61,8 +66,8 @@ Fill in:
 
 1. **Move activation later.** Labs 2 needs cloud access from week 4, but Lab 2 can be
    re-sequenced one week later if weeks 1–3 absorb more local work. Cheapest fix.
-2. **Compress the cloud phase.** Fold the week-12 IaC lab into the week-11 practical block
-   so the last billable work ends earlier.
+2. ~~Compress the cloud phase.~~ **Already applied** (D-66, D-67): Lab 6 is a one-week lab
+   in week 13, so the last billable lab work ends at the start of week 14.
 3. **Institutional billing account** (Q-02), which removes the 90-day constraint entirely.
 4. **Move the demonstration earlier** and use week 15 only for cleanup, reflection and
    written submission — demonstrations do not require live cloud resources if the
@@ -75,16 +80,19 @@ eligibility. That is against Google's terms and is not an option the course offe
 
 ## 3. Check quiz and milestone placement against the dated calendar
 
-Quizzes sit in weeks 2, 4, 6, 8, 10, 12, 14 (D-07). After dating:
+Quizzes sit in weeks 2, 4, 6, 9, 11, 13; the exams in weeks 8 and 14 (D-66). After dating:
 
 - [ ] No quiz falls in a week whose session is cancelled by a holiday.
 - [ ] Every quiz assesses only outcomes taught in or before the **previous** week — re-check
       if any week was moved.
-- [ ] The project proposal (week 11) does not land in the same week as a quiz **and** a lab
-      deadline. It currently shares week 11 with the Lab 5 completion; the 180-minute budget
+- [ ] The project proposal (week 12) does not land in the same week as a quiz **and** a lab
+      deadline. It currently shares week 12 with the Lab 5 completion; the 180-minute budget
       for that week already accounts for this (`course/workload-budget.md`), but a shifted
       calendar can break it.
 - [ ] Week 15 has the full 3 hours available; demonstrations need up to 120 minutes of it.
+- [ ] Weeks 8 and 14 each have the full 3 hours in one room, for a 120-minute written exam. If
+      the institution requires exams in a separate exam period, record where they move and
+      what the freed session is used for.
 
 ---
 

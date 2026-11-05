@@ -1,6 +1,6 @@
 # Lab 2 — Compute and networking
 
-**Weeks 4–5 · 7.5% of the final grade · Individual submission**
+**Weeks 4–5 · 5% of the final grade · Individual submission**
 
 | | |
 |---|---|

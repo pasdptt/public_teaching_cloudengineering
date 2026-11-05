@@ -1,193 +1,161 @@
-# Week 12 — Declarative infrastructure and environments
+# Week 12 — Partial failure, resilience and observability
 
-**Quiz 6 this week.** **Lab 6 starts** — it is the last lab, and it spans weeks 12 and 13.
+**Lab 5 is due this week. So is the project proposal.** No quiz.
+
+This is the tightest week in the course. Your reading is deliberately short and the proposal
+is deliberately brief — see `course/workload-budget.md`, which says exactly what was traded
+for what.
 
 ---
 
-## Two ways to describe infrastructure
+## Partial failure is the normal condition
 
-Open `labs/lab-02/starter/01-create-vm.sh`. You wrote something like it eight weeks ago, and
-you have been maintaining scripts like it ever since. It is a list of **steps**: create this,
-then that, then grant this.
+A single machine fails simply: it works, or it does not. A distributed system mostly runs in
+a third state — **some of it is broken**, and the rest is still serving requests, possibly
+badly, possibly without anyone noticing.
 
-Now open `infra/main.tf`. It is a **description of a result**: there is a bucket with these
-properties, a service running this image, an identity with these permissions.
+Your application has four dependencies now: a bucket, Firestore, a broker, and the platform
+underneath. Each can be slow, unreachable, or wrong, independently. "Is it up?" stopped being
+a question with an answer several weeks ago.
 
-The difference is not syntax. It is what each one records.
+## Timeouts and retries are one decision, not two
 
-| | Imperative (a script) | Declarative (Terraform) |
+A timeout is a guess about how long is too long (week 3). A retry is what you do afterwards.
+Choosing either without the other is a bug you have not met yet.
+
+Here is the arithmetic that catches everyone. A client calls your service with a 10-second
+timeout and retries 3 times. Your service calls Firestore with a 10-second timeout and
+retries 3 times.
+
+Worst case, the inner sequence takes 30 seconds. The outer one retries *that* three times.
+**Ninety seconds**, from two policies that each looked reasonable.
+
+> **Nested retries multiply.** Nobody designs ninety seconds; everyone chooses a sensible
+> local policy.
+
+Two rules:
+
+- **A timeout without a retry policy is half a decision**, and so is the reverse.
+- **Retry at one level** — usually the outermost one that knows what the user is waiting for.
+
+In Lab 5, your push subscription retries and your service does not retry internally. That is
+not an oversight.
+
+## Circuit breaking
+
+Count failures against a dependency. Past a threshold, stop calling it and fail immediately.
+After a while, let one request through to see whether it has recovered.
+
+What it buys: the struggling dependency gets room to recover, and your own threads stop being
+consumed waiting for something that is not going to answer.
+
+What it costs, and this is the part people skip: **while the breaker is open you are failing
+requests that might have succeeded.** That is a deliberate trade. A breaker with a badly
+chosen threshold is not protection, it is an outage you built yourself.
+
+## Graceful degradation
+
+When a dependency fails, you have three options: fail the whole request, serve something
+reduced, or pretend nothing happened. The third is usually wrong and always tempting.
+
+Work it through on your own application:
+
+| Failure | Can you still…? | Reasonable behaviour |
 |---|---|---|
-| Records | what you did | what you want |
-| Run it twice | fails, or makes a second one | does nothing — the world already matches |
-| To change something | write a new script that changes it | edit the description and re-apply |
-| To remove it | remember everything you made | delete the description |
-| Answer to "what exists?" | read every script and hope | read one file |
+| Firestore unreachable | accept documents — **yes**, different dependency | Accept uploads; refuse job submission with a clear 503 |
+| Firestore unreachable | accept jobs — **no**, nowhere to record one | Say so honestly rather than accepting work you will lose |
+| Bucket unreachable | report on existing jobs — **yes** | Serve status; refuse new documents |
+| Processing failing for every job | accept submissions — **maybe** | This one has no clean answer. Accepting work you cannot do is sometimes right and sometimes a way to hide an outage. |
 
-**Run it twice** is the row that matters. A declarative description is **idempotent**, and that
-is the same word you met in week 10 for exactly the same reason. "Set the balance to 400" is
-idempotent; "add 100" is not. A desired-state description is the infrastructure version of the
-first sentence.
+Notice that these are **per-dependency** decisions. There is no global "degraded mode"; there
+are specific choices about specific failures.
 
-**What it costs**, because tutorials do not mention this:
+You made the first one in week 2 without knowing it: `/healthz` deliberately touches no
+dependency. If it checked Firestore, a brief Firestore blip would make the platform believe
+your instances were dead and restart perfectly healthy ones.
 
-- You must describe **everything**, including the small things you would have done by hand
-  without thinking.
-- The tool decides what order to do things in, and it is occasionally wrong — which is why
-  `infra/main.tf` has an explicit `depends_on` with a paragraph explaining it.
-- You now have a **state file**, and you have to look after it.
+## How you would even know: logs, metrics, traces
 
-## State, and why it has to exist
+Three tools, three questions, and — more usefully — three things each one cannot tell you.
 
-Here is the question that forces it. Terraform's job is to make the world match the file. You
-delete a resource from the file and run `apply`. How does it know to *destroy* something,
-rather than to do nothing?
+| Question | Use | Because |
+|---|---|---|
+| "What happened to **this** request?" | **Logs** | A metric averaged that answer away |
+| "Is it getting **worse**?" | **Metrics** | You cannot see a trend in individual lines |
+| "**Which hop** was slow?" | **Traces** | Each log knows one hop; a metric knows none |
 
-It cannot, unless it remembers what it made. That memory is the **state file**: a JSON record
-of every resource under management and its attributes.
+**Logs** — discrete events with context. Expensive: 50 GiB per project per month is free and
+then it is not, so a debug line in a hot path is a recurring bill. Yours are structured JSON
+on stdout, which is the format every cloud logging system wants.
 
-Two consequences follow, and both will bite somebody.
+**Metrics** — numbers over time, aggregated. Cheap, and the aggregation is exactly the
+problem: a p99 tells you a request was slow, never which one or whose.
 
-**Whoever holds the state holds the truth.** Two people with two local state files each
-believe they own the infrastructure, and nothing tells either of them otherwise. Real teams
-keep state in a shared backend with locking — the commented-out `backend "gcs"` block in
-`versions.tf` is that fix, left visible on purpose.
+**Traces** — one request's journey across services, with timing per hop. The only tool that
+answers "where did the time go" in a system with several components, and the most fragile:
+every hop must propagate the context, and one that does not breaks the chain.
 
-**State contains values, not just names.** Every attribute of every resource, in plain text.
-So:
+**None of them tells you what a user experienced.** All three instrument the system.
 
-> **A secret that passes through Terraform is a secret written to the state file.** Marking a
-> variable `sensitive` hides it from console output. It does not remove it from state.
+### You already have a trace, sort of
 
-This is why `infra/` contains no secrets at all, and why a real secret would live in Secret
-Manager and be referenced by name.
+Since week 2, every request has carried a `request_id` — generated if the client did not
+supply one, echoed in the `X-Request-Id` response header, and attached to every log line that
+request produces. That is why "follow one request through the logs" has been possible all
+term. It is a distributed trace with one hop, hand-rolled, minus the tooling.
 
-## Drift
+## SLOs and error budgets
 
-**Drift** is the gap between your description and the world.
+An **SLI** is a measurement: the fraction of job submissions that succeed within 500 ms. An
+**SLO** is a target for it: 99%, over 30 days. The **error budget** is what is left: 1%.
 
-It appears the moment somebody changes something outside the tool. Usually not carelessly — an
-incident at 2 a.m. and a console is the normal story. The change is real, it fixed something,
-and now the file is wrong.
+Do the arithmetic, because it is always surprising. 99% over 30 days permits about **7 hours**
+of failure a month. 99.9% permits about 43 minutes. 99.99% permits about 4 minutes — which
+nobody achieves by being careful; it requires redundancy, automation and people on call.
 
-In Lab 6 you will produce drift deliberately: change your service's `max-instances` in the
-console, then run `terraform plan`. The plan will offer to change it back.
+The budget is the useful part:
 
-**Which is right?** Not a trick question, and the answer is not "the file":
+> **An error budget is permission to spend reliability on something else.** Budget left over
+> means you can ship risky things. Budget exhausted means stop shipping and fix things.
 
-> Neither is right by default. The file is authoritative **if your team has decided it is**,
-> and that is an organisational commitment rather than a property of the tool.
-
-What Terraform gives you is **visibility** of the disagreement. What it cannot give you is an
-answer about who was right, and the case where two people each believe theirs is the truth is
-not a Terraform problem at all.
-
-## Environments
-
-An **environment** is a place a version of your system runs. You are about to have two.
-
-The rule is short and the second half is the hard one:
-
-> `dev` and `prod` should differ **only in the ways you chose**, be identical in every other
-> way, and run **the same artefact**.
-
-### What may differ
-
-Instance caps. Log levels. Message retention. How aggressively a bucket may be deleted. Each
-should be a choice you can defend in one sentence, and each lives in a `.tfvars` file rather
-than in a second copy of `main.tf`.
-
-**If you ever copy `main.tf` to make a prod version, stop.** Whatever you change in the copy is
-a difference nobody declared, and:
-
-> **An undeclared difference is why "it works in dev" happens.**
-
-### What must not differ
-
-Harder, and worth more marks. Three that matter:
-
-- **The container image.** Same digest, built once, promoted. Rebuild for prod and dev tested
-  something prod will never run.
-- **The region.** Different regions mean different latency and a different bill, so your dev
-  measurements describe a system you are not shipping.
-- **The shape of the configuration.** One file, parameterised. The moment there are two files,
-  the differences between them are undocumented by construction.
-
-### The compromise in your own configuration
-
-`infra/` gives each environment its own bucket, its own topic, its own subscription, its own
-service and its own identities. It does **not** give each one its own Firestore database.
-
-It cannot. There is one free `(default)` Firestore database per project, so dev and prod share
-your data. A destructive change you test in dev touches the same records prod is serving.
-
-That is not a bug in the configuration — it is the honest edge of what "two environments in one
-project" can mean, and it is why real organisations use **a project per environment**. This
-course does not, because a second project inside one billing account does not get a second free
-tier. **A cost constraint producing an architectural compromise** is one of the more realistic
-things you will meet this term, and Lab 6 asks you to describe it precisely.
-
-## Configuration is not secrets
-
-A project id is configuration. A database password is a secret. The test is not "does it feel
-sensitive" but:
-
-> **What happens if this appears in a public repository?**
-
-And then the part people get wrong. You commit a key, notice within a minute, and remove it in
-the next commit. Is it gone?
-
-**No.** It is in the history, in every clone, in every fork, and quite possibly in a search
-index already. Removing the file changes what `main` looks like and nothing else.
-
-> **The only fix for a committed credential is to rotate it.** The cleanup is cosmetic.
-
-This is why this course has two repositories, and it is the whole reason next week's pipeline
-uses federation instead of a key: the best way to avoid leaking a long-lived credential is not
-to have one.
-
-## What transfers, and what does not
-
-**Transfers everywhere:** desired state versus steps, the necessity of state, drift and who
-arbitrates it, one configuration parameterised per environment, build-once-promote, and the
-permanence of a committed secret.
-
-**Does not transfer:** the HCL syntax, the resource type names, workspaces as a mechanism, and
-this provider's particular opinions about ordering.
-
-The tool is incidental. Every cloud has one, and the reasoning above is the same in all of
-them. Note also that Terraform's licence changed in 2023 and **OpenTofu** is a compatible fork
-— `tofu` runs everything in this lab unchanged, and is what `infra/` was validated with. That
-a working tool can fork out from under an industry is itself worth noticing.
+Two habits worth forming now. Measure the SLI from as close to the user as you can — a
+server-side metric misses the requests that never arrived. And never pick a target without
+costing it: a number chosen without knowing what it requires is decoration.
 
 ## This week's work (~180 minutes)
 
 | | |
 |---|---|
-| Read these notes; prepare for Quiz 6 | 30 min |
-| Lab 6 Parts 1–3: read the configuration, bring up `dev`, produce drift, add `prod` | 150 min |
+| Read these notes | 15 min |
+| Lab 5 Parts 3–6, including the failure experiment and verified teardown | 135 min |
+| Project proposal | 30 min |
 
-Part 1 is reading, and it is worth the time. Fourteen resources, every one of which you
-created by hand in Labs 3–5. Find the two grants Pub/Sub makes on its own behalf — the ones
-that cost you an error message and twenty minutes in Lab 5. Here they are four lines, and they
-will be right every time.
+**Both are due at the end of this week.** The proposal is short on purpose. If you are
+running out of time, the thing to protect is Lab 5's teardown — an orphaned subscription
+keeps costing, and the trial has to last until week 15.
 
 ## Check yourself
 
-1. A script and a Terraform file both create a bucket. What does each one *record*?
-2. Run each twice. What happens, and what is the word for the property that differs?
-3. Why can Terraform not work without state? Answer with the delete case.
-4. Why is `sensitive = true` not protection for a secret?
-5. Define drift, give a realistic way it happens, and say who decides which side is right.
-6. Name three things that may differ between dev and prod, and three that must not.
-7. Why can dev and prod not have separate Firestore databases here, and what would fix it?
-8. You committed a key and removed it in the next commit. What is the actual remedy?
-9. Two Cloud Run services are free in one project and two `e2-micro` VMs are not. Why? Your
-   answer should be about how each allowance is counted.
+1. Client timeout 10 s with 3 retries, calling a service with the same policy. Worst-case
+   wait? What went wrong?
+2. Why is "set a generous timeout" bad advice?
+3. What does an open circuit breaker cost you? Be specific.
+4. Firestore is unreachable. Which of your endpoints should still work, and what should the
+   others return?
+5. Why does `/healthz` deliberately check nothing downstream?
+6. Give a question logs answer that metrics cannot, and one metrics answer that logs cannot.
+7. What breaks a distributed trace?
+8. 99.5% over 30 days. How much downtime is that? Work it out rather than guessing.
+9. Your error budget is spent with two weeks to go. What should the team do?
 
 ## Next week
 
-The pipeline. You have a description of an environment and you are still typing `apply` by
-hand — next week a merge does it, a broken test stops it, and the whole thing authenticates
-without a single long-lived credential existing anywhere.
+The last teaching week, and the densest. Infrastructure stops being a set of shell scripts you
+maintain by hand — declarative provisioning, Terraform state, drift, two environments from one
+configuration, why a secret in a repository is permanent — and then a pipeline deploys it on
+merge, stops on a broken test, and authenticates without a long-lived key.
 
-**Lab 6 is due at the end of week 13, and the project starts.**
+**Lab 6 is a one-week lab, due at the start of week 14**, and it is the last lab. The week 13
+notes are longer than usual because the session can only give each idea one pass; reading them
+before the session is the best use of time you have. Your project design review is also in
+week 13.

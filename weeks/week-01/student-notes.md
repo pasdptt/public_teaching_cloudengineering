@@ -53,7 +53,7 @@ larger — which is where week 2's virtualization material comes in.
 
 **Rapid elasticity.** Capacity can grow and shrink quickly, and can appear unlimited. Note
 *appear*. It is not unlimited, it takes real time to arrive, and the delay between "we need
-more" and "more has arrived" is the source of a surprising amount of misbehaviour. Week 9.
+more" and "more has arrived" is the source of a surprising amount of misbehaviour. Week 10.
 
 **Measured service.** Usage is metered, and therefore billed.
 
@@ -151,7 +151,7 @@ anyone.
 ## The application you will build on
 
 One application, all semester. It stores a text document, runs a small operation on it, and
-reports the result. Today it runs on your laptop and keeps everything locally. By week 12 it
+reports the result. Today it runs on your laptop and keeps everything locally. By week 13 it
 will be containerised, deployed, scaled, asynchronous, reproducible from code, and
 completely removable — and you will have measured it at each step.
 

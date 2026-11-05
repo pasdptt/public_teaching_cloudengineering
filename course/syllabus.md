@@ -5,11 +5,11 @@
 
 | | |
 |---|---|
-| **Credit format** | 15 weeks × 3 contact hours |
+| **Credit format** | 15 weeks × 3 contact hours: **12 teaching weeks**, a midterm week (8), and final exam and project weeks (14–15) |
 | **Audience** | Junior/senior CS undergraduates and early graduate students, one shared course |
 | **Class size** | ~10 students, one instructor, no teaching assistant |
 | **Cloud platform** | Google Cloud Platform, funded by the $300 / 90-day new-user trial |
-| **Assessment** | Quizzes 20% · Labs 45% · Project 35% — **no midterm, no final exam** |
+| **Assessment** | Quizzes 10% · Labs 30% · Project 30% · Midterm 15% · Final exam 15% |
 | **Independent work** | ~180 minutes per week, total |
 
 ---
@@ -95,7 +95,8 @@ explain is worth more than a right one you cannot.
 
 ### Labs
 
-Six labs, each normally spanning two weeks, all building on the same application:
+Six labs, all building on the same application. Labs 1–5 span two weeks each; Lab 6 is a
+one-week lab in week 13:
 
 1. **Local foundations** — run and inspect the application, trace a request, examine
    process and container boundaries, reason about state and failure.
@@ -111,9 +112,18 @@ Six labs, each normally spanning two weeks, all building on the same application
 6. **Reproducibility and economics** — complete a Terraform skeleton, recreate the
    environment, explain a cost estimate, then verify teardown.
 
+### Examinations
+
+A **midterm in week 8** covering weeks 1–7, and a **final in week 14**, cumulative but weighted
+towards weeks 9–13. Both are 120 minutes, written, in the room. Neither week teaches new
+material. They ask what the quizzes ask, at more length: explain a mechanism, interpret a
+measurement, trace a request, defend a choice. Format and allowed materials:
+`exams/README.md`.
+
 ### Project
 
-Released in week 10, proposed in week 11, built in weeks 13–15, demonstrated in week 15.
+Released in week 11, proposed in week 12, reviewed in week 13, built in weeks 13–15,
+demonstrated in week 15.
 You extend the course application to meet a small set of workload, security, reliability
 and cost requirements, then defend the architecture.
 
@@ -127,9 +137,11 @@ as much; both members answer individual questions.
 
 | Component | Weight | Form |
 |---|---|---|
-| Quizzes (7 × ~10–15 min, weeks 2, 4, 6, 8, 10, 12, 14) | **20%** | Individual, in class, during the discussion block |
-| Labs (6, substantial) | **45%** | Individual submission |
-| Integrative project | **35%** | Individual or pair, with individual accountability |
+| Quizzes (6 × ~10–15 min, weeks 2, 4, 6, 9, 11, 13) | **10%** | Individual, in class, during the discussion block |
+| Labs (6, substantial) | **30%** | Individual submission |
+| Integrative project | **30%** | Individual or pair, with individual accountability |
+| Midterm exam (week 8, 120 min) | **15%** | Individual, written, in class |
+| Final exam (week 14, 120 min) | **15%** | Individual, written, in class |
 | | **100%** | |
 
 Quiz scores are normalised before the category weight is applied, so quizzes of slightly
@@ -220,14 +232,14 @@ there is still time to fix them. Platform-specific setup lives in
 
 A policy is under academic review (`planning/open-questions.md`, Q-05). The working
 expectation: assistance is permitted for code and prose, **disclosure is required**, and
-your individual understanding is checked directly — in quizzes, in lab explanations, and in
+your individual understanding is checked directly — in quizzes and exams, in lab explanations, and in
 an oral question about a decision you made in your project. Work you cannot explain does
 not earn marks, whoever or whatever wrote it.
 
 ## Where things are
 
 `course/` design documents · `weeks/` per-week notes · `labs/` lab briefs and starter code ·
-`quizzes/` · `project/` · `application/` the course application · `infra/` Terraform ·
+`quizzes/` · `exams/` · `project/` · `application/` the course application · `infra/` Terraform ·
 `operations/` setup, cloud access, cost and cleanup.
 
 Answer keys and solutions are not in this repository.

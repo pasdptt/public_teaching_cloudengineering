@@ -1,6 +1,6 @@
 # Lab 1 — Rubric
 
-**7.5% of the final grade.** Four bands, the same four used in every lab in this course.
+**5% of the final grade.** Four bands, the same four used in every lab in this course.
 
 | Band | Share |
 |---|---|

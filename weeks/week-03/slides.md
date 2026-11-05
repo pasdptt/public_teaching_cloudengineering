@@ -296,7 +296,7 @@ Once state lives somewhere that outlives execution, the execution can be **state
 
 None of that works if a request handler remembers something the next request needs.
 
-> "Put it in a variable on the server" is a decision that quietly forecloses **everything in weeks 8–11.**
+> "Put it in a variable on the server" is a decision that quietly forecloses **everything in weeks 9–12.**
 
 ---
 

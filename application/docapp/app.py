@@ -99,7 +99,7 @@ class Application:
 
         A health check that depends on every downstream service will report the whole
         application dead when one dependency is briefly slow, and a platform that believes
-        it will then restart a perfectly healthy instance. Week 11 revisits this.
+        it will then restart a perfectly healthy instance. Week 12 revisits this.
         """
         return 200, {"status": "ok", "instance_id": self.service.config.instance_id}
 
@@ -324,7 +324,7 @@ def make_server(config: Config, application: Application) -> ThreadingHTTPServer
     handler = type("BoundHandler", (Handler,), {"application": application})
     server = _Server((config.host, config.port), handler)
     # Threads do not outlive the process. Under Ctrl-C a request in flight is abandoned
-    # rather than blocking shutdown -- acceptable here, and a topic revisited in week 11
+    # rather than blocking shutdown -- acceptable here, and a topic revisited in week 12
     # when graceful shutdown starts to matter.
     server.daemon_threads = True
     return server

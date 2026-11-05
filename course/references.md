@@ -149,7 +149,7 @@ definition is from 2011 and predates serverless, so the gaps are informative.
 **Ch. 4 Service Level Objectives**, **Ch. 6 Monitoring Distributed Systems**,
 **Ch. 21 Handling Overload**, **Ch. 22 Addressing Cascading Failures**.
 
-*Assigned in:* Week 11 (Ch. 4 and selected parts of Ch. 6). Chapters 21–22 are offered as
+*Assigned in:* Week 12 (Ch. 4 and selected parts of Ch. 6). Chapters 21–22 are offered as
 optional enrichment — they are excellent and too long for the budget.
 
 ## R-07 · Armbrust, M. et al., "A View of Cloud Computing"
@@ -169,7 +169,7 @@ alone is sufficient for the required reading.
 URL now redirects to `builder.aws.com`, and the new location did not return article content
 to automated retrieval. Verify the working URL before assigning either.
 
-*Candidate for:* Week 10. Deliberately chosen from a **different** provider to a GCP course,
+*Candidate for:* Week 11. Deliberately chosen from a **different** provider to a GCP course,
 so students see that retry and jitter reasoning is not GCP-specific. Note for the teaching
 guide: a vendor engineering blog is a good source for a mechanism and a poor source for a
 comparative claim.

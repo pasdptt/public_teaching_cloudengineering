@@ -1,24 +1,23 @@
-# Week 14 — Teaching guide: Synthesis and evidence-based evaluation
+# Week 14 — Teaching guide: Final examination and peer review
 
 | | |
 |---|---|
-| **Outcomes** | CLO-6, CLO-8, CLO-9 |
-| **Assessment** | **Quiz 7** (weeks 11–13; CLO-6, CLO-7, CLO-8, CLO-9) |
-| **Practical** | Project experiments · **structured peer review** |
-| **Prep time** | ~3 h first delivery, ~1 h subsequently |
+| **Outcomes** | CLO-2, CLO-5, CLO-6, CLO-7, CLO-9 (exam evidence); CLO-8 (exam question, and the peer review) |
+| **Assessment** | **Final exam** — 120 min, 60 marks, cumulative, weighted towards weeks 9–13 (`exams/README.md`) · **Lab 6 due** at the start of the session |
+| **Practical** | Structured peer review. **No new material** |
+| **Prep time** | Paper and key: ~6 h first delivery, ~2 h subsequently. Session: ~30 min |
 
-> **Restructured 2026-09-22 (D-24).** Architecture synthesis moved here from week 13. It sits
-> well beside evaluation: both are about judging a design rather than building one.
+> **Restructured 2026-11-05 (D-66).** This week was "Synthesis and evidence-based
+> evaluation": a 60-minute lecture, Quiz 7 and an extended practical. The lecture is now
+> reading (the student notes are unchanged in substance), Quiz 7 became the final exam's
+> practice set, and the peer review kept its 50 minutes. The former lecture notes are kept at
+> the end of this guide as background for the peer review and for the week 15 synthesis.
 
 ## Session objectives
 
-1. Read an architecture and say where state lives, where boundaries are, and what each
-   identity may do — without being prompted for those three.
-2. Perform a security review and a cost review as routine passes rather than as events.
-3. Identify where a managed service has become a dependency, and estimate what leaving would
-   actually cost.
-4. Say what makes a measurement trustworthy, and name the confounds in one of their own.
-5. Present a tradeoff honestly, including the option they rejected and why.
+1. Every student sits the final exam under the same conditions.
+2. Every student reads another group's architecture and evidence against four written
+   questions, and hears how their own design reads to someone who did not build it.
 
 ---
 
@@ -26,26 +25,76 @@
 
 | Block | Min | Content |
 |---|---|---|
-| **Architecture synthesis** | 15 | Reading a system in three passes |
-| Security and cost review as habits | 10 | Two checklists they already know the content of |
-| **Dependency, and the price of leaving** | 15 | The question nobody asks until it is expensive |
-| **Evidence, and presenting a tradeoff** | 20 | What makes a measurement trustworthy |
+| **Final examination** | 120 | Written, in the room. Start on time; collect at 120 minutes exactly |
 | Break | 10 | |
-| **Quiz 7** | 15 | Weeks 11–13 |
-| **Practical (extended): peer review and project experiments** | 95 | Structured review, then their own work |
+| **Structured peer review** | 50 | Four written questions, in silence; then discussion; the author may not defend (D-49) |
 
-**180 minutes exactly.** 60 concepts · 15 quiz · 95 practical, plus the break.
-
-> **The practical is deliberately the largest block in the course.** The concepts here are
-> mostly assembly of things already taught, and the skill is applying them to somebody else's
-> design — which cannot be lectured. `course/weekly-schedule.md` calls this the extended
-> practical; this is what that means.
+**180 minutes exactly.** No concept block and no supervised project time — both went when the
+calendar was compressed. The project's independent time this week is 105 minutes, alongside
+60 of exam revision (`course/workload-budget.md`).
 
 ---
 
-## Teaching notes
+## The exam (120 min)
 
-### Reading an architecture in three passes
+- **The paper is in the instructor repository** (`exam-papers/final.md`), with its key. It does
+  not exist yet. Start from the former Quiz 7 key, which already carries the CLO-8 design-defence
+  questions (D-56), and from `exams/final-practice.md`, which students will have seen — so the
+  real paper must use **different scenarios** in the same style.
+- **Coverage:** weeks 1–13, about three quarters from weeks 9–13. One design-defence question
+  for CLO-8, about a decision from the student's own Lab 6 or project proposal.
+- **Not examined:** the synthesis reading below. It is preparation for the peer review and the
+  project, it was never lectured, and examining it would break the rule that assessments cover
+  only what was taught and practised.
+- **Lab 6 is due at the start of the session**, so the exam may draw on it.
+- **Mark within a week**, before the week 15 defences if at all possible — the exam's CLO-8
+  answer and the defence are two views of the same skill and are worth reading together.
+
+---
+
+## Structured peer review (50 min)
+
+Pair each student or group with another. They exchange whatever exists of the project so far:
+the architecture, the proposal, and any evidence collected.
+
+**Twenty minutes reading and writing, in silence.** Reviewers answer four questions in
+writing. Nothing else, and no general impressions:
+
+1. **Where does state live in this design, and what happens if the component holding it is
+   replaced mid-request?**
+2. **What is the most expensive mistake this design allows, and what stops it?**
+3. **Take one claim from their evidence. What would have to be true for it to be wrong?**
+4. **What is the strongest version of an alternative they rejected?**
+
+**Then twenty minutes talking**, ten each way. The reviewer reads their answers; the author
+may ask clarifying questions and **may not defend**. That rule matters and you will have to
+enforce it two or three times — the value is in hearing how the design reads to someone who
+did not build it, and a defence stops that immediately.
+
+**Last ten minutes, together.** Ask for the most useful thing anyone *received*, not gave.
+Three answers, then stop.
+
+The written sheets go to the authors and a copy to the instructor. They are **not graded** —
+they are CLO-8 evidence of the reviewer's engagement, and they feed the week 15 defence.
+
+**Run it straight after the break.** Students will be tired after the exam, which is a reason to
+keep the four questions and the silence strict rather than to soften them: writing to a fixed
+prompt is easier than open discussion after two hours of writing.
+
+**Ask everyone to bring a printed or on-screen copy of their project-so-far** — architecture,
+proposal, any evidence — announced in week 13. The review cannot run on memory.
+
+---
+
+## Background for the peer review and the week 15 synthesis (not lectured)
+
+This was the week 14 concept block. Students now meet it as reading in
+`weeks/week-14/student-notes.md`. It is kept here because the peer review's four questions
+assume the three-pass reading method, the week 15 synthesis assumes the dependency and
+price-of-leaving material, and the project rubric's A3 and C3 bands assume the dependency and
+evidence sections. Use it when preparing those, not as a lecture.
+
+#### Reading an architecture in three passes
 
 They have built one system in six labs. Now they have to read someone else's in ten minutes,
 which is what the peer review and the week 15 questions both require.
@@ -64,7 +113,7 @@ Demonstrate it live on the course application, which they know cold. Two minutes
 passes, out loud. Then the point: those three questions are most of what a senior engineer
 does when handed an unfamiliar diagram, and none of them requires knowing the product names.
 
-### Security and cost review as habits, not events
+#### Security and cost review as habits, not events
 
 Short block, because the content is entirely revision. Frame it as two passes they can run on
 any design in five minutes.
@@ -83,7 +132,7 @@ Then make it concrete on their own project, and ask for the answer they have all
 Everyone in the room has a bounded answer, because the whole course has been built so they do.
 That is worth saying explicitly.
 
-### Dependency, and the price of leaving
+#### Dependency, and the price of leaving
 
 This is the block with new content in it, and it is the one that transfers furthest.
 
@@ -119,7 +168,7 @@ The conclusion to land, and it is deliberately not anti-cloud:
 A team that knows it is four weeks has made a decision. A team that has never asked has made
 one too, without noticing.
 
-### Evidence, and presenting a tradeoff
+#### Evidence, and presenting a tradeoff
 
 Everything here has been rehearsed — Lab 4's confounds paragraph and Lab 5's
 proves/does-not-prove paragraph are both drafts of this. Say so, and make this the block where
@@ -152,65 +201,10 @@ with a properly-argued alternative reads as a decision.
 
 ---
 
-## Quiz 7 (15 min)
-
-Covers weeks 11–13: CLO-6, CLO-7, CLO-8, CLO-9. The last quiz, and the only one assessing
-CLO-8, so it carries real weight — `course/assessment-plan.md` notes that dropping a lowest
-quiz is safe for every other outcome partly because of how this one is built.
-
-**It may assess today's evidence material only through what students have already done** —
-the Lab 4 and Lab 5 write-ups — not through the framing given ninety minutes earlier. Same
-rule as Quiz 6.
-
----
-
-## Practical (95 min): peer review, then project work
-
-### Structured peer review (~50 min)
-
-Pair each student or group with another. They exchange whatever exists of the project so far:
-the architecture, the proposal, and any evidence collected.
-
-**Twenty minutes reading and writing, in silence.** Reviewers answer four questions in
-writing. Nothing else, and no general impressions:
-
-1. **Where does state live in this design, and what happens if the component holding it is
-   replaced mid-request?**
-2. **What is the most expensive mistake this design allows, and what stops it?**
-3. **Take one claim from their evidence. What would have to be true for it to be wrong?**
-4. **What is the strongest version of an alternative they rejected?**
-
-**Then twenty minutes talking**, ten each way. The reviewer reads their answers; the author
-may ask clarifying questions and **may not defend**. That rule matters and you will have to
-enforce it two or three times — the value is in hearing how the design reads to someone who
-did not build it, and a defence stops that immediately.
-
-**Last ten minutes, together.** Ask for the most useful thing anyone *received*, not gave.
-Three answers, then stop.
-
-The written sheets go to the authors and a copy to the instructor. They are **not graded** —
-they are CLO-8 evidence of the reviewer's engagement, and they feed the week 15 defence.
-
-### Project experiments (~45 min)
-
-Supervised work time. Circulate with one question:
-
-> What is the question your experiment answers, and how will you know if the answer is wrong?
-
-Priorities, in order:
-- **Anyone with no experiment planned by the end of this session is in trouble**, and week 15
-  is one week away. Cut their scope with them, now, using the smallest-version answer recorded
-  at the week 13 design review.
-- **Anyone still building** should be stopped and asked what evidence they will have. A working
-  system with no measurements scores poorly against `project/rubric.md`, and this is the last
-  moment to change that.
-- **Remind everyone about the trial window and about cleanup.** Week 15 verifies teardown in
-  the session, and a trial expiring mid-demonstration is a recoverable disaster only if it is
-  known about in advance.
-
----
-
 ## Common misconceptions
+
+These now surface in the peer review, the project write-up and the week 15 defence rather than
+in a lecture.
 
 | Misconception | Surfaces as | Response |
 |---|---|---|
@@ -228,10 +222,9 @@ Priorities, in order:
 ## Links
 
 - Student notes: `weeks/week-14/student-notes.md`
+- Exam format: `exams/README.md` · practice set: `exams/final-practice.md`
 - Project: `project/brief.md` · `project/rubric.md` · `project/milestones.md`
 - The rehearsals: `labs/lab-04/rubric.md` band B4 (confounds), `labs/lab-05/rubric.md` band B1
   (proves/does-not-prove) — reuse their language rather than inventing new
-- Measurement tools and their stated limits: `application/tools/measure.py`,
-  `application/tools/instances.py`
 - Portability: `course/concept-to-gcp-map.md`
-- Quiz 7 key and the peer-review sheet: private repo, `quiz-keys/`, `teaching-notes/`
+- Final paper, its key, and the peer-review sheet: private repo, `exam-papers/`, `teaching-notes/`

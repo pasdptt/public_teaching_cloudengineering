@@ -14,26 +14,25 @@ but it takes away the check that would have caught a project that cannot be fini
 
 | Week | Milestone | Your time | What happens to it |
 |---|---|---|---|
-| 10 | **Brief released** in the session | 20 min | Read it. Pick a likely extension. Check your trial expiry date. |
-| 11 | **Proposal due** at the end of the week, with Lab 5 | 30 min | The instructor reads it before week 13. Not marked. |
-| 12 | *No project work.* Lab 6 takes the whole week | — | — |
-| 13 | **Design review** in the session, 3–4 min each | 50 min after it | The scope is agreed, and your smallest version is written down |
-| 14 | **Peer review** in the session. **Experiments running** by the end of the week | ~145 min | Written feedback from a peer. Not marked. |
+| 11 | **Brief released** in the session | 20 min | Read it. Pick a likely extension. Check your trial expiry date. |
+| 12 | **Proposal due** at the end of the week, with Lab 5 | 30 min | The instructor reads it before week 13. Not marked. |
+| 13 | **Design review** in the session, 3–4 min each. Lab 6 takes the rest of the week | — | The scope is agreed, and your smallest version is written down |
+| 14 | **Final exam**, then **peer review**, in the session. **Your experiment running** by the end of the week | ~105 min | Written feedback from a peer. Not marked. |
 | 15 | **Demonstration**, **teardown in the room**, and **final submission** by the end of the week | ~150 min | Marked against the rubric |
 
 The exact dates depend on the semester calendar and are announced by the instructor. Where to
 submit is announced too.
 
-Two deadlines share week 11, and it is the tightest week in the course. **If you run out of time
+Two deadlines share week 12, and it is the tightest week in the course. **If you run out of time
 that week, protect Lab 5's teardown first.** An orphaned subscription keeps costing money, and a
 late proposal is a conversation with the instructor, not a lost mark.
 
 ---
 
-## Week 11 — The proposal
+## Week 12 — The proposal
 
 **One page, thirty minutes.** It is a plan, not a design document. You have not yet learned the
-infrastructure material from weeks 12–13, so you are not expected to describe any of it.
+infrastructure material from week 13, so you are not expected to describe any of it.
 
 Copy this template and fill it in:
 
@@ -45,6 +44,9 @@ Copy this template and fill it in:
 
 **Workload (first version):** <who uses it, how much, and the peak. Say where the numbers
 come from, even if the answer is "invented".>
+
+**Which one I will run, and why:** <performance or failure — one sentence. The other is designed,
+not run (brief Part 3).>
 
 **Performance experiment:**
 - Question: <a question with a measurable answer>
@@ -98,14 +100,16 @@ A cut in week 13 costs nothing; the same cut in week 15 costs the evidence.
 The instructor also checks your cost reasoning against the free tier here. A design that needs a
 paid resource is sent back for redesign rather than approved with a budget.
 
-**Your time after the review:** 50 minutes in week 13, alongside finishing Lab 6. Use it to get
-the smallest version deploying through your Lab 6 pipeline, not to start the extension's
-cleverest part.
+**Your time after the review:** none in week 13 — Lab 6 takes the week. Your first project time
+is 105 minutes in week 14, alongside final-exam revision. Use it to get the smallest version
+deploying through your Lab 6 pipeline and your one experiment running, not to start the
+extension's cleverest part.
 
 ---
 
-## Week 14 — Peer review, and experiments running
+## Week 14 — Final exam, peer review, and your experiment running
 
+The session opens with the **final exam** (120 minutes); the peer review follows the break.
 **Bring** whatever exists: your architecture sketch, your proposal with its smallest version, and
 any evidence so far. It does not need to be finished; the review is more useful when it is not.
 
@@ -115,7 +119,8 @@ may ask clarifying questions but you may not defend it.** The point is to hear h
 reads to someone who did not build it. The sheets are not graded, and they are the best
 rehearsal there is for the questions in week 15.
 
-**By the end of week 14, both experiments should have run at least once.** A working system with
+**By the end of week 14, the experiment you chose to run should have run at least once**, and
+the other should be designed on paper. A working system with
 no measurements scores poorly. Experiments and interpretation are 25% of the mark, the same as
 architecture. If you are still building at this point, stop, and measure what you have.
 
@@ -152,9 +157,9 @@ Cut in this order, and write down what you cut:
 2. **Experiment size**: fewer steps and fewer repetitions, with the limitation stated. Three runs
    of one condition, honestly reported, is better than a sweep you did not finish.
 
-**Do not cut** the experiments altogether, the teardown, or the explanation. Those are where the
-marks are. A small extension with two real experiments and a verified teardown scores better
-than a large extension with none.
+**Do not cut** the experiment you run, the design of the other, the teardown, or the
+explanation. Those are where the marks are. A small extension with one real experiment, one
+careful design and a verified teardown scores better than a large extension with none.
 
 If the whole class is squeezed, the instructor will adjust the requirements and record it. Do
 not adjust them yourself.

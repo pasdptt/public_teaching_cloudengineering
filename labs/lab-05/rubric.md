@@ -1,6 +1,6 @@
 # Lab 5 — Rubric
 
-**7.5% of the final grade.** Same four bands as every lab. Primary evidence for **CLO-5**,
+**5% of the final grade.** Same four bands as every lab. Primary evidence for **CLO-5**,
 with substantial CLO-6.
 
 | Band | Share |
@@ -119,11 +119,11 @@ explained.
 
 **After this lab, confirm every student's subscriptions list is empty.** This is the last
 billable lab, the trial has to reach week 15, and a retained subscription is the one thing
-here that quietly consumes it. Check it in the room, in week 11, not in week 13.
+here that quietly consumes it. Check it in the room, in week 12, not in week 13.
 
 Expect two or three students to be defeated by the push identity's second grant — Pub/Sub's
 service agent needing token-creator permission. The error message names it. Whether they read
-the error or searched for a tutorial is worth knowing, and is worth a minute of the week 11
+the error or searched for a tutorial is worth knowing, and is worth a minute of the week 12
 session either way.
 
 Full solutions, the expected role set and the common-mistake list: private repo,

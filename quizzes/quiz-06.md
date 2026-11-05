@@ -1,8 +1,8 @@
 # Quiz 6 — Asynchrony, failure and evidence
 
-**Covers weeks 9–11**, including Lab 5, plus two habits you have practised all term:
+**Covers weeks 10–12**, including Lab 5, plus two habits you have practised all term:
 **cleanup** (since Lab 2) and **the CI workflow** that runs on your pushes (since week 3).
-Taken in week 12, in the discussion block. The infrastructure-as-code, environment and cost
+Taken in week 13, in the discussion block. The infrastructure-as-code, environment and cost
 material taught in that session is **not** assessed here. Outcomes: CLO-5, CLO-6; CLO-7 and
 CLO-9 through those two habits only.
 

@@ -1,14 +1,13 @@
-# Quiz 7 — Delivery, environments, and what you are committed to
+# Final exam — practice questions: delivery, environments, and what you are committed to
 
-**Covers weeks 11–13**, including Lab 6. Taken in week 14 — the architecture-synthesis
-material taught earlier in that session is **not** assessed here; the questions draw on the
-system you built in Labs 5 and 6. Outcomes: CLO-6, CLO-7, CLO-8, CLO-9.
+**Practice, not assessed.** These were Quiz 7 until the calendar was compressed (D-66, D-70).
+They draw on weeks 12–13 and Lab 6, and are the closest thing to the final exam's second half:
+the same question style, on the same material, at the same standard. The final itself is
+longer, cumulative, and described in [`README.md`](README.md).
 
-**15 marks · about 13 minutes · closed book · individual.** Short answers are fine. Where a
-question asks about *your* system, answer about the one you actually built.
-
-This is the only quiz that assesses CLO-8, so Questions 5 and 6 carry more weight than their
-length suggests.
+**15 marks · about 13 minutes if timed.** Short answers are fine. Where a question asks about
+*your* system, answer about the one you actually built. Questions 5 and 6 are the CLO-8 kind —
+defending a decision you made — which the final exam also asks.
 
 ---
 

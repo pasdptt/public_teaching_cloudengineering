@@ -1,22 +1,22 @@
-# Week 9 — Teaching guide: Horizontal scaling and measurement
+# Week 9 — Teaching guide: Managed containers and serverless
 
 | | |
 |---|---|
-| **Outcomes** | CLO-2, CLO-5, CLO-6 |
-| **Assessment** | — (Lab 4 due) |
-| **Practical** | Lab 4 Parts 4–7 |
+| **Outcomes** | CLO-1, CLO-2, CLO-5 |
+| **Assessment** | **Quiz 4** (weeks 5–7) |
+| **Practical** | Lab 4 Parts 0–3 |
 | **Prep time** | ~3.5 h first delivery, ~1 h subsequently |
 
 ## Session objectives
 
-1. Distinguish vertical from horizontal scaling by what each one runs out of.
-2. Distinguish concurrency from parallelism, and say which one the application's 250 ms
-   delay exercises.
-3. State the relationship between latency, throughput and utilisation, and explain why
-   optimising one can damage another.
-4. Explain autoscaling as a feedback loop with delay, and predict overshoot from that.
-5. Design a bounded experiment: one variable, stated conditions, repeated runs, and an
-   explicit list of what the result cannot tell you.
+1. State what the customer stops operating when moving from a VM to managed execution, and
+   what they take on instead.
+2. Explain the request-scoped instance lifecycle, and why an instance may be created or
+   destroyed without anything going wrong.
+3. Explain why statelessness is a precondition rather than a style, using the application's
+   own two kinds of state.
+4. Describe what happens during a cold start, in order, and name what makes one longer.
+5. Treat the concurrency setting as a design decision with a cost, not a default.
 
 ---
 
@@ -24,119 +24,111 @@
 
 | Block | Min | Content |
 |---|---|---|
-| Vertical vs horizontal | 15 | What each runs out of, and which one has a ceiling |
-| Concurrency vs parallelism | 10 | Waiting overlaps; computing does not |
-| **Latency, throughput, utilisation** | 25 | The three-way relationship, drawn |
+| What you stop operating | 20 | The Lab 2 responsibility list, crossed out item by item |
+| **The instance lifecycle** | 20 | Request-scoped. Created, reused, destroyed, all without failure. |
+| **Statelessness as the price** | 25 | The heart of the session. Two kinds of state, one survives. |
 | Break | 10 | |
-| **Autoscaling as delayed feedback** | 20 | Why a sensible rule overshoots |
-| Designing a bounded experiment | 10 | One variable, conditions, repeats, caveats |
-| **Discussion: predict the curve** | 30 | Draw it, then compare with real data |
-| Practical | 60 | Lab 4 Parts 4–7 |
+| Cold start | 15 | What is actually happening, in order |
+| Concurrency, and what it costs | 15 | 1 vs 80, and the per-request/per-hour crossover |
+| **Quiz 4** | 15 | Weeks 5–7 |
+| Practical | 60 | Lab 4 Parts 0–3 |
 
-**180 minutes exactly.** 80 concepts · 30 discussion · 60 practical, plus the break.
+**180 minutes exactly.** 95 concepts · 15 quiz · 60 practical, plus the break. The discussion
+prompt below is an alternative to part of the concept time, not an addition to it — in a quiz
+week there is no room for both, and the quiz is the fixed obligation.
 
 ---
 
 ## Teaching notes
 
-### Vertical and horizontal, by what runs out
+### Open by crossing things out
 
-Vertical: a bigger machine. Horizontal: more machines. The useful distinction is not the
-picture, it is the failure:
+Put the Lab 2 responsibility list on the board — they wrote it five weeks ago. Choose the
+machine size, create it, install Python, write a systemd unit, open a firewall port, keep it
+patched, notice when it dies, delete it before it costs money.
 
-> Vertical scaling runs out of **machine**. Horizontal scaling runs out of **shared things**
-> — the database, the lock, the licence, the one thing in the middle that all the copies
-> touch.
+Then cross out the ones managed execution takes over, one at a time, asking each time *who*
+now does it. The list shrinks to almost nothing, and that visible shrinking is the lesson.
 
-Ask which one their application has been ready for since Lab 3, and why it was not ready in
-week 2. The answer is the state, and they proved it themselves last week.
+Then ask what got **added**, and let the silence sit before answering: a build step, a
+registry to keep clean, a cold start, a platform whose scaling decisions you do not control,
+and a hard requirement that your application hold no state. Week 14 revisits this as
+"a managed service is a dependency".
 
-### Concurrency versus parallelism, in one exercise
+### The lifecycle, with no failure in it
 
-One CPU, ten requests. If each spends 250 ms waiting on a network call, how long for all ten?
-If each spends 250 ms computing?
+Students arrive believing instances appear when something goes wrong. Say it plainly:
 
-Roughly 250 ms and roughly 2.5 s. Same code shape, same numbers, tenfold difference — because
-the first overlaps and the second queues.
+> An instance being created, serving one request, and being destroyed is **not** an incident.
+> It is Tuesday.
 
-> **Concurrency is structure: several things in flight. Parallelism is hardware: several
-> things executing.** Concurrency without parallelism is still a win when the work is waiting.
+Draw the timeline: request arrives, no instance exists, one is started, it serves, it is kept
+warm for a while in case another comes, then it is gone. Nothing failed at any point.
 
-This is also the answer to last week's concurrency-setting argument, and it is why the
-application's delay is a `sleep`: it makes the distinction measurable on a laptop.
+Now the question that makes it bite: *which of those transitions does your application get
+told about?* Effectively none. That is what "request-scoped" costs.
 
-### Latency, throughput and utilisation — draw it
+### Statelessness, using their own application
 
-Draw throughput against offered load. It rises linearly, bends, and flattens. Draw latency on
-the same axis: flat, then a knee, then a cliff.
+This is the block that matters, and the application makes it concrete for free.
 
-Three things to get across:
+Ask: the service stores documents in a bucket and job records in a dictionary. Two instances
+are running. Draw what each one can see.
 
-1. **They are different questions.** "How fast is one request" and "how many per second" have
-   different answers and different fixes.
-2. **The knee is where the queue starts.** Before it, arriving work finds a free server.
-   After it, work waits — and waiting is latency that is not in your code.
-3. **High utilisation is not a goal.** A system at 95% utilisation has no slack, so every
-   burst becomes a queue. Ask them where they would rather run, at 50% or 95%, and make them
-   say what each choice costs.
+Let them work out that the documents are shared and the jobs are not. Then push:
 
-Then connect it to something they measured in Lab 1: concurrency 1 gave ~4.8 req/s and
-concurrency 4 gave ~19 req/s on the same laptop, with latency essentially unchanged. They
-were on the flat, early part of the curve and did not know it. What would have told them?
+> Nothing has failed. Both instances are healthy. Why does the user get a 404?
 
-### Autoscaling: a feedback loop that reacts late
+Land on the formulation the whole course has been building towards:
 
-Draw the loop: measure load → decide → start instances → they become useful *later* → measure
-again. Then put a delay in the middle and ask what happens to a step increase in traffic.
+> **State is not "data". State is anything an instance knows that the next instance will
+> need.** If it lives inside the instance, there is no next instance — there are only
+> unrelated ones.
 
-They will get there: the controller keeps adding while the earlier additions are still
-starting, then finds itself over-provisioned and removes too many. Overshoot, and possibly
-oscillation.
+Then the sharper version, which is Lab 4's Part 3 and is worth showing rather than telling:
+the idempotency key stops working. Retries stop being deduplicated, work is done twice, and
+**nothing logs an error**. A bug that returns 500 gets fixed. A bug that returns 200 twice
+gets shipped.
 
-> **Every autoscaler is a control loop with a delay, and delay is what makes control loops
-> oscillate.** This is not a flaw in one product. It is the shape of the problem.
+If there is a machine and a projector, run
+`pytest tests/test_two_instances_disagree.py -v` live. Three tests, ten seconds, and the
+third one shows that the fix is a wiring change and not a code change.
 
-Two consequences worth stating:
+### Cold start: say what is actually happening
 
-- Scaling helps with *sustained* load and cannot help with a spike shorter than its own delay.
-- A cold start is part of that delay, which links this block to last week's.
+Not "it is slow the first time". In order: the platform must find capacity, pull the image
+(or not, if it is cached), start the container, wait for the process to initialise, and wait
+for it to accept a connection on `$PORT`. Only then does the request get served.
 
-### Designing an experiment you can defend
+Ask which of those the developer controls. Image size and initialisation work — that is it.
+Then ask what in *this* application would dominate, and note that it is a small image with no
+framework, which is why their measurement in Part 5 may be less dramatic than the internet
+led them to expect. Say that in advance, so a modest number reads as a finding rather than a
+mistake.
 
-Short block, and it sets up both the lab and week 14. Four rules:
+### Concurrency: put the two numbers side by side
 
-1. **Change one variable.** Their Lab 4 Part 4 changes the concurrency setting only.
-2. **State the conditions.** Where the client was, what the delay was, time of day, what
-   version of the code.
-3. **Repeat.** Three runs. If they disagree, *that disagreement is the result* and belongs in
-   the write-up.
-4. **Say what it cannot tell you.** Small samples, one location, one workload shape, one day.
+Draw 20 simultaneous requests into a service with concurrency 80, then into one with
+concurrency 1. Ask for a show of hands on which has lower median latency before revealing
+anything.
 
-Then hold up the comparison they are about to make: laptop in week 3, VM in week 5, managed
-execution in week 9. Different weeks, different networks, code that changed in between. Ask
-what that table is worth. The answer is "quite a lot, if the caveats are attached, and almost
-nothing if they are not" — which is exactly how band B4 is marked.
+The useful confusion is that both answers are defensible, because it depends on whether the
+work is waiting or computing. The application waits — a 250 ms sleep — so one instance can
+overlap a great many. If it computed for 250 ms, it could not.
 
----
+Do not resolve it fully. Part 4 measures it, and a class that has argued about it measures
+with more attention.
 
-## Discussion (30 min): predict the curve, then look
+### Then the pricing shape, in the same block
 
-**First 10 minutes, no data.** Each student draws two curves for the Cloud Run service they
-deployed last week: latency against offered load, and throughput against offered load. Mark
-where the knee is and label what causes it. Then predict how both change when
-`--max-instances` goes from 4 to 1.
+Per-request-second versus per-machine-hour. The point is not the rates; it is that the
+crossover exists. Ask: at what traffic level does a $0.005/hour always-on VM become cheaper
+than paying per request? Nobody needs the exact number. Everybody needs to know the question
+has an answer, and that `--min-instances=1` silently moves you to the wrong side of it.
 
-**Next 10 minutes, in pairs.** Compare drawings and argue about the differences. Most
-disagreements are really about whether the work waits or computes, which is the morning's
-material arriving in a form they have to use.
-
-**Last 10 minutes, together.** Collect the class's predictions on the board, then show a real
-`measure.py` report from a warm service — theirs, or one produced live. The useful moment is
-not "who was right"; it is asking what in the report they would need to see more of before
-believing any of it.
-
-Tell them plainly: the drawing they just made is the one Part 4 asks them to compare against,
-and a wrong prediction that is explained scores higher than a right one that is not.
+Tie it to the concurrency argument they have just had: concurrency 1 gives every request an
+instance to itself, which is lovely for isolation and multiplies the vCPU-seconds you are
+billed for. Both halves of this block are the same decision seen from two directions.
 
 ---
 
@@ -144,40 +136,54 @@ and a wrong prediction that is explained scores higher than a right one that is 
 
 | Misconception | Surfaces as | Response |
 |---|---|---|
-| "Scaling means it gets faster" | Constantly | Horizontal scaling adds capacity. One request's latency does not improve; it usually gets slightly worse. |
-| "Latency and throughput are the same measurement" | Part 4 write-ups | Ask for a system with high throughput and terrible latency. Batch processing. Then the reverse. |
-| "We should aim for high utilisation" | Cost discussions | Then every burst queues. Slack is what you buy with the unused half. |
-| "Autoscaling handles spikes" | Autoscaling block | Not spikes shorter than its own reaction time, which includes a cold start. |
-| "More instances always means more throughput" | Experiment design | Until the shared thing saturates — and after Lab 3, the shared thing is Firestore. |
-| "p95 of 20 requests is a p95" | Every lab | It is "the second-slowest one". The tool prints n for that reason. |
-| "The numbers disagree, so the run was bad" | Part 4 | Three runs that disagree is a finding about variance, and it is reportable. |
-| "A faster median means the change worked" | Part 4 | Not if the two runs differ in anything else. Name the confound first. |
+| "Serverless means there are no servers" | Week 1 onwards | There are servers. You have stopped having a relationship with any particular one. |
+| "An instance being destroyed means something failed" | Lifecycle block | It is the normal case. Draw the timeline with no failure in it. |
+| "Statelessness is a coding style" | Constantly | It is a precondition. Without it the platform's freedom to move you is a bug generator. |
+| "A 200 response means it worked" | Idempotency demo | Two 200s for one submission means it worked twice. |
+| "Cold start is about the language" | Cold-start block | It is image size plus initialisation. A small image in a slow language starts faster than a huge one in a fast language. |
+| "min-instances=1 is a small optimisation" | Practical | It converts request pricing into machine pricing, all month, for a service nobody is calling. |
+| "Higher concurrency is always better" | Concurrency block | Better for throughput, sometimes worse for tail latency, and it depends entirely on whether the work is waiting or computing. |
+| "The registry is free" | Teardown | 0.5 GiB. About a dozen builds of this image. |
 
 ---
 
-## Practical (60 min): Lab 4 Parts 4–7
+## Discussion prompt — use it *instead of* concept time, not on top of it
 
-- **Bounds first, and out loud.** Three runs, 40 requests, client concurrency ≤ 20,
-  `--max-instances` ≤ 4. The scripts enforce the last one; the rest is on them.
-- **The fifteen-minute idle wait in Part 5 is real** and students will try to shorten it.
-  Point out that the write-up is what the wait is for, and that a service which has not gone
-  cold produces a measurement of nothing.
-- **Watch for a redeploy between measurement runs.** Changing the concurrency setting starts
-  a new revision; measuring before it is serving compares two different things and looks like
-  noise.
-- **Teardown is graded and Artifact Registry is the one they forget.** Have
-  `07-verify-clean.sh` run before anyone leaves, in the room. It is two minutes and it is the
-  difference between a clean project and a support email in week 12.
-- **Collect Part 0 predictions** if you did not collect them last week.
+> A team moves a service to managed execution. It works in testing and breaks in production
+> once a week, always at peak load, always with users reporting "my thing vanished".
 
-End by naming what the lab could not do: the service scaled, and every request still waited
-for the work to finish. Removing the work from the request path is week 10.
+Give them three minutes in pairs to produce the diagnosis, then ask for the evidence they
+would want. The answer they should converge on is per-instance state plus scaling. The part
+worth pressing is *why testing did not catch it*: one instance is always enough to pass.
+
+That is also the honest framing for Lab 4 Part 3, where some students will fail to reproduce
+the bug on demand — which proves the point rather than undermining it.
+
+---
+
+## Practical (60 min): Lab 4 Parts 0–3
+
+- **Part 0 is written before anything is run**, and collected. It is worth marks and it is
+  the only part that cannot be reconstructed later.
+- **Make sure their Lab 3 code is in the working tree** before anyone builds. An image built
+  from a tree without `GcsStorage` fails at the first request, from Iowa, and the student
+  will debug the platform instead of their build.
+- **The 403 will read as a failure** to several students. Say once, to the room, that it is
+  the deployment working.
+- **`04-runtime-identity.sh` has a TODO and no answer.** Expect to be asked for the role
+  names. Do not give them; ask instead what the application does that touches a service, and
+  let them search for the role that covers it. Note who reaches for `roles/editor`.
+- **Watch the clock on the build.** The first `gcloud builds submit` takes a few minutes.
+  Start it early and use the wait for the identity discussion.
+
+End by asking them to leave the service deployed on the *broken* configuration, and to bring
+their Part 3 output to week 10. Instances stay warm for a few minutes and cost nothing at
+rest.
 
 ## Links
 
 - Student notes: `weeks/week-09/student-notes.md`
 - Lab: `labs/lab-04/README.md` · Rubric: `labs/lab-04/rubric.md`
-- Tools: `application/tools/measure.py`, `application/tools/instances.py` — read both
-  `--help` epilogues before teaching this session
-- Evidence standards, revisited in depth: `weeks/week-14/teaching-guide.md`
-- Solutions and the mistake list: private repo, `lab-solutions/lab-04/`
+- The lesson as a test: `application/tests/test_two_instances_disagree.py`
+- Cost reasoning: `operations/cost-model.md` §3, Lab 4
+- Solutions, the expected role set and the mistake list: private repo, `lab-solutions/lab-04/`

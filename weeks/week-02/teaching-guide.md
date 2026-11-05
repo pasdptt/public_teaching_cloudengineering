@@ -95,7 +95,7 @@ do not.
 
 Anyone can memorise that 4xx is client error. The thing worth teaching is: **the status class
 tells you whether retrying could possibly help.** Retrying a 400 is pointless forever;
-retrying a 503 is often correct. Plant that now — week 10 is built on it.
+retrying a 503 is often correct. Plant that now — week 11 is built on it.
 
 Show the request id round-trip live: send `-H 'X-Request-Id: demo-1'` and grep the server's
 log output for `demo-1`. That is the mechanism Lab 1 Part 1 asks them to use.
@@ -121,7 +121,7 @@ hands** on question 3 — will median latency rise, fall, or stay flat as concur
 
 Most rooms split. Most students predict latency rises. It does not, at these concurrency
 levels, because the simulated work is a sleep and sleeping threads do not contend for
-anything. Do **not** resolve it now. Let them find out in Part 5, and revisit it in week 9
+anything. Do **not** resolve it now. Let them find out in Part 5, and revisit it in week 10
 when a real resource does saturate.
 
 Make sure they write the predictions down before leaving. Band B1 of the rubric awards marks

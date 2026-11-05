@@ -107,7 +107,7 @@ class Config:
             port=_env_int("PORT", 8080, minimum=1, maximum=65535),
             storage_backend=_env_choice("DOCAPP_STORAGE", "local", ("local", "gcs")),
             jobstore_backend=_env_choice("DOCAPP_JOBSTORE", "memory", ("memory", "file", "firestore")),
-            # inline = do it now, on the request thread (weeks 2-9).
+            # inline = do it now, on the request thread (weeks 2-10).
             # thread = do it later, in this process (Lab 5, and the offline fallback).
             # pubsub = do it later, somewhere else entirely (Lab 5).
             queue_backend=_env_choice("DOCAPP_QUEUE", "inline",

@@ -103,15 +103,15 @@ graded evidence.
 
 | CLO | Taught in weeks | Practised in | Assessed by | Primary evidence |
 |---|---|---|---|---|
-| CLO-1 Characteristics & service models | 1, 4, 8 | Lab 1, Lab 4 | Quiz 1, Quiz 4, Project defence | Responsibility attribution for a specific incident |
-| CLO-2 Execution models | 2, 8, 9 | Lab 1, Lab 4 | Quiz 1, Quiz 2, Quiz 4, Lab 4 | VM-vs-managed comparison backed by Lab 4 measurements |
-| CLO-3 Network & identity tracing | 3, 4, 5 | Lab 2 | Quiz 2, Quiz 3, Lab 2 | Recorded prediction + observed result for a rule change |
-| CLO-4 Storage & data selection | 6, 7 | Lab 3 | Quiz 3, Quiz 4, Lab 3, Project | Decision record with rejected alternatives |
-| CLO-5 Cloud-native design | 8, 9, 10 | Lab 4, Lab 5 | Quiz 5, Lab 4, Lab 5, Project | Stateless handler + external state + queue, working |
-| CLO-6 Measurement & explanation | 9, 11, 14 | Lab 4, Lab 5 | Quiz 5, Quiz 6, Quiz 7, Lab 4, Lab 5, Project | Load experiment and failure experiment with conditions |
-| CLO-7 Reproducibility & teardown | 12 (cleanup thread from wk 4) | Lab 6 (and cleanup from Lab 2 on) | Quiz 6 (cleanup thread), Quiz 7, Lab 6, Project | Teardown verification showing nothing billable remains |
-| CLO-8 Architecture defence | 14, 15 | Weeks 13–15 | Project defence, Quiz 7 | Individual oral answer under questioning |
-| CLO-9 Delivery & environments | 12, 13 (CI thread from wk 3) | Lab 1 Part 6, Lab 6, project | Quiz 6, Quiz 7, Lab 6, project | A pipeline run that blocked a bad change, and the dev/prod difference justified |
+| CLO-1 Characteristics & service models | 1, 4, 9 | Lab 1, Lab 4 | Quiz 1, Quiz 4, Midterm, Project defence | Responsibility attribution for a specific incident |
+| CLO-2 Execution models | 2, 9, 10 | Lab 1, Lab 4 | Quiz 1, Quiz 2, Quiz 4, Lab 4, Midterm, Final | VM-vs-managed comparison backed by Lab 4 measurements |
+| CLO-3 Network & identity tracing | 3, 4, 5 | Lab 2 | Quiz 2, Quiz 3, Lab 2, Midterm | Recorded prediction + observed result for a rule change |
+| CLO-4 Storage & data selection | 6, 7 | Lab 3 | Quiz 3, Quiz 4, Lab 3, Midterm, Project | Decision record with rejected alternatives |
+| CLO-5 Cloud-native design | 9, 10, 11 | Lab 4, Lab 5 | Quiz 5, Quiz 6, Lab 4, Lab 5, Final, Project | Stateless handler + external state + queue, working |
+| CLO-6 Measurement & explanation | 10, 12 (week 14 reading) | Lab 4, Lab 5 | Quiz 5, Quiz 6, Lab 4, Lab 5, Final, Project | Load experiment and failure experiment with conditions |
+| CLO-7 Reproducibility & teardown | 13 (cleanup thread from wk 4) | Lab 6 (and cleanup from Lab 2 on) | Quiz 6 (cleanup thread), Lab 6, Final, Project | Teardown verification showing nothing billable remains |
+| CLO-8 Architecture defence | 9, 11, 13 ("what transfers" sections), 15 | Design review (13), peer review (14), defence (15) | Final (design-defence question), Project defence | Individual oral answer under questioning |
+| CLO-9 Delivery & environments | 13 (CI thread from wk 3) | Lab 1 Part 6, Lab 6, project | Quiz 6 (CI thread), Lab 6, Final, project | A pipeline run that blocked a bad change, and the dev/prod difference justified |
 
 Cost reasoning, identity/least privilege and cleanup are **not** separate outcomes; they
 are threaded through CLO-3, CLO-4, CLO-7, CLO-8 and CLO-9 and are assessed in every cloud lab
@@ -127,7 +127,8 @@ rubric's reproducibility/security/resource-handling band.
 | Every CLO is taught before first assessment | ✅ see week numbers above |
 | Every quiz maps only to outcomes already taught | ✅ verified in `assessment-plan.md` |
 | Every CLO is assessed by something other than a quiz | ✅ each has a lab or project artefact |
-| CLO-9 is taught before it is assessed | ✅ practised from week 3 as a thread (D-23); taught in weeks 12–13; assessed in Quiz 6, Quiz 7, Lab 6 and the project |
+| CLO-9 is taught before it is assessed | ✅ practised from week 3 as a thread (D-23); taught in week 13; assessed in Quiz 6 (thread only), Lab 6, the final exam (week 14) and the project |
+| Every exam covers only completed labs | ✅ midterm after Lab 3 closes, final after Lab 6 is due (`exams/README.md`) |
 | No CLO depends on resources the course cannot guarantee | ✅ CLO-3 … CLO-7 have documented local fallbacks (`operations/cloud-access-and-fallback.md`) |
 
 ---

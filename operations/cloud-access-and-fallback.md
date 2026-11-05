@@ -34,7 +34,7 @@ otherwise sign up the moment the course is mentioned.
 |---|---|
 | Weeks 1–3 | Entirely local. No account needed. Builds the mental model that makes week 4 legible. |
 | Week 4 | Activation, guided, in class. Billing alerts configured the same session. |
-| Weeks 4–12 | The billable phase. Lab 6 in week 12 deliberately ends it early. |
+| Weeks 4–13 | The billable phase. Lab 6 in week 13 deliberately ends it early. |
 | Weeks 13–15 | Project. Light, bounded resource use; the heavy experiments were already done in Labs 4 and 5. |
 
 **The arithmetic, and why it is not yet safe.** Fifteen consecutive weeks is 105 days.
@@ -137,7 +137,7 @@ trial accounts are personal and credit cannot be pooled.
   cleanup, and how the partner's access was revoked afterwards.
 
 If the owning student's trial expires first, the project stops for both. Pairs should
-check both activation dates in week 11 when they submit the proposal.
+check both activation dates in week 12 when they submit the proposal.
 
 ## 6. Instructor checklist
 
@@ -159,7 +159,7 @@ check both activation dates in week 11 when they submit the proposal.
 - [ ] Fallback students started on their path **in the same session**, not privately later
 - [ ] First cleanup verification performed together
 
-**Weekly, weeks 4–12:**
+**Weekly, weeks 4–13:**
 - [ ] Ask the class whether anyone has unexpected spend or orphaned resources
 - [ ] Check that the previous lab's teardown was verified, not just claimed
 

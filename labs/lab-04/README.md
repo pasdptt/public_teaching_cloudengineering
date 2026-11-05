@@ -1,6 +1,6 @@
 # Lab 4 — Managed execution and elasticity
 
-**Weeks 8–9 · 7.5% of the final grade · Individual submission**
+**Weeks 9–10 · 5% of the final grade · Individual submission**
 
 | | |
 |---|---|
@@ -27,7 +27,7 @@ next request cannot reach. **Lab 3 is what makes this lab possible**, and Part 3
 watch what happens to someone who tried it in the other order.
 
 You will also do the first real **experiment** of the course: change one setting, measure,
-and account for the result. Week 9 is largely about why that is harder than it sounds.
+and account for the result. Week 10 is largely about why that is harder than it sounds.
 
 ## Before you start
 
@@ -36,7 +36,7 @@ and account for the result. Week 9 is largely about why that is harder than it s
 - [ ] Your Lab 3 measurement table, with its conditions. Part 6 compares against it.
 - [ ] Your Lab 2 measurement table, for the same reason.
 - [ ] `cd labs/lab-04/starter && cp config.env.example config.env`, then edit `PROJECT_ID`.
-- [ ] Your trial has not expired. Check now, not in week 9.
+- [ ] Your trial has not expired. Check now, not in week 10.
 
 > **One thing to fix before you build.** The container image is built from
 > `application/`. If your Lab 3 implementations are not committed there, you will deploy an

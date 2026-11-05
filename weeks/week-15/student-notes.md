@@ -43,7 +43,7 @@ understanding; a demonstration that dodges is evidence of nothing.
 
 ## The questions you will be asked
 
-They come from the three passes in week 14, and you have practised answering them in the peer
+They come from the three passes in the week 14 reading, and you have practised answering them in the peer
 review. Expect three, drawn from:
 
 - **Where does state live, and what happens if the thing holding it is replaced mid-request?**
@@ -134,7 +134,7 @@ to improve the course, and it is more useful when nobody is performing.
 - [ ] The system deployed and working, **or** an honest account of what is not
 - [ ] Your twelve minutes rehearsed with a timer
 - [ ] Architecture diagram and decision record
-- [ ] Both experiments, with conditions and stated limits
+- [ ] The experiment you ran, with conditions and stated limits, and the design of the one you did not
 - [ ] Cost model against a stated workload
 - [ ] The migration discussion — what transfers, what does not
 - [ ] Contribution record, if you are a pair

@@ -54,7 +54,7 @@ env:
   SERVICE_BASE: docapp
   # TODO(lab06): the bucket holding Terraform state, created by hand in Part 4. It
   # is configuration, not a secret -- but note that anyone who can read it can read
-  # your state, and week 12 told you what state contains.
+  # your state, and week 13 told you what state contains.
   STATE_BUCKET: ''
 
 jobs:
@@ -84,7 +84,7 @@ jobs:
       # --- 1. Authenticate, without a key -------------------------------------------------
       #
       # TODO(lab06): fill in the two values below from the Workload Identity Federation pool
-      # you create in Part 2. Both are configuration, not secrets -- they identify a trust
+      # created in Part 4 -- labs/lab-06/starter/01-bootstrap-pipeline.sh prints both. Both are configuration, not secrets -- they identify a trust
       # relationship, they do not grant anything on their own. The trust only works for the
       # repository named in the pool's attribute condition, which is what makes publishing
       # them safe.
@@ -134,8 +134,8 @@ jobs:
           #
           # TODO(lab06): this `init` configures no backend, which means LOCAL state -- and
           # a runner is a brand new machine every time. Work out what that means before you
-          # fix it: run the pipeline twice as written and describe, in your submission, what
-          # the second run tries to do and how it fails.
+          # fix it: PREDICT, in your submission, what a second run would try to do and how it
+          # would fail. (Lab 6 is a one-week lab, so you are not asked to watch it fail.)
           #
           # Then fix it by pointing `init` at the state bucket you create in Part 4:
           #
@@ -148,7 +148,7 @@ jobs:
           #
           # Two questions, and the second is the interesting one:
           #   * why can the state bucket NOT be created by this Terraform configuration?
-          #   * week 12 said local state was "fine for one student on one laptop". What
+          #   * week 13 said local state was "fine for one student on one laptop". What
           #     exactly changed? Name the new actor.
           terraform init -input=false
 

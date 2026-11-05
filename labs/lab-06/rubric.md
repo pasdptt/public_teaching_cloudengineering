@@ -1,6 +1,6 @@
 # Lab 6 — Rubric
 
-**7.5% of the final grade.** Same four bands as every lab. This lab is the primary evidence
+**5% of the final grade.** Same four bands as every lab. This lab is the primary evidence
 for **CLO-9** and a second piece for **CLO-7**.
 
 | Band | Share |
@@ -37,6 +37,11 @@ and the other cannot — is the one that separates students who read `main.tf` f
 skimmed it; "it would be a cycle" earns the mark only with the direction of the dependency
 stated.
 
+**The two Part 5 second-run predictions are also marked here** (D-67), within the same 4
+marks: full credit names what a fresh runner's empty local state makes the second apply do, and
+what a shared state file makes a prod deploy do to dev. They replace finding those bugs by
+failing, so the prediction has to carry the mechanism.
+
 ### B2 · Drift (6)
 What the plan said after the manual console change, and a real answer to "which is right?".
 Full marks need the consequence: two people each believing their own view is authoritative,
@@ -58,6 +63,12 @@ The fork question answered **specifically** — the attribute condition binding 
 their repository — not "because it's secure". Roles justified. Full marks acknowledge that
 the pool id and service-account email are *configuration*, safe to publish, while a key would
 not be, and can say why that distinction holds.
+
+Since Lab 6 became a one-week lab (D-67) the roles are granted by a supplied script, so "roles
+justified" means justifying the script's list, and naming one the student would remove and
+what would break. The bootstrap answer — why the state bucket is not made by the Terraform that
+uses it — is marked here too. The pipeline-identity "uncomfortable question" is optional and is
+not marked; credit good answers to it under D only.
 
 ### B5 · The four pipeline questions (10)
 | | Looks like |

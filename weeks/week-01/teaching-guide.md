@@ -36,7 +36,7 @@ By the end of the session a student can:
 
 **180 minutes exactly.** 85 concepts · 25 discussion · 60 practical, plus the break.
 
-Quizzes replace part of the discussion block in weeks 2, 4, 6, 8, 10, 12 and 14. This week
+Quizzes replace part of the discussion block in weeks 2, 4, 6, 9, 11, 13 and 14. This week
 the discussion block is intact.
 
 ---
@@ -84,7 +84,7 @@ room.
 The one to spend time on is the zone outage: **both** attributions are true. The provider
 owns the outage; the customer owns having designed for one zone. Students want a single
 answer and there isn't one. Getting comfortable with that is the actual skill, and it comes
-back in week 11.
+back in week 12.
 
 ---
 

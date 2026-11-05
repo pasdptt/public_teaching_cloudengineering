@@ -1,10 +1,10 @@
 # Integrative project — brief
 
-**Released in week 10.** Proposal due at the end of week 11 · design review in week 13 · built
+**Released in week 11.** Proposal due at the end of week 12 · design review in week 13 · built
 in weeks 13–15 · demonstrated, submitted and torn down in week 15. Dates and deliverables per
 week are in [`milestones.md`](milestones.md); how it is marked is in [`rubric.md`](rubric.md).
 
-**Worth 35%.** Alone or in a pair, two at most. The minimum project is scoped for **one person**.
+**Worth 30%.** Alone or in a pair, two at most. The minimum project is scoped for **one person**.
 
 ---
 
@@ -17,7 +17,7 @@ what it does not do, and you defend your decisions to someone who asks hard ques
 This is not a new build. By week 13 you will have a stateless service with external state, an
 asynchronous path, a Terraform configuration with `dev` and `prod`, and a pipeline that
 deploys it without a stored key. The project **uses all of that**. What you add is one
-extension, a stated workload, two experiments, and the reasoning.
+extension, a stated workload, one experiment you run and one you design, and the reasoning.
 
 > **A project that rebuilds the pipeline, rewrites the application, or adds services to look
 > impressive has been scoped wrong.** Marks come from evidence and explanation. More services
@@ -31,14 +31,20 @@ The project gets the same weekly budget as a lab, and no more
 
 | When | Minutes | For |
 |---|---|---|
-| Week 10 | 20 | Read this brief and think about scope |
-| Week 11 | 30 | The proposal, which is deliberately short |
-| Week 13 | 50 | Start building after your design review |
-| Weeks 14–15 | ~295 | Build, measure, write up, rehearse |
+| Week 11 | 20 | Read this brief and think about scope |
+| Week 12 | 30 | The proposal, which is deliberately short |
+| Week 13 | — | Lab 6 takes the whole week. Your design review is in the session |
+| Week 14 | 105 | Build and run your experiment, alongside final-exam revision |
+| Week 15 | 150 | Finish, write up, rehearse |
 
-That is about **six and a half hours of independent work**, plus supervised time in weeks
-13–15. It is enough for the baseline and one small extension **only because** the delivery path
-already exists. If you find yourself building infrastructure, stop and ask.
+That is about **five hours of independent work**, plus the design review and the peer review.
+It is enough for the baseline, one small extension and **one** experiment **only because** the
+delivery path already exists. If you find yourself building infrastructure, stop and ask.
+
+> **Why one experiment, not two.** When the course's teaching was compressed to twelve weeks
+> (to make room for a midterm and a final exam), the project lost about three and a half hours.
+> It was simplified by the same amount rather than left to absorb it: you **run** one experiment
+> and **design** the other without running it (Part 3, and `planning/decisions.md` D-69).
 
 **Decide your smallest version early.** At the week 13 design review you will write down the
 smallest version of your project that would still be worth demonstrating. If week 15 arrives
@@ -59,7 +65,7 @@ deadline. Status is checked about five times per job."*
 
 That example is **ILLUSTRATIVE — NOT A REQUIREMENT**. Choose your own numbers and say where they
 came from. Everything else depends on this paragraph: your cost model is priced against it,
-your performance experiment tests it, and your SLO is set for it.
+your experiments are sized from it, and your SLO is set for it.
 
 A workload you made up is fine, as long as you say it is made up. A workload you cannot state
 has no cost and no pass mark.
@@ -87,8 +93,9 @@ such compromise. Say what it risks for *your* extension.
 State one SLI and an SLO for it, sized to your workload (B1): *"99% of job submissions accepted
 within 500 ms, over 30 days"*. Work out the error budget in hours and minutes.
 
-Then run the controlled failure experiment (Part 3) and say whether your system would have
-met that target during it.
+Then use your failure experiment (Part 3) — the one you ran, or the one you designed — to say
+whether your system would have met that target during it. If you only designed it, say what
+your prediction implies for the error budget, and what result would prove you wrong.
 
 ### B5. A cost model tied to the workload
 
@@ -96,7 +103,7 @@ Price your system **at the workload in B1**, and again at ten times that workloa
 published rates ([`operations/cost-model.md`](../operations/cost-model.md) §1). Show the
 arithmetic and state every assumption.
 
-Then answer the question from week 14: **what is the most expensive thing a bug in this system
+Then answer the question from the week 14 reading: **what is the most expensive thing a bug in this system
 could do overnight, and what bounds it?** Name the actual setting (an instance cap, a retry
 limit, a quota), not a hope.
 
@@ -131,7 +138,7 @@ measurable answer.
 
 ### A. Close the race
 
-Weeks 7 and 10 showed you the **check-then-act race** in job submission: two requests with the
+Weeks 7 and 11 showed you the **check-then-act race** in job submission: two requests with the
 same idempotency key can both look, both find nothing, and both create a job. Lab 5 asked you to
 describe it and not fix it. Fix it, using the concept week 7 named, and prove the fix.
 
@@ -156,7 +163,7 @@ protecting against.
 
 ### C. Work that computes
 
-The application's processing is a `sleep`, so it waits and does not compute, and week 9 warned
+The application's processing is a `sleep`, so it waits and does not compute, and week 10 warned
 you not to generalise from it. Add one operation that genuinely uses the CPU for a controllable
 amount of time, and find out how the concurrency setting should change for it.
 
@@ -197,11 +204,20 @@ excluded").
 
 ---
 
-## Part 3 — Two experiments
+## Part 3 — One experiment run, one designed
 
-Both are required. Both follow the rules you have used since Lab 4: **predict first**, change one
+You choose **which** of the two below you run. Choose the one that answers the more important
+question about your extension or your workload (B1), and say why in a sentence.
+
+The one you **run** follows the rules you have used since Lab 4: **predict first**, change one
 variable, state the conditions, repeat at least three times, report disagreement rather than
 averaging it away, and say what the result cannot tell you.
+
+The one you **design** is written to the same standard but not executed: the question, your
+prediction and the mechanism behind it, the method exactly as you would run it (commands and
+configuration), its bounds (request count, instance cap, expected cost), and **the result that
+would make you change a decision**. A design someone else could run from your page, unchanged,
+is a good one.
 
 **1. A performance experiment.** Load against the deployed system, sized from your workload
 (B1). Answers a question about your extension or about whether the system meets B1.
@@ -236,8 +252,10 @@ instructor.**
 2. **Workload statement** (B1).
 3. **Extension**: what you built, and what you reused. Link the commits.
 4. **`dev`/`prod` differences table** (B2) and **principals table** (B3).
-5. **Experiments**: for each, prediction, method (commands and configuration, not narration),
-   measurements with conditions and units, explanation, and stated limits.
+5. **Experiments**: for the one you ran — prediction, method (commands and configuration, not
+   narration), measurements with conditions and units, explanation, and stated limits. For the
+   one you designed — question, prediction and mechanism, method, bounds, and the result that
+   would change a decision.
 6. **SLO and error budget** (B4).
 7. **Cost model** at 1× and 10× the workload, and the overnight-bug answer (B5).
 8. **Migration discussion** (B7).
@@ -270,7 +288,7 @@ marked far better than a demonstration that avoids the part that does not work. 
   named-user access with narrowly scoped roles. **No shared passwords, no shared keys, no "use my
   login"**; this is marked under security. Details:
   [`operations/cloud-access-and-fallback.md`](../operations/cloud-access-and-fallback.md) §5.
-- **Check both trial expiry dates in week 11** and put them in the proposal. If the owner's
+- **Check both trial expiry dates in week 12** and put them in the proposal. If the owner's
   trial ends first, the project stops for both of you.
 - **Submit a contribution record** that both of you agree with: who decided what, and who built
   what.
@@ -308,11 +326,11 @@ Tell the instructor in your proposal which path you are on.
 - **Nothing that creates a long-lived credential**, and nothing committed to a public repository
   that you would not want read. A committed secret is fixed only by rotating it.
 
-## Checklist before you submit the proposal (week 11)
+## Checklist before you submit the proposal (week 12)
 
 - [ ] Which extension, in one sentence
 - [ ] A first workload statement (B1)
-- [ ] The question each experiment will answer, and your prediction
+- [ ] Which experiment you will run and which you will design, the question each answers, and your predictions
 - [ ] What you will reuse and what you will build
 - [ ] Cloud path or local path; for a pair, the owner and both trial expiry dates
 

@@ -128,6 +128,7 @@ obvious on a bill. Noticing it yourself is the skill being assessed.
 
 ## Next week
 
-Managed container execution and serverless: what you stop operating, why statelessness is the
-price of admission, and cold starts. Lab 4 starts — the application you just made stateless
+**The midterm**, in the session: 120 minutes, weeks 1–7 and Labs 1–3. Allowed: one A4 sheet of
+your own handwritten notes. The week 8 notes say how to prepare in the time the week allows.
+After it: managed container execution in week 9, where the application you just made stateless
 gets deployed somewhere that can run several copies of it.

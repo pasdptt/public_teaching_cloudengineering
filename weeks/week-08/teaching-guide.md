@@ -1,22 +1,22 @@
-# Week 8 — Teaching guide: Managed containers and serverless
+# Week 8 — Teaching guide: Midterm examination
 
 | | |
 |---|---|
-| **Outcomes** | CLO-1, CLO-2, CLO-5 |
-| **Assessment** | **Quiz 4** (weeks 5–7) |
-| **Practical** | Lab 4 Parts 0–3 |
-| **Prep time** | ~3.5 h first delivery, ~1 h subsequently |
+| **Outcomes** | CLO-1, CLO-2, CLO-3, CLO-4; CLO-5 foundations (exam evidence) |
+| **Assessment** | **Midterm exam** — 120 min, 60 marks, weeks 1–7 (`exams/README.md`) |
+| **Practical** | Trial and cost check · lab clinic. **No new material** |
+| **Prep time** | Paper and key: ~6 h first delivery, ~2 h subsequently. Session: ~30 min |
+
+> **Added 2026-11-05 (D-66).** The course teaches in twelve of its fifteen weeks. This week is
+> the mid-semester exam, placed at the one point where an exam can sit between labs rather than
+> inside one: Lab 3 closed in week 7 and Lab 4 opens in week 9.
 
 ## Session objectives
 
-1. State what the customer stops operating when moving from a VM to managed execution, and
-   what they take on instead.
-2. Explain the request-scoped instance lifecycle, and why an instance may be created or
-   destroyed without anything going wrong.
-3. Explain why statelessness is a precondition rather than a style, using the application's
-   own two kinds of state.
-4. Describe what happens during a cold start, in order, and name what makes one longer.
-5. Treat the concurrency setting as a design decision with a cost, not a default.
+1. Every student sits the midterm under the same conditions.
+2. Every student states, out loud and from their own billing page, how much trial credit and
+   how many trial days they have left.
+3. Nobody starts week 9 with an unresolved Lab 3 problem or a container that will not build.
 
 ---
 
@@ -24,166 +24,62 @@
 
 | Block | Min | Content |
 |---|---|---|
-| What you stop operating | 20 | The Lab 2 responsibility list, crossed out item by item |
-| **The instance lifecycle** | 20 | Request-scoped. Created, reused, destroyed, all without failure. |
-| **Statelessness as the price** | 25 | The heart of the session. Two kinds of state, one survives. |
+| **Midterm examination** | 120 | Written, in the room. Start on time; collect at 120 minutes exactly |
 | Break | 10 | |
-| Cold start | 15 | What is actually happening, in order |
-| Concurrency, and what it costs | 15 | 1 vs 80, and the per-request/per-hour crossover |
-| **Quiz 4** | 15 | Weeks 5–7 |
-| Practical | 60 | Lab 4 Parts 0–3 |
+| **Trial and cost check** | 20 | Every student, their own billing page, in the room |
+| **Lab clinic** | 30 | Outstanding Lab 3 issues · Lab 4 pre-flight. No new content |
 
-**180 minutes exactly.** 95 concepts · 15 quiz · 60 practical, plus the break. The discussion
-prompt below is an alternative to part of the concept time, not an addition to it — in a quiz
-week there is no room for both, and the quiz is the fixed obligation.
+**180 minutes exactly.** The two blocks after the exam are support, not teaching: nothing in
+them is examined or required by a later lab that is not already in that lab's brief.
 
 ---
 
-## Teaching notes
+## The exam (120 min)
 
-### Open by crossing things out
+- **The paper is in the instructor repository** (`exam-papers/midterm.md`), with its key.
+  It does not exist yet; writing it is the main preparation this week needs. Write it to
+  `exams/README.md`: 60 marks, the four question kinds, nothing that needs recall.
+- **Check every question against the rule.** Weeks 1–7 and Labs 1–3 only. A question that
+  needs managed execution, queues or Terraform is out of scope, however natural it feels.
+- **Use their own systems.** At least one question should ask about the VM each student ran in
+  Lab 2 or the decision record they wrote in Lab 3 — the quizzes have shown that questions about
+  a student's own work are the hardest to answer without understanding.
+- **Allowed:** one A4 sheet of handwritten notes, both sides. No devices. Say this in week 7,
+  and again in the week 7 notes.
+- **Mark within a week.** The feedback is most useful before Lab 4's prediction is written,
+  and marking ten 60-mark scripts is roughly three to four hours (`course/workload-budget.md`).
 
-Put the Lab 2 responsibility list on the board — they wrote it five weeks ago. Choose the
-machine size, create it, install Python, write a systemd unit, open a firewall port, keep it
-patched, notice when it dies, delete it before it costs money.
+## Trial and cost check (20 min)
 
-Then cross out the ones managed execution takes over, one at a time, asking each time *who*
-now does it. The list shrinks to almost nothing, and that visible shrinking is the lesson.
+The midterm week is roughly a third of the way through the 90-day trial window. It is the
+last comfortable moment to find a student whose credit is draining.
 
-Then ask what got **added**, and let the silence sit before answering: a build step, a
-registry to keep clean, a cold start, a platform whose scaling decisions you do not control,
-and a hard requirement that your application hold no state. Week 14 revisits this as
-"a managed service is a dependency".
+Every student opens **their own** billing page and says three things, out loud:
 
-### The lifecycle, with no failure in it
+1. Credit remaining.
+2. Days remaining, and the date the trial ends. Check it against `planning/calendar-worksheet.md`
+   — the trial must still be alive in week 15.
+3. Anything currently running, and why. **The expected answer is "nothing".**
 
-Students arrive believing instances appear when something goes wrong. Say it plainly:
+A student who finds something running has found something useful. Ask how it survived the
+Lab 2 or Lab 3 teardown — the same treatment week 15 gives it (D-53). Then delete it, together,
+and verify it with `operations/cleanup.md`.
 
-> An instance being created, serving one request, and being destroyed is **not** an incident.
-> It is Tuesday.
+## Lab clinic (30 min)
 
-Draw the timeline: request arrives, no instance exists, one is started, it serves, it is kept
-warm for a while in case another comes, then it is gone. Nothing failed at any point.
+Not a lecture, and not new material. Two lists on the board:
 
-Now the question that makes it bite: *which of those transitions does your application get
-told about?* Effectively none. That is what "request-scoped" costs.
+- **Lab 3 left-overs.** Anyone whose Lab 3 submission recorded a problem they could not solve.
+  The class issue log first, then one-to-one.
+- **Lab 4 pre-flight.** `docker build` the application locally and run it. Lab 4 Part 0 needs a
+  working local build, and a student who discovers in week 9 that their container runtime has
+  stopped working loses the week. This is the week-1 environment check, rerun for one tool.
 
-### Statelessness, using their own application
-
-This is the block that matters, and the application makes it concrete for free.
-
-Ask: the service stores documents in a bucket and job records in a dictionary. Two instances
-are running. Draw what each one can see.
-
-Let them work out that the documents are shared and the jobs are not. Then push:
-
-> Nothing has failed. Both instances are healthy. Why does the user get a 404?
-
-Land on the formulation the whole course has been building towards:
-
-> **State is not "data". State is anything an instance knows that the next instance will
-> need.** If it lives inside the instance, there is no next instance — there are only
-> unrelated ones.
-
-Then the sharper version, which is Lab 4's Part 3 and is worth showing rather than telling:
-the idempotency key stops working. Retries stop being deduplicated, work is done twice, and
-**nothing logs an error**. A bug that returns 500 gets fixed. A bug that returns 200 twice
-gets shipped.
-
-If there is a machine and a projector, run
-`pytest tests/test_two_instances_disagree.py -v` live. Three tests, ten seconds, and the
-third one shows that the fix is a wiring change and not a code change.
-
-### Cold start: say what is actually happening
-
-Not "it is slow the first time". In order: the platform must find capacity, pull the image
-(or not, if it is cached), start the container, wait for the process to initialise, and wait
-for it to accept a connection on `$PORT`. Only then does the request get served.
-
-Ask which of those the developer controls. Image size and initialisation work — that is it.
-Then ask what in *this* application would dominate, and note that it is a small image with no
-framework, which is why their measurement in Part 5 may be less dramatic than the internet
-led them to expect. Say that in advance, so a modest number reads as a finding rather than a
-mistake.
-
-### Concurrency: put the two numbers side by side
-
-Draw 20 simultaneous requests into a service with concurrency 80, then into one with
-concurrency 1. Ask for a show of hands on which has lower median latency before revealing
-anything.
-
-The useful confusion is that both answers are defensible, because it depends on whether the
-work is waiting or computing. The application waits — a 250 ms sleep — so one instance can
-overlap a great many. If it computed for 250 ms, it could not.
-
-Do not resolve it fully. Part 4 measures it, and a class that has argued about it measures
-with more attention.
-
-### Then the pricing shape, in the same block
-
-Per-request-second versus per-machine-hour. The point is not the rates; it is that the
-crossover exists. Ask: at what traffic level does a $0.005/hour always-on VM become cheaper
-than paying per request? Nobody needs the exact number. Everybody needs to know the question
-has an answer, and that `--min-instances=1` silently moves you to the wrong side of it.
-
-Tie it to the concurrency argument they have just had: concurrency 1 gives every request an
-instance to itself, which is lovely for isolation and multiplies the vCPU-seconds you are
-billed for. Both halves of this block are the same decision seen from two directions.
-
----
-
-## Common misconceptions
-
-| Misconception | Surfaces as | Response |
-|---|---|---|
-| "Serverless means there are no servers" | Week 1 onwards | There are servers. You have stopped having a relationship with any particular one. |
-| "An instance being destroyed means something failed" | Lifecycle block | It is the normal case. Draw the timeline with no failure in it. |
-| "Statelessness is a coding style" | Constantly | It is a precondition. Without it the platform's freedom to move you is a bug generator. |
-| "A 200 response means it worked" | Idempotency demo | Two 200s for one submission means it worked twice. |
-| "Cold start is about the language" | Cold-start block | It is image size plus initialisation. A small image in a slow language starts faster than a huge one in a fast language. |
-| "min-instances=1 is a small optimisation" | Practical | It converts request pricing into machine pricing, all month, for a service nobody is calling. |
-| "Higher concurrency is always better" | Concurrency block | Better for throughput, sometimes worse for tail latency, and it depends entirely on whether the work is waiting or computing. |
-| "The registry is free" | Teardown | 0.5 GiB. About a dozen builds of this image. |
-
----
-
-## Discussion prompt — use it *instead of* concept time, not on top of it
-
-> A team moves a service to managed execution. It works in testing and breaks in production
-> once a week, always at peak load, always with users reporting "my thing vanished".
-
-Give them three minutes in pairs to produce the diagnosis, then ask for the evidence they
-would want. The answer they should converge on is per-instance state plus scaling. The part
-worth pressing is *why testing did not catch it*: one instance is always enough to pass.
-
-That is also the honest framing for Lab 4 Part 3, where some students will fail to reproduce
-the bug on demand — which proves the point rather than undermining it.
-
----
-
-## Practical (60 min): Lab 4 Parts 0–3
-
-- **Part 0 is written before anything is run**, and collected. It is worth marks and it is
-  the only part that cannot be reconstructed later.
-- **Make sure their Lab 3 code is in the working tree** before anyone builds. An image built
-  from a tree without `GcsStorage` fails at the first request, from Iowa, and the student
-  will debug the platform instead of their build.
-- **The 403 will read as a failure** to several students. Say once, to the room, that it is
-  the deployment working.
-- **`04-runtime-identity.sh` has a TODO and no answer.** Expect to be asked for the role
-  names. Do not give them; ask instead what the application does that touches a service, and
-  let them search for the role that covers it. Note who reaches for `roles/editor`.
-- **Watch the clock on the build.** The first `gcloud builds submit` takes a few minutes.
-  Start it early and use the wait for the identity discussion.
-
-End by asking them to leave the service deployed on the *broken* configuration, and to bring
-their Part 3 output to week 9. Instances stay warm for a few minutes and cost nothing at
-rest.
+Students with neither may leave. Say so: the session ends when they are ready for week 9, not
+at 180 minutes.
 
 ## Links
 
-- Student notes: `weeks/week-08/student-notes.md`
-- Lab: `labs/lab-04/README.md` · Rubric: `labs/lab-04/rubric.md`
-- The lesson as a test: `application/tests/test_two_instances_disagree.py`
-- Cost reasoning: `operations/cost-model.md` §3, Lab 4
-- Solutions, the expected role set and the mistake list: private repo, `lab-solutions/lab-04/`
+- Exam format: [`exams/README.md`](../../exams/README.md)
+- Assessment weights: [`course/assessment-plan.md`](../../course/assessment-plan.md)
+- Previous week: [`week-07`](../week-07/teaching-guide.md) · Next week: [`week-09`](../week-09/teaching-guide.md)

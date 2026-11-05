@@ -31,7 +31,7 @@ def process(operation: str, data: bytes, *, delay_ms: int = 0) -> dict[str, Any]
 
     Pure with respect to storage and state: it takes bytes and returns a dict. That is what
     makes it safe to call from a request handler in week 2 and from a queue consumer in
-    week 10 without changing a line.
+    week 11 without changing a line.
     """
     if operation not in OPERATIONS:
         raise ProcessingError(

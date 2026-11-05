@@ -4,7 +4,12 @@ Every entry is either **CONFIRMED** (settled by the academic team) or **DEFAULT*
 (a design proposal adopted so work can proceed; revisable without redesigning the course).
 Do not re-open CONFIRMED entries without recording a superseding decision here.
 
-Last updated: 2026-09-22.
+Last updated: 2026-11-05.
+
+> **Week numbers in entries before D-66 use the calendar as it was then.** D-66 inserted a
+> midterm in week 8 and merged weeks 12–13. To read an older entry: its weeks 1–7 are
+> unchanged, 8→9, 9→10, 10→11, 11→12, 12 and 13→13, and its week 14 lecture is now week 14
+> reading. The entries are left as written, because they record what was decided at the time.
 
 ---
 
@@ -21,7 +26,7 @@ Last updated: 2026-09-22.
 | A-07 | Independent workload ≈ 180 min/week **total** | CONFIRMED | Includes reading, quiz prep, labs and project |
 | A-08 | GCP as workbench, funded by the $300 / 90-day new-user trial, subject to eligibility | CONFIRMED | Terms re-verified 2026-09-21, see `course/references.md` R-01 |
 | A-09 | Identical required work, outcomes and grading criteria for undergraduates and graduates | CONFIRMED | Enrichment is optional and never assessed differently |
-| A-10 | Assessment = biweekly quizzes + substantial labs + project. **No midterm or final exam** | CONFIRMED | |
+| A-10 | ~~Assessment = biweekly quizzes + substantial labs + project. No midterm or final exam~~ | **SUPERSEDED by D-66** (2026-11-05) | The instructor asked for a midterm and a final exam when the teaching was cut to twelve weeks |
 | A-11 | Project groups of one **or two** students; two is the hard maximum | CONFIRMED | Individual accountability required either way |
 | A-12 | Balanced emphasis: conceptual understanding *and* application engineering | CONFIRMED | |
 | A-13 | Claude Code authors and maintains this repository | CONFIRMED | |
@@ -33,7 +38,7 @@ Last updated: 2026-09-22.
 | ID | Decision | Rationale |
 |---|---|---|
 | D-01 | **Two-repository split from the start.** This public repo holds student-facing material only; a sibling private repo `../cloudengineering-instructor` holds quiz keys, lab solutions, delivery guide and pilot evidence. | The git remote is a **public** GitHub repository — **verified 2026-09-29** via `gh repo view --json visibility` → `PUBLIC`. (Until then this was inferred from the repository's name and recorded as fact; the inference happened to be right, but it was not evidence.) Deleting a key later does not remove it from public history. Chosen by the instructor over gitignoring an `instructor/` folder. |
-| D-02 | **Assessment weights: quizzes 20% · labs 45% · project 35%.** | Confirmed by the instructor. Lab-heavy weighting matches a course with no exam and a "measure then explain" emphasis. |
+| D-02 | ~~**Assessment weights: quizzes 20% · labs 45% · project 35%.**~~ **Superseded by D-68.** | Confirmed by the instructor. Lab-heavy weighting matches a course with no exam and a "measure then explain" emphasis. |
 | D-03 | **Terraform** is the infrastructure-as-code tool, pinned to the `hashicorp/google` provider `~> 8.0`. | Chosen by the instructor. Widest free documentation and strongest employability transfer. Licence note: Terraform CLI is BUSL-1.1 since v1.6; classroom and course-authoring use is not a competing offering, so it is unrestricted here. OpenTofu remains a drop-in fallback if the licence ever becomes an institutional issue — the course teaches the declarative model, not vendor syntax. |
 | D-04 | **Semester dates deferred.** The schedule is authored as relative weeks 1–15; `planning/calendar-worksheet.md` is the single place where real dates, holidays and institutional deadlines get filled in. | Instructor will supply dates later. The trial-window arithmetic in `operations/cloud-access-and-fallback.md` must be re-run once dates exist — it is not safe to assume 15 consecutive weeks. |
 | D-19 | **Free-tier-first.** Every cloud lab is designed to fit inside Google Cloud's **Always Free** tier. The $300 trial credit is a *buffer against mistakes*, not the budget. A lab that cannot be done for ~$0 is redesigned, not funded. | Instructor instruction, 2026-09-21: minimise cost, free tier preferred. Verified free-tier limits (R-01, R-09…R-12) make this achievable for all six labs. Target spend per student for the whole course is now **under $5**, not $30. |
@@ -167,13 +172,42 @@ them. `plan` and `apply` remain **NOT run** — they need a project and credenti
 
 ---
 
+## B11. The calendar compressed to twelve teaching weeks (2026-11-05)
+
+Instruction: *"the total week is still 15 weeks but the actual course should not exceed 12
+weeks; the rest would keep for exam + project presentation."* Asked and answered the same day:
+**a midterm and a final exam**; **one exam week mid-semester and two weeks at the end**;
+**compress the end of the course and keep the foundations**.
+
+| ID | Decision | Status | Rationale |
+|---|---|---|---|
+| D-66 | **Twelve teaching weeks (1–7, 9–13), a midterm in week 8, the final exam in week 14, demonstrations in week 15.** Former weeks 8–11 move to 9–12; former weeks 12 and 13 merge into week 13; the former week 14 synthesis lecture becomes week 14 reading, used by the peer review and by the week 15 synthesis. **Quiz 7 is dropped**, leaving six quizzes in weeks 2, 4, 6, 9, 11, 13. Supersedes A-10, D-24, D-47's week 13 shape and D-48. | CONFIRMED | Week 8 is the only point an exam can sit between labs rather than inside one (Lab 3 closes in week 7, Lab 4 opens in week 9), and it is the seam between "one machine with its state moved out" and "managed, scaled, asynchronous, delivered". Weeks 1–11 keep their content and their order — the foundations the instructor asked to keep. The end is where the course could give: the synthesis lecture assembled material taught earlier, and infrastructure and pipelines were already one subject taught as one lab (D-24). The trial window is unchanged: the last billable lab work still ends at the start of week 14. Week 13's concept time halves (185 → 75 minutes); the notes keep everything and its reading budget rises to 30 minutes. |
+| D-67 | **Lab 6 becomes a one-week lab** (40 min guided + ~150 min independent, due at the start of week 14). The federation pool, deployer account, roles and state bucket come from a supplied script (`labs/lab-06/starter/`); the two second-run pipeline bugs are **predicted, then fixed from the supplied lines**, not found by failing; Part 4's state-bucket questions shrink to one and the pipeline-identity question becomes optional; Part 5's questions go from six to the four the rubric already marked. | CONFIRMED in gist (part of the option chosen); details DEFAULT | Cut to fit rather than squeezed: a 6.3-hour lab in a 3.2-hour envelope only works if the cut lands on what is not marked. Setting up federation from documentation mostly taught debugging an attribute condition; the marked work — the environment differences, the gate, the fork question, the teardown — is untouched. The bootstrap script has **not been run against a real project** and says so in its header, like everything else in this course that touches GCP. |
+| D-68 | **Weights: quizzes 10% · labs 30% (6 × 5%) · project 30% · midterm 15% · final 15%.** Both exams are 120 minutes, written, in the room, 60 marks, one A4 handwritten sheet allowed, question style as the quizzes (`exams/README.md`). The midterm covers weeks 1–7; the final is cumulative, weighted about 3:1 towards weeks 9–13, with one CLO-8 design-defence question. | **DEFAULT** — chosen while the instructor was away; revisable without redesign | Exams at 30% together give individual, invigilated evidence for every outcome, including CLO-7 and CLO-9, without dominating a course built on "measure then explain". Labs keep the largest share of the coursework (30%); quizzes fall to 10% because there are fewer and the exams now carry their purpose; the project falls by 5 because it lost build time (D-69). `audit.py` checks the weights sum to 100 and that every lab states the same per-lab share, so changing them is a one-line edit plus a re-run. |
+| D-69 | **The project runs one experiment and designs the other**, the student's choice of which. Rubric band C becomes C1 "the experiment that was run" (13), C2 "the experiment that was designed" (7), C3 unchanged (5). | DEFAULT | The compression took about 3.5 hours from the project (≈9.5 h → ≈6 h). D-28 named the remedy in advance — reduce the experiment requirements to one — and this applies it rather than leaving the project to absorb the loss, which would break A-07. A design scored on its prediction, method, bounds and "the result that would change a decision" keeps the reasoning that the second experiment carried. Results for a design that was not run are fabrication, and C2 says so. |
+| D-70 | **Quiz 7's questions become `exams/final-practice.md`**, unassessed; its private key is the starting point for the final paper, which must use different scenarios. `audit.py` gains a check that weeks 8 and 14 each give the exam 120 minutes, that `exams/README.md` exists, and that no `quiz-07.md` reappears. | DEFAULT | The CLO-8 questions in Quiz 7 (D-56) were the best-calibrated material the course had for the defence-style question the final now asks; discarding them would waste it. The audit check guards the one structural claim of D-66 a script can verify: if an exam week's plan stops giving the exam its two hours, teaching has crept back in. |
+
+**Not yet done, and named so it is not forgotten:** the midterm and final papers and keys
+(instructor repository, `exam-papers/`); re-timing the week 13 session in a pilot, since 75
+minutes for infrastructure, environments and pipelines is the least-tested number in the
+course; and a first run of the Lab 6 bootstrap script against a real project.
+
+**Consequences recorded elsewhere:** `course/weekly-schedule.md`, `course/workload-budget.md`
+(weeks 8, 13, 14 rebalanced; every week still 180), `course/assessment-plan.md`,
+`course/syllabus.md`, `course/learning-outcomes.md`, `planning/calendar-worksheet.md`,
+`exams/`, `weeks/week-08/` (new), `weeks/week-09` … `week-13` (renumbered, 13 merged),
+`weeks/week-14/` and `week-15/`, `labs/lab-06/`, `project/`, `quizzes/quiz-05.md`,
+`planning/audit.py`, and every week reference in the repository, remapped mechanically.
+
+---
+
 ## C. Adopted defaults (revisable)
 
 | ID | Default | Why this default | What would change it |
 |---|---|---|---|
 | D-05 | Course title: **Cloud Computing: Principles and Practice** | Matches the brief's working title | An institutional catalogue title |
 | D-06 | Teaching materials in **English** | Brief's proposal | A bilingual cohort requirement |
-| D-07 | **Seven quizzes** in weeks 2, 4, 6, 8, 10, 12, 14 | Biweekly, each assessing only already-taught outcomes | Calendar gaps (D-04) may shift a quiz by one week |
+| D-07 | ~~Seven quizzes in weeks 2, 4, 6, 8, 10, 12, 14~~ **Six quizzes in weeks 2, 4, 6, 9, 11, 13** (D-66) | Biweekly, each assessing only already-taught outcomes | Calendar gaps (D-04) may shift a quiz by one week |
 | D-08 | **Six labs**, each spanning two weeks except Lab 6, all building on one application | Two-week labs fit the 60-min in-class + homework budget without a second implementation workload | Pilot timings showing a lab overruns |
 | D-09 | **Markdown is authoritative.** No LMS integration and no website. | Brief's proposal; keeps the repo the single source of truth | An institutional LMS requirement. **Narrowed by D-65**: slide decks exist, but as Markdown rendered by a tool, so the authority still lies in Markdown. |
 | D-10 | One consistent **Linux-oriented container environment** across Windows and macOS, plus a documented non-container fallback | Avoids two divergent lab instruction sets | Evidence that student machines cannot run containers |

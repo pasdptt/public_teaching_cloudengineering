@@ -48,7 +48,7 @@ You will build **one application**, all semester.
 
 It starts as a Python program on your laptop.
 
-By week 12 it is deployed, scaled, asynchronous, reproducible from code — and you will have **measured it at each step**.
+By week 13 it is deployed, scaled, asynchronous, reproducible from code — and you will have **measured it at each step**.
 
 > The test is not that you can deploy something. It is that when a deployment behaves strangely, you can say **why**.
 
@@ -175,7 +175,7 @@ Note *appear*.
 
 - It is not unlimited
 - It takes real time to arrive
-- The delay between "we need more" and "more has arrived" causes a surprising amount of misbehaviour — week 9
+- The delay between "we need more" and "more has arrived" causes a surprising amount of misbehaviour — week 10
 
 ---
 
@@ -358,7 +358,7 @@ This is the most common cloud data breach and it is never the provider's fault.
 **Both are true at once.** Holding both is the actual skill.
 
 <!--
-Spend time here. Students want a single answer and there isn't one. Comes back in week 11.
+Spend time here. Students want a single answer and there isn't one. Comes back in week 12.
 -->
 
 ---

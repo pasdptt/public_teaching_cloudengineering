@@ -109,7 +109,7 @@ all. The daily quotas reset around midnight US Pacific time, which is mid-aftern
 Bangkok; a student who exhausts writes while experimenting waits for that reset rather than
 paying.
 
-### Lab 4 — Managed execution and load (weeks 8–9)
+### Lab 4 — Managed execution and load (weeks 9–10)
 
 | Resource | Quantity | Free-tier status | Est. |
 |---|---|---|---|
@@ -131,7 +131,7 @@ Two ways a student can leave the free tier here, both taught explicitly:
 2. **Image accumulation.** 0.5 GiB is not much. Every rebuild pushes new layers. The lab
    includes deleting old images, and explains that a registry is storage like any other.
 
-### Lab 5 — Queue and resilience (weeks 10–11)
+### Lab 5 — Queue and resilience (weeks 11–12)
 
 | Resource | Quantity | Free-tier status | Est. |
 |---|---|---|---|
@@ -144,7 +144,7 @@ Two ways a student can leave the free tier here, both taught explicitly:
 once past the allowance. An abandoned subscription is this lab's signature orphan, and
 teardown verification names it explicitly.
 
-### Lab 6 — Terraform and cost (week 12)
+### Lab 6 — Terraform and cost (week 13)
 
 | Resource | Quantity | Free-tier status | Est. |
 |---|---|---|---|

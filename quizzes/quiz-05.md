@@ -1,6 +1,6 @@
 # Quiz 5 — Stateless execution and measurement
 
-**Covers weeks 7–9**, including Lab 4. Taken in week 10, in the discussion block — the queue
+**Covers weeks 7, 9 and 10** (week 8 is the midterm), including Lab 4. Taken in week 11, in the discussion block — the queue
 material taught in that session is not assessed here. Outcomes: CLO-5, CLO-6 (introductory).
 
 **12 marks · about 12 minutes · closed book · individual.** Short answers are fine. Where a

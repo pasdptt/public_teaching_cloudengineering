@@ -1,6 +1,6 @@
 # Lab 1 — Local foundations
 
-**Weeks 2–3 · 7.5% of the final grade · Individual submission**
+**Weeks 2–3 · 5% of the final grade · Individual submission**
 
 | | |
 |---|---|

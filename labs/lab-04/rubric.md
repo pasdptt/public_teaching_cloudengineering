@@ -1,6 +1,6 @@
 # Lab 4 — Rubric
 
-**7.5% of the final grade.** Same four bands as every lab. Primary evidence for **CLO-6**,
+**5% of the final grade.** Same four bands as every lab. Primary evidence for **CLO-6**,
 with substantial CLO-2 and CLO-5.
 
 | Band | Share |
@@ -68,7 +68,7 @@ that would make it worse plus one that would make it better. Full marks connect 
 > **The confounds paragraph is the highest-signal thing in this submission.** These three
 > measurements were taken weeks apart, from different places, with code that changed in
 > between. A student who reports a tidy table and no caveats has learned to produce a result,
-> not to trust one — and that is precisely what week 14 and the project's evidence section
+> not to trust one — and that is precisely what the week 14 reading and the project's evidence section
 > will ask of them.
 
 > **Fabricated measurements score zero for the whole lab.** An experiment that failed,
@@ -130,7 +130,7 @@ actually does.
 **After this lab, verify that every student's Artifact Registry is empty.** It is the one
 resource in this lab that accrues silently, it is invisible in the Cloud Run console, and
 0.5 GiB is about a dozen builds of this image. A student who tore down the service and left
-six images has not finished the lab, and finding out in week 12 is too late.
+six images has not finished the lab, and finding out in week 13 is too late.
 
 **Expect the Part 3 reproduction to fail for one or two students.** That is a property of the
 platform, not of their work. Mark the explanation, not the luck.

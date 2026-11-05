@@ -4,7 +4,7 @@ Everything the service can do lives here as a plain method taking and returning 
 The HTTP layer in ``app.py`` does nothing but translate between requests and these calls.
 
 That separation is why the same logic runs unchanged behind a web request in week 2 and
-behind a queue consumer in week 10, and why the tests can exercise real behaviour without
+behind a queue consumer in week 11, and why the tests can exercise real behaviour without
 starting a server.
 """
 
@@ -96,7 +96,7 @@ class DocumentService:
         Returns ``(job, created)``. ``created`` is False when an existing job was returned.
 
         This is the whole idempotency story in one method, and it is here from week 2 rather
-        than being retrofitted in week 10. Retrying a submission that may already have
+        than being retrofitted in week 11. Retrying a submission that may already have
         succeeded is the normal case in a distributed system, not an edge case: the network
         can swallow a response after the work was done, and the client cannot tell that
         apart from the request never arriving.

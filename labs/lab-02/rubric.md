@@ -1,6 +1,6 @@
 # Lab 2 — Rubric
 
-**7.5% of the final grade.** Same four bands as every lab in this course.
+**5% of the final grade.** Same four bands as every lab in this course.
 
 | Band | Share |
 |---|---|

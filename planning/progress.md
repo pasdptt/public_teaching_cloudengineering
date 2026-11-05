@@ -3,10 +3,14 @@
 **Resume from this file.** It records what exists, what has been validated and at what
 level, and the single next concrete action. Do not restart the design from the brief.
 
-Last updated: **2026-11-04** · Current stage: **A and B complete → C in progress** · tagged **v0.3.0**
+Last updated: **2026-11-05** · Current stage: **A and B complete → C in progress** · tagged **v0.3.0**
 
-> **All 15 weeks, all 6 labs and all 7 quizzes now exist**, with quiz keys in the private
-> repository. The **project package is complete** — brief, milestones,
+> **Calendar compressed on 2026-11-05 (D-66 … D-70):** twelve teaching weeks, a midterm in
+> week 8, the final exam in week 14, demonstrations in week 15. Six quizzes; Lab 6 is a
+> one-week lab; the project runs one experiment and designs another.
+>
+> **All 15 weeks, all 6 labs and all 6 quizzes exist**, with quiz keys in the private
+> repository. The two exam papers do not exist yet. The **project package is complete** — brief, milestones,
 > rubric, and `project-guidance.md` in the private repository. What remains in Stage C is
 > instructor solutions for Labs 2, 4 and 6.
 
@@ -14,7 +18,12 @@ Last updated: **2026-11-04** · Current stage: **A and B complete → C in progr
 
 ## Next concrete action
 
-> **Instructor solutions for Labs 2, 4 and 6.** These are the last three gaps in the private
+> **The midterm paper and key** (private repository, `exam-papers/midterm.md`), written to
+> `exams/README.md`: 60 marks, weeks 1–7, the four question kinds. It is needed before week 8
+> and nothing else in the repository depends on it, so it can be written now. The final paper
+> follows, starting from the former Quiz 7 key with new scenarios.
+>
+> **Then instructor solutions for Labs 2, 4 and 6.** These are the last three gaps in the private
 > repository — Labs 1, 3 and 5 have theirs. Lab 2's is a set of completed starter scripts plus
 > the three survivor checks; Lab 4's is the Cloud Run deployment and the load-experiment
 > reference numbers; Lab 6's is the Terraform, the pipeline with its TODO blocks completed, and
@@ -427,9 +436,32 @@ The shape is **a baseline every project meets (B1–B7), plus one extension from
 or the student's own** (D-58). Every menu option is something an earlier lab asked students to
 describe and not build, so the project finishes work the course has already set up.
 
+### Calendar compressed to twelve teaching weeks (2026-11-05)
+
+Instruction: teaching may not exceed 12 of the 15 weeks; the rest is for exams and project
+presentations. Answered: midterm **and** final; one exam week mid-semester, two at the end;
+compress the end, keep the foundations. Decisions D-66 … D-70.
+
+| Change | Status | Validation |
+|---|---|---|
+| Week folders renumbered (8→9 … 11→12), 12 + 13 merged into `week-13`, new `week-08` (midterm), `week-14` rewritten (final + peer review), `week-15` updated | done | `audit.py`: 15/15 guides sum to 180, 15/15 notes authored |
+| Every week reference in both repositories remapped by one script (8→9, 9→10, 10→11, 11→12, 12→13; ranges collapsed), then the semantic leftovers fixed by hand (`grep` for Quiz 7, two-week Lab 6, weeks 12–13, two experiments) | done | REVIEWED. `decisions.md` and this file were deliberately **not** remapped — they are history; `decisions.md` now says how to read old week numbers |
+| Weights 10/30/30/15/15, exam format | done, **DEFAULT** (D-68) | `audit.py` sums them and checks every lab states 5% |
+| Lab 6 one week, bootstrap script supplied | done | `bash -n` passes. **NOT RUN** against a project |
+| Project: one experiment run, one designed; rubric band C re-split 13/7/5 | done, DEFAULT (D-69) | REVIEWED: band C still sums to 25 |
+| Quiz 7 → `exams/final-practice.md` | done | `audit.py` fails if `quiz-07.md` reappears |
+| `audit.py` check 8 (exam weeks keep 120 minutes) and the per-lab weight check | done | **Verified by breaking it**: a 110-minute midterm, a restored `quiz-07.md`, a rubric stating 7.5% and weights summing to 105 were each reported |
+
+**Least tested number in the course now:** week 13's 75 concept minutes for infrastructure,
+environments and pipelines (was 185 across two weeks). Watch it in the first delivery; the
+guide says what to cut first.
+
+Slide decks for weeks 1–3 are unaffected: their content and timings did not move.
+
 ### Still to author
 
-`project-guidance.md` (private) · instructor solutions for Labs 2, 4 and 6. Operational guidance is
+Midterm and final papers and keys (private, `exam-papers/`) · instructor solutions for Labs 2, 4
+and 6. Operational guidance is
 authored **with** each cloud exercise, never afterwards.
 
 ## Stage D — audit and package · NOT STARTED

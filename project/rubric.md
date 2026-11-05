@@ -1,6 +1,6 @@
 # Integrative project — rubric
 
-**35% of the final grade**, marked out of 100 and scaled. The project is the main evidence for
+**30% of the final grade**, marked out of 100 and scaled. The project is the main evidence for
 **CLO-8** (defending an architecture) and gives further evidence for CLO-4 to CLO-7 and CLO-9.
 Requirements are in [`brief.md`](brief.md). References such as **B1** and **B7** are the brief's
 baseline requirements.
@@ -86,29 +86,36 @@ honestly why they fell back to a key stays at Developing rather than Limited.
 
 ## C · Experiments and interpretation — 25 marks
 
-### C1 · Performance experiment (10)
+Since D-69 the project **runs one** experiment — performance or controlled failure, the
+student's choice — and **designs the other** without running it. C1 marks the one that was run,
+against the descriptor for its kind; C2 marks the design.
+
+### C1 · The experiment that was run (13)
+
+| | Marks | Looks like — performance | Looks like — failure and recovery |
+|---|---|---|---|
+| Excellent | 12–13 | A **prediction written beforehand**. The question has a measurable answer. One variable changes, conditions are stated, at least three runs, disagreement between runs reported. Load sized from B1. The explanation accounts for the result, including where the prediction was wrong. | One controlled, reversible fault, with a prediction. Records **what the user saw, how the system recovered, and what state the job records and messages were left in**, and notices where those differ. Says whether the B4 SLO would have survived, with the arithmetic. |
+| Good | 9–11 | Sound method and result. One weakness: conditions only partly stated, or the explanation describes the numbers rather than accounting for them. | A real fault, well recorded. The state left behind or the SLO judgement is thin. |
+| Developing | 5–8 | Numbers without conditions, a single run, or two variables changed at once. | A fault was induced, but only "it broke, then it worked" is recorded. |
+| Limited | 0–4 | No experiment, or a screenshot of a dashboard in place of a measurement. | No experiment, or one that was not controlled. Example: deleting production data to see what happens. |
+
+The choice of which to run is not itself marked, but the one-sentence reason for it is read as
+part of A2: a choice that follows from the workload is the point.
+
+### C2 · The experiment that was designed (7)
 
 | | Marks | Looks like |
 |---|---|---|
-| Excellent | 9–10 | A **prediction written beforehand**. The question has a measurable answer. One variable changes, conditions are stated, there are at least three runs, and disagreement between runs is reported. The load is sized from B1. The explanation accounts for the result, including where the prediction was wrong. |
-| Good | 7–8 | Sound method and result. One weakness: conditions only partly stated, or the explanation describes the numbers rather than accounting for them. |
-| Developing | 4–6 | Numbers without conditions, a single run, or two variables changed at once. |
-| Limited | 0–3 | No experiment, or a screenshot of a dashboard in place of a measurement. |
-
-### C2 · Failure and recovery experiment (10)
-
-| | Marks | Looks like |
-|---|---|---|
-| Excellent | 9–10 | One controlled, reversible fault, with a prediction. Records **what the user saw, how the system recovered, and what state the job records and messages were left in**, and notices where those two differ. Says whether the B4 SLO would have survived, with the arithmetic. |
-| Good | 7–8 | A real fault, well recorded. The state left behind or the SLO judgement is thin. |
-| Developing | 4–6 | A fault was induced, but only "it broke, then it worked" is recorded. |
-| Limited | 0–3 | No failure experiment, or one that was not controlled. Example: deleting production data to see what happens. |
+| Excellent | 7 | A question with a measurable answer, a prediction **with its mechanism**, a method precise enough that someone else could run it unchanged, stated bounds (request count, instance cap, expected cost), and **the result that would change a decision** — named, not "we would investigate". |
+| Good | 5–6 | Runnable and bounded; the prediction or the decision it would change is thin. |
+| Developing | 2–4 | A description of an experiment rather than a design: no method someone else could run, or no bounds. |
+| Limited | 0–1 | Missing, or a design presented as if it had been run. **Results for an experiment that was not run are fabrication** and are treated as such. |
 
 ### C3 · What the evidence does not show (5)
 
 | | Marks | Looks like |
 |---|---|---|
-| Excellent | 5 | For each experiment, says specifically what the result **failed to establish**, in the sense of week 14. Names the sample-size, co-location and lower-bound limits that apply. |
+| Excellent | 5 | For the experiment that was run, says specifically what the result **failed to establish**, in the sense of the week 14 reading — and for the design, what it could not establish even if run. Names the sample-size, co-location and lower-bound limits that apply. |
 | Good | 3–4 | Limits stated, partly generic. |
 | Developing | 1–2 | "More testing is needed." |
 | Limited | 0 | No limits stated, or claims the result generalises. |

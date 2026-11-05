@@ -5,13 +5,17 @@ Checks that can be made mechanically, so they are not re-argued every session:
 
   1. Every relative Markdown link points at a file that exists.
   2. Every row of the weekly workload table sums to exactly 180 minutes.
-  3. Assessment weights sum to 100%.
+  3. Assessment weights (quizzes, labs, project, midterm, final) sum to 100%, and the lab
+     weight divides evenly across six labs.
   4. No answer-key, solution or credential-shaped content in this public repo.
   5. Every course learning outcome (CLO-1..9) is referenced in the assessment plan.
   6. Every teaching guide's session plan sums to exactly 180 contact minutes, and every
      week has an authored guide and authored student notes.
-  7. Every quiz is authored, states the weeks it covers, has question marks that add up to
-     its stated total, and Quiz 6 does not reach into same-day infrastructure material.
+  7. Every quiz (six of them) is authored, states the weeks it covers, has question marks that
+     add up to its stated total, and Quiz 6 does not reach into same-day infrastructure material.
+  8. The two exam weeks (8 and 14) each give a 120-minute block to the exam, and the exam
+     format document exists. Twelve teaching weeks is a structural claim (D-66); this is the
+     part of it a script can check.
 
 Run from anywhere:  python3 planning/audit.py
 Exit code 0 = clean, 1 = problems found.
@@ -74,20 +78,31 @@ if plan.exists():
     weights = {}
     for name, pat in (("quizzes", r"Quizzes\s*\|\s*\*\*(\d+)%\*\*"),
                       ("labs", r"Labs\s*\|\s*\*\*(\d+)%\*\*"),
-                      ("project", r"Project\s*\|\s*\*\*(\d+)%\*\*")):
+                      ("project", r"Project\s*\|\s*\*\*(\d+)%\*\*"),
+                      ("midterm", r"Midterm exam\s*\|\s*\*\*(\d+)%\*\*"),
+                      ("final", r"Final exam\s*\|\s*\*\*(\d+)%\*\*")):
         m = re.search(pat, text)
         if m:
             weights[name] = int(m.group(1))
         else:
             problems.append(f"could not find {name} weight in assessment-plan.md")
-    if len(weights) == 3:
+    if len(weights) == 5:
         total = sum(weights.values())
         if total != 100:
             problems.append(f"assessment weights sum to {total}%, not 100% ({weights})")
         notes.append(f"assessment weights: {weights} = {total}%")
-    # six labs at 7.5% each must equal the labs weight
-    if weights.get("labs") is not None and abs(6 * 7.5 - weights["labs"]) > 1e-9:
-        problems.append(f"6 labs x 7.5% = 45%, but labs weight is {weights['labs']}%")
+    # six equally weighted labs: the labs weight must divide evenly, and every lab README
+    # and rubric must state the same per-lab share
+    if weights.get("labs") is not None:
+        per_lab = weights["labs"] / 6
+        share = f"{per_lab:g}% of the final grade"
+        share_re = re.compile(r"(?<![\d.])" + re.escape(share))
+        for lab in sorted((ROOT / "labs").glob("lab-0*")):
+            for doc in ("README.md", "rubric.md"):
+                f = lab / doc
+                if f.exists() and not share_re.search(f.read_text(encoding="utf-8")):
+                    problems.append(f"{f.relative_to(ROOT)} does not state '{share}' "
+                                    f"(labs {weights['labs']}% / 6)")
 else:
     problems.append("course/assessment-plan.md missing")
 
@@ -191,14 +206,14 @@ notes.append(f"session plans checked: {guides}/15 · student notes: {notes_check
 # question is any good is a judgement this file does not make.
 #
 # Quiz 6 gets one content check, because it is the defect this repository has already made
-# once: it sits in the week declarative infrastructure is first taught, and may reach CLO-7
-# and CLO-9 only through the cleanup and CI threads (assessment-plan.md). The terms below are
-# week 12 vocabulary that no Quiz 6 question should need.
+# once: it sits in the week declarative infrastructure is first taught (week 13 since D-66),
+# and may reach CLO-7 and CLO-9 only through the cleanup and CI threads (assessment-plan.md).
+# The terms below are that week's vocabulary, which no Quiz 6 question should need.
 QUIZ_TOTAL = re.compile(r"^\*\*(\d+) marks\b", re.M)
 QUESTION_MARKS = re.compile(r"^## Question \d+\b.*\((\d+) marks?\)\s*$", re.M)
 SAME_DAY_Q6 = re.compile(r"\b(terraform|opentofu|tfvars|workspace|drift|state file)\b", re.I)
 quizzes_checked = 0
-for n in range(1, 8):
+for n in range(1, 7):
     quiz = ROOT / "quizzes" / f"quiz-{n:02d}.md"
     if not quiz.exists():
         problems.append(f"quiz {n} is missing")
@@ -220,11 +235,31 @@ for n in range(1, 8):
     if n == 6:
         body = text.split("\n---\n", 1)[-1]  # questions only; the header may name what is excluded
         for m in sorted({m.group(0).lower() for m in SAME_DAY_Q6.finditer(body)}):
-            problems.append(f"quiz 6 uses same-day week 12 material: '{m}'")
+            problems.append(f"quiz 6 uses same-day week 13 material: '{m}'")
     quizzes_checked += 1
-notes.append(f"quizzes authored and consistent: {quizzes_checked}/7")
+notes.append(f"quizzes authored and consistent: {quizzes_checked}/6")
+if (ROOT / "quizzes" / "quiz-07.md").exists():
+    problems.append("quizzes/quiz-07.md exists, but there are six quizzes (D-66); Quiz 7 became "
+                    "exams/final-practice.md")
 
-# ------------------------------------------------- 6. slide decks, if present
+# ----------------------------------------------------------- 8. exam weeks
+#
+# D-66 cut teaching to twelve weeks by giving weeks 8 and 14 to written exams. If either
+# week's session plan stops giving the exam its 120 minutes, teaching has crept back in.
+exam_doc = ROOT / "exams" / "README.md"
+if not exam_doc.exists():
+    problems.append("exams/README.md is missing (exam format, D-68)")
+for wk in (8, 14):
+    guide = ROOT / "weeks" / f"week-{wk:02d}" / "teaching-guide.md"
+    if not guide.exists():
+        continue  # already reported by check 6
+    rows = [ln for ln in guide.read_text(encoding="utf-8").splitlines()
+            if re.match(r"^\|\s*\**[^|]*exam[^|]*\**\s*\|\s*120\s*\|", ln, re.I)]
+    if not rows:
+        problems.append(f"week {wk:02d} session plan has no 120-minute exam block (D-66)")
+notes.append("exam weeks 8 and 14 checked for a 120-minute exam block")
+
+# ------------------------------------------------- 9. slide decks, if present
 #
 # Decks are derived from the teaching guides and carry the guide's block timings. The sum
 # has to be the same 180 minutes the workload budget and the session plans use, or the deck

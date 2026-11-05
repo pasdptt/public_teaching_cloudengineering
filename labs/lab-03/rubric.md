@@ -1,6 +1,6 @@
 # Lab 3 — Rubric
 
-**7.5% of the final grade.** Same four bands as every lab. Primary evidence for **CLO-4**.
+**5% of the final grade.** Same four bands as every lab. Primary evidence for **CLO-4**.
 
 | Band | Share |
 |---|---|

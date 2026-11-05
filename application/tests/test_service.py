@@ -1,7 +1,7 @@
 """Service behaviour: the properties the whole course is built on.
 
 Idempotency and duplicate-delivery safety are tested here, in week 2, even though the queue
-that makes them matter does not arrive until week 10. That is on purpose: the behaviour is
+that makes them matter does not arrive until week 11. That is on purpose: the behaviour is
 designed in from the start, and Lab 5 demonstrates why it was needed rather than adding it
 in a panic.
 """

@@ -1,6 +1,6 @@
 # Lab 3 — State and storage
 
-**Weeks 6–7 · 7.5% of the final grade · Individual submission**
+**Weeks 6–7 · 5% of the final grade · Individual submission**
 
 | | |
 |---|---|
@@ -23,7 +23,7 @@ means two files, which means two different answers to "what is the status of job
 user who gets a different answer depending on which instance served them.
 
 This lab moves state to somewhere that belongs to **no instance**. That is the precondition
-for everything in weeks 8–11: you cannot have stateless execution until state has somewhere
+for everything in weeks 9–12: you cannot have stateless execution until state has somewhere
 else to live.
 
 You will also make a real **selection decision** and have to defend it — which is CLO-4, and

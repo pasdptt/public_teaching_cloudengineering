@@ -1,6 +1,6 @@
 # Lab 5 — Asynchrony and resilience
 
-**Weeks 10–11 · 7.5% of the final grade · Individual submission**
+**Weeks 11–12 · 5% of the final grade · Individual submission**
 
 | | |
 |---|---|

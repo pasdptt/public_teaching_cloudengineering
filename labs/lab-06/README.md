@@ -1,18 +1,23 @@
 # Lab 6 — Delivery, environments and reproducibility
 
-**Weeks 12–13 · 7.5% of the final grade · Individual submission**
+**Week 13 (one week) · due at the start of week 14 · 5% of the final grade · Individual submission**
 
 | | |
 |---|---|
 | **Cloud resources** | Per environment: Cloud Run, a bucket, a topic, a dead-letter topic, a push subscription and two service accounts — × 2 for `dev` and `prod`. Shared: Artifact Registry, a Workload Identity Federation pool, a deployer account |
 | **Estimated cost** | **~$0.02.** Everything sits inside Always Free; GitHub Actions is free on public repositories. |
 | **Outcomes** | CLO-9 (delivery and environments), CLO-7 (reproduce and remove) |
-| **Estimated novice time** | ~2 h guided (2 × 60 min) + ~4.3 h independent across weeks 12–13 |
+| **Estimated novice time** | ~40 min guided + ~2.5 h independent, in week 13 |
 | **Observed pilot time** | *not yet measured* |
 
-> **Week 13 also starts the project.** This lab's second half is sized at 110 minutes of
-> independent work, not the usual 150, for that reason. If you find yourself over, stop and
-> say so — the schedule has a recorded remedy and it is not "work longer".
+> **This is a one-week lab** (D-67). It was two weeks until the course's teaching was cut to
+> twelve weeks, and it was cut down rather than squeezed: the federation pool, the deployer
+> identity and the state bucket now come from a supplied script (Part 4), the two pipeline bugs
+> that wait for a second run are predicted and then fixed from supplied lines rather than found
+> by failing (Part 5), and several questions became optional. What is left is what is marked —
+> the environment differences, the gate, and a verified teardown. **Week 14 is the final exam,
+> so there is no slack after the deadline.** If you find yourself well over, stop and say so;
+> the schedule has a recorded remedy and it is not "work longer".
 
 ---
 
@@ -46,9 +51,9 @@ it all down.
 
 ---
 
-# Week 12 — Infrastructure and environments
+# Infrastructure and environments — in the session if you can
 
-## Part 1 — Read before you run (~30 min)
+## Part 1 — Read before you run (~20 min)
 
 Read `infra/` in this order: `versions.tf`, `variables.tf`, `main.tf`, then both
 `envs/*.tfvars.example`.
@@ -73,7 +78,7 @@ cost you twenty minutes and an error message in Lab 5. They are four lines here.
    grants. Read the comment, then answer in your own words why the other one cannot be listed
    there, and why that is correct rather than a limitation.
 
-## Part 2 — Bring up `dev` (~60 min)
+## Part 2 — Bring up `dev` (~40 min)
 
 ```bash
 cd infra
@@ -111,7 +116,7 @@ say for you to stop and investigate rather than type yes?
 **drift**, and you have just produced it deliberately. Answer: which is right — the console or
 the file? What decides that, and what would happen if two people each believed theirs was?
 
-## Part 3 — Add `prod`, and account for every difference (~60 min)
+## Part 3 — Add `prod`, and account for every difference (~40 min)
 
 ```bash
 terraform workspace new prod
@@ -154,9 +159,9 @@ Describe concretely what could go wrong, and what you would change to fix it pro
 
 ---
 
-# Week 13 — The delivery pipeline
+# The delivery pipeline — mostly independent work
 
-## Part 4 — Give the pipeline an identity, without a key (~60 min)
+## Part 4 — Give the pipeline an identity, without a key (~25 min)
 
 Your pipeline needs to deploy, so it needs permissions. The obvious route is to create a
 service-account key and paste the JSON into a GitHub secret. **Do not.** Google's own
@@ -168,18 +173,17 @@ Instead: **Workload Identity Federation.** GitHub mints a short-lived OIDC token
 assertion — for *your* repository specifically — and exchanges it for a short-lived access
 token. **No long-lived credential exists anywhere.**
 
-Set up a pool and a provider with an attribute condition restricting it to your repository,
-create a deployer service account, and grant it the roles this pipeline needs. (Detailed
-commands: the teaching guide and Google's current documentation. Check the docs rather than
-copying a blog — this area changes.)
-
-**Then bootstrap the state bucket**, because the pipeline cannot work without it:
+**The setup is supplied**, in [`starter/01-bootstrap-pipeline.sh`](starter/01-bootstrap-pipeline.sh).
+It creates the pool, a provider whose attribute condition names your repository, the deployer
+service account and its roles, and the state bucket — and prints the two values `deploy.yml`
+needs. **Read it before you run it.** It has not yet been run against a real project (see
+[`starter/README.md`](starter/README.md)); if a command fails, the error and the current Google
+documentation decide, not the script.
 
 ```bash
-gcloud storage buckets create "gs://${PROJECT_ID}-tfstate" \
-  --project="$PROJECT_ID" --location=US-CENTRAL1 \
-  --uniform-bucket-level-access --public-access-prevention
-gcloud storage buckets update "gs://${PROJECT_ID}-tfstate" --versioning
+cd labs/lab-06/starter
+cp config.env.example config.env     # set PROJECT_ID and GITHUB_REPO (owner/name)
+./01-bootstrap-pipeline.sh
 ```
 
 Then uncomment the `backend "gcs"` block in `infra/versions.tf` and migrate what you already
@@ -191,56 +195,43 @@ terraform init -migrate-state \
   -backend-config="bucket=${PROJECT_ID}-tfstate" -backend-config="prefix=docapp"
 ```
 
-**Three things to answer about this**, and the first is the one people skip:
-
-1. **Why is the state bucket created by hand rather than by Terraform?** There is a real
-   answer, it has a name, and it is not "because we were lazy".
-2. Week 12 told you local state was fine for one student on one laptop. **What changed?**
-   Name the new actor, and say what it does on every run that you do not.
-3. You just turned on object versioning for this bucket, which costs money and which Lab 3
-   taught you to be suspicious of. **Why is it right here and wrong there?**
-
 > **Do not skip the migration and start clean.** `-migrate-state` moving your existing dev
 > environment into the bucket is the interesting part: the resources do not change, the
 > record of them moves, and watching that work is what makes state concrete.
 
+Fill the two `auth` values and `STATE_BUCKET` in `deploy.yml` from the script's output.
+
 **Checkpoint.** The `auth` step in `deploy.yml` succeeds and the run log shows an
 authenticated identity. **No secret containing a key exists in your repository settings.**
 
-**The question to answer properly:** `deploy.yml` is committed to a *public* repository, and
-after this part it contains your pool id and your service-account email. **What stops someone
-forking it and deploying into your project?** Be specific — name the mechanism.
+**Answer, and these three are marked:**
 
-**Also answer:** the deployer service account needs permission to deploy. List the roles you
-granted and justify each. If you used Editor, say so and say what you would use instead —
-honesty here scores better than a tidy lie.
+1. **What stops someone forking this public repository and deploying into your project?**
+   `deploy.yml` now contains your pool id and your service-account email. Be specific — name
+   the mechanism, and point at the line in the script that creates it.
+2. **The roles.** The script grants the deployer a fixed list. Justify each one in a sentence,
+   and name the one you would most like to remove and what would break if you did.
+3. **Why is the state bucket created by the script rather than by Terraform?** There is a real
+   answer, it has a name, and it is not "because we were lazy".
 
-**And then the uncomfortable question**, which the bottom of `deploy.yml` sets up. Add up
-what this account must be able to do: create service accounts, grant project-level IAM,
-administer Cloud Run, own two buckets and a Pub/Sub topology, and write to the registry.
+**Optional, not marked:** the bottom of `deploy.yml` asks the uncomfortable question — by the
+end of this lab the pipeline's identity is close to the most powerful principal in your
+project, and it acts on whatever is on the main branch. Say what you would do about it.
+Branch protection is one answer; a separate plan-only identity for pull requests is another;
+"nothing, and here is why that is acceptable here" is defensible if you make the argument.
 
-By the end of this lab **the pipeline's identity is close to the most powerful principal in
-your project**, and it acts on whatever is on the main branch. That is not a flaw in the
-design — it is what "the pipeline deploys the infrastructure" means, and every team doing
-this lives with it.
-
-Say what you would do about it. Branch protection is one answer. A separate, plan-only
-identity for pull requests is another. "Nothing, and here is why that is acceptable in this
-context" is also defensible **if you make the argument**.
-
-## Part 5 — Build once, deploy, and watch a gate hold (~60 min)
-
-Complete the `TODO` blocks in `.github/workflows/deploy.yml`. Then:
+## Part 5 — Build once, deploy, and watch a gate hold (~40 min)
 
 There are four `TODO` blocks in the deploy job and they are not all the same size. Two of
-them — the backend and the workspace — are bugs that will bite you on the *second* run rather
-than the first, which is exactly how this class of mistake behaves in real life. Read the
-comments before you run anything.
+them — the backend and the workspace — are bugs that would bite you on the *second* run rather
+than the first, which is exactly how this class of mistake behaves in real life. **Their fixes
+are written in the comments.** Before you apply them, **predict in writing** what the second
+run would have done without each one. Then apply both, and add the `plan` step the third
+`TODO` asks for.
 
 1. **Merge to main.** Watch it test, build, push, apply to `dev`, and smoke-test.
-2. **Merge again**, with a trivial change. If you left either of the first two TODOs
-   unfixed, this is the run that fails, and **the failure is the lesson** — record what it
-   said before you fix it.
+2. **Merge again**, with a trivial change. It should succeed. If it does not, compare the error
+   with your prediction before you fix anything — **the difference is worth recording**.
 3. **Confirm the image tag is the commit sha**, not `latest`.
 4. **Break a test on purpose.** Change an assertion in `application/tests/test_processing.py`
    so it fails. Commit. Push.
@@ -252,7 +243,7 @@ comments before you run anything.
 deployed to each environment. **They must be the same image.** If they are not, find out why —
 that is a more valuable finding than a clean run.
 
-**Answer these six:**
+**Answer these four** (they are band B5 of the rubric):
 
 1. `deploy` declares `needs: test`. Delete that line and describe exactly what becomes
    possible. Why is a removed gate worse than an absent one?
@@ -262,13 +253,11 @@ that is a more valuable finding than a clean run.
    workflow write access to everything and move on?
 4. The smoke test fails the *run*, but the bad revision is already serving traffic. What
    would you add, and what would it cost you? You do not have to build it.
-5. The smoke test carries an identity token with an explicit `--audiences`. Why is that
-   needed for the pipeline and not when you `curl` the service from your laptop?
-6. **Local state in a pipeline.** Describe what the second run did before you fixed it, and
-   why the first run looked fine. This is the general shape of a whole family of bugs —
-   name what they have in common.
 
-## Part 6 — Cost, teardown, and proof (~40 min) · **graded**
+**Plus your two predictions** from the top of this part: what the second run would have done
+without the backend fix and without the workspace fix — and what the two bugs have in common.
+
+## Part 6 — Cost, teardown, and proof (~30 min) · **graded**
 
 **Estimate before you look.** Using `operations/cost-model.md` §1 and the official pricing
 pages, produce an estimate for this lab: every resource, its quantity, the free-tier
@@ -293,13 +282,13 @@ terraform workspace select dev  && terraform destroy -var-file=envs/dev.tfvars  
 |---|---|---|
 | 1 | Both environments (above) | While state still exists to describe them |
 | 2 | Artifact Registry images | The pipeline pushed them; they were never in state |
-| 3 | Deployer service account, WIF pool and provider | A standing trust relationship and a broad identity |
+| 3 | Deployer service account, WIF pool and provider — `starter/02-teardown-pipeline.sh` | A standing trust relationship and a broad identity |
 | 4 | **The state bucket, last** | Delete it earlier and Terraform forgets what it owns while it still owns things |
 
 > **Row 4 is the one to get right, and it is a good final lesson.** The state bucket is not a
 > resource of the system; it is the record *of* the system. Destroy the record first and you
 > are left doing cleanup by hand, from memory, in a console — which is exactly the condition
-> Lab 6 spent two weeks arguing against.
+> Lab 6 spent the week arguing against.
 
 Then verify **independently of Terraform**, using `operations/cleanup.md`. State saying a
 thing is gone is a claim by the tool that deleted it, and the registry images and the state
@@ -317,11 +306,10 @@ bucket were never in that state at all.
 2. **Drift** — what the plan said after your console change, and your answer on which is right.
 3. **The difference table**, plus three things deliberately the same and what breaks if they
    drift.
-4. **Federation** — what stops a fork deploying into your project; the roles you granted and
-   why.
-5. **The pipeline** — red run, green run, the second-run failure if you had one, and the
-   image references for both environments.
-6. **Your six answers** from Part 5, plus the three state-bucket answers from Part 4.
+4. **Federation** — your three Part 4 answers: what stops a fork, the roles, and why the state
+   bucket is bootstrapped.
+5. **The pipeline** — red run, green run, and the image references for both environments.
+6. **Your four answers** from Part 5, plus your two second-run predictions.
 7. **Cost estimate vs actual**, and the per-project/per-account allowance answer.
 8. **Teardown verification output.**
 9. **AI-assistance disclosure.**

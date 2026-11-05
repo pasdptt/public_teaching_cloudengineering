@@ -1,7 +1,7 @@
 # Infrastructure as code
 
-Terraform configuration for the course application. Introduced in **Lab 6 (weeks 12–13)**,
-and reused by the project in weeks 13–15.
+Terraform configuration for the course application. Introduced in **Lab 6 (week 13)**,
+and reused by the project in weeks 14–15.
 
 **Status: validated, not applied (2026-09-22).**
 

@@ -1,6 +1,7 @@
 # Weekly schedule
 
-Relative weeks 1–15. Real dates come from `planning/calendar-worksheet.md` (Q-01).
+Relative weeks 1–15: **twelve teaching weeks** (1–7 and 9–13), a **midterm** in week 8, and
+the **final exam and project** in weeks 14–15 (D-66). Real dates come from `planning/calendar-worksheet.md` (Q-01).
 
 Session envelope every week: **~90 min concepts · ~30 min discussion or quiz · 60 min guided
 practical**, totalling the 180-minute contact block. Quizzes take discussion time, never extra
@@ -50,7 +51,7 @@ test suite runs on every push (Lab 1 Part 6).
 > twenty minutes of student time. From now on every push runs the tests, and every later lab
 > submits through a repository whose checks are green. Students live with a pipeline for ten
 > weeks before week 13 teaches them what one is — the same pattern as meeting idempotency in
-> week 2 and the queue that needs it in week 10.
+> week 2 and the queue that needs it in week 11.
 
 ---
 
@@ -101,9 +102,33 @@ service and justify the design in a decision record.
 
 ---
 
-## Phase 4 — Managed execution and scale (weeks 8–9)
+## Mid-semester exam (week 8)
 
-### Week 8 · Managed containers and serverless
+### Week 8 · Midterm examination
+No new material. The midterm sits at the natural seam in the course: everything before it
+runs on one machine or one VM with its state moved out, and everything after it is managed
+execution, scale, asynchrony and delivery.
+
+| Block | Time | Activity |
+|---|---|---|
+| Midterm examination | 120 min | Written, in the room. Weeks 1–7: CLO-1 … CLO-4, and CLO-5 foundations. Format in `exams/README.md` |
+| Break | 10 min | |
+| Trial and cost check | 20 min | Everyone opens their billing page and states their remaining credit and days. Anyone with a running resource from Labs 2–3 finds out why |
+| Lab clinic | 30 min | Outstanding Lab 3 problems and Lab 4 pre-flight (container builds locally). No new content |
+
+**Due:** nothing besides the exam. Lab 3 was due in week 7, and Lab 4 starts in week 9.
+**Outcomes:** CLO-1 … CLO-4 (exam evidence).
+
+> **Why week 8.** It is the only point where a full exam can sit between labs without cutting
+> one in half: Lab 3 has just closed and Lab 4 has not started. The trial check rides along
+> because week 8 is roughly one third of the way through the 90-day window, which is the last
+> comfortable moment to find a student whose credit is draining.
+
+---
+
+## Phase 4 — Managed execution and scale (weeks 9–10)
+
+### Week 9 · Managed containers and serverless
 **Concepts:** what you stop operating when you move from VM to managed container
 execution; request-scoped lifecycle; cold start and what causes it; why statelessness is
 the price of admission; concurrency settings as a design decision.
@@ -111,7 +136,7 @@ the price of admission; concurrency settings as a design decision.
 **Practical:** start **Lab 4** — containerise and deploy the service to managed execution.
 **Outcomes:** CLO-1, CLO-2, CLO-5.
 
-### Week 9 · Horizontal scaling and measurement
+### Week 10 · Horizontal scaling and measurement
 **Concepts:** vertical vs horizontal scaling; load distribution; concurrency vs
 parallelism; the relationship between latency, throughput and utilisation; autoscaling as
 a feedback loop with delay — and why that causes overshoot; how to design a bounded,
@@ -123,9 +148,9 @@ execution on latency, throughput, scaling behaviour and operational responsibili
 
 ---
 
-## Phase 5 — Asynchrony, failure, delivery (weeks 10–13)
+## Phase 5 — Asynchrony, failure, delivery (weeks 11–13)
 
-### Week 10 · Queues and event-driven processing
+### Week 11 · Queues and event-driven processing
 **Concepts:** why slow work leaves the request path; queues and their delivery guarantees;
 at-least-once delivery and therefore duplicates; retries, backoff and the retry storm;
 idempotency as the property that makes retries safe; dead-letter handling.
@@ -134,7 +159,7 @@ idempotency as the property that makes retries safe; dead-letter handling.
 **Also this week:** the **project brief is released**.
 **Outcomes:** CLO-5.
 
-### Week 11 · Partial failure, resilience and observability
+### Week 12 · Partial failure, resilience and observability
 **Concepts:** timeouts, retries and their interaction; circuit breaking conceptually;
 graceful degradation; logs vs metrics vs traces and what each answers; service level
 objectives and error budgets at an introductory level.
@@ -145,47 +170,48 @@ controlled failure experiment, and show the evidence you used to explain it.
 *(Workload note: this is the tightest week in the course. The budget in
 `workload-budget.md` reallocates reading time to absorb the proposal.)*
 
-### Week 12 · Declarative infrastructure and environments
-**Concepts:** imperative vs declarative provisioning; what Terraform state is and why it
-exists; drift; **environment management** — one configuration, two variable files, and the
-difference between what `dev` and `prod` are *allowed* to differ in and what they must never
-differ in; configuration and secrets, and why a secret in a repository is permanent; cloud
-cost models and estimating before deploying rather than after.
+### Week 13 · Infrastructure as code, environments and delivery pipelines
+The last teaching week, and the densest. It carries what used to be two weeks (D-66).
+
+**Concepts (75 min):** imperative vs declarative provisioning and what Terraform state is;
+drift; **environment management** — one configuration, two variable files, what `dev` and
+`prod` may differ in and what they must never differ in; configuration vs secrets. Then the
+**pipeline**: each stage as a gate and what it protects against; build once, promote the same
+artefact; why a pipeline needs an identity and why that identity must not be a long-lived key;
+**Workload Identity Federation**; what a pipeline cannot catch.
 **Discussion block:** **Quiz 6** (CLO-5, CLO-6; CLO-7 and CLO-9 via the threads students have
 been living with — cleanup since Lab 2, CI since week 3 — never that day's Terraform material).
-**Practical:** start **Lab 6** — complete the supplied Terraform skeleton, bring up `dev`,
-destroy it, bring up `prod`, and account for every difference between them.
-**Outcomes:** CLO-7, CLO-9.
+**Design review (40 min):** each student or pair, against the project rubric — the only point
+at which a project's scope is checked before it is built.
+**Practical (40 min):** **Lab 6**, a one-week lab with the pipeline's identity and state bucket
+bootstrapped by a supplied script — bring up `dev`, add `prod` and account for every
+difference, deploy through the pipeline, watch a gate hold, tear down and verify.
+**Outcomes:** CLO-7, CLO-9, CLO-8 (design review). **Due:** Lab 6, by the start of week 14.
 
-### Week 13 · Delivery pipelines
-**Concepts:** what a pipeline is for — each stage as a **gate**, and what each gate protects
-against; build once, promote the same artefact, never rebuild per environment; why a pipeline
-needs an identity and why that identity must not be a long-lived key; **Workload Identity
-Federation** as the keyless answer, and OIDC federation as the pattern it belongs to; what a
-pipeline can and cannot catch.
-**Practical:** complete **Lab 6** — deploy to `dev` automatically on merge, promote to `prod`
-deliberately, break a test on purpose and watch the gate hold, then tear both environments
-down and verify. **Project implementation begins**, with an **instructor design review** for
-each student or pair.
-**Outcomes:** CLO-9, CLO-7, CLO-8 (design review). **Due:** Lab 6.
+> **What the compression cost.** The concept time for infrastructure, environments and
+> pipelines halved, from 150 minutes to 75. What was cut is depth of demonstration, not
+> topics: drift is produced in the lab rather than demonstrated twice, and the federation
+> walk-through relies on the supplied bootstrap script. The student notes carry the full
+> explanation and the reading budget was raised to pay for it.
 
-> **Week 13 is the second-tightest week in the course**, carrying the end of Lab 6 and the
-> start of the project. `course/workload-budget.md` splits it 110/50 and names the first
-> remedy if it proves too much.
+---
 
-### Week 14 · Synthesis and evidence-based evaluation
-**Concepts (~60 min):** architecture synthesis — putting the pieces together, security review
-and cost review as habits, recognising where a managed service has become a dependency and
-what migration would actually cost; then what makes a measurement trustworthy, confounds and
-the limits of a single run, and presenting a tradeoff honestly including the option you
-rejected.
-**Discussion block:** **Quiz 7** (CLO-6, CLO-7, CLO-8, CLO-9).
-**Practical (extended):** project experiments; structured **peer review** of another group's
-architecture and evidence.
-**Outcomes:** CLO-6, CLO-8, CLO-9.
+## End of semester — final exam and project (weeks 14–15)
 
-> The synthesis material moved here from week 13 when Lab 6 became a two-week lab (D-24). It
-> sits well beside evaluation: both are about judging a design rather than building one.
+### Week 14 · Final examination and peer review
+No new material.
+
+| Block | Time | Activity |
+|---|---|---|
+| Final examination | 120 min | Written, in the room. Cumulative, weighted towards weeks 9–13: CLO-2, CLO-5, CLO-6, CLO-7, CLO-9, and one design-defence question for CLO-8. Format in `exams/README.md` |
+| Break | 10 min | |
+| Structured peer review | 50 min | Four written questions on another group's architecture and evidence, answered in silence; the author may not defend (D-49) |
+
+**Reading:** the synthesis notes — reading an architecture in three passes, security and cost
+review as habits, the price of leaving, and what makes a measurement worth believing. They are
+not lectured and not examined. They are the method for the peer review, the standard for the
+project's write-up of its experiments, and the frame for its migration discussion.
+**Outcomes:** CLO-2, CLO-5 … CLO-9 (exam evidence), CLO-8 (peer review, ungraded).
 
 ### Week 15 · Demonstration and defence
 The full three hours are used differently from every other week.
@@ -193,7 +219,7 @@ The full three hours are used differently from every other week.
 | Block | Time | Activity |
 |---|---|---|
 | Demonstrations | up to 120 min | Up to 12 min per group including questions. Fits ten individual projects. Both members of a pair answer an individual question. |
-| Synthesis | ~30 min | What transfers to another provider; what was a commitment to this one |
+| Synthesis | ~30 min | What transfers to another provider; what was a commitment to this one — the dependency and lock-in material, applied to their own systems |
 | Cleanup and reflection | ~30 min | Verified teardown of every remaining resource, and a short written reflection |
 
 **Due:** final project submission, verified cleanup, reflection.
@@ -203,7 +229,7 @@ The full three hours are used differently from every other week.
 
 ## Summary table
 
-| Wk | Concept focus | Practical | Quiz | Due | CLOs |
+| Wk | Concept focus | Practical | Quiz / exam | Due | CLOs |
 |---|---|---|---|---|---|
 | 1 | Cloud characteristics, service models, shared responsibility | Environment check + local run | — | — | 1 |
 | 2 | Processes, isolation, VMs, containers, HTTP | Lab 1 start | **Q1** | — | 1, 2 |
@@ -212,14 +238,17 @@ The full three hours are used differently from every other week.
 | 5 | Virtual networking, access boundaries, least privilege | Lab 2 finish | — | **Lab 2** | 3 |
 | 6 | Block/file/object/database; durability | Lab 3 start | **Q3** | — | 4 |
 | 7 | Replication, consistency, transactions, choosing | Lab 3 finish | — | **Lab 3** | 4, 5 |
-| 8 | Managed containers, serverless, statelessness | Lab 4 start | **Q4** | — | 1, 2, 5 |
-| 9 | Horizontal scaling, concurrency, latency/throughput | Lab 4 finish + load experiment | — | **Lab 4** | 2, 5, 6 |
-| 10 | Queues, retries, duplicates, idempotency | Lab 5 start · **project brief out** | **Q5** | — | 5 |
-| 11 | Partial failure, resilience, observability, SLOs | Lab 5 finish + failure experiment | — | **Lab 5**, proposal | 5, 6 |
-| 12 | Declarative infra, **environments**, state, secrets, cost | Lab 6 start | **Q6** | — | 5, 6, 7, 9 |
-| 13 | **Delivery pipelines**, gates, keyless pipeline identity | Lab 6 finish · project + design review | — | **Lab 6** | 7, 8, 9 |
-| 14 | **Synthesis** + evidence, tradeoffs, alternatives | Project experiments + peer review | **Q7** | — | 6, 8, 9 |
+| 8 | *No new material* | Trial check · lab clinic | **Midterm** | — | 1–4 |
+| 9 | Managed containers, serverless, statelessness | Lab 4 start | **Q4** | — | 1, 2, 5 |
+| 10 | Horizontal scaling, concurrency, latency/throughput | Lab 4 finish + load experiment | — | **Lab 4** | 2, 5, 6 |
+| 11 | Queues, retries, duplicates, idempotency | Lab 5 start · **project brief out** | **Q5** | — | 5 |
+| 12 | Partial failure, resilience, observability, SLOs | Lab 5 finish + failure experiment | — | **Lab 5**, proposal | 5, 6 |
+| 13 | **IaC, environments, delivery pipelines**, keyless identity | Lab 6 (one week) · design review | **Q6** | — | 7, 8, 9 |
+| 14 | *No new material* | Peer review | **Final** | **Lab 6** | 2, 5–9 |
 | 15 | Defence, synthesis, transfer | Demonstrations, cleanup, reflection | — | **Project** | 7, 8 |
+
+**Twelve teaching weeks** (1–7 and 9–13), **one mid-semester exam week** (8), and **two weeks
+at the end** for the final exam and the project (14–15). See D-66.
 
 ---
 
@@ -231,12 +260,17 @@ project demonstration. Second, a student who has never traced a request locally 
 debug one in the cloud; weeks 1–3 build the mental model that makes week 4 legible instead
 of magical.
 
-**Why storage (6–7) comes before managed execution (8–9).** Managed execution requires
+**Why the midterm sits in week 8.** It falls between two labs rather than inside one, and at
+the seam between "one machine with its state moved out" (weeks 1–7) and "managed, scaled,
+asynchronous and delivered" (weeks 9–13). Every outcome it examines has already been practised
+in a completed lab.
+
+**Why storage (6–7) comes before managed execution (9–10).** Managed execution requires
 statelessness. Statelessness is only possible once state has somewhere else to live. Doing
 these in the other order would mean teaching Cloud Run to students whose application still
 writes to local disk — which is exactly the confusion the sequence is meant to prevent.
 
-**Why the queue (10) comes after scaling (9).** The load experiment in Lab 4 is what makes
+**Why the queue (11) comes after scaling (10).** The load experiment in Lab 4 is what makes
 the queue feel necessary rather than decorative: students see the synchronous path
 saturate, then remove the slow work from it.
 
@@ -250,17 +284,20 @@ draw a pipeline and have never been saved by one.
 **Why delivery and environments are one lab, not two.** A pipeline that cannot target a named
 environment is a script; an environment you cannot deploy to is a diagram. Separating them
 would let students pass both halves without ever connecting them — which is precisely the gap
-the two-week Lab 6 exists to close.
+Lab 6 exists to close. Compressing it to one week kept that pairing and cut the bootstrap
+work instead: the federation pool, deployer identity and state bucket come from a supplied
+script, and the two second-run bugs are predicted rather than debugged (D-67).
 
-**Why infrastructure-as-code is late (12) but introduced early.** Students need something
+**Why infrastructure-as-code is late (13) but introduced early.** Students need something
 worth reproducing before reproducibility is meaningful. Scripted creation and teardown
-start in Lab 2; Terraform in week 12 replaces a script students have already been
+start in Lab 2; Terraform in week 13 replaces a script students have already been
 maintaining by hand, so the declarative model answers a problem they have felt.
 
-**Why Lab 6 spans two weeks and still adds no implementation workload.** It reuses
-components from Labs 2–5 rather than building anything new: week 12 replaces scripts students
-have been maintaining by hand since Lab 2, and week 13 wires up a pipeline around a test suite
-that has been running since week 3. The billable phase still ends in week 13, early enough to
-leave trial slack for the project (D-24, D-28).
+**Why synthesis is no longer a lecture.** The former week 14 lecture had four parts, and
+every one of them assembled material taught earlier. The three-pass reading method is now
+used, not taught, in the week 14 peer review. The evidence standard extends what weeks 10 and
+12 already teach about bounded experiments, and is applied in the project write-up. Dependency
+and lock-in became the week 15 synthesis, applied to each student's own system rather than a
+generic one. All four survive as week 14 reading; none of it is examined.
 
 Any change to this sequence is recorded with its reason in `planning/decisions.md`.

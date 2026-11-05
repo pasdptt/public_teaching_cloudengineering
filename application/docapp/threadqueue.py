@@ -2,8 +2,8 @@
 
 ``InlineQueue`` does the work before the response is sent. This one does not: ``submit``
 puts a job id on a list and returns immediately, and a background worker picks it up some
-time later. That one change is the whole subject of week 10, and it brings every problem in
-week 11 with it.
+time later. That one change is the whole subject of week 11, and it brings every problem in
+week 12 with it.
 
 **This class is supplied, not an exercise.** It exists for three reasons:
 

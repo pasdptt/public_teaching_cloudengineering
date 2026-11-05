@@ -5,7 +5,7 @@ on it, and read the result back.
 
 This one application is the substrate for the whole course. It starts here as a local
 Python program and acquires cloud behaviour one lab at a time. You will not be asked to
-build a different application in week 10.
+build a different application in week 11.
 
 ---
 
@@ -73,7 +73,7 @@ time, when there is a reason.
 
 | Method | Path | Purpose |
 |---|---|---|
-| `GET` | `/healthz` | Liveness. Deliberately does not touch storage — week 11 explains why. |
+| `GET` | `/healthz` | Liveness. Deliberately does not touch storage — week 12 explains why. |
 | `GET` | `/stats` | In-process counters, backend names, instance id. |
 | `POST` | `/documents` | Store a document. Body is the content; `X-Document-Name` names it. |
 | `GET` | `/documents/{id}` | Document metadata. |
@@ -172,5 +172,5 @@ design lesson hiding in the directory listing — an application that names an *
 can move, and one that calls `open()` inside its request handler cannot.
 
 `service.py` holds the behaviour and `app.py` holds only the HTTP. That is why the same
-logic runs behind a web request in week 2 and behind a queue consumer in week 10 without
+logic runs behind a web request in week 2 and behind a queue consumer in week 11 without
 changing, and why the tests can exercise real behaviour without starting a server.

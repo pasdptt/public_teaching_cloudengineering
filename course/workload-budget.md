@@ -54,27 +54,26 @@ quiz is wrong and gets rewritten.
 | 5 | 25 | 155 | 0 | 180 | Lab 2 completion, including teardown verification. |
 | 6 | 30 | 150 | 0 | 180 | Lab 3 first half. |
 | 7 | 25 | 155 | 0 | 180 | Lab 3 completion + decision record. |
-| 8 | 30 | 150 | 0 | 180 | Lab 4 first half (containerise and deploy). |
-| 9 | 20 | 160 | 0 | 180 | Lab 4 load experiment and comparison write-up. Reading trimmed; the experiment is the learning. |
-| 10 | 30 | 130 | 20 | 180 | "Other" = read the project brief and think about scope. Lab 5 start is sized to leave room. |
-| 11 | 15 | 135 | 30 | 180 | **Tightest week.** Lab 5 completion + failure experiment (135) and the project proposal (30). Reading cut to 15 min — the week's reading is deliberately short and the proposal is deliberately brief. |
-| 12 | 30 | 150 | 0 | 180 | **Lab 6 first half:** Terraform and the `dev`/`prod` split. Reuses existing components; no new application code. |
-| 13 | 20 | 110 | 50 | 180 | **Lab 6 second half** (110): the delivery pipeline. "Other" (50) = project implementation begins. |
-| 14 | 15 | 145 | 20 | 180 | "Other" = peer review of another group's work. |
+| 8 | 30 | 0 | 150 | 180 | **Midterm week.** No lab is open. Reading = re-reading the weeks 1–7 notes; "Other" = revision from your own Lab 1–3 write-ups and the practice questions. |
+| 9 | 30 | 150 | 0 | 180 | Lab 4 first half (containerise and deploy). |
+| 10 | 20 | 160 | 0 | 180 | Lab 4 load experiment and comparison write-up. Reading trimmed; the experiment is the learning. |
+| 11 | 30 | 130 | 20 | 180 | "Other" = read the project brief and think about scope. Lab 5 start is sized to leave room. |
+| 12 | 15 | 135 | 30 | 180 | **Tightest week.** Lab 5 completion + failure experiment (135) and the project proposal (30). Reading cut to 15 min — the week's reading is deliberately short and the proposal is deliberately brief. |
+| 13 | 30 | 150 | 0 | 180 | **Lab 6, in one week** (D-67). Reading raised to 30: the notes carry what the halved concept block could not. |
+| 14 | 15 | 105 | 60 | 180 | **Final-exam week.** Reading = the synthesis notes, which are the method for the peer review. Project (105). "Other" (60) = final-exam revision. |
 | 15 | 0 | 150 | 30 | 180 | "Other" = demonstration preparation, final cleanup verification, reflection. |
 
 **Every week totals 180 minutes.** Where a week carries an extra obligation — trial
-activation, the project proposal, peer review, setting up CI — something else was reduced by
-the same amount. Nothing was added on top. When DevOps was added to the curriculum
-(D-23 … D-28) the weeks it touches were re-balanced rather than extended: week 3 gave up
-5 minutes of reading to pay for CI setup, and week 13 was split between finishing Lab 6 and
-starting the project.
+activation, the project proposal, exam revision, setting up CI — something else was reduced by
+the same amount. Nothing was added on top. When the teaching was cut to twelve weeks (D-66),
+nothing was moved into the exam weeks' independent time except revision and the project, and
+Lab 6 was cut to fit one week rather than squeezed (D-67).
 
 ---
 
-## Two-week labs
+## Lab envelopes
 
-Labs 1–5 and Lab 6 each span two weeks and may use **both** weeks' practical sessions (2 × 60 min
+Labs 1–5 each span two weeks and may use **both** weeks' practical sessions (2 × 60 min
 in class) and **both** weeks' homework budgets (2 × ~150 min). So a two-week lab has an
 envelope of roughly:
 
@@ -84,35 +83,41 @@ That is the number a lab must fit inside, including reading its brief, making th
 prediction, implementing, running the experiment, writing the explanation, and tearing
 down. A lab whose estimate exceeds it is cut down, not shipped with a warning.
 
-Lab 6 spans weeks 12–13, but its second week is shared with the start of the project:
-120 min guided + (150 + 110) min independent = **~6.3 hours**, slightly under the standard
-two-week envelope. It is sized that way because it reuses Labs 2–5's components and adds no
-new application behaviour — only infrastructure and a pipeline.
+**Lab 6 is a one-week lab** in week 13: 40 min guided + 150 min independent = **~3.2 hours**,
+less than half the two-week envelope. It fits because it reuses Labs 2–5's components, adds
+no new application behaviour, and since D-67 supplies the bootstrap — federation pool,
+deployer identity, state bucket — as a script, so the student's time goes on the environment
+differences, the gate, and the teardown, which are what is assessed. Its due date is the start
+of week 14, so a student may use the weekend before the final exam; the exam week's budget
+still gives Lab 6 nothing, on purpose.
 
 ---
 
 ## The project does not add a second implementation load
 
-Weeks 13–15 contain **no new lab**. The project's 150 minutes per week is the same 150
-minutes that would otherwise have gone to a lab. Across weeks 10–15 the project gets
-roughly:
+No lab is open after week 13. The project's time is the same lab-sized budget, and no more.
+Across weeks 11–15 the project gets roughly:
 
 | Source | Minutes |
 |---|---|
-| Week 10 — read brief, scope | 20 |
-| Week 11 — proposal | 30 |
-| Week 13 — implementation begins, alongside finishing Lab 6 | 50 |
-| Weeks 14–15 — independent work | 295 |
-| Weeks 13–15 — supervised contact time | ~180 |
-| **Total** | **~9.5 hours** |
+| Week 11 — read brief, scope | 20 |
+| Week 12 — proposal | 30 |
+| Week 13 — design review (contact time) | ~4 per group |
+| Week 14 — independent work, alongside final-exam revision | 105 |
+| Week 15 — independent work before the demonstration | 150 |
+| Week 14 — peer review (contact time) | 50 |
+| **Total** | **~6 hours** |
 
-**This is ~1.5 hours less than before DevOps was added (D-28), and that is a deliberate,
-recorded trade.** It is workable only because the project now inherits a working delivery
-pipeline and a `dev`/`prod` Terraform configuration from Lab 6, so its
-"reproducible deployment" deliverable is largely satisfied by reuse rather than by new work.
+**That is about 3.5 hours less than before the calendar was compressed (D-66), and the
+project was simplified by the same amount rather than left to absorb it.** The remedy
+`decisions.md` D-28 named in advance — *reduce the experiment requirements to one experiment*
+— has been applied: the project now runs **one** experiment and designs, but does not run, a
+second (D-69). It remains workable only because the project inherits a working delivery
+pipeline and a `dev`/`prod` Terraform configuration from Lab 6, so its "reproducible
+deployment" deliverable is satisfied by reuse rather than by new work.
 
-If a pilot shows the project is squeezed, the first remedy is to **reduce its experiment
-requirements to one experiment**, not to extend the week or to move work into week 12. Record
+If a pilot shows the project is still squeezed, the next remedy is to **drop the 10× cost
+point** from the cost model, not to extend a week or to move work into the exam weeks. Record
 whichever happens in `planning/decisions.md`.
 
 The project **extends** the existing application and reuses the existing Terraform. A
@@ -134,7 +139,8 @@ These are **not** part of the student budget and are also unvalidated estimates.
 |---|---|---|
 | Session preparation (first delivery) | 3–4 h | per week |
 | Session preparation (subsequent deliveries) | 1–1.5 h | per week |
-| Quiz marking (~10 students, short answers) | 30–45 min | 7 times |
+| Quiz marking (~10 students, short answers) | 30–45 min | 6 times |
+| Exam marking (~10 scripts, written answers) | 3–4 h | twice, weeks 8 and 14 |
 | Lab marking (~10 students, rubric-based) | 2.5–4 h | 6 times |
 | Project design review | 15 min per group | week 13 |
 | Project marking incl. defence notes | 30–45 min per group | week 15 |
@@ -166,11 +172,16 @@ Re-open this budget if any of the following is observed:
 - A lab's pilot time exceeds its estimate by more than 25%.
 - More than two students report a week exceeding 180 minutes.
 - Setup problems consume more than 30 minutes of any week after week 2.
-- Week 11's combination of Lab 5 and the proposal proves unworkable in practice — the
-  first remedy is to move the proposal deadline to week 12, not to shorten Lab 5's analysis.
-- **Week 13 carries both the end of Lab 6 and the start of the project.** This is the second
-  tightest week in the course after week 11 and the most likely place the DevOps addition
-  shows strain. Watch it in the first delivery. First remedy: move the pipeline-security
-  portion of Lab 6 into week 12's concept block and shorten Lab 6's second half.
+- Week 12's combination of Lab 5 and the proposal proves unworkable in practice — the
+  first remedy is to let the proposal be presented orally at the week 13 design review instead
+  of written, not to shorten Lab 5's analysis.
+- **Lab 6 does not fit one week.** This is the lab most changed by the compression (D-67) and
+  the least tested: it was a 6.3-hour lab and is now a 3.2-hour one. Watch it in the first
+  delivery. First remedy: make Part 3's "three things deliberately the same" the only written
+  answer in that part, and drop the cost estimate in Part 6 to the per-project/per-account
+  question alone. Never remedy it by moving Lab 6 work into week 14, which is exam week.
+- **Exam revision spills into lab time.** If students report that week 8 or week 14 revision
+  needed more than its allocation, the exam is asking for recall it should not — the same rule
+  as for quizzes, and the fix is to the paper, not the budget.
 - **CI setup in week 3 overruns its 20 minutes.** Likely causes are repository permissions or
   a student without a GitHub account. Fix the account problem in week 1, not week 3.

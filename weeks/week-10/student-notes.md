@@ -1,189 +1,163 @@
-# Week 10 — Queues and event-driven processing
+# Week 10 — Horizontal scaling and measurement
 
-**Quiz 5 this week** (weeks 7–9). **Lab 5 starts. The project brief is released.**
+**Lab 4 is due this week.** No quiz.
 
 ---
 
-## The problem with waiting
+## Two ways to make a system bigger
 
-Your service does 250 ms of work for every job, and the user waits for all of it. In Lab 4
-you scaled it, and every user still waited 250 ms. Scaling bought more places to wait.
+**Vertical:** a bigger machine. More CPU, more memory, same single thing. Easy — often just a
+restart — and it has a hard ceiling, because there is a largest machine.
 
-That is fine at 250 ms. It is not fine at thirty seconds, and it is a disaster when the work
-depends on something slow that you do not control.
+**Horizontal:** more machines. No ceiling in principle, and that "in principle" is doing real
+work in that sentence.
 
-So take the work off the request path. The request writes down what needs doing and returns;
-something else picks it up and does it. The user gets an answer in milliseconds.
+The honest distinction is not the picture, it is what each one runs out of:
 
-**And immediately loses something.** The response no longer contains the result. It contains
-a receipt. Everything else in this week follows from that one change, and it is worth
-resisting the urge to call it free.
+> Vertical scaling runs out of **machine**. Horizontal scaling runs out of **the shared
+> thing** — the database, the lock, the licence, the one component every copy touches.
 
-## What a queue actually promises
+Your application became horizontally scalable in Lab 3, when its state moved out of the
+process. Before that, more copies meant more *disagreement*, not more capacity — which is
+exactly what Lab 4 Part 3 showed you. The shared thing is now Firestore, and it has limits of
+its own.
 
-A queue is a place to put a message so that something else can take it out later. What
-matters is the **delivery guarantee**, and there are three claims you will meet.
+## Concurrency is not parallelism
 
-**At-most-once.** Never delivered twice, sometimes not delivered at all. Acceptable for a
-temperature reading. Not for a payment.
+One CPU. Ten requests. Each spends 250 ms.
 
-**At-least-once.** Never lost, sometimes delivered more than once. **This is what almost
-everything gives you**, including Pub/Sub, and it is what Lab 5 is about.
+- If the 250 ms is spent **waiting** — on a network call, a disk, a timer — all ten finish in
+  roughly 250 ms. Waiting overlaps.
+- If it is spent **computing**, they finish in roughly 2.5 seconds. The CPU does one thing at
+  a time, and the others queue.
 
-**"Exactly-once."** Read this claim carefully whenever you see it. What is on offer is
-at-least-once delivery plus deduplication inside a specific boundary — usually one broker,
-one subscription, one time window, often at extra cost. The moment your side effect leaves
-that boundary you are back where you started:
+Same shape of code, same number, tenfold difference.
 
-> **"Exactly-once" is at-least-once with somebody else doing the idempotency for you, inside
-> a boundary whose edges you should know.**
+> **Concurrency is structure: several things in flight. Parallelism is hardware: several
+> things executing.**
 
-If processing a job writes to a bucket, no broker guarantee covers that write.
+This is why last week's concurrency setting has no universal right answer, and why you can
+predict the answer for a specific service if you know which kind of work it does. The course
+application's 250 ms is a `sleep` — it waits. Keep that in mind when you interpret Part 4,
+and be careful about generalising your result to software that computes.
 
-## Why the second delivery happens
+## Latency, throughput, utilisation
 
-It is not a defect, and no product avoids it. Follow one message:
+Three measurements, constantly confused.
 
-1. The broker hands the message to a consumer.
-2. The consumer does the work.
-3. The consumer acknowledges the message.
-4. The broker deletes it.
+- **Latency** — how long one request takes. A property of a request.
+- **Throughput** — how many requests per second complete. A property of a system.
+- **Utilisation** — what fraction of capacity is busy.
 
-Now break it in three places:
+Push load up and the shape is always the same. Throughput rises, then bends, then flattens:
+the system is saturated and cannot do more. Latency is flat, then has a **knee**, then climbs
+steeply.
 
-- Consumer crashes **before** step 2. The broker heard nothing, so it redelivers. Correct.
-- Consumer crashes **after** step 2, before step 3. The broker heard nothing, so it
-  redelivers. **The work is done twice.**
-- The ack from step 3 is lost in the network. Same.
+The knee is the interesting part, and it is where **queueing** starts. Below it, work arrives
+and finds something free. Above it, work waits — and that waiting is latency that exists in
+none of your code. You cannot profile it, because nothing is running.
 
-From the broker's side these are identical. It cannot tell "the consumer died" from "the
-consumer is slow" from "the ack is on its way".
+Three consequences worth carrying:
 
-If that feels familiar, it should: it is week 3's **slow versus dead** problem wearing a
-different hat. The broker has to choose between losing work and doubling it, and it chooses
-doubling, because you can defend against doubling.
+1. **Improving one can damage another.** Batching raises throughput and raises latency. More
+   instances raise throughput and leave one request's latency unchanged or slightly worse.
+2. **High utilisation is not a goal.** A system at 95% has no slack, so every burst becomes a
+   queue. The unused half is what you are buying when you run at 50%.
+3. **Where you are on the curve decides what your measurement means.** In Lab 1 you measured
+   about 4.8 req/s at concurrency 1 and about 19 req/s at concurrency 4, with latency barely
+   moving. You were on the flat early part and could not have known it from one point.
 
-## Retries, and the storm
+## Autoscaling is a feedback loop, and it reacts late
 
-A retry is the only available response to an ambiguous failure. But consider a hundred
-clients retrying a struggling service immediately:
+The loop: measure the load → decide how many instances are wanted → start them → **they
+become useful some time later** → measure again.
 
-The service slows → everyone retries → load doubles → it slows more → they retry again.
+That "some time later" is the whole story. A new instance is not useful when the decision is
+made; it is useful when it has been scheduled, pulled, started and has accepted a connection
+— the cold start from last week, now on the critical path of the *control system* rather than
+of one request.
 
-**A retry storm is a positive feedback loop**, and your retries are what feed it. Same shape
-as week 9's autoscaler overshoot, with worse manners.
+So when traffic steps up, the controller adds instances, and while they are starting the load
+still looks too high, so it adds more. Then they all arrive at once, the load per instance
+drops far below target, and it removes too many. **Overshoot**, and sometimes oscillation.
 
-Two things fix it, and you need both:
+> **Every autoscaler is a control loop with delay, and delay is what makes control loops
+> oscillate.** That is not a defect in one product; it is the shape of the problem.
 
-- **Exponential backoff.** Wait 1 s, then 2, then 4, then 8. Each retry gives the service
-  more room than the last.
-- **Jitter.** Randomise the wait. Without it, a hundred clients that failed together retry
-  together forever — you have made the herd politer, not smaller.
+Two things follow directly:
 
-And a retry budget: after N attempts, stop. Which brings us to the last stop.
+- Autoscaling helps with **sustained** load changes. It cannot help with a spike shorter than
+  its own reaction time.
+- Bounds matter. `--max-instances` is not a performance setting, it is the blast radius of a
+  mistake — yours, or a client's retry loop.
 
-## Dead letters
+## How to run an experiment whose answer you can defend
 
-After N failed deliveries, the broker moves the message to a **dead-letter** destination
-instead of retrying forever. That is a decision to stop trying, and it is the right one: a
-message that has failed five times is unlikely to succeed on the sixth, and retrying it
-forever costs money and hides the problem.
+This is a skill, it is assessed in every remaining piece of work in this course, and it is
+mostly four rules.
 
-But be clear about what it does:
+**1. Change one variable.** In Lab 4 Part 4 that is the concurrency setting. If you also
+redeploy a new image, move to a café, or edit the processing delay, you have measured
+something with no name.
 
-> Dead-lettering **stops the retrying**. It does not handle anything. A dead-letter topic
-> nobody reads is a place where failures go to be forgotten, and it still costs storage.
+**2. State the conditions.** Where the client was, the network, the processing delay, the
+instance bounds, the time of day, which revision was serving. An unlabelled number is not
+evidence; it is a souvenir.
 
-## Idempotency: the property that makes all of this safe
+**3. Repeat.** Three runs minimum. **If the three disagree, that disagreement is your
+result** — report it rather than picking the prettiest.
 
-Everything above leads to one requirement. If a message can arrive twice, processing it
-twice must be harmless.
+**4. Write down what it cannot tell you.** Small samples, one client location, one workload
+shape, one day, one provider. This is not modesty. It is the difference between a measurement
+and an anecdote, and it is worth real marks.
 
-The definition is short and the test is shorter:
+### The comparison you are about to make, and why it is fragile
 
-> **Can I run this twice and end up in the same state as running it once?**
+Part 6 puts three rows in one table: your laptop in week 3, a VM in week 5, managed execution
+this week. Different weeks, different networks, possibly different code, certainly a different
+mood.
 
-Work through some:
+That table is still worth making — it is the only way to see the shape of the difference —
+**but only with its caveats attached**. Name the specific confounds, not "conditions varied",
+and say which one you think mattered most. A tidy table with no caveats scores lower than a
+messier one that knows what it does not know.
 
-| Operation | Idempotent? | Why |
-|---|---|---|
-| `DELETE /documents/{id}` | Yes | Already gone is the desired state. Your code does this on purpose. |
-| `POST /jobs` with an idempotency key | Yes | The second call finds the first job and returns it |
-| `POST /jobs` without a key | **No** | Two jobs, two lots of work |
-| "Add 100 to the balance" | **No** | Twice is 200 |
-| "Set the balance to 400" | Yes | |
-| "Send the email" | **No** | And no amount of cleverness makes it so |
-
-Note the pattern: describing a **desired end state** tends to be idempotent; describing a
-**change** tends not to be. That observation comes back in week 12, when Terraform turns out
-to be the same idea applied to infrastructure.
-
-### Your application already does this
-
-Look at `run_job` in `docapp/service.py`. Near the top:
-
-```python
-if job.is_terminal:
-    self.counters.duplicate_deliveries_skipped += 1
-    return job
-```
-
-That is it. That is the whole defence, it has been there since week 2, and in Lab 5 you will
-watch it earn its place: every message delivered twice, the work done once.
-
-Then delete those lines in a scratch copy and run
-`pytest tests/test_threadqueue.py`. Watching a test fail is a better way to understand what
-it protects than any amount of reading.
-
-### Where it is not enough
-
-Two instances. Two copies of the message. Both arrive at the same instant. Both read the job,
-both see it is not terminal, both start working.
-
-The check is a read followed by a write with a gap in between — the **check-then-act** race
-you found in `service.py` in week 7. The fix is a conditional write, which is exactly what a
-transaction is for.
-
-Lab 5 asks you to *describe* this, not fix it. Being able to see a race you are not going to
-fix, and say what fixing it would cost, is a more useful skill than fixing it.
-
-## What transfers, and what does not
-
-**Transfers everywhere:** delivery guarantees, at-least-once as the practical default, the
-ack window and why it creates duplicates, backoff with jitter, dead-lettering, and
-idempotency as the property that makes retries safe.
-
-**Does not transfer:** push versus pull, the envelope format, the flag names, the retention
-defaults, the dead-letter configuration.
+`measure.py --help` ends with a section called "Honest limitations". Read it before you write
+your interpretation. It is short, it is about your measurement specifically, and several of
+the marks in Part 6 are sitting in it.
 
 ## This week's work (~180 minutes)
 
 | | |
 |---|---|
-| Read these notes; prepare for Quiz 5 (weeks 7–9) | 30 min |
-| Lab 5 Parts 0–2 — all of it on your laptop, no cloud account | 130 min |
-| Read the project brief and think about scope | 20 min |
+| Read these notes | 20 min |
+| Lab 4 Parts 4–7: the experiment, the cold start, the comparison, teardown | 160 min |
 
-Parts 0–2 need nothing but Python. Get the fourteen offline tests green before you create a
-single cloud resource next week; the base64 bug is much cheaper to find here.
+Reading is deliberately light this week. The experiment and the write-up are the learning,
+and the write-up is the larger half.
+
+**Lab 4 is due at the end of this week, including verified teardown.** Check Artifact
+Registry specifically — it is the resource that keeps costing after everything visible is
+gone.
 
 ## Check yourself
 
-1. A queue does not make the work faster. What does it change?
-2. What does the client lose when submission becomes asynchronous?
-3. Explain at-least-once by tracing an ack that gets lost.
-4. Someone offers you exactly-once. What two questions do you ask?
-5. Why is jitter not optional in a retry policy?
-6. Give three operations that are idempotent and three that are not. What is the pattern?
-7. Which lines of `run_job` make duplicate delivery safe, and what exactly do they check?
-8. Describe the interleaving that defeats them. What would fixing it require?
-9. What is a dead-letter topic for, and what is one worth if nobody reads it?
+1. Vertical and horizontal scaling: what does each run out of?
+2. Ten requests, one CPU, 250 ms each. How long if they wait? If they compute? Why?
+3. Draw latency against offered load. Mark the knee. What starts happening there?
+4. Give a system with high throughput and bad latency, and one with the reverse.
+5. Why is 95% utilisation a worse place to run than 50%, given that both work?
+6. Explain autoscaling overshoot from the delay, without using the word "bug".
+7. Your three runs give 210 ms, 215 ms and 460 ms. What do you report, and what do you do
+   next?
+8. Name three confounds in the laptop-vs-VM-vs-Cloud-Run comparison, and say which one you
+   would remove first if you could only remove one.
 
 ## Next week
 
-What to do when part of the system is broken but not gone: timeouts, circuit breaking,
-graceful degradation — and how you would even know, which is logs, metrics and traces. You
-finish Lab 5 by breaking it on purpose and explaining the evidence.
+The application still makes every user wait for the processing to finish. Scaling did not fix
+that; it just bought more places to wait. Week 11 takes the slow work out of the request path
+with a queue — and introduces the problem that arrives with it, which is that a queue will
+happily deliver the same message twice.
 
-**Lab 5 and the project proposal are both due at the end of next week.** It is the tightest
-week in the course. The proposal is deliberately short; start thinking about scope now.
+**The project brief is released next week.**

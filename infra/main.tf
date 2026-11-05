@@ -112,7 +112,7 @@ resource "google_pubsub_subscription" "jobs_push" {
 
   retry_policy {
     # Backoff, declared. Without a retry policy Pub/Sub redelivers on a fixed schedule,
-    # which is week 10's retry storm waiting to happen.
+    # which is week 11's retry storm waiting to happen.
     minimum_backoff = "10s"
     maximum_backoff = "600s"
   }

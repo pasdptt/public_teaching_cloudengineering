@@ -1,20 +1,21 @@
-# Week 11 — Teaching guide: Partial failure, resilience and observability
+# Week 11 — Teaching guide: Queues and event-driven processing
 
 | | |
 |---|---|
-| **Outcomes** | CLO-5, CLO-6 |
-| **Assessment** | — (**Lab 5 and the project proposal both due**) |
-| **Practical** | Lab 5 Parts 3–6 |
+| **Outcomes** | CLO-5 |
+| **Assessment** | **Quiz 5** (weeks 7, 9 and 10) |
+| **Practical** | Lab 5 Parts 0–2 · **project brief released** |
 | **Prep time** | ~3.5 h first delivery, ~1 h subsequently |
 
 ## Session objectives
 
-1. Explain how a timeout and a retry interact, and why choosing one without the other is a
-   bug.
-2. Describe circuit breaking as a policy, and say what it protects and what it costs.
-3. Give a concrete degradation for a stated dependency failure.
-4. Say what logs, metrics and traces each answer, and which question each cannot.
-5. State an SLO for the course application and say what its error budget permits.
+1. Say why slow work leaves the request path, and what the client gives up when it does.
+2. Distinguish a queue's delivery guarantees, and explain why at-least-once is the one
+   almost everything offers.
+3. Explain why retries are unavoidable and what makes a naive retry dangerous.
+4. Define idempotency operationally — not as a word, but as a test you could apply to a
+   given operation.
+5. Say what a dead-letter destination is for, and what it costs to have one.
 
 ---
 
@@ -22,126 +23,106 @@
 
 | Block | Min | Content |
 |---|---|---|
-| Timeouts and retries together | 15 | The multiplication nobody intends |
-| Circuit breaking | 10 | A policy, not a library. What it costs. |
-| Graceful degradation | 10 | Worked examples on their own application |
+| Taking work off the request path | 15 | Their Lab 4 numbers. What the client loses. |
+| **Delivery guarantees** | 20 | At-most-once, at-least-once, "exactly-once" and why it is a lie of omission |
+| **Duplicates are the normal case** | 20 | Where the second delivery actually comes from |
 | Break | 10 | |
-| **Logs, metrics, traces** | 25 | What each answers. What none of them answers. |
-| SLOs and error budgets | 20 | An introduction, with their own service as the example |
-| **Discussion: the failure timeline** | 30 | Read a real incident; find the missing evidence |
-| Practical | 60 | Lab 5 Parts 3–6, ending with verified teardown |
+| Retries, backoff, and dead letters | 20 | The retry storm; where a message goes when it cannot succeed |
+| **Idempotency** | 20 | The operational test. Their own `run_job`. |
+| **Quiz 5** | 15 | Weeks 7, 9, 10 |
+| Practical | 60 | Lab 5 Parts 0–2 + the project brief |
 
-**180 minutes exactly.** 80 concepts · 30 discussion · 60 practical, plus the break.
-
-> **This is the tightest week in the course.** Lab 5 and the project proposal are both due.
-> Protect the practical hour: it is the only supervised time students get for the failure
-> experiment, and the teardown at the end of it is what keeps the trial alive to week 15.
-
-## Teaching notes
-
-### Timeouts and retries multiply
-
-Start with an arithmetic ambush. A client calls a service with a 10-second timeout and
-retries three times. The service calls another with a 10-second timeout and retries three
-times.
-
-Ask how long the outermost caller waits, worst case. Let them work it out: the inner
-sequence can take 30 seconds, and the outer one retries that three times.
-
-> **Nested retries multiply.** Nobody designed ninety seconds. Everyone chose a sensible
-> local policy.
-
-Two rules follow, and they are worth writing down:
-
-- **A timeout without a retry policy is half a decision.** So is a retry policy without a
-  timeout.
-- **Retry at one level, not at every level.** Usually the outermost one that knows what the
-  user is waiting for.
-
-Then connect to Lab 5: their push subscription retries. Their service does not retry
-internally. That is not an accident, and it is worth saying so out loud.
-
-### Circuit breaking, as a policy
-
-Keep this short and resist the urge to make it a library. The idea: count failures against a
-dependency; past a threshold, stop calling it and fail immediately; after a while, let one
-request through to test the water.
-
-Ask what it buys: the struggling dependency gets breathing room, and your own threads stop
-being consumed waiting for something that will not answer.
-
-Then ask what it costs, which is the part students skip: **while the breaker is open you are
-failing requests that might have succeeded.** That is a deliberate trade, not a free
-optimisation, and a breaker with a badly chosen threshold is an outage generator.
-
-### Graceful degradation, on their own application
-
-Concrete only. Put three failures up and ask for the degraded behaviour of *their* service:
-
-- **Firestore is unreachable.** Can you still accept documents? (Yes — the bucket is a
-  different dependency.) Can you accept jobs? (No: no way to record one.) What should the
-  API return, and what status code?
-- **The bucket is unreachable.** Can you still report on existing jobs? (Yes.)
-- **Processing is failing for every job.** Should submission keep succeeding? This one has no
-  clean answer and is the best of the three — accepting work you cannot do is sometimes
-  right and sometimes a way of hiding an outage.
-
-The useful conclusion: **degradation is a per-dependency design decision**, and the fact that
-their `/healthz` deliberately touches no dependency (week 2) was the first one they made.
-
-### Logs, metrics and traces — what each cannot tell you
-
-The block students remember. Do it as three questions:
-
-| Question | Answer it with | Why the others fail |
-|---|---|---|
-| "What happened to *this* request?" | **Logs** | A metric averaged the answer away |
-| "Is it getting worse?" | **Metrics** | You cannot see a trend in individual lines |
-| "Which hop was slow?" | **Traces** | Logs know one hop each; a metric knows none |
-
-Then the honest limits, which matter more than the taxonomy:
-
-- **Logs are expensive and unbounded.** 50 GiB/month free, then not. A debug line in a hot
-  path is a bill.
-- **Metrics have already thrown away what you need.** A p99 does not tell you *which*
-  request, or for whom.
-- **Traces need every hop to cooperate.** One service that drops the context breaks the
-  chain.
-- **None of them tells you what a user experienced.** All three are instrumentation of the
-  system, not of the person.
-
-Then show them theirs: the application has emitted a `request_id` on every log line and every
-response since week 2. That is a trace with one hop, hand-rolled, and it is why "follow one
-request through the logs" has been possible all term.
-
-### SLOs and error budgets, introduced only
-
-Definitions, then straight to their own service. Propose: *99% of job submissions succeed
-within 500 ms, measured over 30 days.* Ask what that permits — about seven hours of failure a
-month — and watch the room react. Then ask whether 99.9% would be better, and make them cost
-it: what would they have to build, and who would be on call?
-
-> **An error budget is permission to spend reliability on something else.** A team with
-> budget left is allowed to ship. A team that has blown it should be fixing things.
-
-For this course, the useful conclusion is that a number chosen without knowing what it costs
-is decoration.
+**180 minutes exactly.** 95 concepts · 15 quiz · 60 practical, plus the break.
 
 ---
 
-## Discussion (30 min): the failure timeline
+## Teaching notes
 
-Hand out a short incident timeline — a real public postmortem, or the one in the private
-repo's teaching notes. Four questions, in pairs, fifteen minutes, then fifteen together:
+### Start from their own measurement
 
-1. What was the **first** symptom anyone could have seen, and how long before anyone saw it?
-2. Which evidence did the responders have, and which did they wish they had?
-3. Where did a retry make it worse?
-4. What single piece of instrumentation would have shortened this most?
+They measured this service two weeks ago. Put a student's Lab 4 table on screen (with
+permission) and ask what the 250 ms was doing. Waiting. Then:
 
-Then the turn that makes it their problem: **they are about to run their own incident**, in
-Lab 5 Part 5, with the logs and metrics they actually have. Question 4 of that part asks
-exactly this question about their own evidence, and it is worth a large share of band B3.
+> Every user of this service waits for work that has nothing to do with answering them.
+
+Ask what would happen if the processing took thirty seconds. They will say "add more
+instances", because that is what they just learned. Let that sit, then point out it does not
+reduce anyone's wait by a millisecond — it only buys more places to wait. Scaling is about
+capacity; this is about latency, and they are different problems.
+
+Then the honest cost, before anything else: **the client stops being told the answer.** Every
+complication in this lab follows from that one sentence, and putting it first stops the queue
+looking like free performance.
+
+### Delivery guarantees, in the order of increasing honesty
+
+Three claims, and make them argue about which they would want:
+
+- **At-most-once** — never duplicated, sometimes lost. Fine for a metric sample; not fine for
+  a payment.
+- **At-least-once** — never lost, sometimes duplicated. What almost everything actually gives
+  you.
+- **"Exactly-once"** — say the phrase, then unpack it. What is really offered is
+  at-least-once delivery plus deduplication inside a specific boundary, usually with
+  conditions and usually at a cost. The moment your side effect leaves that boundary — you
+  write to a bucket, you charge a card, you send an email — you are back to at-least-once.
+
+> **"Exactly-once" is at-least-once with somebody else doing the idempotency for you, inside
+> a boundary you should know the edges of.**
+
+### Where the second delivery comes from
+
+Students accept "it might duplicate" and never ask why, which makes it feel like a defect
+they could avoid by choosing a better product. Walk it through concretely:
+
+The consumer receives a message, does the work, and acknowledges it. Now put a failure at
+each step and ask what the broker knows:
+
+- Crash before the work: broker heard nothing, redelivers. Correct.
+- Crash after the work, before the ack: broker heard nothing, redelivers. **The work is
+  done twice.**
+- Ack sent but lost on the way back: same again.
+
+> The broker cannot distinguish "the consumer died" from "the consumer is slow" from "the
+> ack is in flight". That is week 3's slow-vs-dead problem, in a different costume.
+
+Landing the callback to week 3 is the point of this block. They have met this before.
+
+### Retries, backoff, dead letters
+
+Retry is the only available response to an ambiguous failure. Then make them find the
+problem: a hundred clients retrying a struggling service immediately, all at once.
+
+Draw it: the service gets slow, everyone retries, load doubles, it gets slower. **A retry
+storm is a positive feedback loop**, and week 10's control-loop language is right there to
+reuse. Exponential backoff plus jitter breaks it — and be explicit that jitter is not
+decoration: synchronised retries are the problem, so desynchronising them is the fix.
+
+Then dead letters, briefly: after N attempts, stop and put the message somewhere a human can
+look. Ask what a dead-letter topic is worth if nobody ever reads it. The answer is "nothing,
+and it still costs storage" — which is Lab 5's teardown lesson arriving early.
+
+### Idempotency, as a test rather than a word
+
+Give the definition, then immediately make it operational:
+
+> **Can I run this twice and end up in the same state as running it once?**
+
+Go round the room with candidate operations: `DELETE /documents/{id}` (yes — and their own
+code already does this deliberately). `POST /jobs` with a key (yes). `POST /jobs` without one
+(no). "Add 100 to the balance" (no). "Set the balance to 400" (yes). Sending an email (no,
+and no amount of cleverness makes it so).
+
+Then their own code. Put `run_job` on screen and ask which lines provide the property. They
+will find the terminal-state check. Then ask the harder question:
+
+> Two instances, two copies of the message, arriving at the same instant, and the job is not
+> terminal yet. What happens?
+
+Both proceed. The check is a read followed by a write with a gap in the middle — the same
+check-then-act race they found in `service.py` in week 7. **Do not fix it.** Lab 5 asks them
+to describe it; the fix needs a conditional write, which is week 7's transaction material and
+is worth naming as a connection rather than as new content.
 
 ---
 
@@ -149,38 +130,46 @@ exactly this question about their own evidence, and it is worth a large share of
 
 | Misconception | Surfaces as | Response |
 |---|---|---|
-| "We have retries, so we're resilient" | Constantly | Retries turn a brief failure into a long one if the timeouts are wrong. |
-| "Set a generous timeout to be safe" | Timeout block | Generous timeouts hold your threads hostage to someone else's outage. |
-| "A circuit breaker prevents failures" | Breaker block | It *causes* failures, deliberately, to prevent worse ones. |
-| "Health check means healthy" | Degradation block | Theirs checks nothing downstream, on purpose. Ask what it would mean if it did. |
-| "Log everything, you might need it" | Observability block | 50 GiB free, then billed. And the line you need is now in a haystack you paid for. |
-| "The p99 tells us what users see" | Metrics block | It tells you about requests. Users have sessions. |
-| "Dead-lettered means handled" | Lab 5 Part 5 | It means the broker stopped trying. Nobody has looked. |
-| "99.9% is obviously better than 99%" | SLO block | It is nine times less downtime and many times more work. Cost it first. |
+| "A queue makes it faster" | Constantly | The work takes just as long. It happens where nobody is waiting. |
+| "Exactly-once is available, we should use it" | Guarantees block | Ask where the boundary is, and what happens to your bucket write outside it. |
+| "Duplicates mean something is broken" | Lab 5 Part 4 | Trace the ack. The broker cannot know you finished. |
+| "We'll just retry until it works" | Retry block | Then a slow service becomes a dead one, faster. |
+| "Idempotent means it does nothing the second time" | Definition block | It means the *state* is the same. It may well do work. |
+| "The queue stores my messages" | Part 3 | Only a subscription holds anything. A topic with no subscriber is a hole. |
+| "Dead-lettering handled the failure" | Part 5 | It stopped the retrying. Nothing has been handled until someone reads it. |
+| "Pending means something is wrong" | First async run | It means the answer is not ready. This is the normal case now. |
 
 ---
 
-## Practical (60 min): Lab 5 Parts 3–6
+## Practical (60 min): Lab 5 Parts 0–2, and the project brief
 
-- **Triage first, for five minutes.** Anyone whose offline tests are not green does those,
-  not the cloud. The lab's conceptual marks are in the local half and the deadline is this
-  week.
-- **The push identity is where the session will go wrong.** Two grants are needed, and the
-  second — Pub/Sub's service agent needing token-creator permission — is not obvious. Say
-  once, to the room, that the error message names the permission, and that reading it is the
-  exercise.
-- **Part 5 produces waiting.** Retries take minutes to play out. Have them write up Part 4
-  during it rather than refreshing a console.
-- **Reserve the last fifteen minutes for teardown, and watch it happen.** `06-teardown.sh`
-  then `07-verify-clean.sh`, subscriptions list empty, in the room. This is the last billable
-  lab and a retained subscription is the one thing here that quietly eats the trial.
-- **Take the proposals** as they leave, or confirm where they are being submitted. Two
-  deadlines in one week is how one of them silently slips.
+**Parts 0–2 need no cloud account at all**, and that is deliberate — the conceptual content
+of this lab is in the local half, and a student who spends the session fighting IAM learns
+the wrong subject.
+
+- **Part 0 is written before anything runs**, and collected.
+- **Run the duplicate demonstration together**, from the front, once:
+  `DOCAPP_QUEUE=thread DOCAPP_QUEUE_DUPLICATE_PERCENT=100`. The `/stats` output showing
+  `jobs_processed: 1` beside `duplicate_deliveries_skipped: 1` is the whole week in one
+  screen.
+- **Then have them delete the terminal-state check** in a scratch copy and run
+  `pytest tests/test_threadqueue.py` again. Watching
+  `test_duplicate_delivery_does_not_do_the_work_twice` fail is worth more than any
+  explanation, and it takes ninety seconds.
+- **Part 2 is pure functions over bytes.** Push them to get all fourteen offline tests green
+  in the session. The base64 trap will catch about half the room, in two seconds, which is
+  exactly where you want it caught.
+
+**Last 10 minutes: release the project brief.** Read the scope constraints aloud, especially
+that the deployment path comes from Lab 6 and is not to be rebuilt. The proposal is due at
+the end of week 12, with Lab 5 — the tightest week in the course. Say so now, and say that
+the proposal is deliberately short.
 
 ## Links
 
 - Student notes: `weeks/week-11/student-notes.md`
 - Lab: `labs/lab-05/README.md` · Rubric: `labs/lab-05/rubric.md`
+- The local broker, with its limits in the docstring: `application/docapp/threadqueue.py`
+- The behaviour, pinned as tests: `application/tests/test_threadqueue.py`
 - Project: `project/brief.md` · `project/milestones.md`
-- Incident timeline handout and the model discussion: private repo, `teaching-notes/`
 - Solutions and the mistake list: private repo, `lab-solutions/lab-05/`

@@ -1,163 +1,186 @@
-# Week 9 — Horizontal scaling and measurement
+# Week 9 — Managed containers and serverless
 
-**Lab 4 is due this week.** No quiz.
+**Quiz 4 this week** (weeks 5–7). **Lab 4 starts.**
 
 ---
 
-## Two ways to make a system bigger
+## The question this week answers
 
-**Vertical:** a bigger machine. More CPU, more memory, same single thing. Easy — often just a
-restart — and it has a hard ceiling, because there is a largest machine.
+You have run this application three ways now: on your laptop, inside a container, and on a
+virtual machine you created and were responsible for. In Lab 2 you chose the machine size,
+installed Python, wrote a systemd unit, opened a firewall port — and then deleted all of it
+so it would stop costing money.
 
-**Horizontal:** more machines. No ceiling in principle, and that "in principle" is doing real
-work in that sentence.
+**Managed execution** is the abstraction where you stop doing that. You hand the platform a
+container image and a few settings. It decides how many copies to run, where, and for how
+long, and it charges you for time spent executing rather than for time the machine existed.
 
-The honest distinction is not the picture, it is what each one runs out of:
+On Google Cloud the product is **Cloud Run**. Every other provider has one. The reasoning
+below is about the abstraction; the flags are about the product.
 
-> Vertical scaling runs out of **machine**. Horizontal scaling runs out of **the shared
-> thing** — the database, the lock, the licence, the one component every copy touches.
+## What you stop doing, and what you take on
 
-Your application became horizontally scalable in Lab 3, when its state moved out of the
-process. Before that, more copies meant more *disagreement*, not more capacity — which is
-exactly what Lab 4 Part 3 showed you. The shared thing is now Firestore, and it has limits of
-its own.
+Take the Lab 2 list and cross things off:
 
-## Concurrency is not parallelism
+| Lab 2: you did this | Managed execution |
+|---|---|
+| Chose the machine type | The platform picks capacity; you set CPU and memory per instance |
+| Installed the runtime | It is in your image |
+| Wrote a service unit to keep it running | The platform runs your container |
+| Opened a firewall port | The platform terminates HTTPS and routes to your `$PORT` |
+| Patched the OS | The platform's problem |
+| Noticed when it died | The platform replaces it |
+| Deleted it so it would stop billing | At zero traffic and `min-instances=0`, it bills nothing |
 
-One CPU. Ten requests. Each spends 250 ms.
+That last row is the one worth dwelling on, because it changes what "forgetting" costs.
 
-- If the 250 ms is spent **waiting** — on a network call, a disk, a timer — all ten finish in
-  roughly 250 ms. Waiting overlaps.
-- If it is spent **computing**, they finish in roughly 2.5 seconds. The CPU does one thing at
-  a time, and the others queue.
+Now the other column, which tutorials leave out. You have taken on:
 
-Same shape of code, same number, tenfold difference.
+- **A build step and an artefact.** Something must turn your source into an image, and that
+  image lives in a registry that is storage like any other.
+- **A cold start**, because there is not always an instance ready.
+- **No control over scaling decisions**, only over the bounds you give them.
+- **A hard requirement to hold no state**, which is the rest of these notes.
+- **A dependency.** The way you configure, deploy and observe this service is specific to
+  this platform in a way a VM was not. Week 14 asks what leaving would cost.
 
-> **Concurrency is structure: several things in flight. Parallelism is hardware: several
-> things executing.**
+## The instance lifecycle
 
-This is why last week's concurrency setting has no universal right answer, and why you can
-predict the answer for a specific service if you know which kind of work it does. The course
-application's 250 ms is a `sleep` — it waits. Keep that in mind when you interpret Part 4,
-and be careful about generalising your result to software that computes.
+An instance is created when a request arrives and there is nothing to serve it. It is kept
+around for a while afterwards in case another one comes. Then it is destroyed.
 
-## Latency, throughput, utilisation
+**None of those transitions is a failure.** An instance serving one request and disappearing
+is the normal case, not an incident. This is the part that most changes how you have to
+write things:
 
-Three measurements, constantly confused.
+> Your process may be created and destroyed at any time, for reasons that have nothing to do
+> with anything going wrong, and it will not be told why.
 
-- **Latency** — how long one request takes. A property of a request.
-- **Throughput** — how many requests per second complete. A property of a system.
-- **Utilisation** — what fraction of capacity is busy.
+A VM is a place. An instance is an event.
 
-Push load up and the shape is always the same. Throughput rises, then bends, then flattens:
-the system is saturated and cannot do more. Latency is flat, then has a **knee**, then climbs
-steeply.
+## Statelessness is the price of admission
 
-The knee is the interesting part, and it is where **queueing** starts. Below it, work arrives
-and finds something free. Above it, work waits — and that waiting is latency that exists in
-none of your code. You cannot profile it, because nothing is running.
+Here is the thing that breaks, and it is worth understanding before Lab 4 shows it to you.
 
-Three consequences worth carrying:
+The application stores two things. Documents go to a bucket — that was Lab 3. Job records
+live in a Python dictionary inside the process, which is how it has worked since week 2.
 
-1. **Improving one can damage another.** Batching raises throughput and raises latency. More
-   instances raise throughput and leave one request's latency unchanged or slightly worse.
-2. **High utilisation is not a goal.** A system at 95% has no slack, so every burst becomes a
-   queue. The unused half is what you are buying when you run at 50%.
-3. **Where you are on the curve decides what your measurement means.** In Lab 1 you measured
-   about 4.8 req/s at concurrency 1 and about 19 req/s at concurrency 4, with latency barely
-   moving. You were on the flat early part and could not have known it from one point.
+Run one instance and both work perfectly. Run two, and:
 
-## Autoscaling is a feedback loop, and it reacts late
+- Any instance can serve you a document. The bytes are in the bucket, which belongs to
+  neither of them.
+- Only the instance that created a job knows that job exists. Ask a different one and you
+  get **404 — for a job that succeeded**.
 
-The loop: measure the load → decide how many instances are wanted → start them → **they
-become useful some time later** → measure again.
+Nothing failed. No instance is unhealthy. Nothing is in any log. The design was simply wrong
+the moment there was more than one of it.
 
-That "some time later" is the whole story. A new instance is not useful when the decision is
-made; it is useful when it has been scheduled, pulled, started and has accepted a connection
-— the cold start from last week, now on the critical path of the *control system* rather than
-of one request.
+The definition worth memorising is not about data:
 
-So when traffic steps up, the controller adds instances, and while they are starting the load
-still looks too high, so it adds more. Then they all arrive at once, the load per instance
-drops far below target, and it removes too many. **Overshoot**, and sometimes oscillation.
+> **State is anything an instance knows that the next request will need.** If it lives inside
+> the instance, there is no "next instance" — only unrelated ones.
 
-> **Every autoscaler is a control loop with delay, and delay is what makes control loops
-> oscillate.** That is not a defect in one product; it is the shape of the problem.
+### The version that costs money rather than returning an error
 
-Two things follow directly:
+Since week 2 the application has supported an idempotency key: send the same submission
+twice with the same key and the second one returns the first job instead of doing the work
+again. That is what makes a client's retry safe.
 
-- Autoscaling helps with **sustained** load changes. It cannot help with a spike shorter than
-  its own reaction time.
-- Bounds matter. `--max-instances` is not a performance setting, it is the blast radius of a
-  mistake — yours, or a client's retry loop.
+It works by looking the key up in the job store. Two instances, two job stores, and the
+lookup misses. The retry creates a second job and the work is done twice.
 
-## How to run an experiment whose answer you can defend
+The user sees `200 OK`. The operator sees nothing. **A bug that returns an error gets fixed;
+a bug that returns success twice gets shipped.** You will do this to yourself in Lab 4 Part 3
+and then fix it by changing an environment variable — not a line of code.
 
-This is a skill, it is assessed in every remaining piece of work in this course, and it is
-mostly four rules.
+The three tests in `application/tests/test_two_instances_disagree.py` pin all of this. Read
+them; the third one shows that the fix is a wiring change.
 
-**1. Change one variable.** In Lab 4 Part 4 that is the concurrency setting. If you also
-redeploy a new image, move to a café, or edit the processing delay, you have measured
-something with no name.
+## Cold start
 
-**2. State the conditions.** Where the client was, the network, the processing delay, the
-instance bounds, the time of day, which revision was serving. An unlabelled number is not
-evidence; it is a souvenir.
+If no instance exists when your request arrives, the platform must, in order:
 
-**3. Repeat.** Three runs minimum. **If the three disagree, that disagreement is your
-result** — report it rather than picking the prettiest.
+1. find capacity,
+2. fetch your container image (unless it is already cached nearby),
+3. start the container,
+4. wait for your process to initialise,
+5. wait for it to accept a connection on `$PORT`.
 
-**4. Write down what it cannot tell you.** Small samples, one client location, one workload
-shape, one day, one provider. This is not modesty. It is the difference between a measurement
-and an anecdote, and it is worth real marks.
+Only then does anyone serve your request. That whole sequence is the cold start, and the
+user experiences it as one slow request.
 
-### The comparison you are about to make, and why it is fragile
+You control exactly two things in that list: **how big your image is** and **how much your
+process does before it can accept a connection**. Not the language, not the framework — the
+bytes to fetch and the work at startup. A small image in a slow language starts faster than a
+large one in a fast language.
 
-Part 6 puts three rows in one table: your laptop in week 3, a VM in week 5, managed execution
-this week. Different weeks, different networks, possibly different code, certainly a different
-mood.
+Our image is small and initialises almost nothing, so your Lab 4 measurement may be less
+dramatic than the internet has led you to expect. That is a finding. Report it as one.
 
-That table is still worth making — it is the only way to see the shape of the difference —
-**but only with its caveats attached**. Name the specific confounds, not "conditions varied",
-and say which one you think mattered most. A tidy table with no caveats scores lower than a
-messier one that knows what it does not know.
+**`--min-instances=1` removes cold starts by keeping one instance always alive.** It also
+means you are paying for an instance all month whether or not anyone calls it — which is a
+rented machine again, bought at a worse price. Lab 4 asks you to work out what it would cost
+and what you would have to believe about your users to justify it.
 
-`measure.py --help` ends with a section called "Honest limitations". Read it before you write
-your interpretation. It is short, it is about your measurement specifically, and several of
-the marks in Part 6 are sitting in it.
+## Concurrency is a decision, not a default
+
+One setting decides how many requests a single instance handles at the same time. Cloud Run's
+default is 80.
+
+Set it to **1** and each request gets an instance to itself: the strongest isolation, the
+most predictable latency per request, and many more instances — which you pay for in
+vCPU-seconds and which each carry their own cold start.
+
+Set it **high** and one instance handles many requests at once. Fewer instances, better
+utilisation, cheaper. But the requests share one process, so they share its CPU and its
+memory, and a slow one can delay its neighbours.
+
+Which is better depends on something you can reason about in advance:
+
+> Is your request mostly **waiting**, or mostly **computing**?
+
+Waiting overlaps beautifully — a hundred requests waiting on a network call cost almost
+nothing to hold at once. Computing does not: two CPU-bound requests on one CPU take twice as
+long each, and you have gained nothing but complexity.
+
+Our application's 250 ms is a `sleep`. It is waiting. Predict accordingly, then measure it in
+Lab 4 Part 4 and find out whether you were right.
+
+## What transfers, and what does not
+
+**Transfers everywhere:** request-scoped execution, statelessness as a precondition, cold
+starts, a concurrency setting, per-use pricing, an image in a registry, an identity attached
+to the running thing.
+
+**Does not transfer:** the flag names, the default concurrency, the exact scaling algorithm,
+the free-tier shape, and how you read logs. Those are worth knowing and not worth memorising.
 
 ## This week's work (~180 minutes)
 
 | | |
 |---|---|
-| Read these notes | 20 min |
-| Lab 4 Parts 4–7: the experiment, the cold start, the comparison, teardown | 160 min |
+| Read these notes; prepare for Quiz 4 (weeks 5–7) | 30 min |
+| Lab 4 Parts 0–3: predict, build, deploy, and break it on purpose | 150 min |
 
-Reading is deliberately light this week. The experiment and the write-up are the learning,
-and the write-up is the larger half.
-
-**Lab 4 is due at the end of this week, including verified teardown.** Check Artifact
-Registry specifically — it is the resource that keeps costing after everything visible is
-gone.
+Part 0 must be written **before** you run anything, and it is marked. Do not reconstruct it
+afterwards — being wrong and explaining why is worth more than being right.
 
 ## Check yourself
 
-1. Vertical and horizontal scaling: what does each run out of?
-2. Ten requests, one CPU, 250 ms each. How long if they wait? If they compute? Why?
-3. Draw latency against offered load. Mark the knee. What starts happening there?
-4. Give a system with high throughput and bad latency, and one with the reverse.
-5. Why is 95% utilisation a worse place to run than 50%, given that both work?
-6. Explain autoscaling overshoot from the delay, without using the word "bug".
-7. Your three runs give 210 ms, 215 ms and 460 ms. What do you report, and what do you do
-   next?
-8. Name three confounds in the laptop-vs-VM-vs-Cloud-Run comparison, and say which one you
-   would remove first if you could only remove one.
+1. Name three things you stop operating and three you take on.
+2. An instance is created, serves one request, and is destroyed. What went wrong? (Careful.)
+3. Why does a document survive a scale-out and a job record not, when the same request
+   created both?
+4. Explain how two instances break an idempotency key, and say what the user sees.
+5. List, in order, what happens during a cold start. Which steps do you control?
+6. Your service costs nothing at rest. What single flag changes that, and to what?
+7. Concurrency 1 versus 80: which gives lower median latency for work that is mostly waiting?
+   For work that is mostly computing? Say why they differ.
+8. Artifact Registry's free allowance is 0.5 GiB. Why is that a cleanup problem and not a
+   capacity problem?
 
 ## Next week
 
-The application still makes every user wait for the processing to finish. Scaling did not fix
-that; it just bought more places to wait. Week 10 takes the slow work out of the request path
-with a queue — and introduces the problem that arrives with it, which is that a queue will
-happily deliver the same message twice.
-
-**The project brief is released next week.**
+Scaling as a subject in its own right: horizontal versus vertical, why latency and throughput
+are different questions, autoscaling as a feedback loop that reacts late, and how to design an
+experiment whose answer you can actually defend. You finish Lab 4 by measuring one.

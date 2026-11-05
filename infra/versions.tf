@@ -17,11 +17,11 @@ terraform {
     }
   }
 
-  # State is local, and stays local for week 12. That is fine for one student on one
+  # State is local, and stays local for Lab 6 Parts 1-3. That is fine for one student on one
   # machine and wrong for a team -- two people applying against separate local state files
   # will fight, and neither will be told.
   #
-  # In week 13 it stops being a matter of taste. A pipeline runs on a fresh machine every
+  # In Part 4 it stops being a matter of taste. A pipeline runs on a fresh machine every
   # time, so local state is EMPTY on every run: the second deploy tries to create
   # everything again and fails on resources that already exist. The pipeline is the second
   # actor the paragraph above was warning about, and it arrives whether you invited it or

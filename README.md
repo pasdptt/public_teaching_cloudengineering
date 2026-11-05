@@ -31,7 +31,8 @@ planning/      Decision log, open questions, authoring progress, calendar worksh
 course/        Syllabus, outcomes, weekly schedule, workload budget, assessment plan
 weeks/         Per-week teaching guide + student notes (week-01 … week-15)
 labs/          Six substantial labs (lab-01 … lab-06): brief, rubric, starter code
-quizzes/       Seven short quizzes, student versions only
+quizzes/       Six short quizzes, student versions only
+exams/         Midterm and final: format, coverage, practice questions (papers are private)
 project/       Integrative project brief, milestones, rubric
 application/   The single Python application the whole course builds on
 infra/         Terraform configurations used from Lab 6 onwards
@@ -57,7 +58,8 @@ them — the history is public even after deletion. See
 
 - **Duration:** 15 weeks × 3 contact hours (90 min concepts · 30 min discussion/quiz · 60 min guided lab)
 - **Independent work:** ~180 minutes per week, total, including reading and quiz prep
-- **Assessment:** quizzes 20% · labs 45% · project 35% — no midterm or final exam
+- **Assessment:** quizzes 10% · labs 30% · project 30% · midterm 15% · final exam 15%
+- **Calendar:** 12 teaching weeks, a midterm in week 8, the final exam and project in weeks 14–15
 - **Cloud access:** local-only for weeks 1–3; GCP trial activated in week 4; a
   documented local fallback covers students without trial eligibility
 - **Same standard for everyone**, undergraduate and graduate alike

@@ -115,7 +115,7 @@ That unlocks the properties the rest of the course depends on:
 
 None of that works if a request handler remembers something the next request needs. This is
 why `Application` in `app.py` holds no per-request state, and why "put it in a variable on
-the server" is a decision that quietly forecloses everything in weeks 8–11.
+the server" is a decision that quietly forecloses everything in weeks 9–12.
 
 ## Failure boundaries and blast radius
 
@@ -128,7 +128,7 @@ Ask two questions of any design:
 2. Could it have been less?
 
 In the application as it stands: the process *is* the boundary. Kill it and everything
-stops — API, processing, job records. By week 11 the same application will have several
+stops — API, processing, job records. By week 12 the same application will have several
 boundaries, and a failure in one of them will be something the rest survives.
 
 Notice that you can only *have* a boundary where there is a real separation. Splitting

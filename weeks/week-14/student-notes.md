@@ -1,7 +1,16 @@
-# Week 14 — Synthesis and evidence-based evaluation
+# Week 14 — Final examination, peer review, and synthesis reading
 
-**Quiz 7 this week** (weeks 11–13) — the last one. **You will peer-review another group's work
-in the session**, and your project experiments should be running by the end of it.
+**The final exam is this week**, in the session: 120 minutes, cumulative, weighted towards
+weeks 9–13 ([`exams/README.md`](../../exams/README.md)). **Lab 6 is due at the start of the
+session.** After the exam and a break, you will **peer-review another group's project**.
+
+**These notes are not lectured and not examined.** They are the method for the peer review,
+the standard your project's experiment write-up is marked against (`project/rubric.md` C3),
+and the frame for its migration discussion (A3) and for week 15's synthesis. Read them before
+the session; the peer review assumes you have.
+
+**Bring a copy of your project-so-far** — architecture, proposal, any evidence — on paper or on
+screen. The review cannot run on memory.
 
 ---
 
@@ -171,11 +180,11 @@ preparation available for week 15, where somebody will ask you these questions o
 
 | | |
 |---|---|
-| Read these notes; prepare for Quiz 7 (weeks 11–13) | 15 min |
-| Project: experiments, measurement, write-up | 145 min |
-| Peer review of another group's work | 20 min |
+| Read these notes | 15 min |
+| Final-exam revision: Quizzes 4–6 and their feedback, `exams/final-practice.md`, your Lab 4–6 predictions | 60 min |
+| Project: the experiment you run, and the design of the one you do not (`project/brief.md` Part 3) | 105 min |
 
-**Your experiments should be running by the end of this week.** A working system with no
+**Your experiment should be running by the end of this week.** A working system with no
 measurements scores poorly — `project/rubric.md` puts 25% on experiments and interpretation,
 the same weight as architecture.
 

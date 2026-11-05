@@ -195,7 +195,7 @@ In a network where responses go missing, "safe to retry" is enormously valuable.
 
 <!--
 Anyone can memorise "4xx is client error". THIS is the thing worth teaching. Retrying a 400
-is pointless forever; retrying a 503 is often correct. Plant it now — week 10 is built on it.
+is pointless forever; retrying a 503 is often correct. Plant it now — week 11 is built on it.
 -->
 
 ---
@@ -412,7 +412,7 @@ Write your answer down **now**.
 <!--
 TAKE A SHOW OF HANDS. Most rooms split; most students predict latency rises. It does not at
 these levels — the simulated work is a sleep, and sleeping threads do not contend.
-DO NOT RESOLVE IT. They find out in Part 5; revisit in week 9 when a real resource saturates.
+DO NOT RESOLVE IT. They find out in Part 5; revisit in week 10 when a real resource saturates.
 Make sure the predictions are written down before they leave — rubric band B1 awards marks
 for committing, and the point evaporates if it is written after the result.
 -->

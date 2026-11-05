@@ -14,7 +14,7 @@
 3. Decide, per operation, whether staleness is acceptable.
 4. Identify when a transaction is required, and find a check-then-act race in real code.
 5. Select a data service using a checklist that includes idle cost.
-6. Explain why the application holding no state is the precondition for weeks 8–11.
+6. Explain why the application holding no state is the precondition for weeks 9–12.
 
 ---
 
@@ -137,4 +137,6 @@ settles it, and a committed prediction now is worth marks then.
 - Student notes: `weeks/week-07/student-notes.md`
 - Lab: `labs/lab-03/README.md` · Rubric: `labs/lab-03/rubric.md`
 - The race: `application/docapp/service.py`, `create_job`
-- Next week: managed execution — the application that now holds no state gets several copies
+- Next week: **the midterm** (`weeks/week-08/teaching-guide.md`). Announce the format before
+  the session ends — 120 minutes, weeks 1–7, one A4 sheet of handwritten notes, no devices.
+- Week 9: managed execution — the application that now holds no state gets several copies

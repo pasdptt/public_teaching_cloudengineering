@@ -2,7 +2,7 @@
 marp: true
 theme: cloudcourse
 paginate: true
-header: 'Cloud Computing: Principles and Practice — Week 3'
+footer: 'Week 3 · State, latency, failure'
 ---
 
 <!--
@@ -31,7 +31,7 @@ Have the application running with a document already created, for the idempotenc
 
 <!-- _class: block -->
 
-<span class="min">15 minutes</span>
+<span class="min">15 minutes</span><span class="clock">0:00 – 0:15</span>
 
 # Crossing a machine boundary
 
@@ -80,8 +80,7 @@ code, which is why it survives code review and dies in production.
 Someone will ask. The answer models the reasoning the course teaches:
 
 - The free tier exists **only** in three US regions
-- Every latency measurement here compares **against itself**, so a constant offset changes
-  no conclusion
+- Every latency measurement here compares **against itself**, so a constant offset changes no conclusion
 - For a real service serving Thai users, the answer would be **different**
 
 Cost drove an architecture decision, the decision is recorded, and its downside is known.
@@ -105,14 +104,13 @@ From where you stand, those two are **indistinguishable**.
 
 In one process, a crash takes everything with it.
 
-Across machines, one component can be dead while everything around it is fine — and the rest
-of the system has to decide what to do about that.
+Across machines, one component can be dead while everything around it is fine — and the rest of the system has to decide what to do about that.
 
 ---
 
 <!-- _class: block -->
 
-<span class="min">25 minutes</span>
+<span class="min">25 minutes</span><span class="clock">0:15 – 0:40</span>
 
 # Slow and dead look the same
 
@@ -172,7 +170,7 @@ Guide: "Slow vs dead is the centre of the week"
 
 <!-- _class: block -->
 
-<span class="min">15 minutes</span>
+<span class="min">15 minutes</span><span class="clock">0:40 – 0:55</span>
 
 # Idempotency
 
@@ -218,15 +216,15 @@ Designed in, not bolted on. That is the habit being taught, and it is worth sayi
 
 <!-- _class: block -->
 
-<span class="min">Break — 10 minutes</span>
+<span class="min">Break — 10 minutes</span><span class="clock">0:55 – 1:05</span>
 
-# ☕
+# Break
 
 ---
 
 <!-- _class: block -->
 
-<span class="min">20 minutes</span>
+<span class="min">20 minutes</span><span class="clock">1:05 – 1:25</span>
 
 # Where state lives
 
@@ -247,8 +245,7 @@ Both feel equally real while the process is running. Only one of them is.
 
 ## But there is a subtler distinction
 
-Run the application in a container with **no volume**. Write a document. Delete the
-container. Start a new one.
+Run the application in a container with **no volume**. Write a document. Delete the container. Start a new one.
 
 The document is gone — even though it *was* written to a filesystem.
 
@@ -279,7 +276,7 @@ is the cheapest moment to catch it. Lab 3 is the fix.
 
 <!-- _class: block -->
 
-<span class="min">15 minutes</span>
+<span class="min">15 minutes</span><span class="clock">1:25 – 1:40</span>
 
 # Stateless execution
 
@@ -287,8 +284,7 @@ is the cheapest moment to catch it. Lab 3 is the fix.
 
 ## What it unlocks
 
-Once state lives somewhere that outlives execution, the execution can be **stateless** — any
-instance serves any request, because it remembers nothing between them.
+Once state lives somewhere that outlives execution, the execution can be **stateless** — any instance serves any request, because it remembers nothing between them.
 
 - **Scale horizontally** — add instances
 - **Fail cheaply** — an instance dies, traffic goes elsewhere, nothing is lost
@@ -300,14 +296,14 @@ instance serves any request, because it remembers nothing between them.
 
 None of that works if a request handler remembers something the next request needs.
 
-> "Put it in a variable on the server" is a decision that quietly forecloses
-> **everything in weeks 8–11.**
+> "Put it in a variable on the server" is a decision that quietly forecloses **everything in weeks 8–11.**
 
 ---
 
 ## Failure boundaries and blast radius
 
 A **failure boundary** is a line a failure does not cross.
+
 A **blast radius** is how much stops when one thing does.
 
 Ask of any design:
@@ -321,7 +317,7 @@ Today, the process *is* the boundary. Kill it and everything stops.
 
 <!-- _class: block -->
 
-<span class="min">20 minutes</span>
+<span class="min">20 minutes</span><span class="clock">1:40 – 2:00</span>
 
 # Discussion
 
@@ -347,7 +343,7 @@ rather than as topics.
 
 <!-- _class: block -->
 
-<span class="min">60 minutes</span>
+<span class="min">60 minutes</span><span class="clock">2:00 – 3:00</span>
 
 # Practical
 
@@ -412,8 +408,7 @@ student who reports one run has not yet understood what a measurement is.
 | Reproducibility, security, resources | 15 |
 | Communication | 10 |
 
-A perfect `FileJobStore` with a thin write-up scores **worse** than a rough one with a good
-analysis.
+A perfect `FileJobStore` with a thin write-up scores **worse** than a rough one with a good analysis.
 
 <!--
 Say this out loud. It is counter to every instinct they have from other courses.
@@ -427,8 +422,7 @@ Say this out loud. It is counter to every instinct they have from other courses.
 
 **Do not activate a cloud trial before next week's session.** Ninety days must reach week 15.
 
-Anyone expecting an eligibility or payment-method problem — **speak to me this week**, so
-your path starts in the same session as everyone else's.
+Anyone expecting an eligibility or payment-method problem — **speak to me this week**, so your path starts in the same session as everyone else's.
 
 **Next week costs real money for the first time: about four cents.**
 

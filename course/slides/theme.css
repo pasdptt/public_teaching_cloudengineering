@@ -1,143 +1,238 @@
 /* @theme cloudcourse
  *
- * Shared Marp theme for the course decks.
+ * Course slide theme. Projected in bright rooms, read from the back row.
  *
- * Light background on purpose. Teaching rooms are bright and projectors are weak; a dark
- * deck that looks good on a laptop washes out to grey on a wall. Type is large for the
- * same reason — the back row is the constraint, not the slide count.
+ * Layout: left-aligned, one fixed title line, wide margins and a ~60ch measure.
+ *         Statements meant to land are set in serif; everything else is sans.
+ *         One accent colour. Semantic colours (run, cost) appear only as small labels.
  */
 
 @import 'default';
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@400;500&display=swap');
 
 :root {
-  --ink:      #16202a;
-  --muted:    #5a6b7a;
-  --rule:     #d6dde4;
-  --accent:   #0b5fa5;   /* headings, emphasis */
-  --warn:     #a3410b;   /* costs, traps, "watch out" */
-  --demo:     #0d6245;   /* live demo slides */
-  --paper:    #fbfcfd;
+  /* colour: cool neutrals biased toward the accent, never a flat grey */
+  --paper:   #f7f8fa;
+  --ink:     #17212d;
+  --muted:   #5c6878;
+  --faint:   #8b96a5;
+  --rule:    #dde2e9;
+  --wash:    #eef1f5;   /* code and table header ground */
+  --accent:  #1f4e8c;   /* the one accent: titles, emphasis, rules */
+  --run:     #1d6a52;   /* "at the terminal" */
+  --cost:    #9a4f12;   /* money and traps */
 
-  font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  /* type */
+  --sans:  "IBM Plex Sans", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --serif: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --mono:  "IBM Plex Mono", "SF Mono", Menlo, Consolas, monospace;
+
+  /* scale (px at 1280×720): 18 · 22 · 28 · 34 · 44 · 60 */
 }
+
+/* ---- base slide --------------------------------------------------------- */
 
 section {
   background: var(--paper);
   color: var(--ink);
-  font-size: 26px;
-  line-height: 1.5;
-  padding: 56px 64px 72px;
-  letter-spacing: -0.005em;
+  font-family: var(--sans);
+  font-size: 28px;
+  line-height: 1.45;
+  padding: 92px 104px 84px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;       /* keep tables and code at their natural width */
+  justify-content: flex-start;
+  font-feature-settings: "kern", "liga";
 }
 
-h1 { color: var(--accent); font-size: 50px; line-height: 1.15; margin-bottom: 0.4em; }
-h2 { color: var(--accent); font-size: 38px; line-height: 1.2;  margin-bottom: 0.5em; }
-h3 { color: var(--ink);    font-size: 29px; margin-bottom: 0.4em; }
+/* every content title sits on the same line, so the deck reads as one system */
+h1, h2, h3 { font-family: var(--sans); text-wrap: balance; letter-spacing: -0.012em; }
+h1 { color: var(--ink);    font-size: 60px; font-weight: 600; line-height: 1.08; margin: 0 0 0.35em; }
+h2 { color: var(--ink);    font-size: 44px; font-weight: 600; line-height: 1.15; margin: 0 0 0.6em; }
+h3 { color: var(--ink);    font-size: 30px; font-weight: 600; margin: 0 0 0.4em; }
 
-strong { color: var(--accent); }
-em     { color: var(--muted); font-style: italic; }
+p, li { max-width: 30em; }           /* ~60 characters at this size */
+p { margin: 0 0 0.6em; }
+strong { color: var(--accent); font-weight: 600; }
+em { color: var(--muted); font-style: italic; }
 
-ul, ol { margin-top: 0.2em; }
-li { margin-bottom: 0.45em; }
-li::marker { color: var(--accent); }
+ul, ol { margin: 0.1em 0 0.6em; padding-left: 1.1em; }
+li { margin-bottom: 0.35em; }
+li::marker { color: var(--faint); }
+ol li::marker { font-family: var(--mono); font-size: 0.8em; }
+
+a { color: var(--accent); }
+
+/* ---- code --------------------------------------------------------------- */
 
 code {
-  font-family: "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
-  font-size: 0.86em;
-  background: #eef2f6;
-  padding: 0.1em 0.32em;
+  font-family: var(--mono);
+  font-size: 0.82em;
+  background: var(--wash);
+  color: var(--ink);
+  padding: 0.08em 0.34em;
   border-radius: 3px;
 }
-pre { background: #f2f5f8; border-left: 4px solid var(--rule); font-size: 21px; }
-pre code { background: none; padding: 0; }
+pre {
+  background: var(--wash);
+  border: 0;
+  border-left: 3px solid var(--rule);
+  border-radius: 0;
+  padding: 0.7em 1em;
+  margin: 0.3em 0 0.8em;
+  font-size: 21px;
+  line-height: 1.5;
+  max-width: 100%;
+  align-self: stretch;   /* full width, so Marp's code auto-fit only shrinks what really overflows */
+  box-sizing: border-box;
+}
+pre code { background: none; padding: 0; font-size: 1em; color: var(--ink); }
+/* the default theme colours code tokens; commands read better in one ink */
+pre code * { color: inherit !important; font-style: normal !important; }
 
-table { font-size: 23px; border-collapse: collapse; margin-top: 0.3em; }
-th { background: #eef2f6; color: var(--ink); font-weight: 600; text-align: left; }
-th, td { border: 1px solid var(--rule); padding: 7px 12px; }
+/* ---- tables: rules, not a grid ------------------------------------------ */
+
+table {
+  font-size: 23px;
+  border-collapse: collapse;
+  margin: 0.2em 0 0.8em;
+  font-variant-numeric: tabular-nums;
+}
+th, td { border: 0; border-bottom: 1px solid var(--rule); padding: 9px 22px 9px 0; text-align: left; background: none; }
+th {
+  font-family: var(--mono);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-bottom: 1.5px solid var(--ink);
+}
+tr:nth-child(2n) td { background: none; }   /* no zebra striping */
+tr:last-child td { border-bottom: 0; }
+
+/* ---- quotations: a rule and a voice, not a box -------------------------- */
 
 blockquote {
-  border-left: 5px solid var(--accent);
-  background: #f0f5fa;
+  border: 0;
+  border-left: 3px solid var(--accent);
+  background: none;
   color: var(--ink);
-  padding: 0.6em 1em;
-  margin: 0.5em 0;
-  font-size: 0.97em;
+  padding: 0.1em 0 0.1em 0.9em;
+  margin: 0.4em 0 0.8em;
+  font-family: var(--serif);
+  font-size: 1.04em;
+  line-height: 1.4;
+  max-width: 28em;
 }
 blockquote::before, blockquote::after { content: none; }
+blockquote p { margin: 0.3em 0; }
+blockquote strong { color: var(--ink); font-weight: 500; }
 
-section::after {               /* page number */
-  color: var(--muted);
-  font-size: 16px;
-}
+/* ---- frame: footer and page number -------------------------------------- */
 
-/* The `header:` directive injects a <header> element into the section. Left in the flex
-   flow it becomes a flex item and shifts every vertically-centred slide off centre, which
-   is why the title and divider slides sat in the top third. Take it out of the flow. */
-section > header {
+section > header { display: none; }      /* decks use footer:, not header: */
+
+section > footer {
   position: absolute;
-  top: 22px;
-  left: 64px;
-  right: 64px;
-  color: var(--muted);
+  left: 104px; right: 200px; bottom: 34px;
+  font-family: var(--mono);
   font-size: 15px;
+  color: var(--faint);
   letter-spacing: 0.02em;
 }
-section.block > header { color: rgba(255, 255, 255, 0.55); }
-
-/* ---- slide kinds ------------------------------------------------------- */
-
-/* Section dividers. Carry the block's timing so the room and the clock agree. */
-section.block {
-  background: var(--accent);
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+section::after {                          /* page number */
+  font-family: var(--mono);
+  font-size: 15px;
+  color: var(--faint);
+  right: 104px;
+  bottom: 34px;
+  padding: 0;
 }
-section.block h1, section.block h2, section.block strong { color: #fff; }
-section.block .min {
-  font-size: 22px;
-  opacity: 0.85;
-  letter-spacing: 0.08em;
+
+/* a small mono label above the title, used by several slide kinds */
+section.ask::before, section.demo::before, section.cost::before {
+  position: absolute;
+  top: 48px; left: 104px;
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* ---- slide kinds -------------------------------------------------------- */
+
+/* Title and closing slides: left-aligned, anchored low, an accent rule above. */
+section.lead { justify-content: flex-end; padding-bottom: 132px; }
+section.lead h1 {
+  font-size: 64px;
+  padding-top: 0.45em;
+  border-top: 4px solid var(--accent);
+  display: inline-block;
+  max-width: 17em;
+}
+section.lead h2 { font-family: var(--mono); font-size: 20px; font-weight: 500; color: var(--accent);
+                  text-transform: uppercase; letter-spacing: 0.12em; margin: 0 0 1.2em; order: -1; }
+section.lead p  { color: var(--muted); font-size: 26px; margin: 0.15em 0; }
+section.lead strong { color: var(--ink); }
+
+/* Section dividers. Quiet: paper ground, a large title, and the session clock. */
+section.block { justify-content: center; }
+section.block h1 { font-size: 66px; margin: 0.1em 0 0.25em; max-width: 15em; }
+section.block p  { color: var(--muted); font-size: 28px; }
+section.block .min, section.block .clock {
+  font-family: var(--mono);
+  font-size: 18px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
+section.block .min   { color: var(--accent); font-weight: 500; }
+section.block .clock { color: var(--faint); margin-left: 1.1em; }
+section.block .clock::before { content: "·"; margin-right: 1.1em; color: var(--rule); }
 
-/* Live demo. Green, so you can see at a glance that you are about to type. */
-section.demo        { background: #f3faf7; border-top: 10px solid var(--demo); }
-section.demo h2     { color: var(--demo); }
-section.demo strong { color: var(--demo); }
-
-/* A question put to the room. Nothing else on the slide. */
-section.ask {
-  background: #fff8f0;
-  border-top: 10px solid var(--warn);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+/* A question put to the room. The question is the slide. */
+section.ask { justify-content: center; }
+section.ask::before { content: "For the room"; color: var(--accent); }
+section.ask h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 1.22;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.15em;
+  max-width: 20em;
 }
-section.ask h2     { color: var(--warn); font-size: 44px; }
-section.ask strong { color: var(--warn); }
+section.ask h2 em { color: var(--accent); font-style: italic; }
+section.ask h2 + h2 { margin-top: 0; }
+section.ask p { color: var(--muted); margin-top: 1em; }
 
-/* Cost and traps. */
-section.cost strong, section.cost h2 { color: var(--warn); }
-
-/* Title slides. */
-section.lead {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+/* One sentence that should land. */
+section.punch { justify-content: center; }
+section.punch h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 1.24;
+  letter-spacing: -0.01em;
+  margin: 0;
+  max-width: 21em;
 }
-section.lead h1 { font-size: 58px; border-bottom: 4px solid var(--accent); padding-bottom: 0.25em; }
-section.lead p  { color: var(--muted); font-size: 26px; }
+section.punch h2:first-of-type { padding-top: 0.5em; border-top: 3px solid var(--accent); }
+section.punch h2 strong { color: var(--accent); font-weight: 500; }
+
+/* At the terminal: you are about to type. */
+section.demo::before { content: "● At the terminal"; color: var(--run); }
+section.demo pre { border-left-color: var(--run); }
+section.demo strong { color: var(--run); }
+
+/* Money and traps. */
+section.cost::before { content: "Cost"; color: var(--cost); }
+section.cost strong { color: var(--cost); }
+section.cost blockquote { border-left-color: var(--cost); }
+section.punch.cost h2:first-of-type { border-top-color: var(--cost); }
+section.punch.cost::before { top: 48px; }
 
 /* Two columns, for comparisons. */
-section.split > div { display: flex; gap: 2.2em; }
-
-/* A single sentence that should land. */
-section.punch {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-}
-section.punch h2 { font-size: 46px; line-height: 1.3; }
+section.split > div { display: flex; gap: 2.4em; }

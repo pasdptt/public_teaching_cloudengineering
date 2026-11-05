@@ -28,36 +28,60 @@ disagree, the guide is right and the deck is stale.
 Each deck covers the whole three-hour session — concepts, discussion and practical — because
 the practical block's commands and checkpoints get projected too.
 
+### Look
+
+A cool, near-white page with one deep-blue accent. Set in IBM Plex: **Sans** for content,
+**Serif** only for the sentences meant to land (questions to the room, one-line statements,
+quotations), and **Mono** for commands, labels, the footer and the session clock.
+
+Everything is left-aligned. Every content title sits on the same line, so a deck reads as one
+system. Colour carries meaning, not decoration: green appears only on terminal slides, amber
+only on cost slides, and both only as a small label and a rule.
+
+The fonts load from Google Fonts, with system fallbacks. On an offline machine the HTML falls
+back to Segoe UI or Helvetica, Georgia, and Menlo or Consolas. It still reads correctly; it is
+just less refined. Render the PDF on a machine with a connection, and the fonts are embedded.
+
 ### Slide classes
 
 Set per slide with `<!-- _class: name -->`.
 
 | Class | Looks like | Use for |
 |---|---|---|
-| `lead` | centred, rule under the title | the title slide and the closing "next week" slide |
-| `block` | solid blue, centred, carries a timing marker | section dividers — one per block of the session plan |
-| `ask` | cream, orange rule, centred, large | a question put to the room, with nothing else on the slide |
-| `demo` | pale green, green rule | **you are about to type.** Live demos and practical commands |
-| `cost` | orange headings | money, traps, and things that bite |
-| `punch` | centred, large, nothing else | one sentence that should land |
+| `lead` | anchored low, accent rule above the title, mono eyebrow | the title slide and the closing "next week" slide |
+| `block` | paper ground, large title, **session clock** | section dividers, one per block of the session plan |
+| `ask` | serif question, "For the room" label | a question put to the room, with nothing else on the slide |
+| `demo` | "● At the terminal" label, green rule on code | **you are about to type**: live demos and practical commands |
+| `cost` | "Cost" label, amber emphasis | money, traps, and things that bite |
+| `punch` | serif statement under an accent rule | one sentence that should land |
 
-The green `demo` class earns its keep: at a glance you can tell whether the next slide is
-something you say or something you run.
+The `demo` label earns its keep. At a glance you can tell whether the next slide is something
+you say or something you run.
 
-### Timing markers
+### Timing markers and the session clock
 
-Every `block` divider carries its minutes from the guide's session plan:
+Every `block` divider carries its length from the guide's session plan, and the clock time at
+which the block starts and ends:
 
 ```markdown
 <!-- _class: block -->
 
-<span class="min">15 minutes</span>
+<span class="min">15 minutes</span><span class="clock">0:40 – 0:55</span>
 
 # Metering, properly
 ```
 
-The sum across a deck is 180 minutes. If you re-cut a deck, re-check the sum — `audit.py`
-verifies it.
+The clock is time since the session started, so a glance at a divider tells you whether you
+are on schedule. The minutes across a deck sum to 180, and `audit.py` verifies it. If you
+re-cut a deck, re-derive the clock times as well; they are cumulative, so one changed block
+shifts every later one.
+
+### Writing slide text
+
+Marp turns every newline inside a paragraph into a hard line break on the slide. So keep each
+paragraph, list item and quotation on **one source line**, however long. Wrapping prose at 95
+columns, as the rest of the repository does, produces sentences broken mid-phrase on the
+wall. Separate lines that should be separate with a blank line.
 
 ### Presenter notes
 
@@ -82,19 +106,16 @@ directive and does not become a note.
 
 | Week | Deck | Slides |
 |---|---|---|
-| 1 | What makes a cloud | 41 |
-| 2 | Processes, isolation, containers | 38 |
+| 1 | What makes a cloud | 40 |
+| 2 | Processes, isolation, containers | 37 |
 | 3 | State, latency, failure | 36 |
 | 4–15 | not yet authored | — |
 
-**Validated:** all three render to HTML, the presenter notes survive into the output, and
-week 1 was rendered to 40 PNGs and inspected slide by slide — no slide overflows.
+**Validated:** all three decks render. Week 1 was rendered with the real Plex faces and all
+40 slides were inspected: no overflow, the title and divider slides sit where they should, and
+no prose breaks mid-sentence. Slide counts and timings were checked unchanged across the
+redesign, and no hard line breaks remain outside code blocks.
 
-**Not validated:** the vertical centring of the `lead` and `block` slides. The first render
-showed those sitting in the top third, because the `header:` directive injects a `<header>`
-element that becomes a flex item. The theme now takes it out of the flow, and all three decks
-still render — but the corrected centring has **not been seen**. No browser was available to
-re-shoot the images.
-
-> **Check this on your first render** and say if it is wrong: the title slide and the blue
-> dividers should be vertically centred, not sitting high.
+**Not validated:** the PDF path in `render.sh`. It needs a browser on the rendering machine,
+and neither machine used here had one available to Marp. Weeks 2 and 3 render, but they were
+checked structurally, not looked at slide by slide.

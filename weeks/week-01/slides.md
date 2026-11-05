@@ -2,7 +2,7 @@
 marp: true
 theme: cloudcourse
 paginate: true
-header: 'Cloud Computing: Principles and Practice — Week 1'
+footer: 'Week 1 · What makes a cloud'
 ---
 
 <!--
@@ -34,7 +34,7 @@ of the practical block in mind. No assessment this week; Quiz 1 next week covers
 
 <!-- _class: block -->
 
-<span class="min">5 minutes</span>
+<span class="min">5 minutes</span><span class="clock">0:00 – 0:05</span>
 
 # Opening
 
@@ -48,11 +48,9 @@ You will build **one application**, all semester.
 
 It starts as a Python program on your laptop.
 
-By week 12 it is deployed, scaled, asynchronous, reproducible from code — and you will have
-**measured it at each step**.
+By week 12 it is deployed, scaled, asynchronous, reproducible from code — and you will have **measured it at each step**.
 
-> The test is not that you can deploy something. It is that when a deployment behaves
-> strangely, you can say **why**.
+> The test is not that you can deploy something. It is that when a deployment behaves strangely, you can say **why**.
 
 ---
 
@@ -70,7 +68,7 @@ Explanation and evidence carry **more marks** than a working deployment.
 
 <!-- _class: block -->
 
-<span class="min">15 minutes</span>
+<span class="min">15 minutes</span><span class="clock">0:05 – 0:20</span>
 
 # The problem that made clouds
 
@@ -131,7 +129,7 @@ happen. This is the economic engine under everything else in the course.
 
 <!-- _class: block -->
 
-<span class="min">20 minutes</span>
+<span class="min">20 minutes</span><span class="clock">0:20 – 0:40</span>
 
 # Five characteristics
 
@@ -177,8 +175,7 @@ Note *appear*.
 
 - It is not unlimited
 - It takes real time to arrive
-- The delay between "we need more" and "more has arrived" causes a surprising amount of
-  misbehaviour — week 9
+- The delay between "we need more" and "more has arrived" causes a surprising amount of misbehaviour — week 9
 
 ---
 
@@ -194,7 +191,7 @@ It gets its own block.
 
 <!-- _class: block -->
 
-<span class="min">15 minutes</span>
+<span class="min">15 minutes</span><span class="clock">0:40 – 0:55</span>
 
 # Metering, properly
 
@@ -239,8 +236,7 @@ Addresses are genuinely scarce. The price is a signal. Let them reason to it.
 
 ## The lesson that pays for itself
 
-> **The resources that cost you money are the ones you forgot about, not the ones you are
-> using.**
+> **The resources that cost you money are the ones you forgot about, not the ones you are using.**
 
 This is why every lab in this course ends with a teardown step.
 
@@ -250,15 +246,15 @@ And why **the teardown is worth marks**.
 
 <!-- _class: block -->
 
-<span class="min">Break — 10 minutes</span>
+<span class="min">Break — 10 minutes</span><span class="clock">0:55 – 1:05</span>
 
-# ☕
+# Break
 
 ---
 
 <!-- _class: block -->
 
-<span class="min">15 minutes</span>
+<span class="min">15 minutes</span><span class="clock">1:05 – 1:20</span>
 
 # Service models
 
@@ -319,7 +315,7 @@ otherwise.
 
 <!-- _class: block -->
 
-<span class="min">15 minutes</span>
+<span class="min">15 minutes</span><span class="clock">1:20 – 1:35</span>
 
 # Shared responsibility
 
@@ -334,6 +330,7 @@ The most practically important idea this week
 > You are responsible for security **in** the cloud.
 
 At IaaS level — provider: datacentre, hardware, hypervisor, availability as described.
+
 You: OS patches, firewall rules, access policies, your application, **your data**.
 
 The line **moves** as you move up the service models.
@@ -343,7 +340,9 @@ The line **moves** as you move up the service models.
 ## Three cases
 
 **1. A bucket of confidential files was readable by anyone on the internet.**
+
 → Yours. The provider gave you a permissions system; you configured it to allow that.
+
 This is the most common cloud data breach and it is never the provider's fault.
 
 ---
@@ -372,8 +371,7 @@ Spend time here. Students want a single answer and there isn't one. Comes back i
 
 → Theirs on a managed runtime where the provider maintains it.
 
-> The same incident lands on different sides of the line **depending on a choice you made
-> earlier.**
+> The same incident lands on different sides of the line **depending on a choice you made earlier.**
 
 The service model you pick decides what you are on the hook for.
 
@@ -381,7 +379,7 @@ The service model you pick decides what you are on the hook for.
 
 <!-- _class: block -->
 
-<span class="min">25 minutes</span>
+<span class="min">25 minutes</span><span class="clock">1:35 – 2:00</span>
 
 # Discussion
 
@@ -404,11 +402,9 @@ Small groups · 5 minutes each · then the whole room
 
 2. A zone lost power; every service in it stopped for four hours.
 
-3. A guest OS vulnerability on a VM was exploited **three weeks after the patch was
-   published**.
+3. A guest OS vulnerability on a VM was exploited **three weeks after the patch was published**.
 
-4. A managed database was unreachable for 20 minutes during a maintenance window **announced
-   a month in advance**, and the customer's application had **no retry logic**.
+4. A managed database was unreachable for 20 minutes during a maintenance window **announced a month in advance**, and the customer's application had **no retry logic**.
 
 <!--
 Expected: (1) customer, unambiguously. (2) both, in different senses. (3) customer on IaaS,
@@ -423,7 +419,7 @@ Guide: "Discussion exercise (25 min)"
 
 <!-- _class: block -->
 
-<span class="min">60 minutes</span>
+<span class="min">60 minutes</span><span class="clock">2:00 – 3:00</span>
 
 # Practical
 
@@ -482,8 +478,7 @@ Nothing to install. No virtual environment. No `pip install`.
 
 Ninety days has to reach week 15. Every day spent early is a day off the end.
 
-**2. If you expect a problem** — eligibility, payment method, or you have used the trial
-before — **tell me this week.**
+**2. If you expect a problem** — eligibility, payment method, or you have used the trial before — **tell me this week.**
 
 There is a documented local path. You are not disadvantaged in grading.
 

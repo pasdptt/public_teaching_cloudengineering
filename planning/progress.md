@@ -479,12 +479,15 @@ guides, which stay authoritative for the teaching.
 | `course/slides/README.md` | done | REVIEWED |
 | `audit.py` deck checks | done | **EXECUTED** — and it immediately caught a real defect: week 3's deck was missing its break divider, 170 minutes instead of 180 |
 
-**Not visually verified: the vertical centring of `lead` and `block` slides.** The first
-render showed them sitting in the top third, because Marp's `header:` directive injects a
-`<header>` element that becomes a flex item. The theme now takes it out of the flow and all
-three decks still render — but the corrected layout has not been seen. No browser was
-available to re-shoot the images. `course/slides/README.md` asks the instructor to check it
-on first render.
+**Redesigned the same day** for a more professional look with the same minimalism: IBM Plex
+in three roles (sans for content, serif only for lines meant to land, mono for commands and
+labels), one accent colour, quiet paper dividers instead of solid blue, and a session clock on
+every divider. Week 1 was rendered with the real faces and all 40 slides inspected. That look
+found two defects, both fixed: prose wrapped in the source became ragged mid-sentence breaks
+on the slide, and terminal slides shrank their commands because Marp's code auto-fit was
+measuring a collapsed container. The earlier unverified centring is now confirmed.
+
+Still unverified: the PDF path, and a slide-by-slide look at weeks 2 and 3.
 
 Weeks 4–15 have no decks yet.
 

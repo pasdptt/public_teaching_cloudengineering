@@ -2,7 +2,7 @@
 marp: true
 theme: cloudcourse
 paginate: true
-header: 'Cloud Computing: Principles and Practice — Week 2'
+footer: 'Week 2 · Processes, isolation, containers'
 ---
 
 <!--
@@ -31,7 +31,7 @@ and you need to be ready to explain why rather than look surprised.
 
 <!-- _class: block -->
 
-<span class="min">15 minutes</span>
+<span class="min">15 minutes</span><span class="clock">0:00 – 0:15</span>
 
 # Start with the process
 
@@ -57,6 +57,7 @@ Two processes on one machine **cannot read each other's memory**.
 That is not politeness. The hardware and the kernel enforce it.
 
 > Every fancier boundary in this course is built on the same idea:
+>
 > **give each tenant its own view of something they think is the whole world.**
 
 ---
@@ -74,14 +75,13 @@ python3 -m docapp
 ps aux | grep docapp
 ```
 
-One process. One open socket on port 8080. Some memory holding your job records. A working
-directory where it writes documents.
+One process. One open socket on port 8080. Some memory holding your job records. A working directory where it writes documents.
 
 ---
 
 <!-- _class: block -->
 
-<span class="min">10 minutes</span>
+<span class="min">10 minutes</span><span class="clock">0:15 – 0:25</span>
 
 # Ports and binding
 
@@ -130,7 +130,7 @@ Lab 1 asks you about this. Lab 2 makes it real.
 
 <!-- _class: block -->
 
-<span class="min">20 minutes</span>
+<span class="min">20 minutes</span><span class="clock">0:25 – 0:45</span>
 
 # HTTP, in five minutes
 
@@ -173,8 +173,7 @@ A status code · headers · a body.
 
 **Something that changes nothing is safe to retry.**
 
-In a network where responses go missing, "safe to retry" is enormously valuable. Hold onto
-that — week 3.
+In a network where responses go missing, "safe to retry" is enormously valuable. Hold onto that — week 3.
 
 ---
 
@@ -226,15 +225,15 @@ Part 1 asks them to use.
 
 <!-- _class: block -->
 
-<span class="min">Break — 10 minutes</span>
+<span class="min">Break — 10 minutes</span><span class="clock">0:45 – 0:55</span>
 
-# ☕
+# Break
 
 ---
 
 <!-- _class: block -->
 
-<span class="min">15 minutes</span>
+<span class="min">15 minutes</span><span class="clock">0:55 – 1:10</span>
 
 # Virtual machines
 
@@ -246,18 +245,15 @@ Fooling an operating system
 
 Software that presents **virtual hardware** to an operating system.
 
-The guest OS believes it has a processor, memory and disks. It does not — it has a slice of
-something bigger, and the hypervisor arbitrates.
+The guest OS believes it has a processor, memory and disks. It does not — it has a slice of something bigger, and the hypervisor arbitrates.
 
 ---
 
 ## What you get, what you pay
 
-**Get:** very strong isolation. The boundary is at the hardware interface, and each guest
-runs **its own kernel**.
+**Get:** very strong isolation. The boundary is at the hardware interface, and each guest runs **its own kernel**.
 
-**Pay:** an entire operating system per VM — gigabytes of disk, a boot measured in tens of
-seconds, and its own patching.
+**Pay:** an entire operating system per VM — gigabytes of disk, a boot measured in tens of seconds, and its own patching.
 
 This is IaaS from last week. Lab 2 deploys onto one.
 
@@ -265,7 +261,7 @@ This is IaaS from last week. Lab 2 deploys onto one.
 
 <!-- _class: block -->
 
-<span class="min">25 minutes</span>
+<span class="min">25 minutes</span><span class="clock">1:10 – 1:35</span>
 
 # Containers
 
@@ -352,21 +348,18 @@ A VM **boots an operating system**.
 
 A container is **a process that has been lied to** about its surroundings.
 
-Milliseconds versus tens of seconds — and weaker isolation, because there is one shared
-kernel and a kernel bug is a shared problem.
+Milliseconds versus tens of seconds — and weaker isolation, because there is one shared kernel and a kernel bug is a shared problem.
 
 ---
 
 ## Images and layers
 
-An image is a filesystem plus metadata, built in **layers**. Each Dockerfile instruction
-makes one. Layers are cached and shared.
+An image is a filesystem plus metadata, built in **layers**. Each Dockerfile instruction makes one. Layers are cached and shared.
 
 Two consequences, both arriving in Lab 4:
 
 1. **Order from least to most frequently changing.** Dependencies before source code.
-2. **Layers accumulate.** Artifact Registry's free allowance is **0.5 GiB**, so deleting old
-   images is not housekeeping — it is how the lab stays free.
+2. **Layers accumulate.** Artifact Registry's free allowance is **0.5 GiB**, so deleting old images is not housekeeping — it is how the lab stays free.
 
 ---
 
@@ -385,7 +378,7 @@ You will argue this table **with measurements** in Lab 4.
 
 <!-- _class: block -->
 
-<span class="min">15 minutes</span>
+<span class="min">15 minutes</span><span class="clock">1:35 – 1:50</span>
 
 # Quiz 1
 
@@ -401,7 +394,7 @@ console menus. Hand back next week; budget 30–45 min to mark ten.
 
 <!-- _class: block -->
 
-<span class="min">10 minutes</span>
+<span class="min">10 minutes</span><span class="clock">1:50 – 2:00</span>
 
 # Lab 1 predictions
 
@@ -428,7 +421,7 @@ for committing, and the point evaporates if it is written after the result.
 
 <!-- _class: block -->
 
-<span class="min">60 minutes</span>
+<span class="min">60 minutes</span><span class="clock">2:00 – 3:00</span>
 
 # Practical
 
@@ -487,8 +480,7 @@ due at the end of week 3 and Part 2 needs a container.
 | Read the week 2 notes; prepare for Quiz 1 | 30 min |
 | Lab 1 Parts 1 and 2 | 150 min |
 
-Quiz 1 covers **week 1** only. The reading *is* the preparation — there is no separate
-revision session in the budget, by design.
+Quiz 1 covers **week 1** only. The reading *is* the preparation — there is no separate revision session in the budget, by design.
 
 ---
 

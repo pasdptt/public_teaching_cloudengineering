@@ -69,3 +69,6 @@ labs/lab-05/starter/config.env
 
 # Rendered slide decks. The markdown is the authority (D-65).
 course/slides/out/
+
+# Files the Claude app saves into this folder when it delivers something. Not source.
+Claude outputs/

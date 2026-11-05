@@ -1,0 +1,143 @@
+/* @theme cloudcourse
+ *
+ * Shared Marp theme for the course decks.
+ *
+ * Light background on purpose. Teaching rooms are bright and projectors are weak; a dark
+ * deck that looks good on a laptop washes out to grey on a wall. Type is large for the
+ * same reason — the back row is the constraint, not the slide count.
+ */
+
+@import 'default';
+
+:root {
+  --ink:      #16202a;
+  --muted:    #5a6b7a;
+  --rule:     #d6dde4;
+  --accent:   #0b5fa5;   /* headings, emphasis */
+  --warn:     #a3410b;   /* costs, traps, "watch out" */
+  --demo:     #0d6245;   /* live demo slides */
+  --paper:    #fbfcfd;
+
+  font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+section {
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 26px;
+  line-height: 1.5;
+  padding: 56px 64px 72px;
+  letter-spacing: -0.005em;
+}
+
+h1 { color: var(--accent); font-size: 50px; line-height: 1.15; margin-bottom: 0.4em; }
+h2 { color: var(--accent); font-size: 38px; line-height: 1.2;  margin-bottom: 0.5em; }
+h3 { color: var(--ink);    font-size: 29px; margin-bottom: 0.4em; }
+
+strong { color: var(--accent); }
+em     { color: var(--muted); font-style: italic; }
+
+ul, ol { margin-top: 0.2em; }
+li { margin-bottom: 0.45em; }
+li::marker { color: var(--accent); }
+
+code {
+  font-family: "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  font-size: 0.86em;
+  background: #eef2f6;
+  padding: 0.1em 0.32em;
+  border-radius: 3px;
+}
+pre { background: #f2f5f8; border-left: 4px solid var(--rule); font-size: 21px; }
+pre code { background: none; padding: 0; }
+
+table { font-size: 23px; border-collapse: collapse; margin-top: 0.3em; }
+th { background: #eef2f6; color: var(--ink); font-weight: 600; text-align: left; }
+th, td { border: 1px solid var(--rule); padding: 7px 12px; }
+
+blockquote {
+  border-left: 5px solid var(--accent);
+  background: #f0f5fa;
+  color: var(--ink);
+  padding: 0.6em 1em;
+  margin: 0.5em 0;
+  font-size: 0.97em;
+}
+blockquote::before, blockquote::after { content: none; }
+
+section::after {               /* page number */
+  color: var(--muted);
+  font-size: 16px;
+}
+
+/* The `header:` directive injects a <header> element into the section. Left in the flex
+   flow it becomes a flex item and shifts every vertically-centred slide off centre, which
+   is why the title and divider slides sat in the top third. Take it out of the flow. */
+section > header {
+  position: absolute;
+  top: 22px;
+  left: 64px;
+  right: 64px;
+  color: var(--muted);
+  font-size: 15px;
+  letter-spacing: 0.02em;
+}
+section.block > header { color: rgba(255, 255, 255, 0.55); }
+
+/* ---- slide kinds ------------------------------------------------------- */
+
+/* Section dividers. Carry the block's timing so the room and the clock agree. */
+section.block {
+  background: var(--accent);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+section.block h1, section.block h2, section.block strong { color: #fff; }
+section.block .min {
+  font-size: 22px;
+  opacity: 0.85;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Live demo. Green, so you can see at a glance that you are about to type. */
+section.demo        { background: #f3faf7; border-top: 10px solid var(--demo); }
+section.demo h2     { color: var(--demo); }
+section.demo strong { color: var(--demo); }
+
+/* A question put to the room. Nothing else on the slide. */
+section.ask {
+  background: #fff8f0;
+  border-top: 10px solid var(--warn);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+section.ask h2     { color: var(--warn); font-size: 44px; }
+section.ask strong { color: var(--warn); }
+
+/* Cost and traps. */
+section.cost strong, section.cost h2 { color: var(--warn); }
+
+/* Title slides. */
+section.lead {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+section.lead h1 { font-size: 58px; border-bottom: 4px solid var(--accent); padding-bottom: 0.25em; }
+section.lead p  { color: var(--muted); font-size: 26px; }
+
+/* Two columns, for comparisons. */
+section.split > div { display: flex; gap: 2.2em; }
+
+/* A single sentence that should land. */
+section.punch {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+section.punch h2 { font-size: 46px; line-height: 1.3; }

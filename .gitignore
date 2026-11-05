@@ -66,3 +66,6 @@ Thumbs.db
 labs/lab-02/starter/config.env
 labs/lab-04/starter/config.env
 labs/lab-05/starter/config.env
+
+# Rendered slide decks. The markdown is the authority (D-65).
+course/slides/out/

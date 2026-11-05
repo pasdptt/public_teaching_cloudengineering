@@ -224,6 +224,45 @@ for n in range(1, 8):
     quizzes_checked += 1
 notes.append(f"quizzes authored and consistent: {quizzes_checked}/7")
 
+# ------------------------------------------------- 6. slide decks, if present
+#
+# Decks are derived from the teaching guides and carry the guide's block timings. The sum
+# has to be the same 180 minutes the workload budget and the session plans use, or the deck
+# and the guide have drifted apart.
+SLIDE_CLASSES = {"lead", "block", "ask", "demo", "cost", "punch", "split"}
+decks = sorted((ROOT / "weeks").glob("week-*/slides.md"))
+for deck in decks:
+    rel = deck.relative_to(ROOT)
+    body = deck.read_text(encoding="utf-8")
+
+    if not body.lstrip().startswith("---"):
+        problems.append(f"{rel}: no Marp front matter")
+        continue
+    if "marp: true" not in body:
+        problems.append(f"{rel}: front matter does not set 'marp: true'")
+    if "theme: cloudcourse" not in body:
+        problems.append(f"{rel}: does not use the shared 'cloudcourse' theme")
+
+    minutes = [int(m) for m in re.findall(r'<span class="min">[^<]*?(\d+)\s*minutes?', body)]
+    total = sum(minutes)
+    if not minutes:
+        problems.append(f"{rel}: no block timing markers")
+    elif total != 180:
+        problems.append(
+            f"{rel}: block timings sum to {total} minutes, not 180 "
+            f"(found {minutes}) — the deck and the session plan have drifted"
+        )
+
+    used = set(re.findall(r"<!--\s*_class:\s*([\w\s]+?)\s*-->", body))
+    for spec in used:
+        for name in spec.split():
+            if name not in SLIDE_CLASSES:
+                problems.append(f"{rel}: unknown slide class '{name}'")
+
+    if (ROOT / "course" / "slides" / "theme.css").exists() is False:
+        problems.append("course/slides/theme.css is missing but decks reference it")
+notes.append(f"slide decks checked: {len(decks)} (timings must sum to 180)")
+
 # ------------------------------------------------------------------ report
 print("Course repository audit")
 print("=" * 60)

@@ -463,6 +463,31 @@ Next step if it recurs: run with `-p no:logging -s` to take pytest's capture out
 picture, and check whether `logs.py`'s module-level lock is held across a `sys.stdout`
 that pytest has already replaced.
 
+### Slide decks, weeks 1–3 (2026-11-05)
+
+Marp Markdown, one `slides.md` per week, shared theme, rendered output gitignored (D-65,
+narrowing D-09). Decks cover the whole three-hour session and are derived from the teaching
+guides, which stay authoritative for the teaching.
+
+| Artefact | Status | Validation |
+|---|---|---|
+| `course/slides/theme.css` | done | **EXECUTED** — renders; light background and large type chosen for bright rooms |
+| `course/slides/render.sh` | done | **EXECUTED** — `bash -n` clean; HTML path verified. **PDF path unverified** — needs a browser, and neither machine available had one |
+| `weeks/week-01/slides.md` (41 slides) | done | **EXECUTED** — rendered to 40 PNGs and **inspected slide by slide; no overflow** |
+| `weeks/week-02/slides.md` (38 slides) | done | **EXECUTED** — renders; not visually inspected |
+| `weeks/week-03/slides.md` (37 slides) | done | **EXECUTED** — renders; not visually inspected |
+| `course/slides/README.md` | done | REVIEWED |
+| `audit.py` deck checks | done | **EXECUTED** — and it immediately caught a real defect: week 3's deck was missing its break divider, 170 minutes instead of 180 |
+
+**Not visually verified: the vertical centring of `lead` and `block` slides.** The first
+render showed them sitting in the top third, because Marp's `header:` directive injects a
+`<header>` element that becomes a flex item. The theme now takes it out of the flow and all
+three decks still render — but the corrected layout has not been seen. No browser was
+available to re-shoot the images. `course/slides/README.md` asks the instructor to check it
+on first render.
+
+Weeks 4–15 have no decks yet.
+
 ## Standing constraints for every future session
 
 1. Do not re-ask about class size, TA support, OS mix, install access, or maximum group

@@ -109,12 +109,28 @@ directive and does not become a note.
 | 1 | What makes a cloud | 40 |
 | 2 | Processes, isolation, containers | 37 |
 | 3 | State, latency, failure | 36 |
-| 4–15 | not yet authored | — |
+| 4 | Hierarchy, virtual machines, identity | 35 |
+| 5 | Networking and access boundaries | 31 |
+| 6 | Storage abstractions | 34 |
+| 7 | Replication, consistency, choosing | 33 |
+| 8 | Midterm — logistics only | 12 |
+| 9–13 | not yet authored | — |
+| 14 | Final exam and peer review — logistics only | 11 |
+| 15 | Demonstration and defence — logistics only | 13 |
+
+Weeks 8, 14 and 15 teach nothing new (D-66), so their decks are short: the session timeline,
+the exam rules to leave on the wall, the trial-check prompt, the peer-review questions, and the
+week 15 running order. The running order is a blank table on purpose — student names never go
+in this repository.
 
 **Validated:** all three decks render. Week 1 was rendered with the real Plex faces and all
 40 slides were inspected: no overflow, the title and divider slides sit where they should, and
 no prose breaks mid-sentence. Slide counts and timings were checked unchanged across the
 redesign, and no hard line breaks remain outside code blocks.
+
+Weeks 4–8, 14 and 15 (added 2026-11-05) were rendered to HTML and every slide was looked at
+on a contact sheet with the real Plex faces: no overflow after fixes (the week 15 running order
+was split into two columns to fit ten slots; three titles were shortened to one line).
 
 **Not validated:** the PDF path in `render.sh`. It needs a browser on the rendering machine,
 and neither machine used here had one available to Marp. Weeks 2 and 3 render, but they were

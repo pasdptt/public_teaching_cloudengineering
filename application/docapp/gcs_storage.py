@@ -23,9 +23,9 @@ are worth more marks than the implementation:
      equivalent? What happens to a reader if an upload is interrupted?
   2. ``delete`` must be idempotent. Is deleting an absent object an error in this API? If
      it is, what do you do about it, and why does it matter for a retried teardown?
-  3. ``exists`` could be a metadata lookup or a download you throw away. One of those is a
-     Class A operation and one is Class B, and they have different free-tier allowances
-     (5,000 vs 50,000 per month). Which did you choose?
+  3. ``exists`` could be a metadata lookup or a download you throw away. Both are a single
+     Class B operation, so the operation count does not tell them apart. What does? Think
+     about the bytes each one moves, and where they go when this runs on your laptop.
   4. ``LocalStorage`` rejects keys containing ``..``. An object store has a flat namespace
      and would accept them happily. Should this backend still reject them? The contract
      says yes — say why that is the right call rather than pointless strictness.

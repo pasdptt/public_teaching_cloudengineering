@@ -171,7 +171,9 @@ gcloud compute addresses list   --project="$PROJECT_ID"
 gcloud iam service-accounts list --project="$PROJECT_ID"
 ```
 
-Empty output from all of them is what clean means. **Collect the output** — it is part of the
+Empty output from all of them is what clean means — except `iam service-accounts list`, which
+still shows the default service accounts Google creates with a project. Those are not the
+student's; every account the student created should be gone. **Collect the output** — it is part of the
 submission.
 
 **For pairs:** revoke the partner's IAM access on the owner's project, and record who did it

@@ -111,8 +111,9 @@ Storage pricing has three parts, and beginners see only the first:
 
 Two consequences you will meet in Lab 3:
 
-- Implementing `exists()` as a download instead of a metadata lookup turns a cheap Class B
-  call into an expensive one and burns your scarcer allowance. Both versions pass the tests.
+- Implementing `exists()` as a download instead of a metadata lookup is still one Class B
+  operation — but it moves the whole object to answer a yes-or-no question. From your laptop
+  that is network egress, and time. Both versions pass the tests.
 - Many tiny objects can cost more in operations than in storage.
 
 ## This week's work (~180 minutes)

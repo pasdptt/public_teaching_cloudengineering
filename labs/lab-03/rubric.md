@@ -38,8 +38,12 @@ in their docstring answers belongs in Excellent, not Good. Noticing is the skill
 
 ### B2 · Backend design answers (10)
 The four `GcsStorage` and five `FirestoreJobStore` questions. Full marks need:
-- **GCS q3** — `exists` as a metadata call vs a download, with the Class A/Class B allowance
-  difference understood.
+- **GCS q3** — `exists` as a metadata call vs a download. Both are one Class B operation
+  (`storage.objects.get`, checked against the pricing page 2026-11-05), so full marks need
+  the real difference: the download moves the whole object — egress from the laptop, and
+  latency — to answer yes or no. An answer claiming the download is a Class A operation is
+  wrong; earlier versions of the course notes said so, so do not penalise a student who
+  repeats it and corrects itself, but do not award it as the mechanism.
 - **Firestore q4** — `count()` via aggregation vs streaming, and what streaming would cost on
   10,000 documents against a 50,000-reads-per-day quota.
 - **GCS q4** — why key validation is retained even though an object store would accept `..`.

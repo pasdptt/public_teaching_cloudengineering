@@ -96,8 +96,9 @@ copies: same answers. That property is what the next four weeks are built on.
 
 Two choices in Lab 3 both pass every test and differ in cost:
 
-- `exists()` as a metadata lookup (Class B, 50,000/month free) or as a download that throws
-  the bytes away (Class A, 5,000/month free).
+- `exists()` as a metadata lookup or as a download that throws the bytes away. Both are one
+  Class B operation; the download also moves the whole object, which from your laptop is
+  egress and latency spent to answer yes or no.
 - `count()` as an aggregation query, or by streaming every document and counting them. The
   second reads 10,000 documents to count 10,000 jobs, against a quota of 50,000 reads a day.
 

@@ -458,9 +458,30 @@ guide says what to cut first.
 
 Slide decks for weeks 1–3 are unaffected: their content and timings did not move.
 
+### Slide decks, weeks 4–8, 14, 15 (2026-11-05)
+
+Lecture decks for weeks 4–7, from each week's teaching guide, in the same theme and
+conventions as weeks 1–3 (timing markers sum to 180; presenter notes carry commands, timing
+and a guide pointer only). Short logistics decks for the three non-teaching weeks 8, 14 and
+15. `audit.py` checks all ten decks. Rendered and inspected slide by slide; see
+`course/slides/README.md`. Weeks 9–13 have no deck yet.
+
+### Found while authoring the week 6–7 decks, and fixed (2026-11-05)
+
+**The Class A / Class B claim about `exists()` was wrong.** The week 6 and 7 notes, the
+`gcs_storage.py` docstring question, the Lab 3 rubric and the private solution all said that
+testing existence by downloading the object spends a *Class A* operation. Checked against the
+Cloud Storage pricing page: `storage.objects.get` is **Class B** whether it returns metadata
+or the object's bytes; `objects.list` is Class A. The download's real cost is that it moves
+the whole object to answer yes or no — egress from a laptop, and latency. All five places are
+corrected, and the rubric tells the marker not to award "it's Class A" as the mechanism. The
+Class A/B allowance asymmetry itself (writes and lists vs reads) was right and is unchanged.
+Also fixed: the week 15 guide said every teardown listing should be empty, but
+`gcloud iam service-accounts list` always shows the default service accounts Google creates.
+
 ### Still to author
 
-Midterm and final papers and keys (private, `exam-papers/`) · instructor solutions for Labs 2, 4
+Lecture decks for weeks 9–13 · midterm and final papers and keys (private, `exam-papers/`) · instructor solutions for Labs 2, 4
 and 6. Operational guidance is
 authored **with** each cloud exercise, never afterwards.
 

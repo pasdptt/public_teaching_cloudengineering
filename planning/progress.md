@@ -6,26 +6,23 @@ level, and the single next concrete action. Do not restart the design from the b
 Last updated: **2026-11-04** · Current stage: **A and B complete → C in progress** · tagged **v0.3.0**
 
 > **All 15 weeks, all 6 labs and all 7 quizzes now exist**, with quiz keys in the private
-> repository. What remains in Stage C is the project package and instructor solutions for
-> Labs 2, 4 and 6.
+> repository. The **project package is complete** — brief, milestones,
+> rubric, and `project-guidance.md` in the private repository. What remains in Stage C is
+> instructor solutions for Labs 2, 4 and 6.
 
 ---
 
 ## Next concrete action
 
-> **Write `project-guidance.md` in the private repository.** The student-facing project package
-> (brief, milestones, rubric) is complete and releasable in week 10. What the instructor still
-> lacks is the side that cannot be public:
+> **Instructor solutions for Labs 2, 4 and 6.** These are the last three gaps in the private
+> repository — Labs 1, 3 and 5 have theirs. Lab 2's is a set of completed starter scripts plus
+> the three survivor checks; Lab 4's is the Cloud Run deployment and the load-experiment
+> reference numbers; Lab 6's is the Terraform, the pipeline with its TODO blocks completed, and
+> the Workload Identity Federation setup commands.
 >
-> - for each extension option A–D: what a sound smallest version looks like, the usual way it
->   goes wrong, and the design-review intervention for it;
-> - how to run the 3–4 minute design review against `rubric.md`, and what to write down;
-> - defence questions per option, beyond the five generic ones in week 15's notes, including
->   individual questions for pairs;
-> - calibration examples for the levels in rubric bands A3, C3 and E, which are the bands most
->   open to judgement.
->
-> Then instructor solutions for Labs 2, 4 and 6.
+> **Lab 6's cannot be written honestly without a real project.** The WIF setup has never been
+> executed, and it is the step most likely to be wrong. That makes the verification pass below
+> a prerequisite for Lab 6's solution rather than a parallel task.
 
 ---
 

@@ -154,7 +154,9 @@ tidy, and a student who leaves with a running resource will not come back to it.
 Work through `operations/cleanup.md`, and for Lab 6 in the correct order:
 
 1. `terraform destroy` for **each** workspace.
-2. Artifact Registry images — the pipeline pushed them and state never knew about them.
+2. The Artifact Registry repository and its images, and the Cloud Build staging bucket
+   (`gs://PROJECT_cloudbuild`) if a build made one — neither was ever in state. Lab 6 kept the
+   pool, the deployer and the state bucket for the project; this is where they finally go.
 3. Deployer service account, WIF pool and provider.
 4. **The state bucket, last.**
 

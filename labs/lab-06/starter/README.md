@@ -2,9 +2,10 @@
 
 | File | Part | What it does |
 |---|---|---|
-| `config.env.example` | 4 | Copy to `config.env` (gitignored). Project id and `owner/name` of your repository |
+| `config.env.example` | 2 | Copy to `config.env` (gitignored). Project id and `owner/name` of your repository |
+| `00-registry-and-image.sh` | 2 | Creates the Artifact Registry repository Labs 4 and 5 deleted, builds one image from your tree, and prints it **by digest** |
 | `01-bootstrap-pipeline.sh` | 4 | Federation pool and provider, deployer account and roles, state bucket. Prints the values `deploy.yml` needs |
-| `02-teardown-pipeline.sh` | 6 | Removes the above, state bucket last, after both environments are destroyed |
+| `02-teardown-pipeline.sh` | **week 15** | Removes the above, state bucket last. **Not run in Lab 6**: the project deploys through this pipeline in weeks 14–15, and a deleted pool's id cannot be reused for 30 days |
 
 **Supplied since Lab 6 became a one-week lab** (`planning/decisions.md` D-67). Until then
 students set up federation themselves from the documentation; the time that took went on

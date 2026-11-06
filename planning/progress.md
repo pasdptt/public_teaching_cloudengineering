@@ -520,6 +520,38 @@ Choices worth knowing when teaching from them:
   session, while Lab 4 Part 3 ends with the fix. The deck says to leave it broken **if the fix
   has not been reached**. Worth settling in the guide.
 
+### Review of the cloud material, and its eight blockers fixed (2026-11-06)
+
+An expert review of the Terraform, pipeline, lab scripts and cost model found eight places
+where a student following the instructions would get stuck. All eight are fixed. **None of the
+fixes has been run against a real project** — they are REVIEWED, with `bash -n`, a YAML parse,
+`tofu validate` and `tofu fmt -check` passing, and the changed week 13 slides rendered.
+
+| Blocker | Fix |
+|---|---|
+| Lab 6 had no image to deploy: Labs 4–5 delete the registry, and a Lab 4 image has no Pub/Sub code anyway | New `labs/lab-06/starter/00-registry-and-image.sh`: recreates the repository, refuses to build the Lab 3/5 stubs, builds one image and prints it **by digest** |
+| The pipeline could not read `envs/*.tfvars` (gitignored) | `dev.tfvars` and `prod.tfvars` are now committed; `.gitignore` and the Lab 6 rubric's automatic zero changed to match (zero for keys, state and secrets, not for configuration) |
+| dev lived in the `default` workspace, so `workspace select dev` failed and the pipeline recreated dev | Part 2 now runs `terraform workspace new dev` |
+| A prod "promotion" rebuilt the image under the same tag | `deploy.yml` builds only for dev, at most once per commit, deploys by digest; prod reads dev's running digest from Cloud Run and builds nothing |
+| Dead-lettering could not work in Lab 5 (no service-agent grants; dead-letter topic had no subscription, so messages were lost) | `05-create-subscription.sh` makes both grants and a pull subscription on the dead-letter topic; Terraform gains the same subscription (15 resources now, every count updated) |
+| `gcloud builds submit` leaves `gs://PROJECT_cloudbuild`, so Lab 4–5 verification always failed | Lab 4–5 teardowns delete it; inventories and `cleanup.md` list it |
+| The project deploys through Lab 6's pipeline after Lab 6's teardown deleted it (and a pool id cannot be reused for 30 days) | Lab 6 destroys environments, images and the staging bucket only; pool, deployer and state bucket are kept and removed in week 15, state bucket last |
+| `deploy.yml` failed red on every push from week 3 | Both jobs skip (grey) until the repository variable `DEPLOY_ENABLED=true` is set in Lab 6 Part 5 |
+
+**Not yet fixed from the same review** — factual errors and risks, none of which stops a lab:
+Firestore "waits for the reset rather than paying" (`cost-model.md`); Lab 5's "dead-letters
+immediately on 4xx"; the week 11 "an unread dead-letter topic still costs storage" (a topic
+stores nothing; the new dead-letter *subscription* does); the `deletion_protection` comment;
+the "Public URL" output; the dev ack-deadline comment; the Lab 4 "role for writing logs" and
+`objectAdmin` vs `objectUser`; the registry "dozen builds"; stale Lab 4/6 numbers in the cost
+model; OpenTofu locally vs Terraform 1.9.8 in CI; the gitignored provider lock file; the smoke
+test's ID token under federation (untested — `google-github-actions/auth` with
+`token_format: id_token` is the documented route); the attribute condition on repository name
+only; and public forks exposing students' solutions to each other.
+
+**For the Lab 6 instructor solution (not yet written):** it must use the `dev` workspace, the
+committed tfvars, digest-based promotion, and fifteen resources.
+
 ### Still to author
 
 Midterm and final papers and keys (private, `exam-papers/`) · instructor solutions for Labs 2, 4

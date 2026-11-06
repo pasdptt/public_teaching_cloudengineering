@@ -4,7 +4,7 @@
 
 | | |
 |---|---|
-| **Cloud resources** | One Pub/Sub topic, one dead-letter topic, one push subscription, the Lab 4 Cloud Run service rebuilt, one bucket, two service accounts |
+| **Cloud resources** | One Pub/Sub topic, one dead-letter topic, one push subscription, one pull subscription on the dead-letter topic, the Lab 4 Cloud Run service rebuilt, one bucket, two service accounts |
 | **Estimated cost** | **$0.00.** Well inside the 10 GiB/month Pub/Sub allowance and the Cloud Run free tier — *provided* the subscription is deleted at the end. A subscription nobody reads retains messages, and retained messages are billed storage. |
 | **Outcomes** | CLO-5 (asynchronous design, idempotency), CLO-6 (controlled failure experiments and evidence) |
 | **Estimated novice time** | ~2 h guided (2 × 60 min) + ~5 h independent over two weeks |
@@ -224,7 +224,7 @@ Submit three jobs. Then watch, recording the time at each step:
 
 ```bash
 gcloud pubsub subscriptions describe "$SUBSCRIPTION_NAME" --project="$PROJECT_ID"
-gcloud pubsub topics list-subscriptions "$DEAD_LETTER_TOPIC" --project="$PROJECT_ID"
+gcloud pubsub subscriptions pull "$DEAD_LETTER_SUBSCRIPTION" --project="$PROJECT_ID" --limit=10
 gcloud logging read \
   'resource.type="cloud_run_revision" AND httpRequest.status>=400' \
   --project="$PROJECT_ID" --limit=30 --freshness=20m
@@ -301,9 +301,11 @@ Include the verification output. **Cleanup claimed but not verified earns nothin
 |---|---|---|---|
 | Pub/Sub topic + dead-letter topic | `02-create-queue.sh` | `06-teardown.sh` | A topic alone holds nothing |
 | **Push subscription** | `05-create-subscription.sh` | `06-teardown.sh` — **first** | **Retains messages and bills for them.** The one to check twice |
+| Dead-letter subscription (pull) | `05-create-subscription.sh` | `06-teardown.sh` | Holds the messages that failed, so a human can read them. Retains, like the other |
 | Cloud Run service | `04-deploy.sh` | `06-teardown.sh` | `--min-instances` must be 0 |
 | Artifact Registry repo + images | `03-build-push.sh` | `06-teardown.sh` | 0.5 GiB free; `v1` and `v2` both count |
 | Bucket | `02-create-queue.sh` | `06-teardown.sh` | Object versions |
+| Cloud Build staging bucket `gs://PROJECT_cloudbuild` | `03-build-push.sh`, implicitly | `06-teardown.sh` | Created by `gcloud builds submit` without asking. Multi-region, so outside Always Free |
 | Two service accounts | `04`, `05` | `06-teardown.sh` | Two now, not one |
 | Firestore `(default)` | Lab 3 | kept; empty the collection | Empty is free |
 
@@ -329,10 +331,14 @@ deadline. Compare your processing delay with `ACK_DEADLINE_SECONDS` and say what
 **`NotImplementedError: PubSubQueue is your Lab 5 exercise`** from the deployed service. You
 built the image before implementing it, or built from a tree without your changes. Rebuild.
 
-**The 404 experiment produces nothing in the dead-letter topic.** Dead-lettering needs both
-the subscription's dead-letter configuration *and* permissions for Pub/Sub to publish to
-that topic. Check `gcloud pubsub subscriptions describe` output first — if the dead-letter
-policy is absent, the subscription was created before you set it.
+**The 404 experiment produces nothing in the dead-letter subscription.** Dead-lettering needs
+three things, and `05-create-subscription.sh` sets up all of them: the dead-letter policy on
+the push subscription, two grants to Pub/Sub's service agent (publish to the dead-letter topic,
+subscribe to the push subscription), and a subscription **on the dead-letter topic** — without
+one, dead-lettered messages are discarded on arrival. Check `gcloud pubsub subscriptions
+describe "$SUBSCRIPTION_NAME"` for a `deadLetterPolicy`, then re-run `05` if anything is
+missing. Remember too that messages only dead-letter after `MAX_DELIVERY_ATTEMPTS` failed
+deliveries, and the retries are spaced out: give it several minutes.
 
 **Everything works locally and nothing works deployed.** The single most likely cause is
 that the deployed service has `DOCAPP_QUEUE=pubsub` and your local one does not. Check

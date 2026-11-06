@@ -31,8 +31,11 @@ application_default_credentials.json
 *.tfstate.*
 *.tfvars
 !*.tfvars.example
-infra/envs/*.tfvars
-!infra/envs/*.tfvars.example
+# Except the two environment files, which ARE committed: the pipeline runs on a fresh machine
+# and can only read what is in the repository. Nothing in them is secret -- the project id is
+# configuration, and it is already public in deploy.yml through the deployer's email.
+!infra/envs/dev.tfvars
+!infra/envs/prod.tfvars
 .terraform.tfstate.lock.info
 crash.log
 override.tf

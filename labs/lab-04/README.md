@@ -131,9 +131,10 @@ carries an `instance_id`.
 ## Part 3 — Two instances, two answers (~45 min) · **the point of the lab**
 
 `05-deploy.sh` deploys a configuration that is deliberately **half right**. Documents go to
-your Lab 3 bucket, so every instance sees the same ones. Job records stay in a dictionary
-inside each instance, which is how the application has shipped since week 2. Same code, same
-request path, two kinds of state — and only one of them survives a second instance.
+a bucket (this lab's own, made by `02-create-registry.sh`; Lab 3's was deleted), so every
+instance sees the same ones. Job records stay in a dictionary inside each instance, which is
+how the application has shipped since week 2. Same code, same request path, two kinds of
+state — and only one of them survives a second instance.
 
 Create a document and a job:
 
@@ -356,7 +357,8 @@ band C.**
 | Cloud Storage bucket | `02-create-registry.sh` | `06-teardown.sh` | Object versions, as in Lab 3 |
 | Service account + role bindings | `04-runtime-identity.sh` | `06-teardown.sh` | Deleting the account does not always remove every binding — check |
 | Firestore `(default)` | Lab 3 | kept; empty the collection | Empty is free; a *named* database is not |
-| Cloud Build | `03-build-push.sh` | nothing to remove | 2,500 min/month free; builds also leave logs |
+| Cloud Build minutes | `03-build-push.sh` | nothing to remove | 2,500 min/month free; builds also leave logs |
+| Cloud Build staging bucket `gs://PROJECT_cloudbuild` | `03-build-push.sh`, implicitly | `06-teardown.sh` | Created by `gcloud builds submit` without asking. Multi-region, so outside Always Free; `07-verify-clean.sh` reports it if it is left |
 
 ## Troubleshooting
 

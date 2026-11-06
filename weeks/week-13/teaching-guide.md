@@ -348,7 +348,7 @@ and the two second-run pipeline bugs are predicted from the supplied fixes rathe
 by failing. Use the 40 minutes for **Parts 1–3**, which are where students most need someone
 in the room.
 
-- **Part 1 is reading, and it is worth protecting.** Fourteen resources, and every one of
+- **Part 1 is reading, and it is worth protecting.** Fifteen resources, and every one of
   them is something they built by hand in Labs 3–5. Have them find the two Pub/Sub
   service-agent grants specifically — in Lab 5 those cost the room twenty minutes and an error
   message, and here they are four lines that will be right every time.
@@ -367,7 +367,10 @@ in the room.
   real project (`labs/lab-06/starter/README.md`). The single most common failure in federation
   is a typo in the repository name of the attribute condition; tell them to read it character
   by character before searching.
-- **Teardown order is graded and the state bucket goes last.**
+- **Lab 6's graded teardown is the two environments, the images and the Cloud Build staging
+  bucket.** The pool, the deployer and the state bucket are deliberately kept: the project
+  deploys through them in weeks 14–15, and a deleted pool's id cannot be reused for 30 days.
+  They come down in week 15, in the room, state bucket last.
 
 Be explicit that most of Parts 4–6 happen outside the session, that Lab 6 is due at the start
 of week 14, and that **week 14 is the final exam** — there is no slack after it.

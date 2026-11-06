@@ -88,7 +88,8 @@ Bring a terminal that is signed in. Everyone tears down together, and for Lab 6 
 matters**:
 
 1. `terraform destroy` for **each** workspace, dev and prod.
-2. **Artifact Registry images** — the pipeline pushed them and Terraform state never knew.
+2. **The Artifact Registry repository and its images**, and the Cloud Build staging bucket
+   `gs://PROJECT_cloudbuild` if a build made one — Terraform state never knew about either.
 3. **Deployer service account, WIF pool and provider** — a standing trust relationship.
 4. **The state bucket, last.** Delete it earlier and Terraform forgets what it owns while it
    still owns things.

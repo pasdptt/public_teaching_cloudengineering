@@ -75,6 +75,19 @@ resource "google_pubsub_topic" "dead_letter" {
   labels = local.labels
 }
 
+# Where dead letters are KEPT. A topic with no subscription discards what it receives -- the
+# lesson of Lab 5 Part 3 -- so without this, every message the policy moves would be lost on
+# arrival and the dead-letter topic would be a hole with a label on it. A PULL subscription:
+# nothing consumes it automatically, because the point is that a human reads it.
+resource "google_pubsub_subscription" "dead_letter_kept" {
+  name   = "${local.name}-jobs-dead-sub"
+  topic  = google_pubsub_topic.dead_letter.id
+  labels = local.labels
+
+  # Retained, so bounded by the same variable as the work subscription.
+  message_retention_duration = "${var.message_retention_seconds}s"
+}
+
 # The identity Pub/Sub calls the service with. NOT the identity the service runs as, and
 # keeping them apart is the point: one may publish and process, the other may only knock on
 # the door.

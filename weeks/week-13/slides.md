@@ -409,26 +409,46 @@ Lab 6 Parts 1–3 in the room
 ## Before you type anything
 
 - **`terraform` is no longer in Homebrew.** `brew install opentofu`, and `tofu` is a drop-in for everything in this lab — it is what the configuration was validated with.
-- **Part 1 is reading.** Fourteen resources, each one you built by hand in Labs 3–5. Find the two Pub/Sub service-agent grants: in Lab 5 they cost twenty minutes and an error message.
+- **Part 1 is reading.** Fifteen resources, each one you built by hand in Labs 3–5. Find the two Pub/Sub service-agent grants: in Lab 5 they cost twenty minutes and an error message.
 
 ---
 
 <!-- _class: demo -->
 
-## Part 2 — bring up `dev`
+## Part 2 — first, an image to deploy
 
 ```bash
-cd infra
-cp envs/dev.tfvars.example envs/dev.tfvars      # set project_id
-terraform init
-terraform plan  -var-file=envs/dev.tfvars -var="image=$SOME_IMAGE"
-terraform apply -var-file=envs/dev.tfvars -var="image=$SOME_IMAGE"
+cd labs/lab-06/starter
+cp config.env.example config.env     # PROJECT_ID, GITHUB_REPO
+./00-registry-and-image.sh           # prints the image BY DIGEST
+export IMAGE='<the value it printed>'
 ```
 
-Use an image you built in Lab 4. A plain `curl` returns **403** — correct. The invoker `TODO` is the fix.
+Labs 4 and 5 deleted their registry. This makes it again and builds **one** image from your tree — with your Lab 3 and Lab 5 code in it, or it refuses.
 
 <!--
-`tofu` in place of `terraform` throughout. Watch for the wrong workspace: `terraform workspace show` before every apply.
+The first Cloud Build takes a few minutes. Have them start this during the design review, alongside `tofu init`.
+-->
+
+---
+
+<!-- _class: demo -->
+
+## Part 2 — bring up `dev`, in its own workspace
+
+```bash
+cd ../../../infra
+cp envs/dev.tfvars.example envs/dev.tfvars      # set project_id
+terraform init
+terraform workspace new dev
+terraform plan  -var-file=envs/dev.tfvars -var="image=$IMAGE"
+terraform apply -var-file=envs/dev.tfvars -var="image=$IMAGE"
+```
+
+A plain `curl` returns **403** — correct. The invoker `TODO` is the fix. **Commit `dev.tfvars`**: the pipeline can only read what is in the repository.
+
+<!--
+`tofu` in place of `terraform` throughout. `workspace new dev` matters: the pipeline selects workspaces by environment name, and a dev built in `default` is invisible to it. `terraform workspace show` before every apply.
 -->
 
 ---
@@ -456,10 +476,10 @@ Make EVERYONE do this before they leave.
 ```bash
 terraform workspace new prod
 cp envs/prod.tfvars.example envs/prod.tfvars
-terraform apply -var-file=envs/prod.tfvars -var="image=$SAME_IMAGE_AS_DEV"
+terraform apply -var-file=envs/prod.tfvars -var="image=$IMAGE"
 ```
 
-**Not a rebuild. The same image.** Then the difference table — and the harder list: three things that are deliberately the **same**.
+**Not a rebuild. The same digest.** Then the difference table — and the harder list: three things that are deliberately the **same**.
 
 ---
 
@@ -467,7 +487,7 @@ terraform apply -var-file=envs/prod.tfvars -var="image=$SAME_IMAGE_AS_DEV"
 
 - **Part 4:** read `01-bootstrap-pipeline.sh` and its header before running it. It has **not yet been run against a real project**; if a command fails, the error and Google's current documentation decide.
 - **Part 5:** build once, deploy, watch a gate hold.
-- **Part 6:** teardown, in order. **The state bucket goes last** — and is graded.
+- **Part 6:** destroy both environments and verify — graded. The pool, deployer and state bucket **stay** for the project, and go in week 15, state bucket last.
 
 ---
 

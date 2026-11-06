@@ -358,7 +358,7 @@ The session gives you 40 minutes of Lab 6 with the instructor in the room; use t
 1–3. **Lab 6 is due at the start of week 14**, including verified teardown. Get the state
 bucket order right: it is deleted **last**, after everything it describes.
 
-Part 1 is reading, and it is worth the time. Fourteen resources, every one of which you
+Part 1 is reading, and it is worth the time. Fifteen resources, every one of which you
 created by hand in Labs 3–5. Find the two grants Pub/Sub makes on its own behalf — the ones
 that cost you an error message and twenty minutes in Lab 5. Here they are four lines, and they
 will be right every time.

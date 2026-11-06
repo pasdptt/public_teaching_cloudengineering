@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
-# Lab 6 Part 6, row 3 and row 4 of the teardown order: remove what 01-bootstrap-pipeline.sh
-# created. RUN THIS LAST -- after `terraform destroy` for both environments and after the
-# Artifact Registry images are gone. Deleting the state bucket while Terraform still owns
-# resources leaves you cleaning up from memory, in a console.
+# The last rows of the teardown order: remove what 01-bootstrap-pipeline.sh created.
+#
+# RUN THIS IN WEEK 15, NOT AT THE END OF LAB 6. Your project deploys through this pipeline in
+# weeks 14-15, and a deleted pool's id cannot be reused for 30 days -- so removing it after Lab
+# 6 would break the project. Run it last of all: after `terraform destroy` for both
+# environments and after the Artifact Registry images are gone. Deleting the state bucket while
+# Terraform still owns resources leaves you cleaning up from memory, in a console.
 #
 # STATUS: NOT YET RUN AGAINST A REAL PROJECT (see 01-bootstrap-pipeline.sh).
 set -euo pipefail
@@ -13,7 +16,7 @@ say() { printf '\n\033[1m==> %s\033[0m\n' "$*"; }
 DEPLOYER="${DEPLOYER_SA_NAME}@${PROJECT_ID}.iam.gserviceaccount.com"
 STATE_BUCKET="${PROJECT_ID}-tfstate"
 
-read -r -p "Have you destroyed BOTH environments and deleted the registry images? [y/N] " ok
+read -r -p "Is this week 15, with BOTH environments destroyed and the registry images deleted? [y/N] " ok
 [[ "$ok" == "y" ]] || { echo "Stopping. Destroy them first: the state bucket goes last." >&2; exit 1; }
 
 say "Removing the deployer's project roles, then the deployer itself"

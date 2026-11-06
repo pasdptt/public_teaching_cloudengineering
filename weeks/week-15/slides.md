@@ -129,7 +129,7 @@ Destroy it, prove it, then write
 ## In this order, and not another
 
 1. `terraform destroy` — **each** workspace
-2. **Artifact Registry images** — the pipeline pushed them; state never knew
+2. **The Artifact Registry repository** and its images, and `gs://PROJECT_cloudbuild` — never in state
 3. **Deployer service account, WIF pool and provider** — `labs/lab-06/starter/02-teardown-pipeline.sh`
 4. **The state bucket, last**
 

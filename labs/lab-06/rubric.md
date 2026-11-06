@@ -82,14 +82,16 @@ not marked; credit good answers to it under D only.
 
 | | Marks | Looks like |
 |---|---|---|
-| Excellent | 13–15 | Cost estimated **before** deploying, compared with actuals, difference explained. The per-project vs per-account allowance question answered correctly. Both environments destroyed and verified **independently of Terraform** — including Artifact Registry images, which state does not track, and **both push subscriptions**, which retain billable messages. No key, no secret, no tfvars committed. |
+| Excellent | 13–15 | Cost estimated **before** deploying, compared with actuals, difference explained. The per-project vs per-account allowance question answered correctly. Both environments destroyed and verified **independently of Terraform** — including Artifact Registry images, which state does not track, and **every subscription** (push and dead-letter, in both environments), which retain billable messages. The pipeline foundation — pool, deployer, state bucket — is listed as **deliberately kept** for the project, not left by accident. No key, no secret, no state committed. |
 | Good | 10–12 | Verified clean; estimate present but not compared, or registry images overlooked. |
 | Developing | 5–9 | Teardown claimed without verification, or one environment left running. |
 | Limited | 0–4 | Resources still running, or a credential in the repository. |
 
-**Automatic zero for this band:** a service-account key JSON, a populated `.tfvars`, or a
-`terraform.tfstate` committed to the repository. All three are gitignored; committing one
-means the ignore rules were actively worked around. A committed key must be **rotated**, not
+**Automatic zero for this band:** a service-account key JSON, a `terraform.tfstate`, or any
+secret committed to the repository — including a secret in `envs/dev.tfvars` or
+`envs/prod.tfvars`. Those two files **are** committed, on purpose, because the pipeline reads
+them; they must hold configuration only. Keys and state are gitignored, so committing one means
+the ignore rules were actively worked around. A committed key must be **rotated**, not
 deleted.
 
 ## D · Communication — 10 marks

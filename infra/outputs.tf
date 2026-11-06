@@ -32,3 +32,8 @@ output "environment" {
   description = "Which environment this state represents. Check it before you destroy anything."
   value       = var.environment
 }
+
+output "dead_letter_subscription_name" {
+  description = "Where failed messages are kept to be read. Retains, like the push subscription."
+  value       = google_pubsub_subscription.dead_letter_kept.name
+}

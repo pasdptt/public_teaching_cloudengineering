@@ -37,6 +37,7 @@ order students actually get caught:
 | **Storage buckets and their objects** | everything | Nothing about deleting compute touches storage |
 | **Object versions / soft-deleted objects** | deleting the visible object | Versioning keeps paying for data you believe is gone |
 | **Container images in Artifact Registry** | deleting the service | Layers accumulate on every rebuild; the free allowance is 0.5 GiB |
+| **The Cloud Build staging bucket `gs://PROJECT_cloudbuild`** | everything | `gcloud builds submit` creates it to upload your source, without asking, so nobody remembers making it. Multi-region, so Always Free does not cover it. The Lab 4 and 5 teardown scripts delete it |
 | **Disk snapshots and custom images** | the source disk | — |
 | **Pub/Sub subscription with no consumer** | deleting the publisher, and deleting the consumer | Retained messages are billable storage. This is Lab 5's version of the idle IP: the cost comes from something you **stopped** using |
 | **Cloud Run with `min-instances > 0`** | having no traffic | It looks idle; it is provisioned |
@@ -55,7 +56,7 @@ order students actually get caught:
 | 3 | manual — the commands are in the lab | Bucket contents and object versions; the Firestore database |
 | 4 | `labs/lab-04/starter/06-teardown.sh` then `07-verify-clean.sh` | **Old images in Artifact Registry** — invisible from the Cloud Run console; also the runtime service account |
 | 5 | `labs/lab-05/starter/06-teardown.sh` then `07-verify-clean.sh` | **The subscription, deleted first** — an abandoned one retains messages and bills for them. Also a second service account, and two topics |
-| 6 | `terraform destroy` for **each** environment, then verify | State says it is gone; verify independently that it is. Then, in order: registry images, deployer account and WIF pool, and **the state bucket last** |
+| 6 | `terraform destroy` for **each** environment, then verify | State says it is gone; verify independently that it is. Then registry images and the Cloud Build staging bucket. The deployer account, WIF pool and **state bucket (last)** are kept for the project and removed in **week 15** |
 
 ## Verifying by hand
 

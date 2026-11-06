@@ -10,7 +10,18 @@
 #
 # The same image reaches prod that was tested in dev. It is never rebuilt. A rebuild means
 # deploying something you did not test, and "but the source was identical" is not the same
-# claim as "the artefact was identical".
+# claim as "the artefact was identical". So a prod run builds NOTHING: it asks Cloud Run which
+# image dev is running, by digest, and deploys exactly that.
+#
+# OFF UNTIL LAB 6. This file is in your fork from week 3, and without the Lab 6 setup every
+# run would fail at authentication -- ten weeks of red runs that mean nothing, which is the
+# fastest way to teach anyone to ignore a red run. So both jobs are skipped (grey, not red)
+# until you set a repository VARIABLE in your fork, in Lab 6 Part 5:
+#
+#     Settings -> Secrets and variables -> Actions -> Variables -> DEPLOY_ENABLED = true
+#
+# A variable, not a secret: it is a visible switch, and anyone reading the repository can see
+# whether the pipeline is live. Contrast that with a gate quietly deleted from this file.
 #
 # COST: $0. Actions minutes are free on public repositories (references.md R-13). Cloud Run
 # with min_instance_count = 0 costs nothing when idle (R-12). Artifact Registry is free below
@@ -60,6 +71,7 @@ env:
 jobs:
   test:
     name: Test (the gate)
+    if: vars.DEPLOY_ENABLED == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -77,6 +89,9 @@ jobs:
     # This is the gate. Without it, a failing test would not stop a deployment -- and a gate
     # you have removed is worse than no gate, because you still believe you have one.
     needs: test
+    if: vars.DEPLOY_ENABLED == 'true'
+    env:
+      ENVIRONMENT: ${{ inputs.environment || 'dev' }}
 
     steps:
       - uses: actions/checkout@v4
@@ -100,12 +115,14 @@ jobs:
 
       - uses: google-github-actions/setup-gcloud@v2
 
-      # --- 2. Build the artefact, once ----------------------------------------------------
+      # --- 2. The artefact: built once, for dev; promoted unchanged to prod ----------------
       - name: Configure Docker for Artifact Registry
+        if: env.ENVIRONMENT == 'dev'
         run: gcloud auth configure-docker "${REGION}-docker.pkg.dev" --quiet
 
-      - name: Build and push the image
+      - name: Build and push the image (dev only, at most once per commit)
         id: build
+        if: env.ENVIRONMENT == 'dev'
         run: |
           set -euo pipefail
           # Tagged with the commit sha. NOT "latest".
@@ -113,10 +130,41 @@ jobs:
           # TODO(lab06): explain in your submission why ":latest" would break the promise
           # this pipeline makes. There is a specific failure it allows that a sha tag does
           # not -- name it.
-          IMAGE="${REGION}-docker.pkg.dev/${{ steps.auth.outputs.project_id }}/${REPOSITORY}/docapp:${GITHUB_SHA}"
-          docker build -t "$IMAGE" application/
-          docker push "$IMAGE"
-          echo "image=$IMAGE" >> "$GITHUB_OUTPUT"
+          REPO_PATH="${REGION}-docker.pkg.dev/${{ steps.auth.outputs.project_id }}/${REPOSITORY}/docapp"
+          TAGGED="${REPO_PATH}:${GITHUB_SHA}"
+
+          # Re-running the workflow on the same commit must not rebuild: a second build would
+          # move the tag onto different bytes, and the tag would stop meaning anything.
+          if DIGEST="$(gcloud artifacts docker images describe "$TAGGED" \
+                         --format='value(image_summary.digest)' 2>/dev/null)" && [[ -n "$DIGEST" ]]; then
+            echo "Already built for ${GITHUB_SHA} -- reusing it, not rebuilding."
+            IMAGE="${REPO_PATH}@${DIGEST}"
+          else
+            docker build -t "$TAGGED" application/
+            docker push "$TAGGED"
+            IMAGE="$(docker inspect --format='{{index .RepoDigests 0}}' "$TAGGED")"
+          fi
+
+          # Deployed by DIGEST. The sha tag is for humans; the digest is what cannot move.
+          echo "Deploying ${IMAGE}"
+          echo "image=${IMAGE}" >> "$GITHUB_OUTPUT"
+
+      - name: Find the image dev is running (prod only -- nothing is built)
+        id: promote
+        if: env.ENVIRONMENT == 'prod'
+        run: |
+          set -euo pipefail
+          # Promotion means: the exact bytes dev is serving right now. Ask Cloud Run for the
+          # digest of dev's current revision rather than trusting a tag, which could have
+          # been moved since dev was tested.
+          REVISION="$(gcloud run services describe "${SERVICE_BASE}-dev" --region="$REGION" \
+                        --format='value(status.latestReadyRevisionName)')"
+          [[ -n "$REVISION" ]] || { echo "dev has no ready revision -- deploy dev first." >&2; exit 1; }
+          IMAGE="$(gcloud run revisions describe "$REVISION" --region="$REGION" \
+                     --format='value(status.imageDigest)')"
+          [[ "$IMAGE" == *@sha256:* ]] || { echo "Could not read dev's image digest (got '${IMAGE}')." >&2; exit 1; }
+          echo "Promoting dev's ${REVISION}: ${IMAGE}"
+          echo "image=${IMAGE}" >> "$GITHUB_OUTPUT"
 
       # --- 3. Deploy that exact artefact --------------------------------------------------
       - uses: hashicorp/setup-terraform@v3
@@ -126,7 +174,7 @@ jobs:
       - name: Terraform apply
         working-directory: infra
         env:
-          ENVIRONMENT: ${{ inputs.environment || 'dev' }}
+          IMAGE: ${{ steps.build.outputs.image || steps.promote.outputs.image }}
         run: |
           set -euo pipefail
 
@@ -169,9 +217,11 @@ jobs:
           # Then answer: a plan you do not read is not a safety measure. What would have to
           # be true of this pipeline for the plan to actually protect you?
 
+          # envs/dev.tfvars and envs/prod.tfvars are COMMITTED (Lab 6 Parts 2-3). A runner is
+          # a fresh machine; a variable file that exists only on your laptop does not exist here.
           terraform apply -input=false -auto-approve \
             -var-file="envs/${ENVIRONMENT}.tfvars" \
-            -var="image=${{ steps.build.outputs.image }}"
+            -var="image=${IMAGE}"
 
           terraform output -raw service_url
 

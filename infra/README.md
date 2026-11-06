@@ -51,10 +51,12 @@ in dev" happens.**
 cd infra
 cp envs/dev.tfvars.example envs/dev.tfvars     # then set project_id
 cp envs/prod.tfvars.example envs/prod.tfvars
+# Commit both: the pipeline can only read what is in the repository. Neither is secret.
 
 terraform init
 
-# dev
+# dev, in a workspace named after it -- the pipeline selects workspaces by environment name
+terraform workspace new dev
 terraform plan  -var-file=envs/dev.tfvars -var="image=$IMAGE"
 terraform apply -var-file=envs/dev.tfvars -var="image=$IMAGE"
 
@@ -91,7 +93,7 @@ Every resource in `main.tf` is something you created by hand in an earlier lab:
 |---|---|
 | Lab 3 | the documents bucket; the Firestore grant |
 | Lab 4 | the Cloud Run service; the runtime service account and its bucket binding |
-| Lab 5 | the topic, the dead-letter topic, the push subscription, the push service account, and **the two grants Pub/Sub makes on its own behalf** — the ones you had to discover from an error message |
+| Lab 5 | the topic, the dead-letter topic and the subscription that keeps dead letters, the push subscription, the push service account, and **the two grants Pub/Sub makes on its own behalf** — the ones you had to discover from an error message |
 
 Nothing here is new. That is the point of the lab: eight weeks of `gcloud` commands, each of
 which you could forget, said once in a file that can be reviewed, diffed and deleted.

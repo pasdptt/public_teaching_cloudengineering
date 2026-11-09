@@ -1,0 +1,109 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-09T05:41:14Z"
+  },
+  "lists": "css",
+  "title": "Week 1 · What makes a cloud",
+  "cover": "s01",
+  "order": [
+    "s01",
+    "s02",
+    "s03",
+    "s04",
+    "s05",
+    "s06",
+    "s07",
+    "s08",
+    "s09",
+    "s10",
+    "s11",
+    "s12",
+    "s13",
+    "s14",
+    "s15",
+    "s16",
+    "s17",
+    "s18",
+    "s19",
+    "s20",
+    "s21",
+    "s22",
+    "s23",
+    "s24",
+    "s25",
+    "s26",
+    "s27",
+    "s28",
+    "s29",
+    "s30",
+    "s31",
+    "s32",
+    "s33",
+    "s34",
+    "s35",
+    "s36",
+    "s37",
+    "s38",
+    "s39",
+    "s40"
+  ],
+  "sections": {
+    "opening": {
+      "description": "Title, timing and where the course is",
+      "start": "s01"
+    },
+    "part1": {
+      "description": "Opening — 5 minutes",
+      "start": "s02"
+    },
+    "part2": {
+      "description": "The problem that made clouds — 15 minutes",
+      "start": "s05"
+    },
+    "part3": {
+      "description": "Five characteristics — 20 minutes",
+      "start": "s10"
+    },
+    "part4": {
+      "description": "Metering, properly — 15 minutes",
+      "start": "s16"
+    },
+    "part5": {
+      "description": "Break — Break — 10 minutes",
+      "start": "s21"
+    },
+    "part6": {
+      "description": "Service models — 15 minutes",
+      "start": "s22"
+    },
+    "part7": {
+      "description": "Shared responsibility — 15 minutes",
+      "start": "s27"
+    },
+    "part8": {
+      "description": "Discussion — 25 minutes",
+      "start": "s32"
+    },
+    "part9": {
+      "description": "Practical — 60 minutes",
+      "start": "s35"
+    }
+  },
+  "faces": {
+    "ibm-plex-sans": {
+      "family": "IBM Plex Sans",
+      "href": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&display=swap"
+    },
+    "ibm-plex-serif": {
+      "family": "IBM Plex Serif",
+      "href": "https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;500&display=swap"
+    },
+    "ibm-plex-mono": {
+      "family": "IBM Plex Mono",
+      "href": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap"
+    }
+  },
+  "designSystems": []
+}

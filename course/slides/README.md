@@ -19,6 +19,65 @@ Needs `npx`, which fetches `marp-cli` on first use. Nothing is installed permane
 **PDF export needs a browser** (Chrome, Edge or Firefox) on the rendering machine. HTML export
 does not. If PDF fails with "No suitable browser found", render HTML and print from that.
 
+## Presentable decks on claude.ai
+
+The same fifteen decks are also published as claude.ai **Slides** artifacts: a 1920×1080 canvas
+you can present full screen, page through, comment on, and export to PDF or PowerPoint. They use
+the same minimal look as the Marp theme (IBM Plex, one deep-blue accent, green only for
+terminal slides, amber only for cost), with ink-dark cover and closing slides.
+
+| Week | Deck | Slides |
+|---|---|---|
+| 1 | [What makes a cloud](https://claude.ai/artifact/Bc9LrKS3qQUSmKod4jhWJW) | 40 |
+| 2 | [Processes, isolation, containers](https://claude.ai/artifact/Kmfv5f7AJWXtaSmDkSHVQr) | 37 |
+| 3 | [State, latency, failure](https://claude.ai/artifact/S6bTkK7r4R1d1gvJoG4MGU) | 36 |
+| 4 | [Hierarchy, virtual machines, identity](https://claude.ai/artifact/8T9hqZG8EMCS84ZpdizsH5) | 35 |
+| 5 | [Networking and access boundaries](https://claude.ai/artifact/AsdYRw31iwvXMdU3yeaPUd) | 31 |
+| 6 | [Storage abstractions](https://claude.ai/artifact/7XQupUBwbESPSXDj2Hug3B) | 34 |
+| 7 | [Replication, consistency, choosing](https://claude.ai/artifact/Cb7kBoLPQRimc6FEpCyYHG) | 33 |
+| 8 | [Midterm](https://claude.ai/artifact/L4KayoWqrhQsRuyHmUDeq2) | 12 |
+| 9 | [Managed containers and serverless](https://claude.ai/artifact/V8rbrxY6wWjzJFq1NUS7Zf) | 36 |
+| 10 | [Horizontal scaling and measurement](https://claude.ai/artifact/E1xW4c83h31pjPBYtXUv3m) | 33 |
+| 11 | [Queues and event-driven processing](https://claude.ai/artifact/VAGuskEQxSoeHzJzHDiW27) | 35 |
+| 12 | [Partial failure, resilience and observability](https://claude.ai/artifact/HwiGyDnvAywGjA9fEwnqKt) | 33 |
+| 13 | [Infrastructure as code, environments, pipelines](https://claude.ai/artifact/3pVwsxchnKFpMtJ5KGjubM) | 44 |
+| 14 | [Final exam and peer review](https://claude.ai/artifact/ChvS4FJvjkx92WtPkGkzEf) | 11 |
+| 15 | [Demonstration and defence](https://claude.ai/artifact/FS6cCeNf7JN8Kj1ZZW6ecU) | 13 |
+
+The links are also kept in [`artifact/decks.json`](artifact/decks.json). **The artifacts are
+private** until you share them from each deck's Share menu.
+
+### Where they come from
+
+They are **generated**, not hand-made, so the Markdown stays the one source:
+
+```bash
+python3 course/slides/to_artifact.py all     # or one week: 09
+```
+
+[`to_artifact.py`](to_artifact.py) reads `weeks/week-NN/slides.md` and writes
+`course/slides/artifact/week-NN/project/` — a `deck.json` index (title, slide order, the outline
+of session blocks, typefaces) and one `slides/sNN.html` per slide, in the inline-styled format
+the Slides artifact reads. Presenter notes come across as each slide's speaker notes. The
+generated files **are committed**, so the published decks can always be rebuilt or re-published
+from the repository without claude.ai.
+
+The converter supports exactly the Markdown the decks use and stops, naming the slide, on
+anything else, rather than dropping it silently. It also warns when a slide's content is likely
+taller than the 792px it has; the Slides viewer shrinks an over-full box's text, so a warning
+means "look at it", not "it is broken".
+
+### Changing a deck
+
+1. Edit `weeks/week-NN/slides.md`, as before.
+2. `python3 course/slides/to_artifact.py NN`
+3. Republish the changed files to that week's link (from Claude Code: the Artifact tool with
+   `url` = the week's link and `root` = `course/slides/artifact/week-NN`).
+
+**Do not edit a deck in the claude.ai editor and expect the repository to follow.** Those edits
+live only in the artifact, and the next regeneration from Markdown will overwrite them. Make the
+change in the Markdown.
+
 ## The convention
 
 Decks are derived from `weeks/week-NN/teaching-guide.md`, which stays authoritative for the

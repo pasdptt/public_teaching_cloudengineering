@@ -1,0 +1,100 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-09T05:41:14Z"
+  },
+  "lists": "css",
+  "title": "Week 4 · Hierarchy, virtual machines, identity",
+  "cover": "s01",
+  "order": [
+    "s01",
+    "s02",
+    "s03",
+    "s04",
+    "s05",
+    "s06",
+    "s07",
+    "s08",
+    "s09",
+    "s10",
+    "s11",
+    "s12",
+    "s13",
+    "s14",
+    "s15",
+    "s16",
+    "s17",
+    "s18",
+    "s19",
+    "s20",
+    "s21",
+    "s22",
+    "s23",
+    "s24",
+    "s25",
+    "s26",
+    "s27",
+    "s28",
+    "s29",
+    "s30",
+    "s31",
+    "s32",
+    "s33",
+    "s34",
+    "s35"
+  ],
+  "sections": {
+    "opening": {
+      "description": "Title, timing and where the course is",
+      "start": "s01"
+    },
+    "part1": {
+      "description": "Hierarchy — 15 minutes",
+      "start": "s03"
+    },
+    "part2": {
+      "description": "Regions and zones — 15 minutes",
+      "start": "s07"
+    },
+    "part3": {
+      "description": "The virtual machine — 20 minutes",
+      "start": "s11"
+    },
+    "part4": {
+      "description": "Addresses — 15 minutes",
+      "start": "s14"
+    },
+    "part5": {
+      "description": "Identity — 25 minutes",
+      "start": "s19"
+    },
+    "part6": {
+      "description": "Quiz 2 — 15 minutes",
+      "start": "s25"
+    },
+    "part7": {
+      "description": "Practical: activation — 30 minutes",
+      "start": "s26"
+    },
+    "part8": {
+      "description": "Practical: Lab 2 — 45 minutes",
+      "start": "s30"
+    }
+  },
+  "faces": {
+    "ibm-plex-sans": {
+      "family": "IBM Plex Sans",
+      "href": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&display=swap"
+    },
+    "ibm-plex-serif": {
+      "family": "IBM Plex Serif",
+      "href": "https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;500&display=swap"
+    },
+    "ibm-plex-mono": {
+      "family": "IBM Plex Mono",
+      "href": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap"
+    }
+  },
+  "designSystems": []
+}

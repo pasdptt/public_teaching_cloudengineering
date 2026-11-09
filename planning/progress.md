@@ -552,6 +552,24 @@ only; and public forks exposing students' solutions to each other.
 **For the Lab 6 instructor solution (not yet written):** it must use the `dev` workspace, the
 committed tfvars, digest-based promotion, and fifteen resources.
 
+### Presentable decks on claude.ai (2026-11-09)
+
+All fifteen decks are also published as claude.ai Slides artifacts (463 slides), generated from
+the Marp Markdown by `course/slides/to_artifact.py` so the Markdown stays the one source. The
+generated deck files are committed under `course/slides/artifact/`, with the fifteen links in
+`artifact/decks.json` and the workflow in `course/slides/README.md`.
+
+| Check | Result |
+|---|---|
+| Converter on all 15 decks | **EXECUTED** — 463 slides, same counts as the Marp decks; stops on unsupported Markdown rather than dropping it |
+| Re-run gives identical files | **EXECUTED** — byte-identical, so regenerating makes no noise diffs |
+| Layout | **EXECUTED, approximately** — rendered locally with headless Chrome at 1920×1080 and inspected on contact sheets (weeks 1, 9, 13, 15 and the converter's flagged slides). Two converter bugs found and fixed that way: blank Markdown table headers, and bold text containing inline code |
+| On claude.ai itself | **NOT LOOKED AT** — the browser used here was not signed in to claude.ai. The local preview is close but is not the Slides runtime |
+
+Four slides are flagged by the converter as probably taller than the 792px they have (week 1
+s39, week 4 s18, week 15 s04 and s11); the Slides viewer shrinks an over-full box's text, so
+they need a look in the real viewer, not a fix in advance.
+
 ### Still to author
 
 Midterm and final papers and keys (private, `exam-papers/`) · instructor solutions for Labs 2, 4

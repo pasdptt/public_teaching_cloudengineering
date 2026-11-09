@@ -1,0 +1,61 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-09T05:41:14Z"
+  },
+  "lists": "css",
+  "title": "Week 8 · Midterm",
+  "cover": "s01",
+  "order": [
+    "s01",
+    "s02",
+    "s03",
+    "s04",
+    "s05",
+    "s06",
+    "s07",
+    "s08",
+    "s09",
+    "s10",
+    "s11",
+    "s12"
+  ],
+  "sections": {
+    "opening": {
+      "description": "Title, timing and where the course is",
+      "start": "s01"
+    },
+    "part1": {
+      "description": "Midterm examination — 120 minutes",
+      "start": "s03"
+    },
+    "part2": {
+      "description": "Break — Break — 10 minutes",
+      "start": "s06"
+    },
+    "part3": {
+      "description": "Trial and cost check — 20 minutes",
+      "start": "s07"
+    },
+    "part4": {
+      "description": "Lab clinic — 30 minutes",
+      "start": "s10"
+    }
+  },
+  "faces": {
+    "ibm-plex-sans": {
+      "family": "IBM Plex Sans",
+      "href": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&display=swap"
+    },
+    "ibm-plex-serif": {
+      "family": "IBM Plex Serif",
+      "href": "https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;500&display=swap"
+    },
+    "ibm-plex-mono": {
+      "family": "IBM Plex Mono",
+      "href": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap"
+    }
+  },
+  "designSystems": []
+}

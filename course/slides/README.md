@@ -22,9 +22,24 @@ does not. If PDF fails with "No suitable browser found", render HTML and print f
 ## Presentable decks on claude.ai
 
 The same fifteen decks are also published as claude.ai **Slides** artifacts: a 1920×1080 canvas
-you can present full screen, page through, comment on, and export to PDF or PowerPoint. They use
-the same minimal look as the Marp theme (IBM Plex, one deep-blue accent, green only for
-terminal slides, amber only for cost), with ink-dark cover and closing slides.
+you can present full screen, page through, comment on, and export to PDF or PowerPoint.
+
+The look matches the instructor's executive deck ("Data Value Frontier"), so every deck shares
+its mood, and it stays strict so that nothing changes as you step through a deck:
+
+- **Two typefaces with fixed jobs.** Manrope for every title, Inter for every other word; IBM
+  Plex Mono appears only inside code blocks.
+- **One header.** Every ordinary slide opens with a small uppercase teal eyebrow (the part of
+  the session, "For the room", "At the terminal", "Cost") and then its title, at the same top
+  margin. Covers and section dividers are the only slides that centre their content.
+- **Two title sizes.** 60px on every ordinary slide, questions and statements included; 80px
+  on covers and section dividers. A statement written as several `##` lines becomes one heading.
+- **Warm paper and a navy night.** Content sits on warm paper (`#f5f3ee`). Covers, closing
+  slides and section dividers use a navy gradient with gold eyebrows and a short gold rule, with
+  no decorative artwork. Question slides sit on a pale teal wash. Code blocks
+  are navy cards, tables have a teal header row, and quotations are pale amber callouts.
+- **Colour marks the kind of slide.** Teal for the session part and questions, blue for
+  terminal slides, amber for cost. Every text and background pair passes WCAG AA contrast.
 
 | Week | Deck | Slides |
 |---|---|---|

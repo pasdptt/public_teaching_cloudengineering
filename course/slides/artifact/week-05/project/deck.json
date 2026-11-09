@@ -75,17 +75,17 @@
     }
   },
   "faces": {
-    "ibm-plex-sans": {
-      "family": "IBM Plex Sans",
-      "href": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&display=swap"
+    "manrope": {
+      "family": "Manrope",
+      "href": "https://fonts.googleapis.com/css2?family=Manrope:wght@500..800&display=swap"
     },
-    "ibm-plex-serif": {
-      "family": "IBM Plex Serif",
-      "href": "https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;500&display=swap"
+    "inter": {
+      "family": "Inter",
+      "href": "https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400..700;1,400..700&display=swap"
     },
     "ibm-plex-mono": {
       "family": "IBM Plex Mono",
-      "href": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap"
+      "href": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&display=swap"
     }
   },
   "designSystems": []

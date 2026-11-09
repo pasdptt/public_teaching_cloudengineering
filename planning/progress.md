@@ -566,6 +566,26 @@ generated deck files are committed under `course/slides/artifact/`, with the fif
 | Layout | **EXECUTED, approximately** — rendered locally with headless Chrome at 1920×1080 and inspected on contact sheets (weeks 1, 9, 13, 15 and the converter's flagged slides). Two converter bugs found and fixed that way: blank Markdown table headers, and bold text containing inline code |
 | On claude.ai itself | **NOT LOOKED AT** — the browser used here was not signed in to claude.ai. The local preview is close but is not the Slides runtime |
 
+**Restyled the same day for consistency**, after the first look showed the type switching and
+the titles jumping between slides: one typeface (Plex Sans; Mono only in code), every label in
+one slot and every main line at one top margin, two title sizes (64, 88), and multi-line
+statements joined into one heading. All fifteen decks regenerated, previewed locally and
+republished to the same links.
+
+**Then given colour**, to look more finished: navy covers with a blue stripe, solid-blue
+section dividers, a top band on every other slide (blue, green for terminal, amber for cost),
+tinted code blocks and table headers, and pale-blue question slides. The palette is defined
+once in `to_artifact.py`, and every pair was checked against WCAG AA. Regenerated, previewed
+and republished to the same fifteen links.
+
+**Then matched to the instructor's own executive deck**, whose mood they preferred: warm paper,
+a navy gradient for covers and section dividers with gold accents, Manrope titles over Inter
+text, teal uppercase eyebrows naming the session part ("03 · Five characteristics"), navy code
+cards, teal table headers and amber quotation callouts. Breaks are not numbered as parts. The
+reference deck's overlapping-circle motif was tried on the covers and removed, since it meant
+nothing in this course. All
+pairs re-checked against WCAG AA; regenerated, previewed and republished to the same links.
+
 Four slides are flagged by the converter as probably taller than the 792px they have (week 1
 s39, week 4 s18, week 15 s04 and s11); the Slides viewer shrinks an over-full box's text, so
 they need a look in the real viewer, not a fix in advance.

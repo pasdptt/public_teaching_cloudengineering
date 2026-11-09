@@ -32,31 +32,40 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "course" / "slides" / "artifact"
 
-# --- the look: minimal, professional, one accent ------------------------------------------
-PAPER, WASH, INK = "#f7f8fa", "#eef1f5", "#17212d"
-MUTED, FAINT, RULE = "#5c6878", "#7d8898", "#dde2e9"
-ACCENT, RUN, COST = "#1f4e8c", "#1d6a52", "#9a4f12"
-# the dark bookends: cover and closing slides
-NIGHT, NIGHT_TEXT, NIGHT_MUTED, NIGHT_ACCENT = "#17212d", "#f2f4f7", "#b4bfcc", "#9cbbe6"
+# --- the look: warm paper, a navy night, teal labels, gold on the dark slides -------------
+# Matched to the instructor's own executive deck, so the course decks share its mood. Every
+# text/background pair below was checked against WCAG AA (4.5:1; most clear 6:1).
+PAPER, CARD, LINE = "#f5f3ee", "#fffefb", "#e4e0d6"
+HEAD, INK, BODYC, MUTED = "#13213a", "#1b2638", "#3e4a5c", "#5e6878"
+TEAL, TEAL_DARK, TEAL_TINT, TEAL_WASH = "#0f7a72", "#0b5f59", "#ddefec", "#e9f3f1"
+BLUE, BLUE_TINT = "#234c8e", "#e3ebf7"          # at the terminal
+AMBER, AMBER_TINT = "#8a5200", "#fbf1df"        # cost, and quotations
+NIGHT = "linear-gradient(135deg, #0e1a2e 0%, #1b2f50 100%)"   # covers and section dividers
+NIGHT_TEXT, NIGHT_SUB, NIGHT_FOOT, NIGHT_CARD, GOLD = "#faf8f3", "#c7d1e0", "#a3afc2", "#22365a", "#f2b544"
+CODE_BG, CODE_TEXT, CODE_MARK = "#13213a", "#e8ecf2", "#8fd3c8"
+SHADOW = "box-shadow:0px 8px 24px rgba(19,33,58,0.06)"
 
-SANS = "'IBM Plex Sans', Arial, sans-serif"
-SERIF = "'IBM Plex Serif', Georgia, serif"
+# Two typefaces with fixed jobs: Manrope for every title, Inter for every other word.
+# Mono appears only inside code blocks, where alignment needs it.
+HEADF = "'Manrope', Arial, sans-serif"
+SANS = "'Inter', Arial, sans-serif"
 MONO = "'IBM Plex Mono', 'Courier New', monospace"
 
-# one type scale: display · title/statement · body · dense (tables, code) · label
-DISPLAY, TITLE, BODY, DENSE, LABEL = 96, 64, 40, 30, 24
+# One type scale. Every ordinary slide opens with the same header (eyebrow, then title) at the
+# same top margin, so stepping through a deck nothing jumps.
+DISPLAY, TITLE, BODY, DENSE, LABEL = 80, 60, 36, 28, 24
 
 FACES = {
-    "ibm-plex-sans": {"family": "IBM Plex Sans",
-                      "href": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&display=swap"},
-    "ibm-plex-serif": {"family": "IBM Plex Serif",
-                       "href": "https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;500&display=swap"},
+    "manrope": {"family": "Manrope",
+                "href": "https://fonts.googleapis.com/css2?family=Manrope:wght@500..800&display=swap"},
+    "inter": {"family": "Inter",
+              "href": "https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400..700;1,400..700&display=swap"},
     "ibm-plex-mono": {"family": "IBM Plex Mono",
-                      "href": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap"},
+                      "href": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&display=swap"},
 }
 
-PAD = "padding:128px 160px 160px"   # 1600 × 792 inside; the footer band sits below
-NBSP = " "
+PAD = "padding:128px 128px 160px"   # 1664 × 792 inside; the footer band sits below
+NBSP = "\u00a0"
 
 
 class DeckError(Exception):
@@ -79,7 +88,7 @@ def typographic(text: str) -> str:
     return text
 
 
-def inline(text: str, strong: str = INK, code: str = ACCENT, em: str = MUTED) -> str:
+def inline(text: str, strong: str = HEAD, code: str = TEAL_DARK, em: str = BODYC) -> str:
     """**bold**, *italic*, `code` → the format's inline marks. Code keeps straight quotes.
 
     Code spans are set aside first and put back last, so bold or italic that contains code
@@ -212,15 +221,30 @@ def parse_blocks(chunk: str, where: str):
 
 # --- rendering ---------------------------------------------------------------------------
 
-def code_block(lines: list[str], rule: str) -> str:
+ICONS = {   # 24-unit line icons, drawn at 28px beside an eyebrow
+    "terminal": '<path d="m4 17 6-6-6-6"/><path d="M12 19h8"/>',
+    "warning": '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3z"/>'
+               '<path d="M12 9v4"/><path d="M12 17h.01"/>',
+    "speech": '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+}
+
+
+def icon(name: str, color: str, size: int = 28) -> str:
+    return (f'<svg aria-label="{name} icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {size} {size}" '
+            f'width="{size}" height="{size}"><g transform="scale({size / 24:.5f})" fill="none" stroke="{color}" '
+            f'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{ICONS[name]}</g></svg>')
+
+
+def code_block(lines: list[str]) -> str:
     rows = []
     for line in lines:
         text = line.replace("\t", "    ")
         # spaces carry alignment in commands and diagrams; keep every one
         text = esc(text).replace(" ", NBSP) or NBSP
-        rows.append(f'<p style="font-family:{MONO};font-size:{DENSE}px;line-height:1.45;white-space:nowrap;color:{INK}">{text}</p>')
-    return (f'<div style="align-self:stretch;display:flex;flex-direction:column;background:{WASH};'
-            f'border-left:4px solid {rule};padding:28px 36px">' + "".join(rows) + "</div>")
+        rows.append(f'<p style="font-family:{MONO};font-size:{DENSE}px;line-height:1.45;white-space:nowrap;'
+                    f'color:{CODE_TEXT}">{text}</p>')
+    return (f'<div style="align-self:stretch;display:flex;flex-direction:column;background:{CODE_BG};'
+            f'border-radius:20px;padding:32px 40px">' + "".join(rows) + "</div>")
 
 
 def table_block(rows: list[list[str]]) -> str:
@@ -235,74 +259,99 @@ def table_block(rows: list[list[str]]) -> str:
     widths = [round(100 * w / total) for w in weight]
     widths[-1] += 100 - sum(widths)
     natural = sum(min(max(len(r[c]) if c < len(r) else 0 for r in rows), 60) for c in range(ncols))
-    width = max(900, min(1600, int(natural * DENSE * 0.56) + 60 * ncols))
+    width = max(900, min(1664, int(natural * DENSE * 0.56) + 60 * ncols))
 
     th = "".join(
-        f'<th style="width:{widths[c]}%;font-family:{MONO};font-size:{LABEL}px;font-weight:500;'
-        f'color:{MUTED};text-transform:uppercase;letter-spacing:2px;text-align:left">{plain(head[c])}</th>'
+        f'<th style="width:{widths[c]}%;font-family:{SANS};font-size:{LABEL}px;font-weight:700;'
+        f'color:{TEAL_DARK};text-transform:uppercase;letter-spacing:2px;text-align:left">{plain(head[c])}</th>'
         for c in range(ncols))
     # a blank Markdown header row (| | |) means a table with no header
-    trs = [f'<tr style="background:{WASH}">{th}</tr>'] if any(head) else []
+    trs = [f'<tr style="background:{TEAL_TINT}">{th}</tr>'] if any(head) else []
     for r in body:
         r = r + [""] * (ncols - len(r))
-        trs.append("<tr>" + "".join(f"<td>{plain(r[c])}</td>" for c in range(ncols)) + "</tr>")
+        trs.append(f'<tr style="background:{CARD}">' + "".join(f"<td>{plain(r[c])}</td>" for c in range(ncols)) + "</tr>")
     return (f'<table style="width:{width}px;font-family:{SANS};font-size:{DENSE}px;color:{INK};'
             f'font-variant-numeric:tabular-nums">' + "".join(trs) + "</table>")
 
 
-def label(text: str, color: str, dot: bool = False) -> str:
-    left = 160
-    parts = []
-    if dot:
-        parts.append(f'<x-shape kind="ellipse" style="position:absolute;left:{left}px;top:76px;'
-                     f'width:16px;height:16px;background:{color}"></x-shape>')
-        left += 32
-    parts.append(f'<p style="position:absolute;left:{left}px;top:64px;width:900px;font-family:{MONO};'
-                 f'font-size:{LABEL}px;font-weight:500;letter-spacing:3px;text-transform:uppercase;'
-                 f'color:{color}">{esc(text)}</p>')
-    return "".join(parts)
+def eyebrow(text_html: str, color: str, glyph: str = "") -> str:
+    """The small uppercase line above every title. A fixed-height row, so titles never move."""
+    ic = icon(glyph, color) if glyph else ""
+    return (f'<div style="height:32px;display:flex;flex-direction:row;align-items:center;gap:14px">{ic}'
+            f'<p style="font-family:{SANS};font-size:{LABEL}px;font-weight:700;letter-spacing:3px;'
+            f'text-transform:uppercase;line-height:1.3;white-space:nowrap;color:{color}">{text_html}</p></div>')
+
+
+def rule_row(color: str) -> str:
+    """The eyebrow's slot holding only a short accent rule, for slides with no label."""
+    return (f'<div style="height:32px;display:flex;flex-direction:row;align-items:center">'
+            f'<div style="width:120px;height:6px;background:{color};border-radius:3px"></div></div>')
+
+
+def gold_rule() -> str:
+    return f'<div style="width:120px;height:6px;background:{GOLD};border-radius:3px"></div>'
+
+
+def header(top: str, title_html: str) -> str:
+    return f'<div style="display:flex;flex-direction:column;gap:16px">{top}{title_html}</div>'
 
 
 def footer(text: str, number: int, dark: bool) -> str:
-    color = NIGHT_MUTED if dark else FAINT
-    return (f'<p style="position:absolute;left:160px;bottom:64px;width:1300px;font-family:{MONO};'
-            f'font-size:{LABEL}px;color:{color}">{esc(typographic(text))}</p>'
-            f'<p style="position:absolute;right:160px;bottom:64px;width:120px;text-align:right;'
-            f'font-family:{MONO};font-size:{LABEL}px;color:{color}">{number}</p>')
+    color = NIGHT_FOOT if dark else MUTED
+    return (f'<div style="position:absolute;left:128px;bottom:64px;width:1664px;display:flex;'
+            f'flex-direction:row;justify-content:space-between">'
+            f'<p style="font-family:{SANS};font-size:{LABEL}px;color:{color}">{esc(typographic(text))}</p>'
+            f'<p style="font-family:{SANS};font-size:{LABEL}px;color:{color}">{number}</p></div>')
 
 
-def body_blocks(blocks, strong: str, rule: str) -> list[str]:
+def title_tag(text_html: str, size: int, color: str, tag: str = "h2", width: int = 1600) -> str:
+    weight, track = (800, -2) if size >= DISPLAY else (700, -1)
+    return (f'<{tag} style="font-family:{HEADF};font-size:{size}px;font-weight:{weight};line-height:1.1;'
+            f'letter-spacing:{track}px;color:{color};max-width:{width}px">{text_html}</{tag}>')
+
+
+def body_blocks(blocks, strong: str) -> list[str]:
     out = []
     for kind, payload in blocks:
-        if kind == "h2":
-            out.append(f'<h2 style="font-family:{SANS};font-size:{TITLE}px;font-weight:600;line-height:1.12;'
-                       f'letter-spacing:-1px;color:{INK}">{inline(payload, strong=INK)}</h2>')
-        elif kind == "h1":
-            out.append(f'<h2 style="font-family:{SANS};font-size:{TITLE}px;font-weight:600;line-height:1.12;'
-                       f'color:{INK}">{inline(payload, strong=INK)}</h2>')
+        if kind in ("h1", "h2"):
+            out.append(title_tag(inline(payload), TITLE, HEAD))
         elif kind == "p":
-            out.append(f'<p style="font-size:{BODY}px;line-height:1.4;color:{INK};max-width:1380px">'
-                       f'{inline(payload, strong=strong)}</p>')
+            out.append(f'<p style="font-family:{SANS};font-size:{BODY}px;line-height:1.45;color:{INK};'
+                       f'max-width:1400px">{inline(payload, strong=strong)}</p>')
         elif kind in ("ul", "ol"):
             items = "".join(f"<li>{inline(x, strong=strong)}</li>" for x in payload)
-            out.append(f'<{kind} style="font-size:{BODY}px;line-height:1.4;color:{INK};max-width:1380px">'
-                       f'{items}</{kind}>')
+            out.append(f'<{kind} style="font-family:{SANS};font-size:{BODY}px;line-height:1.45;color:{INK};'
+                       f'max-width:1400px">{items}</{kind}>')
         elif kind == "code":
-            out.append(code_block(payload, rule))
+            out.append(code_block(payload))
         elif kind == "table":
             out.append(table_block(payload))
         elif kind == "quote":
-            paras = "".join(f'<p style="font-family:{SERIF};font-size:{BODY + 4}px;line-height:1.4;color:{INK}">'
-                            f'{inline(p, strong=INK)}</p>' for p in payload)
-            out.append(f'<div style="display:flex;flex-direction:column;gap:16px;border-left:4px solid {rule};'
-                       f'padding:8px 0 8px 36px;max-width:1380px">{paras}</div>')
+            paras = "".join(f'<p style="font-family:{SANS};font-size:{BODY}px;line-height:1.45;color:{INK}">'
+                            f'{inline(p, code=AMBER)}</p>' for p in payload)
+            out.append(f'<div style="display:flex;flex-direction:column;gap:16px;background:{AMBER_TINT};'
+                       f'border-radius:20px;padding:28px 40px;max-width:1500px">{paras}</div>')
         else:
             raise DeckError(f"block '{kind}' not expected here")
     return out
 
 
+def is_break(blocks) -> bool:
+    return next((p for k, p in blocks if k == "h1"), "").strip().lower() == "break"
+
+
+def section(sid: str, bg: str, fg: str, children: str, transition: bool = False,
+            centre: bool = False) -> str:
+    """Every ordinary slide shares this frame: same padding, same top-anchored column, same gap.
+    Only the dark bookends and dividers centre their content, as a deliberate change of pace."""
+    tr = ' data-transition="fade"' if transition else ""
+    just = "center" if centre else "start"
+    return (f'<section id="{sid}"{tr} style="background:{bg};color:{fg};font-family:{SANS};{PAD};'
+            f'display:flex;flex-direction:column;justify-content:{just};gap:48px">' + children + "</section>")
+
+
 def render_slide(sid: str, classes: list[str], blocks, notes: list[str], foot: str, n: int,
-                 where: str) -> str:
+                 where: str, part: str = "", part_no: int = 0) -> str:
     kinds = set(classes)
     unknown = kinds - {"lead", "block", "ask", "punch", "demo", "cost"}
     if unknown:
@@ -315,105 +364,101 @@ def render_slide(sid: str, classes: list[str], blocks, notes: list[str], foot: s
             raise DeckError(f"{where}: notes over 4000 characters")
         aside = f"<aside>{esc(text)}</aside>"
 
-    if "lead" in kinds:
-        eyebrow = [p for k, p in blocks if k == "h2"]
+    if "lead" in kinds:   # cover and closing: the navy night, gold accents, no footer
+        eyebrow_text = [p for k, p in blocks if k == "h2"]
         title = [p for k, p in blocks if k == "h1"]
         paras = [p for k, p in blocks if k == "p"]
+        dark = dict(strong=NIGHT_TEXT, code=CODE_MARK, em=NIGHT_SUB)
         parts = []
-        if eyebrow:
-            parts.append(f'<p style="font-family:{MONO};font-size:{LABEL + 6}px;font-weight:500;letter-spacing:4px;'
-                         f'text-transform:uppercase;color:{NIGHT_ACCENT}">{esc(eyebrow[0])}</p>')
-        parts.append(f'<div style="width:240px;height:6px;background:{NIGHT_ACCENT}"></div>')
-        for t in title:
-            parts.append(f'<h1 style="font-family:{SANS};font-size:{DISPLAY}px;font-weight:600;line-height:1.06;'
-                         f'letter-spacing:-2px;color:{NIGHT_TEXT};max-width:1500px">{inline(t, strong=NIGHT_TEXT, code=NIGHT_ACCENT)}</h1>')
-        for p in paras:
-            parts.append(f'<p style="font-size:{BODY}px;line-height:1.4;color:{NIGHT_MUTED};max-width:1400px">'
-                         f'{inline(p, strong=NIGHT_TEXT, code=NIGHT_ACCENT, em=NIGHT_MUTED)}</p>')
-        return (f'<section id="{sid}" data-transition="fade" style="background:{NIGHT};color:{NIGHT_TEXT};'
-                f'font-family:{SANS};{PAD};display:flex;flex-direction:column;justify-content:end;gap:32px">'
-                + "".join(parts) + aside + "</section>")   # bookends carry no footer
+        if eyebrow_text:
+            parts.append(eyebrow(esc(eyebrow_text[0]), GOLD))
+        parts += [title_tag(inline(t, **dark), DISPLAY, NIGHT_TEXT, tag="h1", width=1120) for t in title]
+        parts.append(gold_rule())
+        if paras:
+            parts.append(f'<p style="font-family:{SANS};font-size:{BODY}px;line-height:1.4;color:{NIGHT_SUB};'
+                         f'max-width:1120px">{inline(paras[0], **dark)}</p>')
+        if paras[1:]:
+            lines = "".join(f'<p style="font-family:{SANS};font-size:{DENSE + 4}px;line-height:1.4;'
+                            f'color:{NIGHT_TEXT}">{inline(p, strong=GOLD, code=CODE_MARK, em=NIGHT_SUB)}</p>'
+                            for p in paras[1:])
+            parts.append(f'<div style="width:1240px;display:flex;flex-direction:column;gap:14px;'
+                         f'background:{NIGHT_CARD};border-radius:24px;padding:36px 48px">{lines}</div>')
+        return section(sid, NIGHT, NIGHT_TEXT, "".join(parts) + aside, transition=True, centre=True)
 
-    if "block" in kinds:
+    if "block" in kinds:  # section divider: the night again, numbered
         timing = [p for k, p in blocks if k == "timing"]
         title = [p for k, p in blocks if k == "h1"]
         paras = [p for k, p in blocks if k == "p"]
-        parts = []
+        sep = f"{NBSP}{NBSP}·{NBSP}{NBSP}"
+        bits = [] if is_break(blocks) else [f"Part {part_no:02d}"]   # a break is not a part
         if timing:
-            mins, clock = timing[0]
-            parts.append(f'<p style="font-family:{MONO};font-size:{LABEL}px;font-weight:500;letter-spacing:3px;'
-                         f'text-transform:uppercase;color:{ACCENT}">{esc(mins)}'
-                         f'<span style="color:{FAINT}">{NBSP}{NBSP}·{NBSP}{NBSP}{esc(clock)}</span></p>')
-        for t in title:
-            parts.append(f'<h1 style="font-family:{SANS};font-size:{DISPLAY}px;font-weight:600;line-height:1.06;'
-                         f'letter-spacing:-2px;color:{INK};max-width:1500px">{inline(t, strong=INK)}</h1>')
-        for p in paras:
-            parts.append(f'<p style="font-size:{BODY}px;line-height:1.4;color:{MUTED};max-width:1400px">'
-                         f'{inline(p, strong=INK)}</p>')
-        return (f'<section id="{sid}" data-transition="fade" style="background:{WASH};color:{INK};'
-                f'font-family:{SANS};{PAD};display:flex;flex-direction:column;justify-content:center;gap:28px">'
-                + "".join(parts) + footer(foot, n, dark=False) + aside + "</section>")
+            bits += [esc(timing[0][0]), esc(timing[0][1])]
+        label_html = sep.join(bits)
+        dark = dict(strong=NIGHT_TEXT, code=CODE_MARK, em=NIGHT_SUB)
+        parts = [eyebrow(label_html, GOLD)]
+        parts += [title_tag(inline(t, **dark), DISPLAY, NIGHT_TEXT, tag="h1", width=1400) for t in title]
+        parts.append(gold_rule())
+        parts += [f'<p style="font-family:{SANS};font-size:{BODY}px;line-height:1.4;color:{NIGHT_SUB};'
+                  f'max-width:1300px">{inline(p, **dark)}</p>' for p in paras]
+        return section(sid, NIGHT, NIGHT_TEXT, "".join(parts) + footer(foot, n, dark=True) + aside,
+                       transition=True, centre=True)
 
-    if "ask" in kinds or "punch" in kinds:
-        tone = COST if "cost" in kinds else ACCENT
+    if "ask" in kinds or "punch" in kinds:  # a question or a statement: same header, same place
         heads = [p for k, p in blocks if k == "h2"]
         paras = [p for k, p in blocks if k == "p"]
-        parts = []
-        if "punch" in kinds:
-            parts.append(f'<div style="width:240px;height:6px;background:{tone}"></div>')
-        for h in heads:
-            parts.append(f'<h2 style="font-family:{SERIF};font-size:{TITLE + 8}px;font-weight:400;line-height:1.22;'
-                         f'color:{INK};max-width:1500px">{inline(h, strong=tone, em=tone)}</h2>')
-        for p in paras:
-            parts.append(f'<p style="font-size:{BODY}px;line-height:1.4;color:{MUTED};max-width:1400px">'
-                         f'{inline(p, strong=INK)}</p>')
-        lab = label("For the room", ACCENT) if "ask" in kinds else (label("Cost", COST) if "cost" in kinds else "")
-        return (f'<section id="{sid}" style="background:{PAPER};color:{INK};font-family:{SANS};{PAD};'
-                f'display:flex;flex-direction:column;justify-content:center;gap:28px">'
-                + lab + "".join(parts) + footer(foot, n, dark=False) + aside + "</section>")
+        if "ask" in kinds:
+            top, bg, tone = eyebrow("For the room", TEAL_DARK, "speech"), TEAL_WASH, TEAL_DARK
+        elif "cost" in kinds:
+            top, bg, tone = eyebrow("Cost", AMBER, "warning"), PAPER, AMBER
+        else:
+            top, bg, tone = rule_row(TEAL), PAPER, TEAL_DARK
+        # several ## lines are one statement: one heading, line breaks between them
+        title = title_tag("<br>".join(inline(h, strong=tone, em=tone) for h in heads), TITLE, HEAD) if heads else ""
+        parts = [header(top, title)]
+        parts += [f'<p style="font-family:{SANS};font-size:{BODY}px;line-height:1.45;color:{BODYC};'
+                  f'max-width:1400px">{inline(p)}</p>' for p in paras]
+        return section(sid, bg, INK, "".join(parts) + footer(foot, n, dark=False) + aside)
 
     # content slides: plain, terminal (demo) or cost
     if "demo" in kinds:
-        lab, strong, rule = label("At the terminal", RUN, dot=True), RUN, RUN
+        top, strong = eyebrow("At the terminal", BLUE, "terminal"), BLUE
     elif "cost" in kinds:
-        lab, strong, rule = label("Cost", COST), COST, COST
+        top, strong = eyebrow("Cost", AMBER, "warning"), AMBER
     else:
-        lab, strong, rule = "", INK, RULE
-    if any(k in ("timing",) for k, _ in blocks):
+        top, strong = eyebrow(esc(typographic(part)), TEAL_DARK), HEAD
+    if any(k == "timing" for k, _ in blocks):
         raise DeckError(f"{where}: a timing line outside a block divider")
-    inner = body_blocks(blocks, strong, rule if rule != RULE else ACCENT)
+    inner = body_blocks(blocks, strong)
     if inner and inner[0].startswith("<h2"):
         title, rest = inner[0], inner[1:]
     else:
         title, rest = "", inner
-    content = (f'<div style="display:flex;flex-direction:column;align-items:start;gap:30px;flex:1">'
+    content = (f'<div style="display:flex;flex-direction:column;align-items:start;gap:32px;flex:1">'
                + "".join(rest) + "</div>")
-    return (f'<section id="{sid}" style="background:{PAPER};color:{INK};font-family:{SANS};{PAD};'
-            f'display:flex;flex-direction:column;justify-content:start;gap:44px">'
-            + lab + title + content + footer(foot, n, dark=False) + aside + "</section>")
+    return section(sid, PAPER, INK, header(top, title) + content + footer(foot, n, dark=False) + aside)
 
 
 # --- a rough height check, so an over-full slide is named rather than silently shrunk -----
 
 def estimate_height(blocks) -> int:
-    chars_per_line = lambda size, width=1380: max(1, int(width / (size * 0.52)))
-    h = 0
+    chars_per_line = lambda size, width=1400: max(1, int(width / (size * 0.52)))
+    h = 48   # the eyebrow row and its gap
     for kind, payload in blocks:
         if kind in ("h1", "h2"):
-            h += 64 * 1.15 * (1 + len(payload) // chars_per_line(64, 1600)) + 44
+            h += 60 * 1.1 * (1 + len(payload) // chars_per_line(60, 1600)) + 48
         elif kind == "p":
-            h += 40 * 1.4 * (1 + len(payload) // chars_per_line(40)) + 30
+            h += 36 * 1.45 * (1 + len(payload) // chars_per_line(36)) + 32
         elif kind in ("ul", "ol"):
-            h += sum(40 * 1.4 * (1 + len(x) // chars_per_line(40, 1300)) for x in payload) + 30
+            h += sum(36 * 1.45 * (1 + len(x) // chars_per_line(36, 1340)) for x in payload) + 32
         elif kind == "code":
-            h += 30 * 1.45 * len(payload) + 56 + 30
+            h += 28 * 1.45 * len(payload) + 64 + 32
         elif kind == "table":
             for r in payload:
-                lines = max(1 + len(c) // 34 for c in r) if r else 1
-                h += 30 * 2.0 * lines
-            h += 30
+                lines = max(1 + len(c) // 36 for c in r) if r else 1
+                h += 28 * 2.1 * lines
+            h += 32
         elif kind == "quote":
-            h += sum(44 * 1.4 * (1 + len(p) // chars_per_line(44)) for p in payload) + 46
+            h += sum(36 * 1.45 * (1 + len(p) // chars_per_line(36, 1420)) for p in payload) + 56 + 32
     return int(h)
 
 
@@ -432,6 +477,7 @@ def convert(week: str) -> tuple[Path, int, list[str]]:
 
     order, sections, warnings = [], {}, []
     n = 0
+    part, part_no = foot.split(" · ")[0], 0   # the eyebrow before the first divider: "Week 1"
     for chunk in chunks:
         n_candidate = n + 1
         where = f"week {week}, slide {n_candidate}"
@@ -444,8 +490,11 @@ def convert(week: str) -> tuple[Path, int, list[str]]:
         if n == 1:
             notes = [x for x in notes if not x.startswith("Deck for week")]
         sid = f"s{n:02d}"
+        if "block" in classes and not is_break(blocks):
+            part_no += 1
+            part = f"{part_no:02d}{NBSP}·{NBSP}" + next((p for k, p in blocks if k == "h1"), "Section")
         (slides_dir / f"{sid}.html").write_text(
-            render_slide(sid, classes, blocks, notes, foot, n, where) + "\n", encoding="utf-8")
+            render_slide(sid, classes, blocks, notes, foot, n, where, part, part_no) + "\n", encoding="utf-8")
         order.append(sid)
 
         if n == 1:

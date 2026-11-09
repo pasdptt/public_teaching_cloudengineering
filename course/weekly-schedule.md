@@ -13,11 +13,18 @@ Threads that run through the whole course rather than sitting in one week: ident
 least privilege, cost awareness, cleanup, and observability. Each is introduced with the
 first cloud lab (week 4) and revisited, with a dedicated treatment where the table says so.
 
+Every week links its slides twice: **present on claude.ai** opens the presentable deck, and
+**Markdown source** is the file it is generated from, which is the one to edit. The claude.ai
+decks are private until shared from each deck's Share menu; how they are built and republished
+is in [`course/slides/README.md`](slides/README.md).
+
 ---
 
 ## Phase 1 — Local foundations (weeks 1–3, no cloud account)
 
 ### Week 1 · What makes a cloud
+**Slides:** [present on claude.ai](https://claude.ai/artifact/Bc9LrKS3qQUSmKod4jhWJW) · [Markdown source](../weeks/week-01/slides.md)
+
 **Concepts:** on-demand self-service, resource pooling, elasticity, measured service;
 IaaS / PaaS / serverless by *who operates what*; shared responsibility; what "the cloud"
 replaced and what problem each property solves. Introduction to the course application.
@@ -28,6 +35,8 @@ actually complete it; this is how decision A-04 gets verified.
 **Outcomes:** CLO-1. **Assessment:** none.
 
 ### Week 2 · Processes, isolation, virtualization, containers
+**Slides:** [present on claude.ai](https://claude.ai/artifact/Kmfv5f7AJWXtaSmDkSHVQr) · [Markdown source](../weeks/week-02/slides.md)
+
 **Concepts:** what a process is and what isolates one from another; virtual machines vs
 containers — namespaces, images, layers; just-in-time coverage of ports, HTTP request
 anatomy, and how a client finds a server.
@@ -37,6 +46,8 @@ boundary, observe what each side can see.
 **Outcomes:** CLO-1, CLO-2.
 
 ### Week 3 · Distributed application basics
+**Slides:** [present on claude.ai](https://claude.ai/artifact/S6bTkK7r4R1d1gvJoG4MGU) · [Markdown source](../weeks/week-03/slides.md)
+
 **Concepts:** what changes when a call crosses a machine boundary — latency, partial
 failure, the impossibility of distinguishing "slow" from "dead"; where state lives and why
 it is the hard part; failure boundaries and blast radius.
@@ -58,6 +69,8 @@ test suite runs on every push (Lab 1 Part 6).
 ## Phase 2 — Cloud compute, networking, identity (weeks 4–5)
 
 ### Week 4 · Cloud resource hierarchy, VMs and identity
+**Slides:** [present on claude.ai](https://claude.ai/artifact/8T9hqZG8EMCS84ZpdizsH5) · [Markdown source](../weeks/week-04/slides.md)
+
 **Concepts:** organisation/project/resource hierarchy and why billing attaches where it
 does; regions and zones as failure and latency domains; the virtual machine abstraction;
 identity — principals, roles, policies, service accounts; least privilege as a default,
@@ -69,6 +82,8 @@ fallback path in the same session — not later, and not in private.
 **Outcomes:** CLO-1, CLO-3. **Cost/cleanup thread starts here and never stops.**
 
 ### Week 5 · Virtual networking and access boundaries
+**Slides:** [present on claude.ai](https://claude.ai/artifact/AsdYRw31iwvXMdU3yeaPUd) · [Markdown source](../weeks/week-05/slides.md)
+
 **Concepts:** virtual networks, subnets, routes; firewall rules as allow-lists; public vs
 private addressing; what a load balancer actually does; least privilege applied to a
 service identity rather than a human.
@@ -83,6 +98,8 @@ down and verify.
 ## Phase 3 — State and data (weeks 6–7)
 
 ### Week 6 · Storage abstractions
+**Slides:** [present on claude.ai](https://claude.ai/artifact/7XQupUBwbESPSXDj2Hug3B) · [Markdown source](../weeks/week-06/slides.md)
+
 **Concepts:** block vs file vs object vs database — the access pattern each assumes;
 durability vs availability; what "eleven nines" does and does not promise; why object
 storage changed application architecture.
@@ -92,6 +109,8 @@ object storage.
 **Outcomes:** CLO-4.
 
 ### Week 7 · Replication, consistency and choosing a data service
+**Slides:** [present on claude.ai](https://claude.ai/artifact/Cb7kBoLPQRimc6FEpCyYHG) · [Markdown source](../weeks/week-07/slides.md)
+
 **Concepts:** replication and what it buys; consistency models in plain terms and the
 observable difference between them; transactions and when you need one; how to choose a
 data service from the access pattern rather than from familiarity.
@@ -105,6 +124,8 @@ service and justify the design in a decision record.
 ## Mid-semester exam (week 8)
 
 ### Week 8 · Midterm examination
+**Slides:** [present on claude.ai](https://claude.ai/artifact/L4KayoWqrhQsRuyHmUDeq2) · [Markdown source](../weeks/week-08/slides.md)
+
 No new material. The midterm sits at the natural seam in the course: everything before it
 runs on one machine or one VM with its state moved out, and everything after it is managed
 execution, scale, asynchrony and delivery.
@@ -129,6 +150,8 @@ execution, scale, asynchrony and delivery.
 ## Phase 4 — Managed execution and scale (weeks 9–10)
 
 ### Week 9 · Managed containers and serverless
+**Slides:** [present on claude.ai](https://claude.ai/artifact/V8rbrxY6wWjzJFq1NUS7Zf) · [Markdown source](../weeks/week-09/slides.md)
+
 **Concepts:** what you stop operating when you move from VM to managed container
 execution; request-scoped lifecycle; cold start and what causes it; why statelessness is
 the price of admission; concurrency settings as a design decision.
@@ -137,6 +160,8 @@ the price of admission; concurrency settings as a design decision.
 **Outcomes:** CLO-1, CLO-2, CLO-5.
 
 ### Week 10 · Horizontal scaling and measurement
+**Slides:** [present on claude.ai](https://claude.ai/artifact/E1xW4c83h31pjPBYtXUv3m) · [Markdown source](../weeks/week-10/slides.md)
+
 **Concepts:** vertical vs horizontal scaling; load distribution; concurrency vs
 parallelism; the relationship between latency, throughput and utilisation; autoscaling as
 a feedback loop with delay — and why that causes overshoot; how to design a bounded,
@@ -151,6 +176,8 @@ execution on latency, throughput, scaling behaviour and operational responsibili
 ## Phase 5 — Asynchrony, failure, delivery (weeks 11–13)
 
 ### Week 11 · Queues and event-driven processing
+**Slides:** [present on claude.ai](https://claude.ai/artifact/VAGuskEQxSoeHzJzHDiW27) · [Markdown source](../weeks/week-11/slides.md)
+
 **Concepts:** why slow work leaves the request path; queues and their delivery guarantees;
 at-least-once delivery and therefore duplicates; retries, backoff and the retry storm;
 idempotency as the property that makes retries safe; dead-letter handling.
@@ -160,6 +187,8 @@ idempotency as the property that makes retries safe; dead-letter handling.
 **Outcomes:** CLO-5.
 
 ### Week 12 · Partial failure, resilience and observability
+**Slides:** [present on claude.ai](https://claude.ai/artifact/HwiGyDnvAywGjA9fEwnqKt) · [Markdown source](../weeks/week-12/slides.md)
+
 **Concepts:** timeouts, retries and their interaction; circuit breaking conceptually;
 graceful degradation; logs vs metrics vs traces and what each answers; service level
 objectives and error budgets at an introductory level.
@@ -171,6 +200,8 @@ controlled failure experiment, and show the evidence you used to explain it.
 `workload-budget.md` reallocates reading time to absorb the proposal.)*
 
 ### Week 13 · Infrastructure as code, environments and delivery pipelines
+**Slides:** [present on claude.ai](https://claude.ai/artifact/3pVwsxchnKFpMtJ5KGjubM) · [Markdown source](../weeks/week-13/slides.md)
+
 The last teaching week, and the densest. It carries what used to be two weeks (D-66).
 
 **Concepts (75 min):** imperative vs declarative provisioning and what Terraform state is;
@@ -199,6 +230,8 @@ difference, deploy through the pipeline, watch a gate hold, tear down and verify
 ## End of semester — final exam and project (weeks 14–15)
 
 ### Week 14 · Final examination and peer review
+**Slides:** [present on claude.ai](https://claude.ai/artifact/ChvS4FJvjkx92WtPkGkzEf) · [Markdown source](../weeks/week-14/slides.md)
+
 No new material.
 
 | Block | Time | Activity |
@@ -214,6 +247,8 @@ project's write-up of its experiments, and the frame for its migration discussio
 **Outcomes:** CLO-2, CLO-5 … CLO-9 (exam evidence), CLO-8 (peer review, ungraded).
 
 ### Week 15 · Demonstration and defence
+**Slides:** [present on claude.ai](https://claude.ai/artifact/FS6cCeNf7JN8Kj1ZZW6ecU) · [Markdown source](../weeks/week-15/slides.md)
+
 The full three hours are used differently from every other week.
 
 | Block | Time | Activity |
@@ -229,23 +264,23 @@ The full three hours are used differently from every other week.
 
 ## Summary table
 
-| Wk | Concept focus | Practical | Quiz / exam | Due | CLOs |
-|---|---|---|---|---|---|
-| 1 | Cloud characteristics, service models, shared responsibility | Environment check + local run | — | — | 1 |
-| 2 | Processes, isolation, VMs, containers, HTTP | Lab 1 start | **Q1** | — | 1, 2 |
-| 3 | Distributed basics, state, latency, failure | Lab 1 finish + **CI set up** | — | **Lab 1** | 2, 3, 5, 9 |
-| 4 | Hierarchy, regions/zones, VMs, identity | Trial activation · Lab 2 start | **Q2** | — | 1, 3 |
-| 5 | Virtual networking, access boundaries, least privilege | Lab 2 finish | — | **Lab 2** | 3 |
-| 6 | Block/file/object/database; durability | Lab 3 start | **Q3** | — | 4 |
-| 7 | Replication, consistency, transactions, choosing | Lab 3 finish | — | **Lab 3** | 4, 5 |
-| 8 | *No new material* | Trial check · lab clinic | **Midterm** | — | 1–4 |
-| 9 | Managed containers, serverless, statelessness | Lab 4 start | **Q4** | — | 1, 2, 5 |
-| 10 | Horizontal scaling, concurrency, latency/throughput | Lab 4 finish + load experiment | — | **Lab 4** | 2, 5, 6 |
-| 11 | Queues, retries, duplicates, idempotency | Lab 5 start · **project brief out** | **Q5** | — | 5 |
-| 12 | Partial failure, resilience, observability, SLOs | Lab 5 finish + failure experiment | — | **Lab 5**, proposal | 5, 6 |
-| 13 | **IaC, environments, delivery pipelines**, keyless identity | Lab 6 (one week) · design review | **Q6** | — | 7, 8, 9 |
-| 14 | *No new material* | Peer review | **Final** | **Lab 6** | 2, 5–9 |
-| 15 | Defence, synthesis, transfer | Demonstrations, cleanup, reflection | — | **Project** | 7, 8 |
+| Wk | Concept focus | Practical | Quiz / exam | Due | CLOs | Slides |
+|---|---|---|---|---|---|---|
+| 1 | Cloud characteristics, service models, shared responsibility | Environment check + local run | — | — | 1 | [deck](https://claude.ai/artifact/Bc9LrKS3qQUSmKod4jhWJW) · [md](../weeks/week-01/slides.md) |
+| 2 | Processes, isolation, VMs, containers, HTTP | Lab 1 start | **Q1** | — | 1, 2 | [deck](https://claude.ai/artifact/Kmfv5f7AJWXtaSmDkSHVQr) · [md](../weeks/week-02/slides.md) |
+| 3 | Distributed basics, state, latency, failure | Lab 1 finish + **CI set up** | — | **Lab 1** | 2, 3, 5, 9 | [deck](https://claude.ai/artifact/S6bTkK7r4R1d1gvJoG4MGU) · [md](../weeks/week-03/slides.md) |
+| 4 | Hierarchy, regions/zones, VMs, identity | Trial activation · Lab 2 start | **Q2** | — | 1, 3 | [deck](https://claude.ai/artifact/8T9hqZG8EMCS84ZpdizsH5) · [md](../weeks/week-04/slides.md) |
+| 5 | Virtual networking, access boundaries, least privilege | Lab 2 finish | — | **Lab 2** | 3 | [deck](https://claude.ai/artifact/AsdYRw31iwvXMdU3yeaPUd) · [md](../weeks/week-05/slides.md) |
+| 6 | Block/file/object/database; durability | Lab 3 start | **Q3** | — | 4 | [deck](https://claude.ai/artifact/7XQupUBwbESPSXDj2Hug3B) · [md](../weeks/week-06/slides.md) |
+| 7 | Replication, consistency, transactions, choosing | Lab 3 finish | — | **Lab 3** | 4, 5 | [deck](https://claude.ai/artifact/Cb7kBoLPQRimc6FEpCyYHG) · [md](../weeks/week-07/slides.md) |
+| 8 | *No new material* | Trial check · lab clinic | **Midterm** | — | 1–4 | [deck](https://claude.ai/artifact/L4KayoWqrhQsRuyHmUDeq2) · [md](../weeks/week-08/slides.md) |
+| 9 | Managed containers, serverless, statelessness | Lab 4 start | **Q4** | — | 1, 2, 5 | [deck](https://claude.ai/artifact/V8rbrxY6wWjzJFq1NUS7Zf) · [md](../weeks/week-09/slides.md) |
+| 10 | Horizontal scaling, concurrency, latency/throughput | Lab 4 finish + load experiment | — | **Lab 4** | 2, 5, 6 | [deck](https://claude.ai/artifact/E1xW4c83h31pjPBYtXUv3m) · [md](../weeks/week-10/slides.md) |
+| 11 | Queues, retries, duplicates, idempotency | Lab 5 start · **project brief out** | **Q5** | — | 5 | [deck](https://claude.ai/artifact/VAGuskEQxSoeHzJzHDiW27) · [md](../weeks/week-11/slides.md) |
+| 12 | Partial failure, resilience, observability, SLOs | Lab 5 finish + failure experiment | — | **Lab 5**, proposal | 5, 6 | [deck](https://claude.ai/artifact/HwiGyDnvAywGjA9fEwnqKt) · [md](../weeks/week-12/slides.md) |
+| 13 | **IaC, environments, delivery pipelines**, keyless identity | Lab 6 (one week) · design review | **Q6** | — | 7, 8, 9 | [deck](https://claude.ai/artifact/3pVwsxchnKFpMtJ5KGjubM) · [md](../weeks/week-13/slides.md) |
+| 14 | *No new material* | Peer review | **Final** | **Lab 6** | 2, 5–9 | [deck](https://claude.ai/artifact/ChvS4FJvjkx92WtPkGkzEf) · [md](../weeks/week-14/slides.md) |
+| 15 | Defence, synthesis, transfer | Demonstrations, cleanup, reflection | — | **Project** | 7, 8 | [deck](https://claude.ai/artifact/FS6cCeNf7JN8Kj1ZZW6ecU) · [md](../weeks/week-15/slides.md) |
 
 **Twelve teaching weeks** (1–7 and 9–13), **one mid-semester exam week** (8), and **two weeks
 at the end** for the final exam and the project (14–15). See D-66.

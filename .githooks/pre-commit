@@ -1,0 +1,5 @@
+#!/bin/sh
+# Refuse a commit that would put private instructor material in this PUBLIC repository.
+# Installed with:  git config core.hooksPath .githooks
+# Checks the working tree as git would publish it; see planning/leakcheck.py.
+exec python3 "$(git rev-parse --show-toplevel)/planning/leakcheck.py"

@@ -107,32 +107,14 @@ else:
     problems.append("course/assessment-plan.md missing")
 
 # ------------------------------------------- 4. nothing that belongs private
-FORBIDDEN = [
-    (re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----"), "private key block"),
-    (re.compile(r'"private_key"\s*:'), "service-account key JSON"),
-    (re.compile(r"\bAIza[0-9A-Za-z_\-]{30,}"), "Google API key"),
-    (re.compile(r"\bya29\.[0-9A-Za-z_\-]{20,}"), "OAuth access token"),
-    (re.compile(r"^#+\s*Answer key", re.I | re.M), "answer key heading"),
-    (re.compile(r"^#+\s*(Model|Expected)\s+answers?", re.I | re.M), "expected-answers heading"),
-    (re.compile(r"^#+\s*(Reference\s+)?Solution\b", re.I | re.M), "solution heading"),
-]
-scanned = 0
-for p in ROOT.rglob("*"):
-    if not p.is_file() or ".git" in p.parts:
-        continue
-    if p.suffix.lower() in {".png", ".jpg", ".jpeg", ".gif", ".pdf", ".zip"}:
-        continue
-    try:
-        body = p.read_text(encoding="utf-8")
-    except (UnicodeDecodeError, OSError):
-        continue
-    scanned += 1
-    if p == Path(__file__):
-        continue  # this file contains the patterns by definition
-    for pat, label in FORBIDDEN:
-        if pat.search(body):
-            problems.append(f"{label} found in {p.relative_to(ROOT)} (this repo is PUBLIC)")
-notes.append(f"files scanned for private content: {scanned}")
+# One implementation, shared with the pre-commit and pre-push hooks (.githooks/): paths,
+# answer-key and credential patterns, and a fingerprint against the private repository.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import leakcheck  # noqa: E402
+
+leak_problems, leak_notes = leakcheck.check(leakcheck.publishable())
+problems.extend(leak_problems)
+notes.extend(f"private content — {n}" for n in leak_notes)
 
 # ------------------------------------------------- 5. every CLO is assessed
 if plan.exists():

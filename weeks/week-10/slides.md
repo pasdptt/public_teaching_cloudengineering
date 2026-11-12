@@ -151,7 +151,7 @@ Guide: "Latency, throughput and utilisation — draw it"
 
 <!--
 On the flat, early part, and they did not know it. Ask: what would have told them?
-Authoring reference, same host, 200 ms delay, 12 requests, one run each: c=1 4.82 req/s p50 208 ms; c=4 19.26 req/s p50 207 ms. Use THEIR numbers if anyone has them; these are not printed in the lab on purpose.
+Use THEIR numbers if anyone has them. The authoring reference run is in the private repository (lab-solutions/lab-01/teaching-notes.md); it is printed nowhere public, because producing their own numbers is the Lab 1 exercise.
 -->
 
 ---

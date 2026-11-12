@@ -41,6 +41,35 @@ An `instructor/` folder inside a public repo is not protection. It is a label.
 
 ---
 
+## The automatic gate
+
+Run this **once per clone**. Git does not copy hook settings when a repository is cloned:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+After that, every commit and every push runs `planning/leakcheck.py` and is refused if it
+finds private material. The check has three parts:
+
+1. **Paths.** It refuses `exam-papers/`, `quiz-keys/`, `lab-solutions/`, `midterm*.md`,
+   `exams/final.md` and `*-key.*`.
+2. **Content.** It refuses answer-key, solution and marking-key headings, and credentials.
+3. **Fingerprint.** It compares this repository against the private one beside it:
+   - any line of 40 or more characters from a key, paper or set of notes is refused;
+   - any file holding most of a reference solution's code is refused.
+
+`audit.py` runs the same check as check 4.
+
+The fingerprint catches text **copied** across, not the same fact **reworded**. In November
+2026 it found Lab 1's reference measurements in `progress.md`. The same numbers, worded
+differently, were also in the week 10 speaker notes, and only a manual grep found those. So
+when you summarise private material here, describe it ("the reference run is in the private
+repository"); do not quote it.
+
+The fingerprint step is skipped, with a note saying so, on any machine without the private
+repository beside this one. The path and content checks still run.
+
 ## Before every push
 
 ```bash

@@ -138,15 +138,12 @@ fill the gap. See R-04.
 
 From `tools/measure.py` against the local server, `DOCAPP_PROCESSING_DELAY_MS=200`, 12
 requests, one run each, client and server on the same host (a Linux container, **not** a
-student laptop):
+student laptop), at concurrency 1 and 4.
 
-| Concurrency | Wall time | Throughput | p50 | p95 |
-|---|---|---|---|---|
-| 1 | 2.489 s | 4.82 req/s | 208.3 ms | 209.0 ms |
-| 4 | 0.623 s | 19.26 req/s | 207.4 ms | 208.4 ms |
-
-**Measured, not illustrative.** Filed in the private repo as pilot evidence. Deliberately
-**not** printed in the student lab — producing their own numbers is the exercise.
+**Measured, not illustrative.** The numbers are in the private repository only
+(`lab-solutions/lab-01/teaching-notes.md`): they are Lab 1's reference result, and producing
+their own is the exercise, so they are printed nowhere public. (They were in this file until
+2026-11-12, when `planning/leakcheck.py` found them.)
 
 ---
 
@@ -421,7 +418,7 @@ Two design choices worth knowing before editing any quiz:
   Windows/macOS mix (D-10). Fixed: Lab 1 now uses `docker top`, which works everywhere, and
   explains the Docker Desktop case. Demo 2 compares two containers from different
   distributions, and the teaching guide turns the mismatched host line into a teaching moment.
-  The Lab 1 instructor notes and the Quiz 2 key accept the Docker Desktop observation.
+  The private Lab 1 notes and Quiz 2 key were updated to match.
   REVIEWED, not executed. **Needs one run on a Mac or Windows laptop before week 2.**
 
 ### Project brief authored (2026-09-30)
@@ -589,6 +586,30 @@ pairs re-checked against WCAG AA; regenerated, previewed and republished to the 
 Four slides are flagged by the converter as probably taller than the 792px they have (week 1
 s39, week 4 s18, week 15 s04 and s11); the Slides viewer shrinks an over-full box's text, so
 they need a look in the real viewer, not a fix in advance.
+
+### Public/private separation audited, and gated (2026-11-12)
+
+Before any midterm material exists, every file in this repository and all 27 pushed commits
+were checked for exam questions, quiz-key text, lab solutions and grading guidance.
+
+- **No key, paper, solution or teaching note has ever been committed.** The private
+  repository has no remote.
+- **One real leak was found and fixed.** Lab 1's reference measurements were in this file
+  and in the week 10 speaker notes, although the lab withholds them on purpose. Both now point
+  to the private teaching notes, and week 10 is republished.
+  - The numbers remain in the history of commits `0ce2e42`, `b5a6a2a` and `5c6932b`. Removing
+    them would mean rewriting public history. They are measured on one machine, so a student
+    could not usefully copy them, and the history was left as it is.
+- **The gate is now automatic.** Its three checks (paths, headings and credentials, and the
+  fingerprint) are described in `operations/publishing-checklist.md`. It runs in the
+  pre-commit and pre-push hooks (`.githooks/`, enabled in this clone) and as `audit.py`
+  check 4. **EXECUTED**: a scratch clone with five planted leaks was tested, and every one
+  was caught and the commit refused:
+  - a quiz key under an innocent name;
+  - a force-added `exams/midterm.md`;
+  - a solution copied over its stub;
+  - a quoted line of teaching notes;
+  - the commit itself.
 
 ### Still to author
 

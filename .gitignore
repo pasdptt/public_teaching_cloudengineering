@@ -11,8 +11,20 @@ instructor/
 **/solution/
 **/solutions/
 *-solution.*
+*_solution.*
 *-key.*
 *answer-key*
+# The private repository's own folders and files, by name, so copying one across by mistake
+# leaves it unstageable. planning/leakcheck.py checks the same names and the content.
+exam-papers/
+quiz-keys/
+lab-solutions/
+pilot-evidence/
+teaching-notes/
+project-guidance.md
+delivery-guide.md
+midterm*.md
+exams/final.md
 
 # Credentials and cloud state — never commit
 *.json.key

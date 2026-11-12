@@ -636,7 +636,8 @@ any quiz not yet sat, is the instructor's decision.
 
 ### The instructor repository gets a private remote (2026-11-12)
 
-The instructor repository is now at `github.com/pasdptt/cloudengineering-instructor`, created
+The instructor repository is now at `github.com/pasdptt/private_teaching_cloudengineering_int`
+(renamed the same day from `cloudengineering-instructor`; the local folder keeps its old name), created
 **private**, and all 11 of its commits are pushed. Before the upload, its full history was
 scanned and contains no credentials, student data or grades.
 

@@ -117,8 +117,11 @@ everything else here rests on.
 - [ ] Every measurement is either real and attributed, or labelled `ILLUSTRATIVE — NOT MEASURED`
 - [ ] Starter code stubs contain a `TODO`, not a commented-out solution
 - [ ] `planning/progress.md` reflects reality, including what has *not* been validated
-- [ ] The private instructor repository has **no public remote**:
-      `git -C ../cloudengineering-instructor remote -v` shows nothing, or a private host
+- [ ] The private instructor repository is still **private**, visible to its owner only:
+      `gh repo view pasdptt/cloudengineering-instructor --json visibility` says `PRIVATE`,
+      and `gh api repos/pasdptt/cloudengineering-instructor/collaborators --jq '.[].login'`
+      lists only the owner. Its own pre-push hook refuses any push to a repository that is
+      not private (enable it per clone: `git config core.hooksPath .githooks`).
 
 ## If something sensitive was committed
 

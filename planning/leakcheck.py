@@ -112,7 +112,10 @@ def check(files: list[str]) -> tuple[list[str], list[str]]:
         return problems, notes
     prose, code = {}, {}
     for p in sorted(PRIVATE.rglob("*")):
-        if not p.is_file() or ".git" in p.parts or p.name in ("README.md", ".gitignore"):
+        # .githooks is the private repository's tooling, not course content; its comments
+        # legitimately share lines with this repository's own hooks.
+        if (not p.is_file() or ".git" in p.parts or ".githooks" in p.parts
+                or p.name in ("README.md", ".gitignore")):
             continue
         body = read(p)
         if body is None:

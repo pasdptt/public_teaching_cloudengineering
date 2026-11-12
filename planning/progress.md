@@ -634,6 +634,23 @@ set from 2026-11-05) until today. The repository had no forks when checked, but 
 have read or cloned it in that time. Whether to rewrite the history, or set new questions for
 any quiz not yet sat, is the instructor's decision.
 
+### The instructor repository gets a private remote (2026-11-12)
+
+The instructor repository is now at `github.com/pasdptt/cloudengineering-instructor`, created
+**private**, and all 11 of its commits are pushed. Before the upload, its full history was
+scanned and contains no credentials, student data or grades.
+
+**EXECUTED** checks:
+- the API reports `PRIVATE`;
+- the owner is the only collaborator;
+- there are no invitations and no deploy keys;
+- it belongs to a personal account, so no organisation members can see it;
+- an anonymous request for the page returns 404.
+
+Its new `.githooks/pre-push` asks GitHub for the target's visibility and refuses any push that
+is not `PRIVATE`. It was tested three ways: it allowed the real remote, refused this public
+repository, and refused a non-GitHub host.
+
 ### Still to author
 
 Midterm and final papers and keys (private, `exam-papers/`) · instructor solutions for Labs 2, 4

@@ -53,7 +53,7 @@ the console is a badly written question.
 | For | Use |
 |---|---|
 | The midterm | Quizzes 1–3 and their feedback; the "Check yourself" questions in the weeks 1–7 notes; your Lab 1–3 predictions, and where they were wrong |
-| The final | Quizzes 4–6 and their feedback; the "Check yourself" questions in the weeks 9–13 notes; [`final-practice.md`](final-practice.md); your Lab 4–6 submissions |
+| The final | Quizzes 4–6 and their feedback; the "Check yourself" questions in the weeks 9–13 notes; the final practice set, handed out in class before week 14; your Lab 4–6 submissions |
 
 ## Status
 

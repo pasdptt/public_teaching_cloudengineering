@@ -39,7 +39,8 @@ calendar was compressed. The project's independent time this week is 105 minutes
 
 - **The paper is in the instructor repository** (`exam-papers/final.md`), with its key. It does
   not exist yet. Start from the former Quiz 7 key, which already carries the CLO-8 design-defence
-  questions (D-56), and from `exams/final-practice.md`, which students will have seen — so the
+  questions (D-56), and from the practice set (private, `exam-papers/final-practice.md`), which students will
+  have been handed — so the
   real paper must use **different scenarios** in the same style.
 - **Coverage:** weeks 1–13, about three quarters from weeks 9–13. One design-defence question
   for CLO-8, about a decision from the student's own Lab 6 or project proposal.
@@ -222,7 +223,8 @@ in a lecture.
 ## Links
 
 - Student notes: `weeks/week-14/student-notes.md`
-- Exam format: `exams/README.md` · practice set: `exams/final-practice.md`
+- Exam format: `exams/README.md` · practice set: private, `exam-papers/final-practice.md` —
+  hand it out before week 14
 - Project: `project/brief.md` · `project/rubric.md` · `project/milestones.md`
 - The rehearsals: `labs/lab-04/rubric.md` band B4 (confounds), `labs/lab-05/rubric.md` band B1
   (proves/does-not-prove) — reuse their language rather than inventing new

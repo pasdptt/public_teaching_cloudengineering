@@ -201,6 +201,14 @@ course; and a first run of the Lab 6 bootstrap script against a real project.
 
 ---
 
+## B12. Assessment papers leave the public repository (2026-11-12)
+
+| ID | Decision | Rationale |
+|---|---|---|
+| D-71 | **Quiz papers and the final practice set are private.** `quizzes/quiz-01…06.md` moved to the instructor repository's `quizzes/`, and `exams/final-practice.md` to its `exam-papers/`. Quizzes are printed for the room; the practice set is handed out before week 14. `exams/README.md` stays public: it states the format, coverage and rules and contains no questions. Supersedes the "student version is public" row of the publishing checklist and the location in D-70. | The instructor's call: a question readable before it is asked is a leaked question. The papers were public from 2026-09-30 to 2026-11-12, so they remain in this repository's history; see `planning/progress.md`. |
+
+---
+
 ## C. Adopted defaults (revisable)
 
 | ID | Default | Why this default | What would change it |

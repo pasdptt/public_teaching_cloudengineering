@@ -239,7 +239,8 @@ not earn marks, whoever or whatever wrote it.
 ## Where things are
 
 `course/` design documents · `weeks/` per-week notes · `labs/` lab briefs and starter code ·
-`quizzes/` · `exams/` · `project/` · `application/` the course application · `infra/` Terraform ·
+`exams/` exam format and rules · `project/` · `application/` the course application · `infra/` Terraform ·
 `operations/` setup, cloud access, cost and cleanup.
 
-Answer keys and solutions are not in this repository.
+Quiz and exam papers, answer keys and solutions are not in this repository. Quizzes are
+handed out in the room.

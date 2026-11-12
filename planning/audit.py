@@ -11,7 +11,7 @@ Checks that can be made mechanically, so they are not re-argued every session:
   5. Every course learning outcome (CLO-1..9) is referenced in the assessment plan.
   6. Every teaching guide's session plan sums to exactly 180 contact minutes, and every
      week has an authored guide and authored student notes.
-  7. Every quiz (six of them) is authored, states the weeks it covers, has question marks that
+  7. Every quiz (six of them; private, D-71) is authored, states the weeks it covers, has question marks that
      add up to its stated total, and Quiz 6 does not reach into same-day infrastructure material.
   8. The two exam weeks (8 and 14) each give a 120-minute block to the exam, and the exam
      format document exists. Twelve teaching weeks is a structural claim (D-66); this is the
@@ -194,9 +194,12 @@ notes.append(f"session plans checked: {guides}/15 · student notes: {notes_check
 QUIZ_TOTAL = re.compile(r"^\*\*(\d+) marks\b", re.M)
 QUESTION_MARKS = re.compile(r"^## Question \d+\b.*\((\d+) marks?\)\s*$", re.M)
 SAME_DAY_Q6 = re.compile(r"\b(terraform|opentofu|tfvars|workspace|drift|state file)\b", re.I)
+# The papers are private (D-71), so this check reads them from the instructor repository when
+# it sits beside this one, and says it was skipped when it does not.
+QUIZ_DIR = leakcheck.PRIVATE / "quizzes"
 quizzes_checked = 0
-for n in range(1, 7):
-    quiz = ROOT / "quizzes" / f"quiz-{n:02d}.md"
+for n in range(1, 7 if QUIZ_DIR.is_dir() else 1):
+    quiz = QUIZ_DIR / f"quiz-{n:02d}.md"
     if not quiz.exists():
         problems.append(f"quiz {n} is missing")
         continue
@@ -219,10 +222,11 @@ for n in range(1, 7):
         for m in sorted({m.group(0).lower() for m in SAME_DAY_Q6.finditer(body)}):
             problems.append(f"quiz 6 uses same-day week 13 material: '{m}'")
     quizzes_checked += 1
-notes.append(f"quizzes authored and consistent: {quizzes_checked}/6")
-if (ROOT / "quizzes" / "quiz-07.md").exists():
+notes.append(f"quizzes authored and consistent: {quizzes_checked}/6" if QUIZ_DIR.is_dir()
+             else f"quizzes: skipped, the papers are private (D-71) and {QUIZ_DIR} is absent")
+if (QUIZ_DIR / "quiz-07.md").exists():
     problems.append("quizzes/quiz-07.md exists, but there are six quizzes (D-66); Quiz 7 became "
-                    "exams/final-practice.md")
+                    "the final practice set")
 
 # ----------------------------------------------------------- 8. exam weeks
 #

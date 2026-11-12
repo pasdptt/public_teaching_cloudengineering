@@ -38,7 +38,10 @@ and never something first encountered in a lab that has not yet been completed.
 | 6 | 13 | 10–12 | CLO-5, CLO-6; CLO-7 and CLO-9 via their threads only |
 
 There is no Quiz 7. It sat in week 14, which is now the final exam; its questions became the
-final exam's practice set (`exams/final-practice.md`, D-70).
+final exam's practice set (D-70), handed out in class before week 14.
+
+Quiz papers and the practice set are kept in the instructor repository and printed for the
+room, so no question is readable before it is asked (D-71).
 
 Each quiz's opening line states the weeks it draws on, so students can prepare honestly
 inside the 30-minute reading budget.

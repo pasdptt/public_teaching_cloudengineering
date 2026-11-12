@@ -181,7 +181,7 @@ preparation available for week 15, where somebody will ask you these questions o
 | | |
 |---|---|
 | Read these notes | 15 min |
-| Final-exam revision: Quizzes 4–6 and their feedback, `exams/final-practice.md`, your Lab 4–6 predictions | 60 min |
+| Final-exam revision: Quizzes 4–6 and their feedback, the final practice set handed out in class, your Lab 4–6 predictions | 60 min |
 | Project: the experiment you run, and the design of the one you do not (`project/brief.md` Part 3) | 105 min |
 
 **Your experiment should be running by the end of this week.** A working system with no

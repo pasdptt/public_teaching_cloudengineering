@@ -104,8 +104,8 @@ log output for `demo-1`. That is the mechanism Lab 1 Part 1 asks them to use.
 
 ## Quiz 1 (15 min, week 1 material)
 
-Outcomes CLO-1 and CLO-2 (introductory). Student version in `quizzes/quiz-01.md`; key in the
-private repository. Scenario-based: an incident to attribute across the responsibility
+Outcomes CLO-1 and CLO-2 (introductory). Paper (`quizzes/quiz-01.md`) and key
+(`quiz-keys/`) are in the private repository; print the paper for the room. Scenario-based: an incident to attribute across the responsibility
 boundary, a statement about elasticity or metering to correct, a service-model placement.
 
 **No service names, no pricing trivia, no console menus.**

@@ -611,6 +611,29 @@ were checked for exam questions, quiz-key text, lab solutions and grading guidan
   - a quoted line of teaching notes;
   - the commit itself.
 
+### Quiz papers and the final practice set made private (2026-11-12, D-71)
+
+At the instructor's request:
+
+- **Moved.** `quizzes/quiz-01…06.md` are now in the instructor repository's `quizzes/`, and
+  `exams/final-practice.md` is in its `exam-papers/`. Both copies were checked byte for byte
+  before the public files were removed.
+- **Kept public.** `exams/README.md` gives the format, coverage and rules, and contains no
+  questions.
+- **References.** Every public reference now points to the private copy or says the paper is
+  handed out in class.
+- **Checks.**
+  - `audit.py` check 7 reads the quiz papers from the private repository, and reports that it
+    skipped them when that repository is absent.
+  - `leakcheck.py` and `.gitignore` refuse `quizzes/`, `quiz-NN.md` and the practice set.
+- **EXECUTED.** A quiz paper restored to its old path was refused by both name and content. A
+  single quiz question pasted into the week 5 notes was refused by the fingerprint.
+
+**Still public in history.** The papers were in pushed commits from 2026-09-30 (the practice
+set from 2026-11-05) until today. The repository had no forks when checked, but anyone could
+have read or cloned it in that time. Whether to rewrite the history, or set new questions for
+any quiz not yet sat, is the instructor's decision.
+
 ### Still to author
 
 Midterm and final papers and keys (private, `exam-papers/`) · instructor solutions for Labs 2, 4

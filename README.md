@@ -31,8 +31,7 @@ planning/      Decision log, open questions, authoring progress, calendar worksh
 course/        Syllabus, outcomes, weekly schedule, workload budget, assessment plan
 weeks/         Per-week teaching guide + student notes (week-01 … week-15)
 labs/          Six substantial labs (lab-01 … lab-06): brief, rubric, starter code
-quizzes/       Six short quizzes, student versions only
-exams/         Midterm and final: format, coverage, practice questions (papers are private)
+exams/         Midterm and final: format, coverage and rules (quiz and exam papers are private)
 project/       Integrative project brief, milestones, rubric
 application/   The single Python application the whole course builds on
 infra/         Terraform configurations used from Lab 6 onwards

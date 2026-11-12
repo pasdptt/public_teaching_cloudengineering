@@ -3,14 +3,14 @@
 
     python3 planning/leakcheck.py          # exit 1 and name the file if anything leaks
 
-This repository is PUBLIC (D-01). Exam papers, quiz keys, lab solutions, teaching notes and
+This repository is PUBLIC (D-01). Quiz and exam papers, quiz keys, lab solutions, teaching notes and
 grading guidance live in ../cloudengineering-instructor and must never appear here, because
 a leaked key stays readable in every clone and fork for good.
 
 Three independent checks, run over every file git would publish (tracked, plus untracked
 files that are not ignored):
 
-1. Paths.    No file may sit where private material lives (exam-papers/, quiz-keys/, ...) or
+1. Paths.    No file may sit where private material lives (exam-papers/, quizzes/, quiz-keys/, ...) or
              carry a private-looking name (midterm*.md, *-key.*, *solution*).
 2. Content.  No answer-key, expected-answer or solution heading, and no credential.
 3. Fingerprint. When the private repository is present beside this one, no line of its prose
@@ -35,10 +35,12 @@ ROOT = Path(__file__).resolve().parents[1]
 PRIVATE = Path(os.environ.get("CLOUDENG_PRIVATE", ROOT.parent / "cloudengineering-instructor"))
 
 PRIVATE_DIRS = ("exam-papers", "quiz-keys", "lab-solutions", "pilot-evidence", "teaching-notes",
-                "instructor", "solution", "solutions")
+                "instructor", "solution", "solutions", "quizzes")     # quiz papers too (D-71)
 PRIVATE_NAMES = [
     re.compile(r"(^|/)midterm[^/]*\.(md|pdf|docx?)$", re.I),
-    re.compile(r"(^|/)exams/final\.(md|pdf|docx?)$", re.I),       # the paper; final-practice.md is public
+    re.compile(r"(^|/)exams/final\.(md|pdf|docx?)$", re.I),       # the final paper
+    re.compile(r"(^|/)(final-)?practice[^/]*\.(md|pdf|docx?)$", re.I),   # the practice set (D-71)
+    re.compile(r"(^|/)quiz-\d+\.(md|pdf|docx?)$", re.I),            # a quiz paper (D-71)
     re.compile(r"-key\.[a-z]+$", re.I),
     re.compile(r"answer[-_ ]?key", re.I),
     re.compile(r"solution", re.I),

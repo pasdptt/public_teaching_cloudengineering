@@ -652,6 +652,33 @@ Its new `.githooks/pre-push` asks GitHub for the target's visibility and refuses
 is not `PRIVATE`. It was tested three ways: it allowed the real remote, refused this public
 repository, and refused a non-GitHub host.
 
+### Week folders rearranged for students (2026-11-13, D-72)
+
+Each `weeks/week-NN/` now opens with a README of what to read, what to do and what is due.
+The week folder holds:
+
+- the student notes and slides;
+- the lab that starts that week;
+- the exam rules, in week 8;
+- the project, in week 11.
+
+The teaching guides moved to `course/teaching-guides/`. There were 68 moves, all made with
+`git mv`, so each file keeps its history. References were rewritten in both repositories from
+one path map: Markdown links were re-resolved from each file's old location, and bare paths
+replaced as text.
+
+- **Starter scripts.** They moved one folder deeper. Their paths to `application/` and
+  `infra/` gained a `../`, in 4 scripts and in the `cd` commands in 2 lab READMEs and 2
+  decks. Each was echo-tested from its new place, and all 26 scripts pass `bash -n`.
+  REVIEWED and path-tested, not run against a cloud project.
+- **Week READMEs.** They are generated from the schedule's summary table, the workload
+  budget and the deck links, so they carry the same facts as the schedule.
+- **Decks.** Every cover slide's speaker note names its guide path, so 26 slides across the
+  15 decks were regenerated and republished to the same links.
+- **Audit.** New check 10 fails on any retired path or reference, and failed first (120
+  problems) before the move. Checks 6 and 8 read the new locations. Audit, leak check and
+  170 relative links are clean.
+
 ### Still to author
 
 Midterm and final papers and keys (private, `exam-papers/`) · instructor solutions for Labs 2, 4

@@ -52,10 +52,10 @@ order students actually get caught:
 | Lab | Script | The one to watch |
 |---|---|---|
 | 1 | `rm -rf application/data`; `docker rmi docapp:lab1` | Nothing billable. The habit only. |
-| 2 | `labs/lab-02/starter/05-teardown.sh` then `06-verify-clean.sh` | Boot disk; any address you reserved |
+| 2 | `weeks/week-04/lab-02/starter/05-teardown.sh` then `06-verify-clean.sh` | Boot disk; any address you reserved |
 | 3 | manual — the commands are in the lab | Bucket contents and object versions; the Firestore database |
-| 4 | `labs/lab-04/starter/06-teardown.sh` then `07-verify-clean.sh` | **Old images in Artifact Registry** — invisible from the Cloud Run console; also the runtime service account |
-| 5 | `labs/lab-05/starter/06-teardown.sh` then `07-verify-clean.sh` | **The subscription, deleted first** — an abandoned one retains messages and bills for them. Also a second service account, and two topics |
+| 4 | `weeks/week-09/lab-04/starter/06-teardown.sh` then `07-verify-clean.sh` | **Old images in Artifact Registry** — invisible from the Cloud Run console; also the runtime service account |
+| 5 | `weeks/week-11/lab-05/starter/06-teardown.sh` then `07-verify-clean.sh` | **The subscription, deleted first** — an abandoned one retains messages and bills for them. Also a second service account, and two topics |
 | 6 | `terraform destroy` for **each** environment, then verify | State says it is gone; verify independently that it is. Then registry images and the Cloud Build staging bucket. The deployer account, WIF pool and **state bucket (last)** are kept for the project and removed in **week 15** |
 
 ## Verifying by hand

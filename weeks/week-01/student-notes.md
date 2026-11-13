@@ -174,7 +174,7 @@ choice, and what it buys.
 | Run the environment check and fix what it reports | 30 min |
 | Run the application, try each endpoint, read `application/README.md` | 60 min |
 | Read `course/syllabus.md` properly, including the cost section | 30 min |
-| Skim `labs/lab-01/README.md` so you know what is coming | 30 min |
+| Skim `weeks/week-02/lab-01/README.md` so you know what is coming | 30 min |
 
 Nothing is graded this week. The environment check is not optional anyway: it is how we find
 out, while it is still cheap, whether your machine can do what the course needs.

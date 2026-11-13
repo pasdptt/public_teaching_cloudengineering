@@ -28,11 +28,12 @@ deployment behaves as it does — not only to reproduce a sequence of console cl
 
 ```text
 planning/      Decision log, open questions, authoring progress, calendar worksheet
-course/        Syllabus, outcomes, weekly schedule, workload budget, assessment plan
-weeks/         Per-week teaching guide + student notes (week-01 … week-15)
-labs/          Six substantial labs (lab-01 … lab-06): brief, rubric, starter code
-exams/         Midterm and final: format, coverage and rules (quiz and exam papers are private)
-project/       Integrative project brief, milestones, rubric
+course/        Syllabus, outcomes, weekly schedule, workload budget, assessment plan,
+               and the instructor's teaching guides (course/teaching-guides/week-NN.md)
+weeks/         Start here: one folder per week (week-01 … week-15), each opening with a
+               README of what to read, what to do and what is due, plus the student notes
+               and slides. Each lab lives in the week it starts (week-02/lab-01 … week-13/
+               lab-06); the exam rules are in week-08/exams.md; the project is in week-11/project/
 application/   The single Python application the whole course builds on
 infra/         Terraform configurations used from Lab 6 onwards
 operations/    Student setup, cloud access & fallback, cost model, cleanup

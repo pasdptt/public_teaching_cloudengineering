@@ -6,7 +6,7 @@ footer: 'Week 11 · Queues and event-driven processing'
 ---
 
 <!--
-Deck for week 11. Derived from weeks/week-11/teaching-guide.md — that file is authoritative
+Deck for week 11. Derived from course/teaching-guides/week-11.md — that file is authoritative
 for the teaching; this is what goes on the wall.
 
 Render:  bash course/slides/render.sh 11
@@ -22,8 +22,8 @@ Cloud Computing: Principles and Practice
 
 <!--
 TIMING: 180 min total — 95 concepts · 15 quiz · 60 practical · 10 break.
-Guide: weeks/week-11/teaching-guide.md
-Before you start: Quiz 5 printed. A student's Lab 4 table, with permission, ready to project. application/docapp/service.py open at run_job. project/brief.md ready to release in the last ten minutes.
+Guide: course/teaching-guides/week-11.md
+Before you start: Quiz 5 printed. A student's Lab 4 table, with permission, ready to project. application/docapp/service.py open at run_job. weeks/week-11/project/brief.md ready to release in the last ten minutes.
 -->
 
 ---
@@ -388,7 +388,7 @@ The base64 trap catches about half the room. Push them to finish all fourteen in
 
 ## The project brief — released today
 
-Read `project/brief.md` and `project/milestones.md` this week.
+Read `weeks/week-11/project/brief.md` and `weeks/week-11/project/milestones.md` this week.
 
 - The deployment path **comes from Lab 6**. Do not rebuild it.
 - **The proposal is due at the end of week 12**, with Lab 5 — the tightest week in the course.

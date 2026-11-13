@@ -64,7 +64,7 @@ recommended default and a documented alternative, and the fallback (no container
 ### Q-05 · AI-use policy
 **Owner:** instructor / academic committee — this is a policy decision, not a design one
 **Blocks:** the project brief and every rubric's communication criterion.
-**Proposal to review** (drafted in `project/brief.md` once authored): assistance permitted
+**Proposal to review** (drafted in `weeks/week-11/project/brief.md` once authored): assistance permitted
 for code and prose, disclosure required, and individual oral explanation of an
 architectural decision used as the check on understanding. That oral check is already in
 the design (A-11, D-16), so the policy mainly decides the disclosure format.

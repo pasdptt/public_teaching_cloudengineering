@@ -128,7 +128,7 @@ rubric's reproducibility/security/resource-handling band.
 | Every quiz maps only to outcomes already taught | ✅ verified in `assessment-plan.md` |
 | Every CLO is assessed by something other than a quiz | ✅ each has a lab or project artefact |
 | CLO-9 is taught before it is assessed | ✅ practised from week 3 as a thread (D-23); taught in week 13; assessed in Quiz 6 (thread only), Lab 6, the final exam (week 14) and the project |
-| Every exam covers only completed labs | ✅ midterm after Lab 3 closes, final after Lab 6 is due (`exams/README.md`) |
+| Every exam covers only completed labs | ✅ midterm after Lab 3 closes, final after Lab 6 is due (`weeks/week-08/exams.md`) |
 | No CLO depends on resources the course cannot guarantee | ✅ CLO-3 … CLO-7 have documented local fallbacks (`operations/cloud-access-and-fallback.md`) |
 
 ---

@@ -6,7 +6,7 @@ footer: 'Week 5 · Networking and access boundaries'
 ---
 
 <!--
-Deck for week 5. Derived from weeks/week-05/teaching-guide.md — that file is authoritative
+Deck for week 5. Derived from course/teaching-guides/week-05.md — that file is authoritative
 for the teaching; this is what goes on the wall.
 
 Render:  bash course/slides/render.sh 05
@@ -22,7 +22,7 @@ Cloud Computing: Principles and Practice
 
 <!--
 TIMING: 180 min total — 90 concepts · 30 discussion · 60 practical. No break row: take one inside the firewall block, the longest.
-Guide: weeks/week-05/teaching-guide.md
+Guide: course/teaching-guides/week-05.md
 Before you start: a VM up for the refused-vs-hung demo, or recorded output (and say so). Lab 2 is due at the end of the week, with graded teardown verification.
 -->
 

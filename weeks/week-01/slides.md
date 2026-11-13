@@ -6,7 +6,7 @@ footer: 'Week 1 · What makes a cloud'
 ---
 
 <!--
-Deck for week 1. Derived from weeks/week-01/teaching-guide.md — that file is authoritative
+Deck for week 1. Derived from course/teaching-guides/week-01.md — that file is authoritative
 for the teaching; this is what goes on the wall.
 
 Presenter notes carry only what you need while standing up: the commands to type, the timing
@@ -25,7 +25,7 @@ Cloud Computing: Principles and Practice
 
 <!--
 TIMING: 180 min total — 85 concepts · 25 discussion · 60 practical · 10 break.
-Guide: weeks/week-01/teaching-guide.md
+Guide: course/teaching-guides/week-01.md
 Before you start: have the env-check command ready in a terminal, and the running order
 of the practical block in mind. No assessment this week; Quiz 1 next week covers it.
 -->

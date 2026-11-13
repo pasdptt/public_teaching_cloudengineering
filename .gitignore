@@ -83,10 +83,10 @@ Thumbs.db
 
 # Student lab config (holds a project id). One line per lab rather than a glob, so that
 # adding a lab is a deliberate act and a stray config.env somewhere else is still visible.
-labs/lab-02/starter/config.env
-labs/lab-04/starter/config.env
-labs/lab-05/starter/config.env
-labs/lab-06/starter/config.env
+weeks/week-04/lab-02/starter/config.env
+weeks/week-09/lab-04/starter/config.env
+weeks/week-11/lab-05/starter/config.env
+weeks/week-13/lab-06/starter/config.env
 
 # Rendered slide decks. The markdown is the authority (D-65).
 course/slides/out/

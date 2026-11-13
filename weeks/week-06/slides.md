@@ -6,7 +6,7 @@ footer: 'Week 6 · Storage abstractions'
 ---
 
 <!--
-Deck for week 6. Derived from weeks/week-06/teaching-guide.md — that file is authoritative
+Deck for week 6. Derived from course/teaching-guides/week-06.md — that file is authoritative
 for the teaching; this is what goes on the wall.
 
 Render:  bash course/slides/render.sh 06
@@ -22,7 +22,7 @@ Cloud Computing: Principles and Practice
 
 <!--
 TIMING: 180 min total — 85 concepts · 15 quiz · 10 discussion · 60 practical · 10 break.
-Guide: weeks/week-06/teaching-guide.md
+Guide: course/teaching-guides/week-06.md
 Before you start: check the billing report. Anyone over $1 has left something running from Lab 2 — have that conversation first.
 -->
 

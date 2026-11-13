@@ -137,7 +137,7 @@ a late lab compounds. A per-lab grace window is preferable to an open late polic
 
 Two written examinations of **120 minutes**, sat in the room during the session: the
 **midterm in week 8** (15%) and the **final in week 14** (15%). Format, coverage and allowed
-materials are in [`exams/README.md`](../exams/README.md); the papers and their keys are in the
+materials are in [`weeks/week-08/exams.md`](../weeks/week-08/exams.md); the papers and their keys are in the
 instructor repository and never in this one.
 
 | Exam | Week | Covers weeks | Outcomes |

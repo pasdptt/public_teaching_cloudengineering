@@ -6,7 +6,7 @@ footer: 'Week 2 · Processes, isolation, containers'
 ---
 
 <!--
-Deck for week 2. Derived from weeks/week-02/teaching-guide.md, which is authoritative.
+Deck for week 2. Derived from course/teaching-guides/week-02.md, which is authoritative.
 Two live demos carry this session and both must be rehearsed ON THE LAPTOP YOU PRESENT FROM.
 
 Render:  bash course/slides/render.sh 02
@@ -22,7 +22,7 @@ Quiz 1 today · Lab 1 starts
 
 <!--
 TIMING: 180 min — 85 concepts · 15 quiz · 10 discussion · 60 practical · 10 break.
-Guide: weeks/week-02/teaching-guide.md
+Guide: course/teaching-guides/week-02.md
 REHEARSE DEMO 2 BEFORE THE SESSION. On macOS/Windows the host kernel line does NOT match,
 and you need to be ready to explain why rather than look surprised.
 -->

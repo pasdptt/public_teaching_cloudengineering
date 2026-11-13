@@ -191,7 +191,7 @@ it safe as a distribution format even though this repository's history is clean 
 | Quiz paper (what students sit) | private, `quizzes/` — printed for the room (D-71) |
 | Quiz key with reasoning and partial credit | private, `quiz-keys/` |
 | Exam papers, keys, and the final practice set | private, `exam-papers/` |
-| Weekly teaching guide | public, `weeks/week-NN/` (D-12) |
+| Weekly teaching guide | public, `course/teaching-guides/week-NN.md` (D-12, D-72) |
 | Delivery notes, prep and grading time estimates | private, `delivery-guide.md` |
 | Real measurements from a pilot run | private, `pilot-evidence/` |
 | Cost estimates | public — they are estimates, and students need them |

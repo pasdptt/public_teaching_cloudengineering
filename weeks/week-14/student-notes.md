@@ -1,11 +1,11 @@
 # Week 14 — Final examination, peer review, and synthesis reading
 
 **The final exam is this week**, in the session: 120 minutes, cumulative, weighted towards
-weeks 9–13 ([`exams/README.md`](../../exams/README.md)). **Lab 6 is due at the start of the
+weeks 9–13 ([`weeks/week-08/exams.md`](../week-08/exams.md)). **Lab 6 is due at the start of the
 session.** After the exam and a break, you will **peer-review another group's project**.
 
 **These notes are not lectured and not examined.** They are the method for the peer review,
-the standard your project's experiment write-up is marked against (`project/rubric.md` C3),
+the standard your project's experiment write-up is marked against (`weeks/week-11/project/rubric.md` C3),
 and the frame for its migration discussion (A3) and for week 15's synthesis. Read them before
 the session; the peer review assumes you have.
 
@@ -182,10 +182,10 @@ preparation available for week 15, where somebody will ask you these questions o
 |---|---|
 | Read these notes | 15 min |
 | Final-exam revision: Quizzes 4–6 and their feedback, the final practice set handed out in class, your Lab 4–6 predictions | 60 min |
-| Project: the experiment you run, and the design of the one you do not (`project/brief.md` Part 3) | 105 min |
+| Project: the experiment you run, and the design of the one you do not (`weeks/week-11/project/brief.md` Part 3) | 105 min |
 
 **Your experiment should be running by the end of this week.** A working system with no
-measurements scores poorly — `project/rubric.md` puts 25% on experiments and interpretation,
+measurements scores poorly — `weeks/week-11/project/rubric.md` puts 25% on experiments and interpretation,
 the same weight as architecture.
 
 **Check your trial's expiry date now**, and check your resources are what you think they are.

@@ -6,7 +6,7 @@ footer: 'Week 14 · Final exam and peer review'
 ---
 
 <!--
-Logistics deck for week 14. No lecture this week. Derived from weeks/week-14/teaching-guide.md,
+Logistics deck for week 14. No lecture this week. Derived from course/teaching-guides/week-14.md,
 which is authoritative.
 
 Render:  bash course/slides/render.sh 14
@@ -22,7 +22,7 @@ Cloud Computing: Principles and Practice
 
 <!--
 TIMING: 180 min total — 120 exam · 10 break · 50 peer review. No new material.
-Guide: weeks/week-14/teaching-guide.md
+Guide: course/teaching-guides/week-14.md
 Lab 6 is due at the start of this session. Students bring a copy of their project-so-far for the peer review (announced in week 13).
 -->
 

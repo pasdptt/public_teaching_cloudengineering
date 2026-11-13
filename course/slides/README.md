@@ -95,7 +95,7 @@ change in the Markdown.
 
 ## The convention
 
-Decks are derived from `weeks/week-NN/teaching-guide.md`, which stays authoritative for the
+Decks are derived from `course/teaching-guides/week-NN.md`, which stays authoritative for the
 teaching. The deck is **what goes on the wall**; the guide is what you teach from. When they
 disagree, the guide is right and the deck is stale.
 

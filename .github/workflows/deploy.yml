@@ -99,7 +99,7 @@ jobs:
       # --- 1. Authenticate, without a key -------------------------------------------------
       #
       # TODO(lab06): fill in the two values below from the Workload Identity Federation pool
-      # created in Part 4 -- labs/lab-06/starter/01-bootstrap-pipeline.sh prints both. Both are configuration, not secrets -- they identify a trust
+      # created in Part 4 -- weeks/week-13/lab-06/starter/01-bootstrap-pipeline.sh prints both. Both are configuration, not secrets -- they identify a trust
       # relationship, they do not grant anything on their own. The trust only works for the
       # repository named in the pool's attribute condition, which is what makes publishing
       # them safe.

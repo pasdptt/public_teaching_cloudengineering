@@ -6,12 +6,15 @@ the **final exam and project** in weeks 14–15 (D-66). Real dates come from `pl
 Session envelope every week: **~90 min concepts · ~30 min discussion or quiz · 60 min guided
 practical**, totalling the 180-minute contact block. Quizzes take discussion time, never extra
 time. Most weeks also spend 10 of those minutes on a break, which comes out of the concept
-allowance and leaves ~80–90 — so the per-week plans in `weeks/*/teaching-guide.md` are the
+allowance and leaves ~80–90 — so the per-week plans in `course/teaching-guides/week-NN.md` are the
 authoritative arithmetic, and `planning/audit.py` checks that each one sums to exactly 180.
 
 Threads that run through the whole course rather than sitting in one week: identity and
 least privilege, cost awareness, cleanup, and observability. Each is introduced with the
 first cloud lab (week 4) and revisited, with a dedicated treatment where the table says so.
+
+For students, each week's own folder opens with a README of what to read, do and hand in
+(`weeks/week-NN/README.md`); this schedule is the plan behind it.
 
 Every week links its slides twice: **present on claude.ai** opens the presentable deck, and
 **Markdown source** is the file it is generated from, which is the one to edit. The claude.ai
@@ -132,7 +135,7 @@ execution, scale, asynchrony and delivery.
 
 | Block | Time | Activity |
 |---|---|---|
-| Midterm examination | 120 min | Written, in the room. Weeks 1–7: CLO-1 … CLO-4, and CLO-5 foundations. Format in `exams/README.md` |
+| Midterm examination | 120 min | Written, in the room. Weeks 1–7: CLO-1 … CLO-4, and CLO-5 foundations. Format in `weeks/week-08/exams.md` |
 | Break | 10 min | |
 | Trial and cost check | 20 min | Everyone opens their billing page and states their remaining credit and days. Anyone with a running resource from Labs 2–3 finds out why |
 | Lab clinic | 30 min | Outstanding Lab 3 problems and Lab 4 pre-flight (container builds locally). No new content |
@@ -236,7 +239,7 @@ No new material.
 
 | Block | Time | Activity |
 |---|---|---|
-| Final examination | 120 min | Written, in the room. Cumulative, weighted towards weeks 9–13: CLO-2, CLO-5, CLO-6, CLO-7, CLO-9, and one design-defence question for CLO-8. Format in `exams/README.md` |
+| Final examination | 120 min | Written, in the room. Cumulative, weighted towards weeks 9–13: CLO-2, CLO-5, CLO-6, CLO-7, CLO-9, and one design-defence question for CLO-8. Format in `weeks/week-08/exams.md` |
 | Break | 10 min | |
 | Structured peer review | 50 min | Four written questions on another group's architecture and evidence, answered in silence; the author may not defend (D-49) |
 

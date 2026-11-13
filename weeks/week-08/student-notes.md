@@ -2,7 +2,7 @@
 
 **The midterm is this week**, in the session: 120 minutes, written, covering weeks 1–7 and
 Labs 1–3. No new material, and no lab is open. Format and allowed materials:
-[`exams/README.md`](../../exams/README.md).
+[`weeks/week-08/exams.md`](exams.md).
 
 ---
 

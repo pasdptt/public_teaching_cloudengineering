@@ -209,6 +209,12 @@ course; and a first run of the Lab 6 bootstrap script against a real project.
 
 ---
 
+## B13. Each week's folder is a student's starting point (2026-11-13)
+
+| ID | Decision | Rationale |
+|---|---|---|
+| D-72 | **`weeks/week-NN/` holds everything a student needs that week**, opening with a `README.md` of what to read, what to do and what is due. Each lab moves into the week it starts: Lab 1 in week 2, Lab 2 in week 4, Lab 3 in week 6, Lab 4 in week 9, Lab 5 in week 11, and Lab 6 in week 13. `exams/README.md` becomes `weeks/week-08/exams.md`, and `project/` becomes `weeks/week-11/project/`. The teaching guides leave the week folders for `course/teaching-guides/week-NN.md`; they stay public, which keeps D-12's rule and changes only its location. `application/`, `infra/`, `.github/` and `operations/` stay course-wide. `audit.py` check 10 fails if anything is at, or points to, a retired path. | The instructor's call: material was scattered, and the student's question each week is "what do I read, do, and hand in". Design in `planning/2026-11-13-week-folders-design.md`. Starter scripts now sit one level deeper, so their paths to `application/` gained a `../`. |
+
 ## C. Adopted defaults (revisable)
 
 | ID | Default | Why this default | What would change it |

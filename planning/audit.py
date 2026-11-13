@@ -136,7 +136,7 @@ guides = 0
 notes_checked = 0
 for wk in range(1, 16):
     week_dir = ROOT / "weeks" / f"week-{wk:02d}"
-    guide = week_dir / "teaching-guide.md"
+    guide = ROOT / "course" / "teaching-guides" / f"week-{wk:02d}.md"   # D-72
     student_notes = week_dir / "student-notes.md"
 
     # Student notes are checked for existence and for having been authored, but not for
@@ -149,7 +149,7 @@ for wk in range(1, 16):
         notes_checked += 1
 
     if not guide.exists():
-        problems.append(f"week {wk:02d} has no teaching-guide.md")
+        problems.append(f"week {wk:02d} has no course/teaching-guides/week-{wk:02d}.md")
         continue
     text = guide.read_text(encoding="utf-8")
     if PLACEHOLDER in text:
@@ -232,11 +232,11 @@ if (QUIZ_DIR / "quiz-07.md").exists():
 #
 # D-66 cut teaching to twelve weeks by giving weeks 8 and 14 to written exams. If either
 # week's session plan stops giving the exam its 120 minutes, teaching has crept back in.
-exam_doc = ROOT / "exams" / "README.md"
+exam_doc = ROOT / "weeks" / "week-08" / "exams.md"   # D-72: the exam rules live in week 8
 if not exam_doc.exists():
-    problems.append("exams/README.md is missing (exam format, D-68)")
+    problems.append("weeks/week-08/exams.md is missing (exam format, D-68)")
 for wk in (8, 14):
-    guide = ROOT / "weeks" / f"week-{wk:02d}" / "teaching-guide.md"
+    guide = ROOT / "course" / "teaching-guides" / f"week-{wk:02d}.md"
     if not guide.exists():
         continue  # already reported by check 6
     rows = [ln for ln in guide.read_text(encoding="utf-8").splitlines()
@@ -283,6 +283,39 @@ for deck in decks:
     if (ROOT / "course" / "slides" / "theme.css").exists() is False:
         problems.append("course/slides/theme.css is missing but decks reference it")
 notes.append(f"slide decks checked: {len(decks)} (timings must sum to 180)")
+
+# ----------------------------------------------- 10. retired paths (D-72)
+# Each week folder is a student's starting point: its lab, the exam rules and the project
+# live inside the weeks, and the teaching guides live in course/teaching-guides/. Nothing may
+# remain at, or point to, the old places. The history files keep old paths on purpose.
+RETIRED_DIRS = ["labs", "exams", "project"]
+RETIRED_REF = re.compile(r"\b(labs/lab-0\d|exams/README\.md|(?<!week-11/)(?<!\()project/(brief|rubric|milestones)\.md"
+                         r"|weeks/week-\d\d/teaching-guide\.md)")
+HISTORY = {"planning/progress.md", "planning/decisions.md",
+           "planning/2026-11-13-week-folders-design.md", "planning/2026-11-13-week-folders-plan.md"}
+for d in RETIRED_DIRS:
+    if (ROOT / d).exists():
+        problems.append(f"{d}/ still exists; its contents belong in the week folders (D-72)")
+for g in sorted((ROOT / "weeks").glob("week-*/teaching-guide.md")):
+    problems.append(f"{g.relative_to(ROOT)} still exists; guides live in course/teaching-guides/")
+history_hits = 0
+for f in leakcheck.publishable():
+    if f.startswith("course/slides/artifact/") or not f.endswith((".md", ".sh", ".yml", ".py", ".tf", ".txt")) \
+            and not f.endswith(".gitignore"):
+        continue
+    if f == "planning/audit.py":
+        continue   # holds the pattern by definition
+    try:
+        lines = (ROOT / f).read_text(encoding="utf-8").splitlines()
+    except (UnicodeDecodeError, OSError):
+        continue
+    for i, line in enumerate(lines, 1):
+        if RETIRED_REF.search(line):
+            if f in HISTORY:
+                history_hits += 1
+            else:
+                problems.append(f"{f}:{i}: refers to a retired path: {RETIRED_REF.search(line).group(0)}")
+notes.append(f"retired paths: checked ({history_hits} mentions kept in history files)")
 
 # ------------------------------------------------------------------ report
 print("Course repository audit")

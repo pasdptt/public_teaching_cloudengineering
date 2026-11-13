@@ -6,7 +6,7 @@ footer: 'Week 8 · Midterm'
 ---
 
 <!--
-Logistics deck for week 8. No lecture this week. Derived from weeks/week-08/teaching-guide.md,
+Logistics deck for week 8. No lecture this week. Derived from course/teaching-guides/week-08.md,
 which is authoritative.
 
 Render:  bash course/slides/render.sh 08
@@ -22,7 +22,7 @@ Cloud Computing: Principles and Practice
 
 <!--
 TIMING: 180 min total — 120 exam · 10 break · 20 trial check · 30 lab clinic. No new material.
-Guide: weeks/week-08/teaching-guide.md
+Guide: course/teaching-guides/week-08.md
 Before you start: papers counted, the room's clock visible, this deck on the wall during the exam showing the rules slide.
 -->
 

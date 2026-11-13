@@ -6,7 +6,7 @@ footer: 'Week 3 · State, latency, failure'
 ---
 
 <!--
-Deck for week 3. Derived from weeks/week-03/teaching-guide.md, which is authoritative.
+Deck for week 3. Derived from course/teaching-guides/week-03.md, which is authoritative.
 "Slow vs dead" is the centre of the week and the centre of this deck — do not rush it to
 reach the practical.
 
@@ -23,7 +23,7 @@ Lab 1 is due at the end of this week
 
 <!--
 TIMING: 180 min — 90 concepts · 20 discussion · 60 practical · 10 break.
-Guide: weeks/week-03/teaching-guide.md
+Guide: course/teaching-guides/week-03.md
 Have the application running with a document already created, for the idempotency demo.
 -->
 

@@ -118,7 +118,7 @@ A **midterm in week 8** covering weeks 1–7, and a **final in week 14**, cumula
 towards weeks 9–13. Both are 120 minutes, written, in the room. Neither week teaches new
 material. They ask what the quizzes ask, at more length: explain a mechanism, interpret a
 measurement, trace a request, defend a choice. Format and allowed materials:
-`exams/README.md`.
+`weeks/week-08/exams.md`.
 
 ### Project
 
@@ -171,7 +171,7 @@ Architecture and reasoning 25% · functional implementation 20% · experiments a
 interpretation 25% · reproducibility, security and cost 20% · communication and individual
 understanding 10%.
 
-Detail: `assessment-plan.md`, and the rubric in `project/rubric.md`.
+Detail: `assessment-plan.md`, and the rubric in `weeks/week-11/project/rubric.md`.
 
 ---
 
@@ -238,9 +238,13 @@ not earn marks, whoever or whatever wrote it.
 
 ## Where things are
 
-`course/` design documents · `weeks/` per-week notes · `labs/` lab briefs and starter code ·
-`exams/` exam format and rules · `project/` · `application/` the course application · `infra/` Terraform ·
-`operations/` setup, cloud access, cost and cleanup.
+**Start each week at `weeks/week-NN/README.md`:** what to read, what to do, what is due. Each
+week's folder holds its notes and slides, and the lab that starts that week (Lab 1 in week 2,
+Lab 2 in week 4, Lab 3 in week 6, Lab 4 in week 9, Lab 5 in week 11, Lab 6 in week 13). The
+exam rules are in `weeks/week-08/exams.md` and the project in `weeks/week-11/project/`.
+
+Course-wide: `course/` design documents · `application/` the course application · `infra/`
+Terraform · `operations/` setup, cloud access, cost and cleanup.
 
 Quiz and exam papers, answer keys and solutions are not in this repository. Quizzes are
 handed out in the room.

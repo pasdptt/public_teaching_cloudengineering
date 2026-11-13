@@ -16,7 +16,7 @@ finishing it in week 14.
 
 ### Two ways to describe infrastructure
 
-Open `labs/lab-02/starter/01-create-vm.sh`. You wrote something like it eight weeks ago, and
+Open `weeks/week-04/lab-02/starter/01-create-vm.sh`. You wrote something like it eight weeks ago, and
 you have been maintaining scripts like it ever since. It is a list of **steps**: create this,
 then that, then grant this.
 
@@ -386,6 +386,6 @@ will be right every time.
 ## Next week
 
 **The final exam** — 120 minutes, cumulative, weighted towards weeks 9–13
-([`exams/README.md`](../../exams/README.md)). Then a structured **peer review** of another
+([`weeks/week-08/exams.md`](../week-08/exams.md)). Then a structured **peer review** of another
 group's project, for which this week's design review is the preparation. The week 14 notes
 are short and are the method for that review. No new material.

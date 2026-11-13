@@ -6,7 +6,7 @@ footer: 'Week 12 · Partial failure, resilience and observability'
 ---
 
 <!--
-Deck for week 12. Derived from weeks/week-12/teaching-guide.md — that file is authoritative
+Deck for week 12. Derived from course/teaching-guides/week-12.md — that file is authoritative
 for the teaching; this is what goes on the wall.
 
 Render:  bash course/slides/render.sh 12
@@ -22,7 +22,7 @@ Cloud Computing: Principles and Practice
 
 <!--
 TIMING: 180 min total — 80 concepts · 30 discussion · 60 practical · 10 break.
-Guide: weeks/week-12/teaching-guide.md
+Guide: course/teaching-guides/week-12.md
 THE TIGHTEST WEEK IN THE COURSE: Lab 5 and the project proposal are both due. Protect the practical hour.
 Before you start: the incident-timeline handout printed (private repo, teaching-notes/). Know where proposals are being submitted.
 -->
@@ -302,7 +302,7 @@ The lab's conceptual marks are in the local half, and the deadline is this week.
 ## Part 3 — the real broker
 
 ```bash
-cd labs/lab-05/starter
+cd weeks/week-11/lab-05/starter
 ./01-enable-apis.sh
 ./02-create-queue.sh          # prints a BUCKET_NAME
 ./03-build-push.sh

@@ -6,7 +6,7 @@ footer: 'Week 13 · Infrastructure as code, environments, pipelines'
 ---
 
 <!--
-Deck for week 13. Derived from weeks/week-13/teaching-guide.md — that file is authoritative
+Deck for week 13. Derived from course/teaching-guides/week-13.md — that file is authoritative
 for the teaching; this is what goes on the wall.
 
 Render:  bash course/slides/render.sh 13
@@ -22,9 +22,9 @@ Cloud Computing: Principles and Practice
 
 <!--
 TIMING: 180 min total — 75 concepts · 15 quiz · 40 design review · 40 practical · 10 break.
-Guide: weeks/week-13/teaching-guide.md — this week carries what were two weeks. Teach the first move of each section; the notes carry the rest.
+Guide: course/teaching-guides/week-13.md — this week carries what were two weeks. Teach the first move of each section; the notes carry the rest.
 If you must cut on the day: cut "what a pipeline cannot catch" to a sentence. NEVER cut the design review, and never cut the "what must not differ" half of environments.
-Before you start: labs/lab-02/starter/01-create-vm.sh and infra/main.tf open side by side. A state file you can open live. Every TODO in .github/workflows/deploy.yml read. Quiz 6 printed. Tell the room to start `tofu init` during the design review.
+Before you start: weeks/week-04/lab-02/starter/01-create-vm.sh and infra/main.tf open side by side. A state file you can open live. Every TODO in .github/workflows/deploy.yml read. Quiz 6 printed. Tell the room to start `tofu init` during the design review.
 -->
 
 ---
@@ -51,7 +51,7 @@ What each approach records
 
 ## Two files. What is each one?
 
-| `labs/lab-02/starter/01-create-vm.sh` | `infra/main.tf` |
+| `weeks/week-04/lab-02/starter/01-create-vm.sh` | `infra/main.tf` |
 |---|---|
 | A list of **steps** | A description of the **result** |
 | Records what you **did** | Records what you **want** |
@@ -323,7 +323,7 @@ Generalise: OIDC federation is how every CI system should now authenticate to ev
 --attribute-condition="assertion.repository == '${GITHUB_REPO}'"
 ```
 
-From `labs/lab-06/starter/01-bootstrap-pipeline.sh`.
+From `weeks/week-13/lab-06/starter/01-bootstrap-pipeline.sh`.
 
 **The most common federation failure is a typo in that repository name.** Read it character by character before you search for anything.
 
@@ -418,7 +418,7 @@ Lab 6 Parts 1–3 in the room
 ## Part 2 — first, an image to deploy
 
 ```bash
-cd labs/lab-06/starter
+cd weeks/week-13/lab-06/starter
 cp config.env.example config.env     # PROJECT_ID, GITHUB_REPO
 ./00-registry-and-image.sh           # prints the image BY DIGEST
 export IMAGE='<the value it printed>'
@@ -437,7 +437,7 @@ The first Cloud Build takes a few minutes. Have them start this during the desig
 ## Part 2 — bring up `dev`, in its own workspace
 
 ```bash
-cd ../../../infra
+cd ../../../../infra
 cp envs/dev.tfvars.example envs/dev.tfvars      # set project_id
 terraform init
 terraform workspace new dev

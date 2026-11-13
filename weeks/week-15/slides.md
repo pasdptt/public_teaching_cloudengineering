@@ -6,7 +6,7 @@ footer: 'Week 15 · Demonstration and defence'
 ---
 
 <!--
-Logistics deck for week 15. No lecture this week. Derived from weeks/week-15/teaching-guide.md,
+Logistics deck for week 15. No lecture this week. Derived from course/teaching-guides/week-15.md,
 which is authoritative.
 
 Render:  bash course/slides/render.sh 15
@@ -22,7 +22,7 @@ Cloud Computing: Principles and Practice
 
 <!--
 TIMING: 180 min total — 120 demonstrations · 30 synthesis · 30 teardown and reflection. No break block: the demonstrations run in two halves with a natural pause.
-Guide: weeks/week-15/teaching-guide.md
+Guide: course/teaching-guides/week-15.md
 Before you start: the running order published in advance and fixed; check the trial expiry dates collected in the week 8 check.
 -->
 
@@ -130,7 +130,7 @@ Destroy it, prove it, then write
 
 1. `terraform destroy` — **each** workspace
 2. **The Artifact Registry repository** and its images, and `gs://PROJECT_cloudbuild` — never in state
-3. **Deployer service account, WIF pool and provider** — `labs/lab-06/starter/02-teardown-pipeline.sh`
+3. **Deployer service account, WIF pool and provider** — `weeks/week-13/lab-06/starter/02-teardown-pipeline.sh`
 4. **The state bucket, last**
 
 **Pairs:** the owner revokes the partner's access, and records who did it and when.

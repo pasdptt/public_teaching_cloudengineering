@@ -6,7 +6,7 @@ footer: 'Week 9 · Managed containers and serverless'
 ---
 
 <!--
-Deck for week 9. Derived from weeks/week-09/teaching-guide.md — that file is authoritative
+Deck for week 9. Derived from course/teaching-guides/week-09.md — that file is authoritative
 for the teaching; this is what goes on the wall.
 
 Render:  bash course/slides/render.sh 09
@@ -22,7 +22,7 @@ Cloud Computing: Principles and Practice
 
 <!--
 TIMING: 180 min total — 95 concepts · 15 quiz · 60 practical · 10 break. The discussion prompt replaces concept time; it is never added on top.
-Guide: weeks/week-09/teaching-guide.md
+Guide: course/teaching-guides/week-09.md
 Before you start: Quiz 4 printed. application/ open with tests/test_two_instances_disagree.py ready to run. Remind them to have their Lab 3 code committed in application/ before anyone builds.
 -->
 
@@ -362,7 +362,7 @@ Check before anyone builds: their Lab 3 GcsStorage and FirestoreJobStore are com
 ## Part 1 — build the artefact
 
 ```bash
-cd labs/lab-04/starter
+cd weeks/week-09/lab-04/starter
 cp config.env.example config.env     # set PROJECT_ID
 ./01-enable-apis.sh
 ./02-create-registry.sh              # prints a BUCKET_NAME
@@ -420,7 +420,7 @@ Say ONCE, to the room, that the 403 is correct. Several students will read it as
 ## Part 3 — forty requests: who has this job?
 
 ```bash
-cd ../../../application
+cd ../../../../application
 python3 tools/instances.py --url "$SERVICE_URL" --path "/jobs/$JOB" \
   --requests 40 --concurrency 20 --header "Authorization: Bearer $TOKEN"
 ```

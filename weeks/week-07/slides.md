@@ -6,7 +6,7 @@ footer: 'Week 7 · Replication, consistency, choosing'
 ---
 
 <!--
-Deck for week 7. Derived from weeks/week-07/teaching-guide.md — that file is authoritative
+Deck for week 7. Derived from course/teaching-guides/week-07.md — that file is authoritative
 for the teaching; this is what goes on the wall.
 
 Render:  bash course/slides/render.sh 07
@@ -22,7 +22,7 @@ Cloud Computing: Principles and Practice
 
 <!--
 TIMING: 180 min total — 85 concepts · 25 discussion · 60 practical · 10 break.
-Guide: weeks/week-07/teaching-guide.md
+Guide: course/teaching-guides/week-07.md
 Before you start: application/docapp/service.py open at create_job, ready to project. Lab 3 is due at the end of the week. Next week is the midterm — announce the format before the session ends.
 -->
 

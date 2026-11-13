@@ -6,7 +6,7 @@ footer: 'Week 10 · Horizontal scaling and measurement'
 ---
 
 <!--
-Deck for week 10. Derived from weeks/week-10/teaching-guide.md — that file is authoritative
+Deck for week 10. Derived from course/teaching-guides/week-10.md — that file is authoritative
 for the teaching; this is what goes on the wall.
 
 Render:  bash course/slides/render.sh 10
@@ -22,7 +22,7 @@ Cloud Computing: Principles and Practice
 
 <!--
 TIMING: 180 min total — 80 concepts · 30 discussion · 60 practical · 10 break.
-Guide: weeks/week-10/teaching-guide.md
+Guide: course/teaching-guides/week-10.md
 Before you start: read the --help epilogues of application/tools/measure.py and tools/instances.py. Have a real measure.py report from a warm service ready for the discussion's last ten minutes. Lab 4 is due at the end of the week.
 -->
 
@@ -352,7 +352,7 @@ Four real caveats and a ranking score higher than a clean-looking table with non
 ## Part 7 — teardown and verification
 
 ```bash
-cd labs/lab-04/starter
+cd weeks/week-09/lab-04/starter
 ./06-teardown.sh
 ./07-verify-clean.sh
 ```

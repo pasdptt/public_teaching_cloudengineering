@@ -6,7 +6,7 @@ footer: 'Week 4 · Hierarchy, virtual machines, identity'
 ---
 
 <!--
-Deck for week 4. Derived from weeks/week-04/teaching-guide.md — that file is authoritative
+Deck for week 4. Derived from course/teaching-guides/week-04.md — that file is authoritative
 for the teaching; this is what goes on the wall.
 
 Render:  bash course/slides/render.sh 04
@@ -22,7 +22,7 @@ Cloud Computing: Principles and Practice
 
 <!--
 TIMING: 180 min total — 90 concepts · 15 quiz · 75 practical (30 activation + 45 Lab 2). No break row in the plan; take one at the quiz.
-Guide: weeks/week-04/teaching-guide.md
+Guide: course/teaching-guides/week-04.md
 HIGHEST-RISK SESSION IN THE COURSE. Before you start: trial terms re-fetched (references.md R-01, R-02); fallback handout (cloud-access-and-fallback.md §4) printed; the list of students who flagged eligibility problems in week 1.
 -->
 
@@ -366,7 +366,7 @@ Parts 1–2
 ## Part 1 — a machine you do not own
 
 ```bash
-cd labs/lab-02/starter
+cd weeks/week-04/lab-02/starter
 cp config.env.example config.env     # your project id
 ./01-create-vm.sh
 ./02-deploy.sh

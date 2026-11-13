@@ -12,6 +12,7 @@ Queues, retries, duplicates, idempotency.
 
 - **In the session:** Lab 5 start · **project brief out**.
 - **Lab 5 starts:** [brief](lab-05/README.md) · [rubric](lab-05/rubric.md) · starter scripts in [`lab-05/starter/`](lab-05/starter/)
+  - This week: **Parts 0–2** — in the session.
 - **Your own time this week:** about 180 minutes — 30 reading, 130 lab or project, 20 other.
 
 ## Due

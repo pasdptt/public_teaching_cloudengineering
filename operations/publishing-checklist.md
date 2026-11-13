@@ -53,7 +53,7 @@ After that, every commit and every push runs `planning/leakcheck.py` and is refu
 finds private material. The check has three parts:
 
 1. **Paths.** It refuses `exam-papers/`, `quiz-keys/`, `lab-solutions/`, `midterm*.md`,
-   `exams/final.md` and `*-key.*`.
+   `final.md` (in any folder) and `*-key.*`.
 2. **Content.** It refuses answer-key, solution and marking-key headings, and credentials.
 3. **Fingerprint.** It compares this repository against the private one beside it:
    - any line of 40 or more characters from a key, paper or set of notes is refused;

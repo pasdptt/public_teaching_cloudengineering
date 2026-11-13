@@ -11,6 +11,7 @@ Replication, consistency, transactions, choosing.
 
 - **In the session:** Lab 3 finish.
 - **Lab 3 continues** from week 6: [brief](../week-06/lab-03/README.md) · [rubric](../week-06/lab-03/rubric.md)
+  - This week: **Parts 3–5** — in the session.
 - **Your own time this week:** about 180 minutes — 25 reading, 155 lab or project.
 
 ## Due

@@ -10,7 +10,8 @@ Processes, isolation, VMs, containers, HTTP.
 ## Do
 
 - **In the session:** Lab 1 start.
-- **Lab 1 starts:** [brief](lab-01/README.md) · [rubric](lab-01/rubric.md) · starter scripts in [`lab-01/starter/`](lab-01/starter/)
+- **Lab 1 starts:** [brief](lab-01/README.md) · [rubric](lab-01/rubric.md)
+  - This week: **Parts 1–2** — in the session.
 - **Your own time this week:** about 180 minutes — 30 reading, 150 lab or project.
 
 ## Due

@@ -11,6 +11,7 @@ Virtual networking, access boundaries, least privilege.
 
 - **In the session:** Lab 2 finish.
 - **Lab 2 continues** from week 4: [brief](../week-04/lab-02/README.md) · [rubric](../week-04/lab-02/rubric.md)
+  - This week: **Parts 3–6** — in the session, ending with a verified teardown.
 - **Your own time this week:** about 180 minutes — 25 reading, 155 lab or project.
 
 ## Due

@@ -12,6 +12,7 @@ Partial failure, resilience, observability, SLOs.
 
 - **In the session:** Lab 5 finish + failure experiment.
 - **Lab 5 continues** from week 11: [brief](../week-11/lab-05/README.md) · [rubric](../week-11/lab-05/rubric.md)
+  - This week: **Parts 3–6** — in the session, ending with a verified teardown.
 - **Your own time this week:** about 180 minutes — 15 reading, 135 lab or project, 30 other.
 
 ## Due

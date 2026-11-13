@@ -12,6 +12,7 @@
 
 - **In the session:** Lab 6 (one week) · design review.
 - **Lab 6 starts:** [brief](lab-06/README.md) · [rubric](lab-06/rubric.md) · starter scripts in [`lab-06/starter/`](lab-06/starter/)
+  - This week: **Parts 1–6** — Parts 1–3 in the session; Parts 4–6 on your own.
 - **Your own time this week:** about 180 minutes — 30 reading, 150 lab or project.
 
 ## Due

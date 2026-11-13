@@ -11,6 +11,7 @@ Horizontal scaling, concurrency, latency/throughput.
 
 - **In the session:** Lab 4 finish + load experiment.
 - **Lab 4 continues** from week 9: [brief](../week-09/lab-04/README.md) · [rubric](../week-09/lab-04/rubric.md)
+  - This week: **Parts 4–7** — in the session.
 - **Your own time this week:** about 180 minutes — 20 reading, 160 lab or project.
 
 ## Due

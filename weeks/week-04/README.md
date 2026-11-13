@@ -11,6 +11,7 @@ Hierarchy, regions/zones, VMs, identity.
 
 - **In the session:** Trial activation · Lab 2 start.
 - **Lab 2 starts:** [brief](lab-02/README.md) · [rubric](lab-02/rubric.md) · starter scripts in [`lab-02/starter/`](lab-02/starter/)
+  - This week: **Parts 0–2** — Part 0 is the trial activation, in the session.
 - **Your own time this week:** about 180 minutes — 30 reading, 120 lab or project, 30 other.
 
 ## Due

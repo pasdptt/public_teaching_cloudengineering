@@ -11,6 +11,7 @@ Distributed basics, state, latency, failure.
 
 - **In the session:** Lab 1 finish + **CI set up**.
 - **Lab 1 continues** from week 2: [brief](../week-02/lab-01/README.md) · [rubric](../week-02/lab-01/rubric.md)
+  - This week: **Parts 3–6** — Parts 4–5 in the session; Part 6 sets up CI.
 - **Your own time this week:** about 180 minutes — 20 reading, 160 lab or project.
 
 ## Due

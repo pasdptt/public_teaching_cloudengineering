@@ -11,6 +11,7 @@ Managed containers, serverless, statelessness.
 
 - **In the session:** Lab 4 start.
 - **Lab 4 starts:** [brief](lab-04/README.md) · [rubric](lab-04/rubric.md) · starter scripts in [`lab-04/starter/`](lab-04/starter/)
+  - This week: **Parts 0–3** — in the session.
 - **Your own time this week:** about 180 minutes — 30 reading, 150 lab or project.
 
 ## Due

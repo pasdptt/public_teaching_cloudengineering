@@ -24,12 +24,14 @@ teaching-notes/
 project-guidance.md
 delivery-guide.md
 midterm*.md
-exams/final.md
+final.md
+final-paper*
 # Quiz papers and the final practice set are private too (D-71)
 quizzes/
 quiz-[0-9]*.md
 *final-practice*.md
-exams/*practice*
+**/exams/*practice*
+weeks/**/*practice*
 
 # Credentials and cloud state — never commit
 *.json.key

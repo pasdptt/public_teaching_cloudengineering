@@ -10,7 +10,8 @@ Block/file/object/database; durability.
 ## Do
 
 - **In the session:** Lab 3 start.
-- **Lab 3 starts:** [brief](lab-03/README.md) · [rubric](lab-03/rubric.md) · starter scripts in [`lab-03/starter/`](lab-03/starter/)
+- **Lab 3 starts:** [brief](lab-03/README.md) · [rubric](lab-03/rubric.md)
+  - This week: **Parts 1–2** — in the session.
 - **Your own time this week:** about 180 minutes — 30 reading, 150 lab or project.
 
 ## Due

@@ -4,7 +4,7 @@
 
 ## Read
 
-- [Student notes](student-notes.md) — about **30 minutes**. The reading is the preparation; there is no separate revision session.
+- [Student notes](student-notes.md) — about **30 minutes**: the weeks 1–7 notes again, as revision for the midterm.
 - Slides: [present on claude.ai](https://claude.ai/artifact/L4KayoWqrhQsRuyHmUDeq2) · [Markdown source](slides.md)
 - [Exam format, coverage and rules](exams.md) — for the midterm this week and the final in week 14
 

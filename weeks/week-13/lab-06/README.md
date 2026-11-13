@@ -204,7 +204,7 @@ needs. **Read it before you run it.** It has not yet been run against a real pro
 documentation decide, not the script.
 
 ```bash
-cd weeks/week-13/lab-06/starter               # config.env already exists from Part 2
+cd ../weeks/week-13/lab-06/starter   # from infra/, where Part 3 left you; config.env exists from Part 2
 ./01-bootstrap-pipeline.sh
 ```
 
@@ -212,7 +212,7 @@ Then uncomment the `backend "gcs"` block in `infra/versions.tf` and migrate what
 have:
 
 ```bash
-cd infra
+cd ../../../../infra
 terraform init -migrate-state \
   -backend-config="bucket=${PROJECT_ID}-tfstate" -backend-config="prefix=docapp"
 ```

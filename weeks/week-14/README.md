@@ -4,7 +4,7 @@
 
 ## Read
 
-- [Student notes](student-notes.md) — about **15 minutes**. The reading is the preparation; there is no separate revision session.
+- [Student notes](student-notes.md) — about **15 minutes**: the synthesis notes, which are the method for the peer review.
 - Slides: [present on claude.ai](https://claude.ai/artifact/ChvS4FJvjkx92WtPkGkzEf) · [Markdown source](slides.md)
 - [Exam format, coverage and rules](../week-08/exams.md)
 - Project: [brief](../week-11/project/brief.md) · [milestones](../week-11/project/milestones.md) · [rubric](../week-11/project/rubric.md)

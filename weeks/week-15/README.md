@@ -4,7 +4,7 @@ Defence, synthesis, transfer.
 
 ## Read
 
-- [Student notes](student-notes.md) — about **0 minutes**. The reading is the preparation; there is no separate revision session.
+- [Student notes](student-notes.md) — before your demonstration — there is no separate reading time this week.
 - Slides: [present on claude.ai](https://claude.ai/artifact/FS6cCeNf7JN8Kj1ZZW6ecU) · [Markdown source](slides.md)
 - Project: [brief](../week-11/project/brief.md) · [milestones](../week-11/project/milestones.md) · [rubric](../week-11/project/rubric.md)
 

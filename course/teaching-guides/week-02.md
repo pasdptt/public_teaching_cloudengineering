@@ -46,6 +46,8 @@ terminal. `Address already in use`. Ask *why the OS bothers to prevent this*. Th
 `PORT=8081` and both run. Thirty seconds, and the port abstraction is now concrete.
 
 **Demo 2 — the shared kernel.** This is the session's centrepiece and it must be rehearsed.
+**Pull the images the day before,** on a good connection, so the demo does not stall on
+classroom Wi-Fi: `docker pull python:3.12-slim` and `docker pull alpine`.
 
 ```bash
 docker run --rm python:3.12-slim uname -r # a Debian-based image
@@ -73,7 +75,9 @@ docker run --rm python:3.12-slim python3 -c \
   "import os; print(sorted(int(p) for p in os.listdir('/proc') if p.isdigit()))"
 ```
 
-A list of two or three PIDs.
+A list with one PID: `[1]`. The command is the only process in its world, and it is PID 1.
+(Rehearsed on Docker Desktop, macOS, 2026-11-16. Inside a *running* container, Lab 1's
+`docker exec` shows two, such as `[1, 8]`: the application and the command you just ran.)
 
 Ask the room, before running the second command: *will these match?* Take a show of hands.
 The split is the teaching moment, and it disappears the instant the output is on screen.

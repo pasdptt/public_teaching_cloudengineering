@@ -337,7 +337,7 @@ docker run --rm python:3.12-slim python3 -c \
 
 <!--
 Take a show of hands FIRST. The split is the teaching moment and it disappears the instant
-the output is on screen. Two or three PIDs inside; hundreds outside; same program, two ids.
+the output is on screen. One PID inside, [1]: the command is alone and is PID 1. Hundreds outside. Same program, two ids.
 -->
 
 ---

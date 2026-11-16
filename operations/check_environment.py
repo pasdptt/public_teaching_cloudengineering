@@ -54,10 +54,35 @@ def check_python() -> None:
     if version[:2] >= MIN_PYTHON:
         record("PASS", f"Python {text}")
     else:
+        newer = _newer_pythons()
+        hint = (f"A newer Python is already installed: {newer[0]}\n"
+                f"Your shell is finding an older one first. Open a new terminal (or run\n"
+                f"`hash -r` in this one), check `python3 --version`, then run this again.\n"
+                if newer else "")
         record("FAIL", f"Python {text} is too old",
-               f"This course needs Python {MIN_PYTHON[0]}.{MIN_PYTHON[1]} or newer.\n"
+               f"This course needs Python {MIN_PYTHON[0]}.{MIN_PYTHON[1]} or newer.\n" + hint +
                f"macOS: install from python.org or `brew install python@3.12`.\n"
                f"Windows: install from python.org and tick 'Add python.exe to PATH'.")
+
+
+def _newer_pythons() -> list[str]:
+    """Python interpreters on PATH (or in the usual Homebrew place) that are new enough."""
+    found = []
+    dirs = os.environ.get("PATH", "").split(os.pathsep) + ["/opt/homebrew/bin", "/usr/local/bin"]
+    names = ["python3"] + [f"python3.{m}" for m in range(20, MIN_PYTHON[1] - 1, -1)]
+    for d in dict.fromkeys(dirs):
+        for name in names:
+            path = os.path.join(d, name)
+            if not os.access(path, os.X_OK) or os.path.realpath(path) == os.path.realpath(sys.executable):
+                continue
+            try:
+                out = subprocess.run([path, "-c", "import sys; print(*sys.version_info[:2])"],
+                                     capture_output=True, text=True, timeout=5).stdout.split()
+            except (OSError, subprocess.TimeoutExpired):
+                continue
+            if len(out) == 2 and (int(out[0]), int(out[1])) >= MIN_PYTHON:
+                found.append(f"{path} (Python {out[0]}.{out[1]})")
+    return found
 
 
 def check_platform() -> None:
@@ -123,15 +148,31 @@ def check_application_runs() -> None:
         shutil.rmtree(os.path.join(app_dir, ".check-data"), ignore_errors=True)
 
 
+def _externally_managed() -> bool:
+    """PEP 668: this interpreter refuses `pip install` outside a virtual environment."""
+    import sysconfig
+    in_venv = sys.prefix != getattr(sys, "base_prefix", sys.prefix)
+    marker = os.path.join(sysconfig.get_path("stdlib"), "EXTERNALLY-MANAGED")
+    return not in_venv and os.path.exists(marker)
+
+
 def check_tests() -> None:
     app_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
                            "application")
     try:
         import pytest  # noqa: F401
     except ImportError:
+        if _externally_managed():
+            how = ("This Python (Homebrew's, or a recent Linux one) refuses system-wide\n"
+                   "installs, so use a virtual environment, from the repository root:\n"
+                   "  python3 -m venv .venv\n"
+                   "  source .venv/bin/activate\n"
+                   "  pip install -r application/requirements-dev.txt\n"
+                   "Then run this check again from the same terminal.")
+        else:
+            how = "  pip3 install -r application/requirements-dev.txt"
         record("WARN", "pytest is not installed",
-               "Not needed to run the application, but you will need it for Lab 1:\n"
-               "  pip3 install -r application/requirements-dev.txt")
+               "Not needed to run the application, but you will need it for Lab 1.\n" + how)
         return
     proc = subprocess.run([sys.executable, "-m", "pytest", "-q"], cwd=app_dir,
                           capture_output=True, text=True)

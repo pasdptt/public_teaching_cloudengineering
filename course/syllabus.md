@@ -244,7 +244,8 @@ Lab 2 in week 4, Lab 3 in week 6, Lab 4 in week 9, Lab 5 in week 11, Lab 6 in we
 exam rules are in `weeks/week-08/exams.md` and the project in `weeks/week-11/project/`.
 
 Course-wide: `course/` design documents · `application/` the course application · `infra/`
-Terraform · `operations/` setup, cloud access, cost and cleanup.
+Terraform · `operations/` setup (including `github-101.md`, a self-reading guide to git and
+GitHub for anyone new to them), cloud access, cost and cleanup.
 
 Quiz and exam papers, answer keys and solutions are not in this repository. Quizzes are
 handed out in the room.

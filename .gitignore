@@ -72,6 +72,7 @@ htmlcov/
 *.egg-info/
 
 # Lab run artefacts (measurements are submitted, not committed)
+application/data/
 runs/
 results/
 *.local.md

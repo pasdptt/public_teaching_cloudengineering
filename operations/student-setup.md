@@ -21,7 +21,7 @@ week 4 costs you a lab.
 |---|---|
 | **Python 3.10 or newer** | The course application. No packages needed to run it. |
 | **A container runtime** | From Lab 1 onwards, to see the process boundary; in Lab 4 to build an image. |
-| **`git`** | To get this repository and keep it up to date. |
+| **`git`** | To get this repository and keep it up to date. New to git? Read [GitHub 101](github-101.md). |
 | **A terminal you are comfortable in** | Every lab is command-line work. |
 | **~10 GB free disk** | Container images in Lab 4. |
 
@@ -76,9 +76,12 @@ uname -m      # arm64 = Apple Silicon, x86_64 = Intel
 ### Verify
 
 ```bash
-git clone <this repository> && cd cloudengineering
+git clone <your fork of this repository> cloudengineering && cd cloudengineering
 python3 operations/check_environment.py
 ```
+
+Clone **your own fork**, not the course repository itself: Lab 1 Part 6 needs you to push.
+[GitHub 101](github-101.md), section 3, walks through forking and cloning.
 
 ---
 
@@ -114,7 +117,7 @@ Windows/Linux filesystem boundary is noticeably slow and causes file-permission 
 
 ```bash
 cd ~                      # your Linux home, e.g. /home/you
-git clone <this repository>
+git clone <your fork of this repository> cloudengineering   # see github-101.md, section 3
 ```
 
 ### Route B — native Windows

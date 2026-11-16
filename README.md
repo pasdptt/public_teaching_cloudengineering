@@ -18,7 +18,7 @@ deployment behaves as it does — not only to reproduce a sequence of console cl
 
 | If you are… | Read |
 |---|---|
-| A student | [`course/syllabus.md`](course/syllabus.md), then [`operations/student-setup.md`](operations/student-setup.md) |
+| A student | [`course/syllabus.md`](course/syllabus.md), then [`operations/student-setup.md`](operations/student-setup.md); new to git? [`operations/github-101.md`](operations/github-101.md) |
 | The instructor, planning delivery | [`course/weekly-schedule.md`](course/weekly-schedule.md) and [`course/workload-budget.md`](course/workload-budget.md) |
 | Reviewing the course design | [`course/learning-outcomes.md`](course/learning-outcomes.md) and [`course/assessment-plan.md`](course/assessment-plan.md) |
 | Worried about cloud cost or access | [`operations/cloud-access-and-fallback.md`](operations/cloud-access-and-fallback.md) |

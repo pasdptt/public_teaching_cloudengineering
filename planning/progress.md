@@ -129,7 +129,8 @@ fill the gap. See R-04.
 - ✅ Lab 1's exercise has a verified reference solution.
 - ⚠️ **Not verified on Windows or macOS.** Authoring happened on Linux. Both platform paths
   are reviewed, not executed.
-- ⚠️ **The Dockerfile has never been built.** Lab 1 Part 2 depends on it.
+- ✅ ~~The Dockerfile has never been built.~~ **Built and run 2026-11-16** on macOS, Apple
+  Silicon, Docker Desktop (see that day's entry).
 - ⚠️ **Novice completion time is an estimate only.** ~2 h guided + ~5 h independent. Nobody
   has been timed. `course/workload-budget.md` says why that number is worth little until a
   pilot happens.
@@ -419,7 +420,9 @@ Two design choices worth knowing before editing any quiz:
   explains the Docker Desktop case. Demo 2 compares two containers from different
   distributions, and the teaching guide turns the mismatched host line into a teaching moment.
   The private Lab 1 notes and Quiz 2 key were updated to match.
-  REVIEWED, not executed. **Needs one run on a Mac or Windows laptop before week 2.**
+  REVIEWED, not executed. **Needs one run on a Mac or Windows laptop before week 2.** →
+  Mac done 2026-11-16 (`docker top` and the mismatched host kernel both behave as written);
+  Windows still not run.
 
 ### Project brief authored (2026-09-30)
 
@@ -678,6 +681,82 @@ replaced as text.
 - **Audit.** New check 10 fails on any retired path or reference, and failed first (120
   problems) before the move. Checks 6 and 8 read the new locations. Audit, leak check and
   170 relative links are clean.
+
+### Week 2 rehearsed on a real Mac (2026-11-16)
+
+The first execution of the container path. It ran on an Apple Silicon Mac with Python 3.15.2
+(Homebrew, in a `.venv`) and Docker Desktop 29.9.3. All **EXECUTED**:
+
+- **Environment check:** 10 passed, 0 warnings, 0 failures.
+- **Application suite:** 74 passed, 52 deselected on Python 3.15. The pinned pytest 8.3.4
+  works there.
+- **`docker build` of `application/Dockerfile`:** succeeded first time, in 13 s, at 310 MB
+  as Docker Desktop reports it. The container:
+  - answers `/healthz`;
+  - stores a document;
+  - round-trips `X-Request-Id` into its log;
+  - runs as `appuser`, with the application at PID 1;
+  - reports `healthy` after 30 s.
+- **Lab 1 Preflight, Part 1 and Part 2:** every command was run as written.
+  - Inside the container, `/proc` lists `[1, 8]`.
+  - `docker top` shows a different host PID.
+  - `ps aux` on the Mac does not list the container, as the lab explains.
+- **Week 2 Demo 1** (`Address already in use`, then `PORT=8081`) and **Demo 2**: both
+  containers report `7.0.14-linuxkit`, and the Mac reports `27.2.0`, which is the Docker
+  Desktop case the guide prepares for.
+- **Lab 1 reference solution** (private): passes the acceptance tests and the full suite on
+  3.15.
+
+**Fixed from the rehearsal:**
+- **The guide and deck said the `docker run` `/proc` demo prints "two or three PIDs".** It
+  prints `[1]`.
+- **Lab 1's `pytest -q` hid the summary line**, because `pytest.ini` already adds `-q`. The
+  commands now show the counts a student should expect: `74 passed, 52 deselected`, then
+  `5 failed, 9 errors`.
+- **The guide now says to pull `python:3.12-slim` and `alpine` the day before.** The first
+  pull is a download, and classroom Wi-Fi would stall the demo.
+
+**Not covered:** Windows, and a second Mac. The 310 MB image size is the local figure. The
+size that counts against Artifact Registry's 0.5 GiB is the compressed push, and that is
+measured in Lab 4.
+
+### GitHub 101 for students new to git (2026-11-16)
+
+`operations/github-101.md` is a self-reading guide: about 45 minutes, not taught and not
+assessed. It covers only what the course uses:
+
+- setup and login (with a private commit email);
+- forking, cloning and an `upstream` remote, and switching on Actions in a fork;
+- the add / commit / push loop;
+- reviewing your own diff before pushing, and reading a red run;
+- what must never be committed, and what to do first if it is;
+- picking up course fixes (**Sync fork**, or `git fetch upstream` and merge, including a
+  conflict);
+- safe undo commands;
+- the course's own traps: CI runs only on `main` or a PR into it, a PR from a fork targets
+  the course repo by default, and Lab 6's federation trusts the repository *name*.
+
+**EXECUTED:** every git command in it was run against local stand-ins for the course repo
+and a fork. Coverage:
+- the save loop;
+- all five undo rows;
+- an upstream merge, and a conflict resolved by hand;
+- the "fetch first" rejection and its fix;
+- the detached-HEAD and untracked-files messages.
+
+The GitHub web steps (Fork, Sync fork, enabling Actions, `gh auth login`) are REVIEWED, not
+clicked through.
+
+The guide is linked from the setup guide, week 1's README, Lab 1 Part 6 and its
+troubleshooting, the main README and the syllabus. The setup guide now says to clone **your
+fork**, matching Lab 1 Part 6.
+
+Found while writing it:
+- **`application/data/` was not ignored.** Lab 1 Part 1 writes stored documents there, so
+  `git add .` would have committed them. It is now in `.gitignore`.
+- **A Google key file downloaded under its default name** (`<project>-<hex>.json`) matches
+  no ignore rule, and none can safely match it. The guide says so plainly instead of
+  promising `.gitignore` will catch it.
 
 ### Still to author
 

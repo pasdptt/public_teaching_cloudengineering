@@ -44,8 +44,8 @@ that carries you to week 13.
 
 ```bash
 cd application
-python3 -m pytest -q            # expect: all tests pass
-python3 -m pytest -m lab01 -q   # expect: all FAIL — that is your exercise
+python3 -m pytest              # expect: 74 passed, 52 deselected
+python3 -m pytest -m lab01     # expect: 5 failed, 9 errors — every one is your exercise
 ```
 
 If the first command does not pass on a fresh clone, stop and ask. Something is wrong with
@@ -264,8 +264,8 @@ A few dozen lines is the right size. If you are writing more than that, re-read 
 **Checkpoint.** Both of these pass:
 
 ```bash
-python3 -m pytest -m lab01 -q     # your exercise
-python3 -m pytest -q              # nothing else broke
+python3 -m pytest -m lab01        # your exercise: 14 passed
+python3 -m pytest                 # nothing else broke: 74 passed
 ```
 
 Then run the application for real with your store and confirm by hand what the tests claim:
@@ -317,7 +317,8 @@ someone runs it. This part makes that automatic.
 A workflow file already exists at `.github/workflows/ci.yml`. **Read it before you use it** —
 it is short, and every block in it is a decision you should be able to explain.
 
-1. Push your work to your own fork or branch on GitHub.
+1. Push your work to your own fork or branch on GitHub. (New to git? [GitHub 101](../../../operations/github-101.md)
+   covers forking, pushing and switching Actions on — in about 45 minutes.)
 2. Open the **Actions** tab. You should see a run for your push.
 3. Watch it: check out, install pytest, compile every module, run the suite.
 4. **Break something on purpose.** Change an assertion in `tests/test_processing.py` so it is
@@ -421,7 +422,7 @@ a lock you take twice on the same thread. Look for a method holding the lock tha
 another method which also takes it.
 
 **No runs appear in the Actions tab** — check that Actions is enabled for your fork
-(Settings → Actions), and that you pushed to a branch the workflow triggers on: `main`, or a
+(Settings → Actions; [GitHub 101](../../../operations/github-101.md) section 3, step 4), and that you pushed to a branch the workflow triggers on: `main`, or a
 pull request targeting it. A push to `my-branch` with no pull request open runs nothing, by
 design.
 

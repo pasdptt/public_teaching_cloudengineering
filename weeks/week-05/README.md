@@ -16,6 +16,6 @@ Virtual networking, access boundaries, least privilege.
 
 ## Due
 
-- **Lab 2**, by the end of this week — [rubric](../week-04/lab-02/rubric.md)
+- **Lab 2**, by the end of this week — [rubric](../week-04/lab-02/rubric.md) · [how to hand in](../../operations/lab-submission.md)
 
 The [weekly schedule](../../course/weekly-schedule.md) has the plan for every week.

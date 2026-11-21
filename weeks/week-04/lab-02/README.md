@@ -276,7 +276,9 @@ reserve one?
 
 ## What to submit
 
-`lab02-<your-name>.md`, plus your completed starter scripts. Short and precise.
+`submissions/lab-02/README.md`, handed in as a commit link on Teams ([lab submission guide](../../../operations/lab-submission.md)).
+Your completed starter scripts are in the same commit. Short and precise, with one numbered
+`##` section per item below.
 
 1. **Predictions** from Part 2, written before you ran anything.
 2. **Reachability** — why it failed at first, how the failure presented at each firewall

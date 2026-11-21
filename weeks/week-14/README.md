@@ -17,6 +17,6 @@
 ## Due
 
 - **The final exam**, in the session (120 minutes) — see [exams.md](../week-08/exams.md)
-- **Lab 6**, at the start of this week's session — [rubric](../week-13/lab-06/rubric.md)
+- **Lab 6**, at the start of this week's session — [rubric](../week-13/lab-06/rubric.md) · [how to hand in](../../operations/lab-submission.md)
 
 The [weekly schedule](../../course/weekly-schedule.md) has the plan for every week.

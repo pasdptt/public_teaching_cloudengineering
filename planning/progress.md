@@ -758,6 +758,74 @@ Found while writing it:
   no ignore rule, and none can safely match it. The guide says so plainly instead of
   promising `.gitignore` will catch it.
 
+### Labs handed in from a private repository, through Teams (2026-11-20, D-73)
+
+The instructor chose GitHub for the work and Microsoft Teams as the portal, with **private**
+repositories rather than public forks. That closes the public-fork exposure flagged in the
+GitHub 101 entry above, and resolves Q-06 for the labs.
+
+- `operations/lab-submission.md` is the student guide:
+  - one private repository for all six labs;
+  - each write-up in `submissions/lab-0N/README.md`, one numbered section per
+    What-to-submit item;
+  - evidence as text, not screenshots;
+  - predictions committed before the experiment;
+  - a commit link turned in on the Teams assignment.
+- `submissions/TEMPLATE.md` is the skeleton students copy.
+- `operations/check_submission.py N` checks a write-up and prints the commit link to hand in.
+  It looks for:
+  - the file, and a section for each item, read from the lab's own What-to-submit list;
+  - relative links that point at committed files;
+  - personal home paths;
+  - credential and token shapes anywhere in the repository;
+  - that the work is committed and pushed;
+  - that `origin` is not the course repository;
+  - that the repository is private, when `gh` is available.
+- GitHub 101 section 3 now makes a private copy (clone, rename `origin` to `upstream`, push
+  to a new empty private repository, add the instructor). Sync fork is gone, and so are the
+  fork-specific traps.
+- Every lab's What to submit now names its `submissions/` path. Each week's Due row links
+  the guide, and so do the syllabus, the assessment plan and the week 1 README. The week 1
+  teaching guide has the instructor's side: Teams assignments, accepting invitations in bulk
+  with `gh api`, and checking out a handed-in commit to run its tests.
+- CI cost claims were re-checked (R-13, 2026-11-20). Private repositories draw on GitHub
+  Free's included amount, $12 a month, which is about 2,000 Linux minutes. A CI run costs 2
+  minutes, and without a payment method an exhausted allowance blocks runs. Lab 1 Part 6's
+  cost paragraph now treats CI as an allowance, like the cloud free tiers.
+- Lab 6's fork question is now about a copied `deploy.yml`, with the same answer: the
+  attribute condition.
+- `audit.py` check 1 no longer counts link syntax inside code blocks or code spans as links.
+
+**EXECUTED:** `check_submission.py` was run against a scratch clone with a local bare
+repository as `origin`. The scenarios were:
+- no write-up;
+- an unedited template with a personal path, a JWT-shaped token and an uncommitted image;
+- committed but not pushed, with another file left dirty;
+- pushed;
+- the course repository as `origin`;
+- a bad argument.
+
+Each reported what the guide says it will, and the pushed case printed the link. The
+section count matches each lab's list (9, 8, 8, 10, 10, 9). The course repository itself
+raises no false credential alarm.
+
+**REVIEWED, not clicked through:**
+- creating a private repository on GitHub, and `gh repo create --source --push`;
+- adding a collaborator and accepting invitations with `gh api`;
+- the Teams **Add work → Link** and **Undo turn in** steps.
+
+**Project added (2026-11-21).** The instructor chose the same route for the project. Guide
+section 7 covers it:
+- `submissions/project/proposal.md` in week 12, and `README.md` in week 15;
+- a pair works in the owner's repository, because their Lab 6 pipeline trusts it;
+- the partner is added only after Lab 6 is handed in;
+- each partner commits under their own name;
+- both partners turn in the same link.
+
+`check_submission.py` now takes `proposal` and `project`. It reads the brief's 11 items, and
+the contribution record is required only from a pair. The brief, the milestones and the week
+12 and 15 Due rows point at the guide. Q-06 is resolved.
+
 ### Still to author
 
 Midterm and final papers and keys (private, `exam-papers/`) · instructor solutions for Labs 2, 4

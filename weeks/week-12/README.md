@@ -17,7 +17,7 @@ Partial failure, resilience, observability, SLOs.
 
 ## Due
 
-- **Lab 5**, by the end of this week — [rubric](../week-11/lab-05/rubric.md)
-- **Project proposal**, by the end of this week — [milestones](../week-11/project/milestones.md)
+- **Lab 5**, by the end of this week — [rubric](../week-11/lab-05/rubric.md) · [how to hand in](../../operations/lab-submission.md)
+- **Project proposal**, by the end of this week — [milestones](../week-11/project/milestones.md) · [how to hand in](../../operations/lab-submission.md#7-the-project)
 
 The [weekly schedule](../../course/weekly-schedule.md) has the plan for every week.

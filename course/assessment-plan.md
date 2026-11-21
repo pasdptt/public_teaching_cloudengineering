@@ -117,7 +117,11 @@ students are told so in the syllabus.
 
 ### Submission template
 
-Every lab submits the same short structure, so marking is recognition and not archaeology:
+Every lab submits the same short structure, so marking is recognition and not archaeology.
+It is written as `submissions/lab-0N/README.md` in the student's private repository, and
+handed in as a commit link on Microsoft Teams (D-73, [`operations/lab-submission.md`](../operations/lab-submission.md)).
+Each lab's **What to submit** list fills in this structure for that lab, and its numbering is
+the write-up's section numbering:
 
 1. Prediction (written before implementing)
 2. What you did — commands and configuration, not prose narration

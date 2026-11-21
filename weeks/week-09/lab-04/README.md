@@ -329,8 +329,10 @@ band C.**
 
 ## What to submit
 
-`lab04-<your-name>.md`, plus the filled-in `04-runtime-identity.sh` and your `config.env`
-**with nothing secret in it**.
+`submissions/lab-04/README.md`, handed in as a commit link on Teams ([lab submission guide](../../../operations/lab-submission.md)).
+The filled-in `04-runtime-identity.sh` is in the same commit. `config.env` is gitignored, so
+paste its contents into the write-up instead, **with nothing secret in it**. One numbered `##`
+section per item below.
 
 1. **Part 0 predictions**, written before you ran anything, unedited, with your own account
    of which were wrong and why.

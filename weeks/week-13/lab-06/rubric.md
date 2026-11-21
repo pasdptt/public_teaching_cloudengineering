@@ -59,7 +59,7 @@ and what that does to a deployment.
 > differ, and why, has understood what an environment is for. Mark accordingly.
 
 ### B4 · Federation and pipeline identity (8)
-The fork question answered **specifically** — the attribute condition binding the pool to
+The copied-`deploy.yml` question answered **specifically** — the attribute condition binding the pool to
 their repository — not "because it's secure". Roles justified. Full marks acknowledge that
 the pool id and service-account email are *configuration*, safe to publish, while a key would
 not be, and can say why that distinction holds.

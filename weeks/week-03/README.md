@@ -16,6 +16,6 @@ Distributed basics, state, latency, failure.
 
 ## Due
 
-- **Lab 1**, by the end of this week — [rubric](../week-02/lab-01/rubric.md)
+- **Lab 1**, by the end of this week — [rubric](../week-02/lab-01/rubric.md) · [how to hand in](../../operations/lab-submission.md)
 
 The [weekly schedule](../../course/weekly-schedule.md) has the plan for every week.

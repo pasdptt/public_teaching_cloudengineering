@@ -20,8 +20,10 @@ but it takes away the check that would have caught a project that cannot be fini
 | 14 | **Final exam**, then **peer review**, in the session. **Your experiment running** by the end of the week | ~105 min | Written feedback from a peer. Not marked. |
 | 15 | **Demonstration**, **teardown in the room**, and **final submission** by the end of the week | ~150 min | Marked against the rubric |
 
-The exact dates depend on the semester calendar and are announced by the instructor. Where to
-submit is announced too.
+The exact dates depend on the semester calendar and are announced by the instructor. The
+proposal and the final submission are both Markdown files in `submissions/project/` in your
+private repository, handed in as commit links on Teams ([hand-in guide, section 7](../../../operations/lab-submission.md#7-the-project)). A pair uses the
+owner's repository, and both partners turn in the link.
 
 Two deadlines share week 12, and it is the tightest week in the course. **If you run out of time
 that week, protect Lab 5's teardown first.** An orphaned subscription keeps costing money, and a
@@ -34,7 +36,8 @@ late proposal is a conversation with the instructor, not a lost mark.
 **One page, thirty minutes.** It is a plan, not a design document. You have not yet learned the
 infrastructure material from week 13, so you are not expected to describe any of it.
 
-Copy this template and fill it in:
+Copy this template into `submissions/project/proposal.md`, fill it in, and run
+`python3 operations/check_submission.py proposal` for the link to hand in:
 
 ```markdown
 # Project proposal — <your name(s)>
@@ -141,8 +144,9 @@ running.
    partner's access.
 3. **Reflection**: half a page, not graded.
 
-**By the end of the week:** the final submission. The list of what it contains is in
-[`brief.md`](brief.md#what-you-submit), and that list is the contract.
+**By the end of the week:** the final submission, as `submissions/project/README.md`. The list
+of what it contains is in [`brief.md`](brief.md#what-you-submit), and that list is the contract.
+Run `python3 operations/check_submission.py project` for the link, and hand it in on Teams.
 
 **If your trial has expired or is about to**, tell the instructor **before** the session. If
 something is broken on the day, say so at the start of your twelve minutes.

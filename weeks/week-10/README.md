@@ -16,6 +16,6 @@ Horizontal scaling, concurrency, latency/throughput.
 
 ## Due
 
-- **Lab 4**, by the end of this week — [rubric](../week-09/lab-04/rubric.md)
+- **Lab 4**, by the end of this week — [rubric](../week-09/lab-04/rubric.md) · [how to hand in](../../operations/lab-submission.md)
 
 The [weekly schedule](../../course/weekly-schedule.md) has the plan for every week.

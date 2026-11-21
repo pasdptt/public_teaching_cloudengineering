@@ -5,7 +5,7 @@
 | | |
 |---|---|
 | **Cloud resources** | Per environment: Cloud Run, a bucket, a topic, a dead-letter topic, a push subscription, a subscription that keeps dead letters, and two service accounts — × 2 for `dev` and `prod`. Shared: Artifact Registry, a Workload Identity Federation pool, a deployer account |
-| **Estimated cost** | **~$0.02.** Everything sits inside Always Free; GitHub Actions is free on public repositories. |
+| **Estimated cost** | **~$0.02.** Everything sits inside Always Free; GitHub Actions runs inside your private repository's free monthly allowance. |
 | **Outcomes** | CLO-9 (delivery and environments), CLO-7 (reproduce and remove) |
 | **Estimated novice time** | ~40 min guided + ~2.5 h independent, in week 13 |
 | **Observed pilot time** | *not yet measured* |
@@ -228,8 +228,9 @@ authenticated identity. **No secret containing a key exists in your repository s
 
 **Answer, and these three are marked:**
 
-1. **What stops someone forking this public repository and deploying into your project?**
-   `deploy.yml` now contains your pool id and your service-account email. Be specific — name
+1. **What stops someone copying your `deploy.yml` into their own repository and deploying
+   into your project?** It now contains your pool id and your service-account email, and a
+   private repository is not a reason to assume nobody else will see them. Be specific — name
    the mechanism, and point at the line in the script that creates it.
 2. **The roles.** The script grants the deployer a fixed list. Justify each one in a sentence,
    and name the one you would most like to remove and what would break if you did.
@@ -252,7 +253,7 @@ run would have done without each one. Then apply both, and add the `plan` step t
 `TODO` asks for.
 
 0. **Switch the pipeline on.** Until now both jobs in `deploy.yml` have been *skipped* on
-   every push — grey, not red — because it could not authenticate before Part 4. In your fork:
+   every push — grey, not red — because it could not authenticate before Part 4. In your repository:
    Settings → Secrets and variables → Actions → **Variables** → `DEPLOY_ENABLED` = `true`.
    A variable, not a secret: anyone can see whether the pipeline is live.
 1. **Merge to main.** Watch it test, build, push, apply to `dev`, and smoke-test.
@@ -335,13 +336,15 @@ bucket and the empty image repository.
 
 ## What to submit
 
-`lab06-<your-name>.md`, plus your completed `infra/` and `.github/workflows/deploy.yml`.
+`submissions/lab-06/README.md`, handed in as a commit link on Teams ([lab submission guide](../../../operations/lab-submission.md)).
+Your completed `infra/` and `.github/workflows/deploy.yml` are in the same commit, which is
+also the commit your pipeline ran. One numbered `##` section per item below.
 
 1. **Predictions** from Part 1, written first.
 2. **Drift** — what the plan said after your console change, and your answer on which is right.
 3. **The difference table**, plus three things deliberately the same and what breaks if they
    drift.
-4. **Federation** — your three Part 4 answers: what stops a fork, the roles, and why the state
+4. **Federation** — your three Part 4 answers: what stops a copied `deploy.yml`, the roles, and why the state
    bucket is bootstrapped.
 5. **The pipeline** — red run, green run, and the image references for both environments.
 6. **Your four answers** from Part 5, plus your two second-run predictions.

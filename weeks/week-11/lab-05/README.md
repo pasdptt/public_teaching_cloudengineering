@@ -279,7 +279,9 @@ Include the verification output. **Cleanup claimed but not verified earns nothin
 
 ## What to submit
 
-`lab05-<your-name>.md`, plus your `pubsub_queue.py` and the two filled-in TODO scripts.
+`submissions/lab-05/README.md`, handed in as a commit link on Teams ([lab submission guide](../../../operations/lab-submission.md)).
+Your `pubsub_queue.py` and the two filled-in TODO scripts are in the same commit. One numbered
+`##` section per item below.
 
 1. **Part 0 predictions**, unedited, with your account of which were wrong.
 2. **The local evidence** from Part 1: the `pending` response, the `/stats` output showing

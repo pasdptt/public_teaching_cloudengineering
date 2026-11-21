@@ -205,7 +205,8 @@ Include the verification output.
 
 ## What to submit
 
-`lab03-<your-name>.md`, plus your two implementations.
+`submissions/lab-03/README.md`, handed in as a commit link on Teams ([lab submission guide](../../../operations/lab-submission.md)).
+Your two implementations are in the same commit. One numbered `##` section per item below.
 
 1. **The decision record** from Part 1, including the two rejected options and your view on
    the Firestore-vs-Cloud SQL reasoning.

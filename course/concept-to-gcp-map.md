@@ -83,15 +83,15 @@ database the way a cost-conscious engineer would, and the reasoning is the lesso
 
 | Concept taught | Mechanism | Tool / GCP service | What transfers | What is provider-specific |
 |---|---|---|---|---|
-| Continuous integration | Every change runs the tests before it can merge | **GitHub Actions** (free on public repos) | **Everything.** CI is a discipline; the YAML dialect is the only vendor-specific part | Workflow syntax. GitLab CI, Cloud Build and Jenkins express the same idea differently |
+| Continuous integration | Every change runs the tests before it can merge | **GitHub Actions** (free on public repos; a free monthly allowance on private ones) | **Everything.** CI is a discipline; the YAML dialect is the only vendor-specific part | Workflow syntax. GitLab CI, Cloud Build and Jenkins express the same idea differently |
 | Build once, promote the artefact | The *same* image is deployed to each environment in turn | Artifact Registry + Cloud Run revisions | **Strong transfer**, and the single most-violated rule in practice — rebuilding per environment means you never tested what you shipped | Registry and revision mechanics |
 | Pipeline identity | The pipeline is a principal and needs permissions of its own | **Workload Identity Federation** (OIDC) | **Strong transfer.** Every major provider now offers OIDC federation from CI, precisely so that no key has to exist | Pool/provider configuration, and the exact trust-condition syntax |
 | Environment management | One configuration, parameterised per environment | Terraform variable files + separate resource names | The parameterisation discipline, and the rule that undeclared differences are bugs | Whether environments are separate projects, folders, or prefixes within one |
 | Deployment gate | A stage that must pass before the next one runs | Branch protection + workflow job dependencies | The reasoning about **what each gate protects** | Configuration surface |
 | Managed build service | Provider-hosted build runners | Cloud Build (2,500 free min/month) | The build-service model | Triggers, substitutions, and IAM integration |
 
-*Why GitHub Actions rather than Cloud Build (D-26):* Actions minutes are free on public
-repositories, and keyless federation to Google Cloud means students implement the course's
+*Why GitHub Actions rather than Cloud Build (D-26):* Actions costs nothing here — free on the public
+course repository and inside the free allowance of each student's private copy — and keyless federation to Google Cloud means students implement the course's
 "never embed credentials" rule instead of reciting it. Cloud Build is discussed as the
 in-platform alternative and is a perfectly good choice; it is simply not the taught path.
 

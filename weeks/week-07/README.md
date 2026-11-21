@@ -16,6 +16,6 @@ Replication, consistency, transactions, choosing.
 
 ## Due
 
-- **Lab 3**, by the end of this week — [rubric](../week-06/lab-03/rubric.md)
+- **Lab 3**, by the end of this week — [rubric](../week-06/lab-03/rubric.md) · [how to hand in](../../operations/lab-submission.md)
 
 The [weekly schedule](../../course/weekly-schedule.md) has the plan for every week.

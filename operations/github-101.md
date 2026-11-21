@@ -2,14 +2,16 @@
 
 **Self-reading. It is not taught in a session and it is not assessed.** Read it if git is new
 to you, or if you have only ever used it by clicking buttons. If you already push to GitHub
-every week, skim the [never commit](#6-what-must-never-be-committed) and
+every week, do [section 3](#3-get-your-own-copy) anyway, because this course uses a private
+copy rather than a fork. Then skim the [never commit](#6-what-must-never-be-committed) and
 [course-specific traps](#9-traps-specific-to-this-course) sections and stop there.
 
 **Time:** about 45 minutes, best done in week 1 alongside the environment check, and in any
-case before Lab 1 Part 6 in week 3 — the first time the course needs a push to work.
+case before Lab 1 starts in week 2. Every lab is written up and handed in from the repository
+you set up in section 3.
 
-**What you will be able to do afterwards:** get your own copy of the course on GitHub, save
-and upload your work, watch the tests run on every push, pick up corrections to the course
+**What you will be able to do afterwards:** get your own private copy of the course on GitHub,
+save and upload your work, watch the tests run on every push, pick up corrections to the course
 material, look over your own change before anyone else sees it, and undo the common mistakes
 without making them worse.
 
@@ -60,31 +62,55 @@ need them for this course.
 
 ## 3. Get your own copy
 
-The course repository is read-only for you. You work in your own copy of it, called a
-**fork**, which lives under your GitHub account and is yours to push to.
+The course repository is read-only for you. You work in your **own private copy** of it, under
+your GitHub account. It holds all six labs, it is what you push to, and it is what you hand in
+([lab submission guide](lab-submission.md)).
 
-1. Open the course repository on GitHub and press **Fork** (top right). Keep the name.
-2. Clone **your fork** — the address has *your* username in it, not the course's:
+**Do not press Fork.** A fork of a public repository is always public, so anyone, including
+your classmates, could read your lab work while the lab is still open. Make a private copy
+instead. It takes five steps.
+
+1. Clone the course repository:
 
    ```bash
-   git clone https://github.com/YOUR-USERNAME/public_teaching_cloudengineering.git cloudengineering
+   git clone https://github.com/pasdptt/public_teaching_cloudengineering.git cloudengineering
    cd cloudengineering
    ```
 
-3. Tell git where the course itself lives, so you can pick up corrections later (section 7):
+2. Rename that remote to `upstream`. It stays connected to the course, so you can pick up
+   corrections later (section 7):
 
    ```bash
-   git remote add upstream https://github.com/pasdptt/public_teaching_cloudengineering.git
-   git remote -v          # origin = your fork, upstream = the course
+   git remote rename origin upstream
    ```
 
-4. **Switch on Actions in your fork.** GitHub turns workflows off in a new fork. Open your
-   fork's **Actions** tab and press the green button (*"I understand my workflows, go ahead
-   and enable them"*). Without this, Lab 1 Part 6 shows nothing and looks broken.
+3. **Create an empty private repository on GitHub.** Press **+** (top right), then
+   **New repository**:
+   - name it `cloudengineering`;
+   - choose **Private**;
+   - leave *Add a README*, *.gitignore* and *license* all **off**. The repository must start
+     empty, or the next step is refused.
 
-> **Your fork is public**, because forks of a public repository always are. Treat everything
-> you push as visible to anyone, including other students. Your own work is still yours to
-> submit and explain — see the AI and collaboration rules in the syllabus.
+4. Connect your clone to it and push:
+
+   ```bash
+   git remote add origin https://github.com/YOUR-USERNAME/cloudengineering.git
+   git push -u origin main
+   git remote -v          # origin = your private copy, upstream = the course
+   ```
+
+   With the GitHub CLI, steps 3 and 4 are one command, run inside the folder:
+   `gh repo create cloudengineering --private --source=. --remote=origin --push`
+
+5. **Give the instructor access.** In your repository, open **Settings → Collaborators →
+   Add people** and add `pasdptt`, unless the Teams class team names a different account.
+   Without this, the marker cannot open what you hand in.
+
+Actions are already on in a repository you created yourself. Open the **Actions** tab after
+the push in step 4, and a CI run should be there.
+
+> **A private repository is still not a safe.** The instructor can read it, and so can anyone
+> you add later, or everyone, if you ever make it public. Section 6 applies just the same.
 
 ## 4. The everyday loop
 
@@ -95,7 +121,7 @@ git status                     # 1. what has changed? (run this constantly — i
 git diff                       # 2. read the actual changes, line by line
 git add path/to/file.py        # 3. choose what goes into the next snapshot
 git commit -m "Store jobs in a file so they survive a restart"   # 4. take the snapshot
-git push                       # 5. upload it to your fork (and start the tests)
+git push                       # 5. upload it to GitHub (and start the tests)
 ```
 
 - **Add files by name.** `git add .` adds everything in the folder, including things you did
@@ -147,22 +173,15 @@ ordinary file. So the rule for keys is simpler: never create one.
 | Lab run output folders, `application/data/` | Results are submitted, not committed |
 
 **If you commit a secret anyway, deleting the file is not enough.** It stays in your history,
-and your fork is public. In this order: **revoke or rotate it first** (in the Google Cloud
+and anyone who can read the repository can read it. In this order: **revoke or rotate it first** (in the Google Cloud
 console, delete the key), then tell the instructor, then clean up. A revoked key in your
 history is harmless; a live one in a deleted file is not.
 
 ## 7. Picking up corrections to the course
 
-The instructor will fix and add things during the term. Your fork does not update itself.
+The instructor will fix and add things during the term. Your copy does not update itself.
 
-**On GitHub:** open your fork, press **Sync fork**, then **Update branch**. Then on your
-laptop:
-
-```bash
-git pull
-```
-
-**Or entirely from the laptop**, using the `upstream` remote from section 3:
+Pull them from the `upstream` remote you set up in section 3:
 
 ```bash
 git fetch upstream
@@ -193,26 +212,30 @@ breaks in git is recoverable *until* one of those two is used to "fix" it.
 
 ## 9. Traps specific to this course
 
-- **Actions are switched off in a new fork.** Enable them once (section 3, step 4).
+- **Actions minutes come from a free allowance.** In a private repository, GitHub Free
+  includes enough usage each month for about 2,000 minutes of Linux runs. One CI run is two
+  short jobs, and GitHub rounds each one up to a minute, so it costs 2 minutes. If the
+  allowance ever runs out, runs are blocked, not billed, as long as you have not added a
+  payment method. Pushing a few times a day uses a small fraction of it.
 - **The tests only run on `main`, or on a pull request into `main`.** That is what
   `.github/workflows/ci.yml` says. A push to some other branch with no pull request runs
   nothing — by design, not a fault.
-- **A pull request from a fork points at the course repository by default.** If you use
-  branches and open a pull request, change **base repository** to *your* fork before you
-  press *Create*. A pull request into the course repository shows your work to everyone
-  watching it, and it will be closed without being read.
+- **Never push to `upstream`.** It is the course repository, and you cannot write to it.
+  If `git push` says *permission denied* and names `pasdptt/public_teaching_cloudengineering`,
+  your `origin` still points at the course. Redo section 3, steps 2 and 4.
 - **Run git commands from inside the repository folder.** `fatal: not a git repository`
   means you are somewhere else — `cd` back to the folder you cloned.
 - **Lab 6 depends on your repository's name.** The keyless login it sets up trusts one
-  repository by name. Do not rename your fork after Lab 6 Part 4, or the pipeline stops
+  repository by name. Do not rename your repository after Lab 6 Part 4, or the pipeline stops
   being able to deploy.
 
 ## 10. When git says no
 
 | Message | What it means | What to do |
 |---|---|---|
-| `Authentication failed` / `Permission denied` | git cannot log in, or you cloned the course repo instead of your fork | Redo section 2's login; check `git remote -v` shows *your* username for `origin` |
-| `rejected … (fetch first)` | GitHub has commits you do not have — usually from **Sync fork** | `git pull`, then `git push` again |
+| `Authentication failed` / `Permission denied` | git cannot log in, or `origin` is still the course repository | Redo section 2's login. Check that `git remote -v` shows *your* username for `origin` |
+| `remote: Repository not found` | The `origin` address is mistyped, or the repository is private and git is logged in as someone else | Check `git remote -v`, then section 2's login |
+| `rejected … (fetch first)` | GitHub has commits you do not have, usually from an edit on the website | `git pull`, then `git push` again |
 | `Your branch is ahead of 'origin/main' by N commits` | You committed but have not pushed | `git push` |
 | `CONFLICT (content): Merge conflict in …` | You and the course changed the same lines | Section 7 |
 | `You are in 'detached HEAD' state` | You checked out an old commit, not a branch | `git switch main` to get back |
@@ -228,9 +251,11 @@ You are ready for Lab 1 Part 6 if you can, without looking:
 - [ ] say what `origin` and `upstream` point to in your clone;
 - [ ] make a one-line change, see it with `git diff`, commit it with a useful message, and
       push it;
-- [ ] find that push's run in your fork's **Actions** tab and say whether it is green;
+- [ ] find that push's run in your repository's **Actions** tab and say whether it is green;
 - [ ] name three things that must never be committed, and what to do first if one is;
-- [ ] undo a commit you have already pushed, without `--force`.
+- [ ] undo a commit you have already pushed, without `--force`;
+- [ ] say where a lab write-up goes and which link you hand in on Teams
+      ([lab submission guide](lab-submission.md)).
 
 ## Words you will meet
 
@@ -240,7 +265,7 @@ You are ready for Lab 1 Part 6 if you can, without looking:
 | Commit | One saved snapshot, with a message and an id like `8e165e3` |
 | Branch | A named line of commits. This course mostly needs only `main` |
 | Remote | Another copy of the repo that you push to or pull from: `origin`, `upstream` |
-| Fork | Your own GitHub copy of someone else's repository |
+| Fork | A GitHub copy of someone else's repository, public if theirs is. This course uses a private copy instead (section 3) |
 | Clone | Your laptop's copy of a GitHub repository |
 | Push / pull | Upload your commits / download and merge commits from GitHub |
 | Pull request (PR) | A proposal to merge one branch into another, with a place to review it |

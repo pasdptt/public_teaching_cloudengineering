@@ -15,6 +15,6 @@ Defence, synthesis, transfer.
 
 ## Due
 
-- **The project**: submission, verified cleanup and reflection — [milestones](../week-11/project/milestones.md) · [rubric](../week-11/project/rubric.md)
+- **The project**: submission, verified cleanup and reflection — [milestones](../week-11/project/milestones.md) · [rubric](../week-11/project/rubric.md) · [how to hand in](../../operations/lab-submission.md#7-the-project)
 
 The [weekly schedule](../../course/weekly-schedule.md) has the plan for every week.

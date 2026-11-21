@@ -317,8 +317,8 @@ someone runs it. This part makes that automatic.
 A workflow file already exists at `.github/workflows/ci.yml`. **Read it before you use it** —
 it is short, and every block in it is a decision you should be able to explain.
 
-1. Push your work to your own fork or branch on GitHub. (New to git? [GitHub 101](../../../operations/github-101.md)
-   covers forking, pushing and switching Actions on — in about 45 minutes.)
+1. Push your work to your private repository on GitHub. (New to git? [GitHub 101](../../../operations/github-101.md)
+   sets that repository up and covers pushing, in about 45 minutes.)
 2. Open the **Actions** tab. You should see a run for your push.
 3. Watch it: check out, install pytest, compile every module, run the suite.
 4. **Break something on purpose.** Change an assertion in `tests/test_processing.py` so it is
@@ -327,10 +327,12 @@ it is short, and every block in it is a decision you should be able to explain.
 
 **Checkpoint.** A red run and a green run, both from your own pushes.
 
-**Cost:** zero. GitHub Actions minutes are free for public repositories (verified
-2026-09-22 — `course/references.md` R-13). This is the only thing in the course that is free
-because of a platform policy rather than a free-tier allowance, which is worth noticing: the
-policy could change, and the allowance is contractual.
+**Cost:** zero, from an allowance. In a private repository, Actions draws on GitHub Free's
+monthly allowance, which is worth about 2,000 minutes of Linux runs (verified 2026-11-20,
+`course/references.md` R-13). One CI run is two jobs, each rounded up to a minute. Notice what
+kind of free this is: an allowance, like the cloud free tiers from Lab 2 on, so ask the same
+question you will ask of them — what happens when it runs out? Here, runs are blocked, not
+billed, as long as no payment method is on file.
 
 **Questions to answer:**
 
@@ -353,8 +355,11 @@ it at least once. Question 4 is the one week 13 comes back to.
 
 ## What to submit
 
-One Markdown file, `lab01-<your-name>.md`, plus your modified `jobstore.py`. Keep it short —
-the rubric rewards precision, not length.
+Write it up in `submissions/lab-01/README.md` in your private repository, and hand it in as a
+commit link on the Teams assignment. The [lab submission guide](../../../operations/lab-submission.md) has the steps,
+the template, and a check to run first. Your modified `jobstore.py` is in the same commit, so
+link to it rather than copying it. Keep it short — the rubric rewards precision, not length.
+Use one numbered `##` section per item below.
 
 1. **Predictions** (written before Part 3), unedited.
 2. **Request trace** from Part 1, and your answer on client-supplied request ids.
@@ -421,8 +426,9 @@ WSL2. See `operations/student-setup.md`.
 a lock you take twice on the same thread. Look for a method holding the lock that calls
 another method which also takes it.
 
-**No runs appear in the Actions tab** — check that Actions is enabled for your fork
-(Settings → Actions; [GitHub 101](../../../operations/github-101.md) section 3, step 4), and that you pushed to a branch the workflow triggers on: `main`, or a
+**No runs appear in the Actions tab** — check that Actions is allowed in your repository
+(Settings → Actions → General), that `git remote -v` shows *your* repository as `origin`
+([GitHub 101](../../../operations/github-101.md), section 3), and that you pushed to a branch the workflow triggers on: `main`, or a
 pull request targeting it. A push to `my-branch` with no pull request open runs nothing, by
 design.
 

@@ -7,7 +7,10 @@ Cloud characteristics, service models, shared responsibility.
 - [Student notes](student-notes.md) — about **30 minutes**. The reading is the preparation; there is no separate revision session.
 - Slides: [present on claude.ai](https://claude.ai/artifact/Bc9LrKS3qQUSmKod4jhWJW) · [Markdown source](slides.md)
 - New to git or GitHub? [GitHub 101](../../operations/github-101.md) — self-reading, about 45
-  minutes, not assessed. Do it this week, before you need to push in Lab 1 Part 6.
+  minutes, not assessed. Do it this week: section 3 sets up the private repository every lab
+  is handed in from.
+- [How to hand in a lab](../../operations/lab-submission.md) — about ten minutes. Skim it now and
+  use it at the end of Lab 1.
 
 ## Do
 

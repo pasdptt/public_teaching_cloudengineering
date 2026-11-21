@@ -244,8 +244,9 @@ point is a defensible answer, not a large one.
 ## What you submit
 
 Everything below is listed in [`course/assessment-plan.md`](../../../course/assessment-plan.md);
-this is the same list, in the order a marker reads it. **Where to submit is announced by the
-instructor.**
+this is the same list, in the order a marker reads it. **Write it as
+`submissions/project/README.md` in your private repository, with one numbered `##` section per
+item, and hand it in as a commit link on Teams** ([hand-in guide, section 7](../../../operations/lab-submission.md#7-the-project)).
 
 1. **Architecture diagram** and a **short decision record**: the decisions that mattered, what
    you rejected, and the condition under which the rejected option would have won.
@@ -290,8 +291,11 @@ marked far better than a demonstration that avoids the part that does not work. 
   [`operations/cloud-access-and-fallback.md`](../../../operations/cloud-access-and-fallback.md) §5.
 - **Check both trial expiry dates in week 12** and put them in the proposal. If the owner's
   trial ends first, the project stops for both of you.
+- **One repository: the owner's**, because it is the one their Lab 6 pipeline trusts. The
+  partner is added as a collaborator once Lab 6 is handed in, and each of you commits under
+  your own name. **Both of you turn in the same link** on Teams ([hand-in guide, section 7](../../../operations/lab-submission.md#7-the-project)).
 - **Submit a contribution record** that both of you agree with: who decided what, and who built
-  what.
+  what. Link the commits.
 - **Both of you answer an individual question** in the defence, usually about a decision one of
   you made that the other might have made differently. The individual band is marked per
   student, and partners can receive different marks.

@@ -147,6 +147,14 @@ as much; both members answer individual questions.
 Quiz scores are normalised before the category weight is applied, so quizzes of slightly
 different length do not distort the total.
 
+### How labs are handed in
+
+Each lab is a Markdown write-up in your **private** GitHub repository, with the instructor
+added as a collaborator. You hand in a link to one commit of it on the lab's assignment in
+Microsoft Teams, and that commit is what is marked. The project's proposal and final
+submission are handed in the same way. Steps, a template and a pre-hand-in check:
+[`operations/lab-submission.md`](../operations/lab-submission.md).
+
 ### How labs are marked
 
 | Band | Share |
@@ -245,7 +253,8 @@ exam rules are in `weeks/week-08/exams.md` and the project in `weeks/week-11/pro
 
 Course-wide: `course/` design documents · `application/` the course application · `infra/`
 Terraform · `operations/` setup (including `github-101.md`, a self-reading guide to git and
-GitHub for anyone new to them), cloud access, cost and cleanup.
+GitHub for anyone new to them, and `lab-submission.md`, how to hand in a lab), cloud access,
+cost and cleanup.
 
 Quiz and exam papers, answer keys and solutions are not in this repository. Quizzes are
 handed out in the room.

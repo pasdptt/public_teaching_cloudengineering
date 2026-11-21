@@ -183,6 +183,15 @@ allowances apply to **private** repositories — "Minutes are free for public re
 *Used by:* decision D-26. This course repository is public, so CI costs nothing, and the CI
 thread from week 3 (D-23) adds $0 to the course's cost model.
 
+**RE-CHECKED 2026-11-20** against <https://docs.github.com/en/billing/managing-billing-for-your-products/managing-billing-for-github-actions/about-billing-for-github-actions>,
+because students now work in **private** copies (D-73). Standard runners are still free in
+public repositories. Private repositories draw on an included amount per month that GitHub
+now states in dollars, not minutes: **$12 for GitHub Free**, $18 for Pro. A Linux 2-core
+minute is $0.006, so $12 is about 2,000 Linux minutes (our arithmetic, not GitHub's
+wording). Without a payment method, usage is **blocked**, not billed, once the amount is used.
+One CI run is two jobs under 20 seconds each (measured 2026-11-16); GitHub rounds each job
+up to a minute, so a run costs 2 minutes.
+
 ## R-14 · `google-github-actions/auth`
 <https://github.com/google-github-actions/auth>
 **FETCHED 2026-09-22.**
@@ -223,7 +232,7 @@ where they get to implement it.
 | Re-fetch R-01 and R-02 (trial terms) | Before each offering, and before finalising setup instructions |
 | Re-fetch R-03 (provider version) and re-test `infra/` | Before each offering |
 | Re-fetch R-09 … R-12 (the rates and allowances the design depends on) | Before each offering |
-| Re-fetch R-13 (Actions remains free for public repos) and R-14 (WIF guidance and action version) | Before each offering |
+| Re-fetch R-13 (Actions free for public repos, and the private-repo allowance) and R-14 (WIF guidance and action version) | Before each offering |
 | Re-check each lab's quantities against the current free-tier allowances | Before each offering |
 | Re-check R-07 and R-08 access | Before assigning them |
 

@@ -69,13 +69,13 @@ for code and prose, disclosure required, and individual oral explanation of an
 architectural decision used as the check on understanding. That oral check is already in
 the design (A-11, D-16), so the policy mainly decides the disclosure format.
 
-### Q-06 · Where do students submit, and in what form?
-**Owner:** instructor
-**Blocks:** submission templates and the automated functional checks.
-**Options:** git repository per student, LMS upload, or a shared drive. Affects whether
-objective lab checks can be run automatically by the instructor.
-**If unanswered:** submission templates are authored as self-contained Markdown + evidence
-files, which work under any of the three.
+### ~~Q-06 · Where do students submit, and in what form?~~ — **RESOLVED 2026-11-20** (labs), 2026-11-21 (project)
+**Answer:** in a private GitHub repository per student, as Markdown write-ups in
+`submissions/lab-0N/`, handed in as a commit link on Microsoft Teams. Recorded as D-73, and
+set out for students in `operations/lab-submission.md`. A git repository per student also
+lets the instructor run the objective lab checks by cloning the commit and running pytest.
+**Project (2026-11-21):** the same way, from `submissions/project/`. A pair uses the owner's
+repository, and both partners turn in the link. See D-73.
 
 ---
 

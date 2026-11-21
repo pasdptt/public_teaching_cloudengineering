@@ -5,8 +5,10 @@
 # you will have been living with one for ten weeks — and, if things go normally, it will
 # have stopped you shipping something broken at least once.
 #
-# COST: $0. GitHub Actions minutes are free for public repositories, and this repository is
-# public. Verified 2026-09-22 — see course/references.md R-13.
+# COST: $0. Free on the public course repository. In your private copy it draws on GitHub
+# Free's monthly allowance (about 2,000 Linux minutes); one run is two jobs, each rounded up
+# to a minute. With no payment method on file, a used-up allowance blocks runs rather than
+# billing you. Verified 2026-11-20 — see course/references.md R-13.
 #
 # Read this file. It is short on purpose, and every block is doing something you should be
 # able to explain in the week 13 discussion.

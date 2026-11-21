@@ -76,12 +76,13 @@ uname -m      # arm64 = Apple Silicon, x86_64 = Intel
 ### Verify
 
 ```bash
-git clone <your fork of this repository> cloudengineering && cd cloudengineering
+cd cloudengineering        # your private copy, set up in GitHub 101, section 3
 python3 operations/check_environment.py
 ```
 
-Clone **your own fork**, not the course repository itself: Lab 1 Part 6 needs you to push.
-[GitHub 101](github-101.md), section 3, walks through forking and cloning.
+Set up your **private copy** first: [GitHub 101](github-101.md), section 3, clones the course
+and connects it to your own private repository. Every lab is pushed to that repository and
+handed in from it ([lab submission guide](lab-submission.md)).
 
 ---
 
@@ -117,7 +118,7 @@ Windows/Linux filesystem boundary is noticeably slow and causes file-permission 
 
 ```bash
 cd ~                      # your Linux home, e.g. /home/you
-git clone <your fork of this repository> cloudengineering   # see github-101.md, section 3
+# set up your private copy here, inside WSL: github-101.md, section 3
 ```
 
 ### Route B — native Windows

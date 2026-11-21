@@ -155,6 +155,30 @@ needs revisiting before Lab 1 and the fallback path becomes the main path for th
   ordinary logistics, in the same breath as asking about laptops, so that saying "that's me"
   costs nothing socially. Handling it now is the difference between a supported alternative
   path and a student quietly falling behind in week 4.
+- **Private repositories and Teams (D-73).** Labs are handed in as a commit link from each
+  student's private repository ([`operations/lab-submission.md`](../../operations/lab-submission.md)).
+  Ask everyone to do [GitHub 101](../../operations/github-101.md), section 3, this week, and to add you as a collaborator.
+  Then, before Lab 1 is due in week 3:
+  - **Create one Teams assignment per lab**, plus *Project proposal* (week 12) and *Project*
+    (week 15), each with its deadline, and allow link attachments.
+    The Teams time of turning in is the deadline record. The commit link fixes the content.
+  - **Accept the invitations in one go**, rather than one email at a time:
+
+    ```bash
+    gh api user/repository_invitations --jq '.[] | "\(.id) \(.repository.full_name)"'
+    gh api user/repository_invitations --jq '.[].id' \
+      | xargs -I{} gh api -X PATCH user/repository_invitations/{}
+    ```
+
+  - **Collaborators get write access**, because a personal repository has no read-only level.
+    Never push to a student's repository. Comment in Teams, or on a commit, instead.
+  - **To run a submission's tests**, check out exactly the commit that was handed in:
+
+    ```bash
+    git clone https://github.com/STUDENT/cloudengineering.git && cd cloudengineering
+    git checkout COMMIT-FROM-THE-LINK
+    cd application && python3 -m pytest -m lab01
+    ```
 
 ---
 
@@ -163,5 +187,6 @@ needs revisiting before Lab 1 and the fallback path becomes the main path for th
 - Student notes: `weeks/week-01/student-notes.md`
 - Environment check: `operations/check_environment.py`
 - Setup: `operations/student-setup.md`
+- Handing in labs: `operations/lab-submission.md`; GitHub: `operations/github-101.md`
 - Cost figures used in the metering block: `operations/cost-model.md` §2
 - Next week: processes, isolation, containers — and Quiz 1 on this material

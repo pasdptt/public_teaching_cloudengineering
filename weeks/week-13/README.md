@@ -18,6 +18,6 @@
 ## Due
 
 - **Quiz 6**, in the session (15 minutes, on paper)
-- **Lab 6**, at the start of week 14 — [rubric](lab-06/rubric.md)
+- **Lab 6**, at the start of week 14 — [rubric](lab-06/rubric.md) · [how to hand in](../../operations/lab-submission.md)
 
 The [weekly schedule](../../course/weekly-schedule.md) has the plan for every week.

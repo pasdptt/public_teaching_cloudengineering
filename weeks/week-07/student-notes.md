@@ -129,7 +129,7 @@ obvious on a bill. Noticing it yourself is the skill being assessed.
 
 ## Next week
 
-**The midterm**, in the session: 120 minutes, weeks 1–7 and Labs 1–3. Allowed: one A4 sheet of
-your own handwritten notes. The week 8 notes say how to prepare in the time the week allows.
-After it: managed container execution in week 9, where the application you just made stateless
+**Quiz 4** (weeks 5–7, 15 minutes), then practice questions on weeks 1–7 in the style of the
+final, which covers the whole course in week 14. There is no midterm. The week 8 notes say how
+to prepare in the time the week allows. After it: managed container execution in week 9, where the application you just made stateless
 gets deployed somewhere that can run several copies of it.

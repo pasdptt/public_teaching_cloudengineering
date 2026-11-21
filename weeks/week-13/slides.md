@@ -506,10 +506,10 @@ terraform apply -var-file=envs/prod.tfvars -var="image=$IMAGE"
 
 # Next week
 
-**Final exam** — 120 minutes · **peer review** of another project
+**Final exam** — 150 minutes, the whole course · **peer review** of another project
 
 Lab 6 due at the start of the session
 
 <!--
-Point at weeks/week-14/student-notes.md for the exam format and how to prepare. Remind them the peer review runs on their proposal and any evidence collected — it cannot run on memory.
+Point at weeks/week-14/exams.md for the exam format: 150 minutes, about half on weeks 1–7, revised in week 8. Remind them the peer review runs on their proposal and any evidence collected — it cannot run on memory.
 -->

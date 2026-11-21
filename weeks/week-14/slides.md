@@ -21,7 +21,7 @@ Render:  bash course/slides/render.sh 14
 Cloud Computing: Principles and Practice
 
 <!--
-TIMING: 180 min total — 120 exam · 10 break · 50 peer review. No new material.
+TIMING: 180 min total — 150 exam · 10 break · 20 peer review. No new material. The only exam; there is no midterm (D-74).
 Guide: course/teaching-guides/week-14.md
 Lab 6 is due at the start of this session. Students bring a copy of their project-so-far for the peer review (announced in week 13).
 -->
@@ -32,9 +32,9 @@ Lab 6 is due at the start of this session. Students bring a copy of their projec
 
 | | | |
 |---|---|---|
-| **Final exam** | 120 min | weeks 1–13, weighted towards 9–13 |
+| **Final exam** | 150 min | weeks 1–13, about half on 1–7 |
 | Break | 10 min | |
-| **Peer review** | 50 min | another group's architecture and evidence |
+| **Peer review** | 20 min | another group's architecture and evidence |
 
 **Lab 6 was due at the start of this session.**
 
@@ -42,17 +42,17 @@ Lab 6 is due at the start of this session. Students bring a copy of their projec
 
 <!-- _class: block -->
 
-<span class="min">120 minutes</span><span class="clock">0:00 – 2:00</span>
+<span class="min">150 minutes</span><span class="clock">0:00 – 2:30</span>
 
 # Final examination
 
-Cumulative · 60 marks
+Cumulative · 75 marks
 
 ---
 
 ## The rules
 
-- **120 minutes.** Papers are collected at 2:00, exactly.
+- **150 minutes.** Papers are collected at 2:30, exactly.
 - **Allowed:** one A4 sheet of your own handwritten notes, both sides.
 - **No devices.** Phones and laptops closed and away.
 - One question asks you to **defend a decision you made** in Lab 6 or your project. Answer about the system you actually built.
@@ -66,7 +66,7 @@ Leave this slide on the wall for the whole exam. Call 30 minutes and 10 minutes 
 
 <!-- _class: block -->
 
-<span class="min">Break — 10 minutes</span><span class="clock">2:00 – 2:10</span>
+<span class="min">Break — 10 minutes</span><span class="clock">2:30 – 2:40</span>
 
 # Break
 
@@ -76,7 +76,7 @@ Then your project-so-far, on paper or on screen
 
 <!-- _class: block -->
 
-<span class="min">50 minutes</span><span class="clock">2:10 – 3:00</span>
+<span class="min">20 minutes</span><span class="clock">2:40 – 3:00</span>
 
 # Peer review
 
@@ -88,9 +88,9 @@ How your design reads to someone who did not build it
 
 | | |
 |---|---|
-| **20 min** | Exchange. Read their work and **write** answers to four questions — **in silence** |
-| **20 min** | Ten minutes each way. The reviewer reads their answers aloud |
-| **10 min** | The whole room: the most useful thing anyone **received** |
+| **10 min** | Exchange. Read their work and **write** answers to questions 1 and 3 — **in silence** |
+| **10 min** | Five minutes each way. The reviewer reads their answers aloud |
+| **Within two days** | Questions 2 and 4, in writing, sent to the authors on Teams |
 
 Not graded. The sheets go to the authors, and a copy to me.
 
@@ -104,7 +104,7 @@ Not graded. The sheets go to the authors, and a copy to me.
 4. **What is the strongest version of an alternative they rejected?**
 
 <!--
-Keep the silence strict. After two hours of writing, a fixed prompt is easier than open discussion, not harder.
+Keep the silence strict. After two and a half hours of writing, a fixed prompt is easier than open discussion, not harder. Questions 1 and 3 in the room; 2 and 4 afterwards.
 -->
 
 ---

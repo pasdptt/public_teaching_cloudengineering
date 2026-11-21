@@ -1,8 +1,9 @@
-# Week 8 — Midterm examination
+# Week 8 — Consolidation: Quiz 4 and the lab clinic
 
-**The midterm is this week**, in the session: 120 minutes, written, covering weeks 1–7 and
-Labs 1–3. No new material, and no lab is open. Format and allowed materials:
-[`weeks/week-08/exams.md`](exams.md).
+**Quiz 4 is this week** (weeks 5–7, 15 minutes). There is no new material and no lab is open.
+There is no midterm (D-74). The final exam in week 14 covers the whole course, with about half
+its marks on weeks 1–7, so this week is when you consolidate them, while they are fresh.
+Exam format: [`weeks/week-14/exams.md`](../week-14/exams.md).
 
 ---
 
@@ -10,23 +11,22 @@ Labs 1–3. No new material, and no lab is open. Format and allowed materials:
 
 | | |
 |---|---|
-| Midterm | 120 min |
+| Quiz 4 | 15 min — weeks 5–7, on paper |
+| Quiz 4, the answers | 15 min — gone through together straight afterwards |
+| Practice questions, weeks 1–7 | 50 min — in pairs, in the style of the final, not marked |
 | Break | 10 min |
 | Trial and cost check | 20 min — your own billing page, in the room |
-| Lab clinic | 30 min — outstanding Lab 3 issues, and a local container build before Lab 4 |
+| Lab clinic | 70 min — outstanding Lab 3 issues, and a local container build before Lab 4 |
 
-**Bring:** one A4 sheet of your own handwritten notes, both sides. No devices during the exam.
-**Bring a laptop** for the last 50 minutes.
+**Bring a laptop.** You need it for the second half.
 
-## What the midterm asks
+## What the practice questions ask
 
-The same kind of question as the quizzes, at more length: trace a request across a boundary,
-interpret a measurement, predict what a change does and explain why, choose between designs
-and say what the choice costs. It does not ask you to remember service names, prices or
-console paths.
-
-Several questions are about **your own** system — the VM you ran in Lab 2, the decision record
-you wrote in Lab 3. Answer about the one you actually built.
+The same kinds of question as the final: trace a request across a boundary, interpret a
+measurement, predict what a change does and explain why, choose between designs and say what
+the choice costs. Several are about **your own** system — the VM you ran in Lab 2, the
+decision record you wrote in Lab 3. Nothing is marked. The point is to find what you cannot
+yet explain while there are six weeks left to fix it.
 
 ## How to prepare (~180 minutes, and no more)
 
@@ -35,13 +35,14 @@ you wrote in Lab 3. Answer about the one you actually built.
 | Re-read the weeks 1–7 notes, with the "Check yourself" questions | 30 min |
 | Quizzes 1–3 and their feedback: rewrite any answer that lost marks | 50 min |
 | Your Lab 1–3 submissions: every prediction you got wrong, and why | 60 min |
-| Make your one-page sheet | 40 min |
+| Start your one-page sheet for the final, for weeks 1–7 | 40 min |
 
-**Making the sheet is the revision.** Deciding what fits on one page is deciding what you
-understand well enough to compress.
+**Making the sheet is the revision.** Deciding what fits on half a page is deciding what you
+understand well enough to compress. In week 14 you add weeks 9–13 to the other half.
 
-If preparing takes much longer than this, tell the instructor. The exam is written so that
-re-reading and your own lab work are enough; if they are not, the paper is wrong, not you.
+If preparing takes much longer than this, tell the instructor. The quiz and the final are
+written so that re-reading and your own lab work are enough. If they are not, the paper is
+wrong, not you.
 
 ## The trial check
 

@@ -103,10 +103,10 @@ graded evidence.
 
 | CLO | Taught in weeks | Practised in | Assessed by | Primary evidence |
 |---|---|---|---|---|
-| CLO-1 Characteristics & service models | 1, 4, 9 | Lab 1, Lab 4 | Quiz 1, Quiz 4, Midterm, Project defence | Responsibility attribution for a specific incident |
-| CLO-2 Execution models | 2, 9, 10 | Lab 1, Lab 4 | Quiz 1, Quiz 2, Quiz 4, Lab 4, Midterm, Final | VM-vs-managed comparison backed by Lab 4 measurements |
-| CLO-3 Network & identity tracing | 3, 4, 5 | Lab 2 | Quiz 2, Quiz 3, Lab 2, Midterm | Recorded prediction + observed result for a rule change |
-| CLO-4 Storage & data selection | 6, 7 | Lab 3 | Quiz 3, Quiz 4, Lab 3, Midterm, Project | Decision record with rejected alternatives |
+| CLO-1 Characteristics & service models | 1, 4, 9 | Lab 1, Lab 4 | Quiz 1, Quiz 4, Final, Project defence | Responsibility attribution for a specific incident |
+| CLO-2 Execution models | 2, 9, 10 | Lab 1, Lab 4 | Quiz 1, Quiz 2, Quiz 4, Lab 4, Final | VM-vs-managed comparison backed by Lab 4 measurements |
+| CLO-3 Network & identity tracing | 3, 4, 5 | Lab 2 | Quiz 2, Quiz 3, Lab 2, Final | Recorded prediction + observed result for a rule change |
+| CLO-4 Storage & data selection | 6, 7 | Lab 3 | Quiz 3, Quiz 4, Lab 3, Final, Project | Decision record with rejected alternatives |
 | CLO-5 Cloud-native design | 9, 10, 11 | Lab 4, Lab 5 | Quiz 5, Quiz 6, Lab 4, Lab 5, Final, Project | Stateless handler + external state + queue, working |
 | CLO-6 Measurement & explanation | 10, 12 (week 14 reading) | Lab 4, Lab 5 | Quiz 5, Quiz 6, Lab 4, Lab 5, Final, Project | Load experiment and failure experiment with conditions |
 | CLO-7 Reproducibility & teardown | 13 (cleanup thread from wk 4) | Lab 6 (and cleanup from Lab 2 on) | Quiz 6 (cleanup thread), Lab 6, Final, Project | Teardown verification showing nothing billable remains |
@@ -128,7 +128,7 @@ rubric's reproducibility/security/resource-handling band.
 | Every quiz maps only to outcomes already taught | ✅ verified in `assessment-plan.md` |
 | Every CLO is assessed by something other than a quiz | ✅ each has a lab or project artefact |
 | CLO-9 is taught before it is assessed | ✅ practised from week 3 as a thread (D-23); taught in week 13; assessed in Quiz 6 (thread only), Lab 6, the final exam (week 14) and the project |
-| Every exam covers only completed labs | ✅ midterm after Lab 3 closes, final after Lab 6 is due (`weeks/week-08/exams.md`) |
+| Every exam covers only completed labs | ✅ one exam, the final, after Lab 6 is due (`weeks/week-14/exams.md`) |
 | No CLO depends on resources the course cannot guarantee | ✅ CLO-3 … CLO-7 have documented local fallbacks (`operations/cloud-access-and-fallback.md`) |
 
 ---

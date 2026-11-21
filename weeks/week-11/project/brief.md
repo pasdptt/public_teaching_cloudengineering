@@ -42,7 +42,7 @@ It is enough for the baseline, one small extension and **one** experiment **only
 delivery path already exists. If you find yourself building infrastructure, stop and ask.
 
 > **Why one experiment, not two.** When the course's teaching was compressed to twelve weeks
-> (to make room for a midterm and a final exam), the project lost about three and a half hours.
+> (to make room for exam weeks), the project lost about three and a half hours.
 > It was simplified by the same amount rather than left to absorb it: you **run** one experiment
 > and **design** the other without running it (Part 3, and `planning/decisions.md` D-69).
 

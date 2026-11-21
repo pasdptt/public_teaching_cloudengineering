@@ -19,7 +19,7 @@ Status: **unfilled — awaiting Q-01.** Do not date the syllabus from anywhere e
 | 5 |  |  |
 | 6 |  |  |
 | 7 |  |  |
-| 8 |  | ← **midterm exam** · trial check (no teaching) |
+| 8 |  | ← **Quiz 4** · practice questions · trial check (no teaching, no midterm) |
 | 9 |  |  |
 | 10 |  |  |
 | 11 |  | ← project brief released |
@@ -29,9 +29,9 @@ Status: **unfilled — awaiting Q-01.** Do not date the syllabus from anywhere e
 | 15 |  | ← demonstrations + final submission |
 
 Twelve teaching weeks (1–7, 9–13), and three that do not teach (8, 14, 15) — D-66. If the
-institution fixes its own exam weeks, put the midterm and final there and move **only** the
-exam; the teaching sequence does not depend on which week the exam occupies, as long as the
-midterm falls between Lab 3 and Lab 4 and the final after Lab 6.
+institution fixes its own exam week, put the final there and move **only** the exam; the
+teaching sequence does not depend on which week it occupies, as long as it falls after Lab 6.
+There is no midterm (D-74).
 
 Also record: add/drop deadline · withdrawal deadline · final grade submission deadline ·
 any institutional holiday that cancels a session · any week where the room or duration differs.

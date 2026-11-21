@@ -1,22 +1,22 @@
-# Examinations
+# The final examination
 
-Two written exams, each **120 minutes, in the room, during the session**. They were added when
-the teaching was compressed to twelve weeks (D-66), and their format is a default the
-instructor may change (D-68). The papers and their marking keys live in the instructor
+One written exam, **150 minutes, in the room, during the week 14 session**. It is the course's
+only invigilated exam: the midterm was removed in November 2026 (D-74). The format is a default
+the instructor may change (D-68). The paper and its marking key live in the instructor
 repository and never in this one.
 
-| | Midterm | Final |
-|---|---|---|
-| **Week** | 8 | 14 |
-| **Weight** | 15% | 15% |
-| **Covers** | Weeks 1–7 and Labs 1–3 | Weeks 1–13 and Labs 1–6, weighted about 3:1 towards weeks 9–13 |
-| **Outcomes** | CLO-1, CLO-2, CLO-3, CLO-4; CLO-5 foundations | CLO-2, CLO-5, CLO-6, CLO-7, CLO-9; one design-defence question for CLO-8 |
-| **Marks** | 60 | 60 |
-| **Allowed** | One A4 sheet of your own handwritten notes, both sides. No devices. | The same |
+| | Final |
+|---|---|
+| **Week** | 14 |
+| **Weight** | 25% |
+| **Covers** | Weeks 1–13 and Labs 1–6, **about half the marks on weeks 1–7** and half on weeks 9–13 |
+| **Outcomes** | All nine. CLO-1 to CLO-7 and CLO-9 through the four question kinds below, and one design-defence question for CLO-8 |
+| **Marks** | 75 |
+| **Allowed** | One A4 sheet of your own handwritten notes, both sides. No devices |
 
 ## What the questions look like
 
-The exams ask what the quizzes ask, at more length. Every question is one of these four kinds:
+The exam asks what the quizzes ask, at more length. Every question is one of these four kinds:
 
 - **Trace.** A request, a message or a permission crosses several boundaries; say where it is
   stopped, by what rule or identity, and what single check would confirm it.
@@ -26,22 +26,21 @@ The exams ask what the quizzes ask, at more length. Every question is one of the
 - **Predict and explain.** A change is made to a system like yours. Predict what happens, then
   explain the mechanism. A wrong prediction with a sound mechanism earns most of the marks.
 - **Choose and defend.** Two or three designs meet a requirement. Choose one, name what it
-  costs, and state the condition under which a rejected option would win. *(The final's CLO-8
+  costs, and state the condition under which a rejected option would win. *(The CLO-8
   question is of this kind, about a decision from your own Lab 6 or project.)*
 
 **Not asked:** service names to recall, prices, console paths, provider-equivalence tables, or
 anything you could answer by memorising a comparison. A question you would need to look up in
 the console is a badly written question.
 
-## Rules the papers follow
+## Rules the paper follows
 
-- **Nothing that was not completed.** No question depends on a lab that was still open in the
-  exam week. The midterm sits after Lab 3 closes and before Lab 4 opens; the final sits after
-  Lab 6 is due.
-- **Revision fits the week's budget.** Week 8 allows 180 minutes of revision and week 14
-  allows 60 (`course/workload-budget.md`). Re-reading the notes and your own lab write-ups is
-  the intended preparation. If an exam needs more than that, it is asking for recall, and the
-  paper is rewritten rather than the budget extended.
+- **Nothing that was not completed.** The final sits after Lab 6 is due, so every lab is fair
+  material.
+- **Revision fits the budget.** Week 8 allows 180 minutes for revising weeks 1–7, alongside
+  Quiz 4, and week 14 allows 60 for weeks 9–13 (`course/workload-budget.md`). Re-reading the
+  notes and your own lab write-ups is the intended preparation. If the exam needs more than
+  that, it is asking for recall, and the paper is rewritten rather than the budget extended.
 - **Your own work is fair material.** Several questions ask about the system you built, in
   the same way the quizzes do. Answer about the one you actually built, not the one in the
   notes.
@@ -52,14 +51,14 @@ the console is a badly written question.
 
 | For | Use |
 |---|---|
-| The midterm | Quizzes 1–3 and their feedback; the "Check yourself" questions in the weeks 1–7 notes; your Lab 1–3 predictions, and where they were wrong |
-| The final | Quizzes 4–6 and their feedback; the "Check yourself" questions in the weeks 9–13 notes; the final practice set, handed out in class before week 14; your Lab 4–6 submissions |
+| Weeks 1–7 | Quizzes 1–4 and their feedback; the "Check yourself" questions in the weeks 1–7 notes; your Lab 1–3 predictions, and where they were wrong. Do this in week 8, while it is fresh |
+| Weeks 9–13 | Quizzes 5 and 6 and their feedback; the "Check yourself" questions in the weeks 9–13 notes; your Lab 4–6 submissions |
+| The whole paper | The final practice set, handed out in class before week 14 |
 
 ## Status
 
 | | |
 |---|---|
-| Format and coverage | Defined here (D-68) |
-| Midterm paper and key | **Not yet written.** Instructor repository, `exam-papers/` |
-| Final paper and key | **Not yet written.** Instructor repository, `exam-papers/`. The former Quiz 7 key is its starting point |
-| Timing | 120 minutes for a 60-mark paper is an estimate, written to the quiz rate of about a mark a minute plus reading time. It has not been tested |
+| Format and coverage | Defined here (D-68, D-74) |
+| Paper and key | **Not yet written.** Instructor repository, `exam-papers/`. The former Quiz 7 key is its starting point for weeks 9–13 and CLO-8 |
+| Timing | 150 minutes for a 75-mark paper is an estimate, written to the quiz rate of about a mark a minute plus reading time. It has not been tested |

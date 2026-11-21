@@ -43,7 +43,8 @@
     "s33",
     "s34",
     "s35",
-    "s36"
+    "s36",
+    "s37"
   ],
   "sections": {
     "opening": {
@@ -75,12 +76,12 @@
       "start": "s23"
     },
     "part7": {
-      "description": "Quiz 4 — 15 minutes",
+      "description": "Discussion — 15 minutes",
       "start": "s27"
     },
     "part8": {
       "description": "Practical — 60 minutes",
-      "start": "s28"
+      "start": "s29"
     }
   },
   "faces": {

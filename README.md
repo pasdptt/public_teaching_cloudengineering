@@ -33,7 +33,7 @@ course/        Syllabus, outcomes, weekly schedule, workload budget, assessment 
 weeks/         Start here: one folder per week (week-01 … week-15), each opening with a
                README of what to read, what to do and what is due, plus the student notes
                and slides. Each lab lives in the week it starts (week-02/lab-01 … week-13/
-               lab-06); the exam rules are in week-08/exams.md; the project is in week-11/project/
+               lab-06); the exam rules are in week-14/exams.md; the project is in week-11/project/
 application/   The single Python application the whole course builds on
 infra/         Terraform configurations used from Lab 6 onwards
 operations/    Student setup, cloud access & fallback, cost model, cleanup
@@ -58,8 +58,8 @@ them — the history is public even after deletion. See
 
 - **Duration:** 15 weeks × 3 contact hours (90 min concepts · 30 min discussion/quiz · 60 min guided lab)
 - **Independent work:** ~180 minutes per week, total, including reading and quiz prep
-- **Assessment:** quizzes 10% · labs 30% · project 30% · midterm 15% · final exam 15%
-- **Calendar:** 12 teaching weeks, a midterm in week 8, the final exam and project in weeks 14–15
+- **Assessment:** quizzes 15% · labs 30% · project 30% · final exam 25% (no midterm)
+- **Calendar:** 12 teaching weeks, a consolidation week (Quiz 4) in week 8, the final exam and project in weeks 14–15
 - **Cloud access:** local-only for weeks 1–3; GCP trial activated in week 4; a
   documented local fallback covers students without trial eligibility
 - **Same standard for everyone**, undergraduate and graduate alike

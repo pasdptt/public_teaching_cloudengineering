@@ -5,7 +5,7 @@
     "at": "2026-11-09T05:41:14Z"
   },
   "lists": "css",
-  "title": "Week 8 · Midterm",
+  "title": "Week 8 · Consolidation",
   "cover": "s01",
   "order": [
     "s01",
@@ -19,7 +19,9 @@
     "s09",
     "s10",
     "s11",
-    "s12"
+    "s12",
+    "s13",
+    "s14"
   ],
   "sections": {
     "opening": {
@@ -27,20 +29,28 @@
       "start": "s01"
     },
     "part1": {
-      "description": "Midterm examination — 120 minutes",
+      "description": "Quiz 4 — 15 minutes",
       "start": "s03"
     },
     "part2": {
-      "description": "Break — Break — 10 minutes",
-      "start": "s06"
+      "description": "Quiz 4, the answers — 15 minutes",
+      "start": "s04"
     },
     "part3": {
-      "description": "Trial and cost check — 20 minutes",
-      "start": "s07"
+      "description": "Practice questions — 50 minutes",
+      "start": "s05"
     },
     "part4": {
-      "description": "Lab clinic — 30 minutes",
-      "start": "s10"
+      "description": "Break — Break — 10 minutes",
+      "start": "s08"
+    },
+    "part5": {
+      "description": "Trial and cost check — 20 minutes",
+      "start": "s09"
+    },
+    "part6": {
+      "description": "Lab clinic — 70 minutes",
+      "start": "s12"
     }
   },
   "faces": {

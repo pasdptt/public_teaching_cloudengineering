@@ -150,7 +150,7 @@ Read the diff as if someone else wrote it and ask:
 3. **Do the tests still pass locally?** `cd application && python3 -m pytest` — pushing a
    red build to find out is slower than running it here.
 4. **Would the message make sense to you in five weeks?** That is when you will be reading it,
-   at the midterm or in Lab 6.
+   revising for the final or in Lab 6.
 
 After pushing, open the **Actions** tab. A **green tick** means every test passed on both
 Python versions; a **red cross** means something failed — click into the run, open the failed

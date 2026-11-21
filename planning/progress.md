@@ -826,9 +826,37 @@ section 7 covers it:
 the contribution record is required only from a pair. The brief, the milestones and the week
 12 and 15 Due rows point at the guide. Q-06 is resolved.
 
+### No midterm: quizzes 15, labs 30, project 30, final 25 (2026-11-21, D-74)
+
+The instructor changed the weights and removed the midterm.
+
+- **The final** is now the only exam: 150 minutes, 75 marks, about half on weeks 1–7. Its rules
+  moved to `weeks/week-14/exams.md`.
+- **Week 8 is a consolidation week:** Quiz 4 (moved from week 9, paper unchanged), the answers,
+  unmarked practice questions on weeks 1–7, the trial check, and a longer lab clinic. The guide,
+  deck, notes and README were rewritten.
+- **Week 9** uses Quiz 4's freed 15 minutes for its discussion prompt.
+- **Week 14's** peer review is 20 minutes: two questions in the room, two in writing afterwards.
+- **Also updated:**
+  - the assessment plan, syllabus, outcomes map, schedule and workload budget;
+  - the calendar worksheet and the slide index;
+  - the week 7 and 13 hand-offs, and the project milestones;
+  - the private repo's exam README, Quiz 4 and 5 headers, and the practice-set note.
+- **`audit.py`:**
+  - checks the new structure;
+  - reports a returning midterm weight or week 8 exam block;
+  - adds `week-08/exams.md` to the retired paths.
+
+  Its per-lab weight check had globbed the old `labs/` folder since D-72, so it checked
+  nothing. It now reads `weeks/week-*/lab-0*`, and passes.
+
+**Still to write (private):** the four week 8 practice questions and their key, and the final
+paper and key. Both are listed in `exam-papers/README.md`. The decks for weeks 7, 8, 9, 13 and
+14 were regenerated and republished.
+
 ### Still to author
 
-Midterm and final papers and keys (private, `exam-papers/`) · instructor solutions for Labs 2, 4
+The final paper and key, and the week 8 practice questions (private, `exam-papers/`) · instructor solutions for Labs 2, 4
 and 6. Operational guidance is
 authored **with** each cloud exercise, never afterwards.
 

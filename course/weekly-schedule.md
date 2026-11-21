@@ -1,7 +1,7 @@
 # Weekly schedule
 
-Relative weeks 1–15: **twelve teaching weeks** (1–7 and 9–13), a **midterm** in week 8, and
-the **final exam and project** in weeks 14–15 (D-66). Real dates come from `planning/calendar-worksheet.md` (Q-01).
+Relative weeks 1–15: **twelve teaching weeks** (1–7 and 9–13), a **consolidation week** in week 8
+(Quiz 4, no midterm), and the **final exam and project** in weeks 14–15 (D-66, D-74). Real dates come from `planning/calendar-worksheet.md` (Q-01).
 
 Session envelope every week: **~90 min concepts · ~30 min discussion or quiz · 60 min guided
 practical**, totalling the 180-minute contact block. Quizzes take discussion time, never extra
@@ -124,24 +124,27 @@ service and justify the design in a decision record.
 
 ---
 
-## Mid-semester exam (week 8)
+## Consolidation (week 8)
 
-### Week 8 · Midterm examination
+### Week 8 · Consolidation: Quiz 4 and the lab clinic
 **Slides:** [present on claude.ai](https://claude.ai/artifact/L4KayoWqrhQsRuyHmUDeq2) · [Markdown source](../weeks/week-08/slides.md)
 
-No new material. The midterm sits at the natural seam in the course: everything before it
-runs on one machine or one VM with its state moved out, and everything after it is managed
-execution, scale, asynchrony and delivery.
+No new material, and no midterm (D-74). The week sits at the natural seam in the course:
+everything before it runs on one machine or one VM with its state moved out, and everything
+after it is managed execution, scale, asynchrony and delivery. Quiz 4 moves here from week 9,
+and the rest of the session prepares weeks 1–7 for the cumulative final.
 
 | Block | Time | Activity |
 |---|---|---|
-| Midterm examination | 120 min | Written, in the room. Weeks 1–7: CLO-1 … CLO-4, and CLO-5 foundations. Format in `weeks/week-08/exams.md` |
+| Quiz 4 | 15 min | Weeks 5–7: CLO-1, CLO-2, CLO-4 |
+| Quiz 4, the answers | 15 min | Gone through together straight after collecting |
+| Practice questions | 50 min | Weeks 1–7 in the final's four question kinds, in pairs, not marked |
 | Break | 10 min | |
 | Trial and cost check | 20 min | Everyone opens their billing page and states their remaining credit and days. Anyone with a running resource from Labs 2–3 finds out why |
-| Lab clinic | 30 min | Outstanding Lab 3 problems and Lab 4 pre-flight (container builds locally). No new content |
+| Lab clinic | 70 min | Outstanding Lab 3 problems and Lab 4 pre-flight (container builds locally). No new content |
 
-**Due:** nothing besides the exam. Lab 3 was due in week 7, and Lab 4 starts in week 9.
-**Outcomes:** CLO-1 … CLO-4 (exam evidence).
+**Due:** Quiz 4, in the session. Lab 3 was due in week 7, and Lab 4 starts in week 9.
+**Outcomes:** CLO-1, CLO-2, CLO-4 (Quiz 4).
 
 > **Why week 8.** It is the only point where a full exam can sit between labs without cutting
 > one in half: Lab 3 has just closed and Lab 4 has not started. The trial check rides along
@@ -158,7 +161,7 @@ execution, scale, asynchrony and delivery.
 **Concepts:** what you stop operating when you move from VM to managed container
 execution; request-scoped lifecycle; cold start and what causes it; why statelessness is
 the price of admission; concurrency settings as a design decision.
-**Discussion block:** **Quiz 4** (CLO-1, CLO-2, CLO-4).
+**Discussion block:** "my thing vanished" — per-instance state plus scaling. Quiz 4 moved to week 8 (D-74).
 **Practical:** start **Lab 4** — containerise and deploy the service to managed execution.
 **Outcomes:** CLO-1, CLO-2, CLO-5.
 
@@ -239,15 +242,15 @@ No new material.
 
 | Block | Time | Activity |
 |---|---|---|
-| Final examination | 120 min | Written, in the room. Cumulative, weighted towards weeks 9–13: CLO-2, CLO-5, CLO-6, CLO-7, CLO-9, and one design-defence question for CLO-8. Format in `weeks/week-08/exams.md` |
+| Final examination | 150 min | Written, in the room. Cumulative, about half the marks on weeks 1–7 and half on weeks 9–13: CLO-1 to CLO-7, CLO-9, and one design-defence question for CLO-8. Format in `weeks/week-14/exams.md` |
 | Break | 10 min | |
-| Structured peer review | 50 min | Four written questions on another group's architecture and evidence, answered in silence; the author may not defend (D-49) |
+| Structured peer review | 20 min | Two written questions on another group's architecture and evidence, answered in silence, then five minutes each way; the author may not defend (D-49). Two more questions in writing afterwards |
 
 **Reading:** the synthesis notes — reading an architecture in three passes, security and cost
 review as habits, the price of leaving, and what makes a measurement worth believing. They are
 not lectured and not examined. They are the method for the peer review, the standard for the
 project's write-up of its experiments, and the frame for its migration discussion.
-**Outcomes:** CLO-2, CLO-5 … CLO-9 (exam evidence), CLO-8 (peer review, ungraded).
+**Outcomes:** CLO-1 … CLO-9 (exam evidence), CLO-8 (peer review, ungraded).
 
 ### Week 15 · Demonstration and defence
 **Slides:** [present on claude.ai](https://claude.ai/artifact/FS6cCeNf7JN8Kj1ZZW6ecU) · [Markdown source](../weeks/week-15/slides.md)
@@ -276,8 +279,8 @@ The full three hours are used differently from every other week.
 | 5 | Virtual networking, access boundaries, least privilege | Lab 2 finish | — | **Lab 2** | 3 | [deck](https://claude.ai/artifact/AsdYRw31iwvXMdU3yeaPUd) · [md](../weeks/week-05/slides.md) |
 | 6 | Block/file/object/database; durability | Lab 3 start | **Q3** | — | 4 | [deck](https://claude.ai/artifact/7XQupUBwbESPSXDj2Hug3B) · [md](../weeks/week-06/slides.md) |
 | 7 | Replication, consistency, transactions, choosing | Lab 3 finish | — | **Lab 3** | 4, 5 | [deck](https://claude.ai/artifact/Cb7kBoLPQRimc6FEpCyYHG) · [md](../weeks/week-07/slides.md) |
-| 8 | *No new material* | Trial check · lab clinic | **Midterm** | — | 1–4 | [deck](https://claude.ai/artifact/L4KayoWqrhQsRuyHmUDeq2) · [md](../weeks/week-08/slides.md) |
-| 9 | Managed containers, serverless, statelessness | Lab 4 start | **Q4** | — | 1, 2, 5 | [deck](https://claude.ai/artifact/V8rbrxY6wWjzJFq1NUS7Zf) · [md](../weeks/week-09/slides.md) |
+| 8 | *No new material* | Practice questions · trial check · lab clinic | **Q4** | — | 1, 2, 4 | [deck](https://claude.ai/artifact/L4KayoWqrhQsRuyHmUDeq2) · [md](../weeks/week-08/slides.md) |
+| 9 | Managed containers, serverless, statelessness | Lab 4 start | — | — | 1, 2, 5 | [deck](https://claude.ai/artifact/V8rbrxY6wWjzJFq1NUS7Zf) · [md](../weeks/week-09/slides.md) |
 | 10 | Horizontal scaling, concurrency, latency/throughput | Lab 4 finish + load experiment | — | **Lab 4** | 2, 5, 6 | [deck](https://claude.ai/artifact/E1xW4c83h31pjPBYtXUv3m) · [md](../weeks/week-10/slides.md) |
 | 11 | Queues, retries, duplicates, idempotency | Lab 5 start · **project brief out** | **Q5** | — | 5 | [deck](https://claude.ai/artifact/VAGuskEQxSoeHzJzHDiW27) · [md](../weeks/week-11/slides.md) |
 | 12 | Partial failure, resilience, observability, SLOs | Lab 5 finish + failure experiment | — | **Lab 5**, proposal | 5, 6 | [deck](https://claude.ai/artifact/HwiGyDnvAywGjA9fEwnqKt) · [md](../weeks/week-12/slides.md) |
@@ -285,8 +288,8 @@ The full three hours are used differently from every other week.
 | 14 | *No new material* | Peer review | **Final** | **Lab 6** | 2, 5–9 | [deck](https://claude.ai/artifact/ChvS4FJvjkx92WtPkGkzEf) · [md](../weeks/week-14/slides.md) |
 | 15 | Defence, synthesis, transfer | Demonstrations, cleanup, reflection | — | **Project** | 7, 8 | [deck](https://claude.ai/artifact/FS6cCeNf7JN8Kj1ZZW6ecU) · [md](../weeks/week-15/slides.md) |
 
-**Twelve teaching weeks** (1–7 and 9–13), **one mid-semester exam week** (8), and **two weeks
-at the end** for the final exam and the project (14–15). See D-66.
+**Twelve teaching weeks** (1–7 and 9–13), **one consolidation week** (8: Quiz 4, no midterm), and
+**two weeks at the end** for the final exam and the project (14–15). See D-66 and D-74.
 
 ---
 
@@ -298,10 +301,11 @@ project demonstration. Second, a student who has never traced a request locally 
 debug one in the cloud; weeks 1–3 build the mental model that makes week 4 legible instead
 of magical.
 
-**Why the midterm sits in week 8.** It falls between two labs rather than inside one, and at
-the seam between "one machine with its state moved out" (weeks 1–7) and "managed, scaled,
-asynchronous and delivered" (weeks 9–13). Every outcome it examines has already been practised
-in a completed lab.
+**Why week 8 consolidates rather than teaches.** It falls between two labs rather than inside
+one, and at the seam between "one machine with its state moved out" (weeks 1–7) and "managed,
+scaled, asynchronous and delivered" (weeks 9–13). It held the midterm until D-74. Now it holds
+Quiz 4, which fits there better than in week 9 because both its labs have closed, and the
+practice that prepares weeks 1–7 for the cumulative final.
 
 **Why storage (6–7) comes before managed execution (9–10).** Managed execution requires
 statelessness. Statelessness is only possible once state has somewhere else to live. Doing

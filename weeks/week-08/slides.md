@@ -2,7 +2,7 @@
 marp: true
 theme: cloudcourse
 paginate: true
-footer: 'Week 8 · Midterm'
+footer: 'Week 8 · Consolidation'
 ---
 
 <!--
@@ -14,16 +14,16 @@ Render:  bash course/slides/render.sh 08
 
 <!-- _class: lead -->
 
-# Midterm
+# Consolidation
 
 ## Week 8
 
 Cloud Computing: Principles and Practice
 
 <!--
-TIMING: 180 min total — 120 exam · 10 break · 20 trial check · 30 lab clinic. No new material.
+TIMING: 180 min total — 15 Quiz 4 · 15 answers · 50 practice · 10 break · 20 trial check · 70 lab clinic. No new material.
 Guide: course/teaching-guides/week-08.md
-Before you start: papers counted, the room's clock visible, this deck on the wall during the exam showing the rules slide.
+Before you start: Quiz 4 printed. The four practice questions printed, one set per pair (private, exam-papers/). There is no midterm (D-74).
 -->
 
 ---
@@ -32,50 +32,82 @@ Before you start: papers counted, the room's clock visible, this deck on the wal
 
 | | | |
 |---|---|---|
-| **Midterm** | 120 min | weeks 1–7 · Labs 1–3 |
+| **Quiz 4** | 15 min | weeks 5–7 |
+| Quiz 4, the answers | 15 min | together, straight afterwards |
+| **Practice questions** | 50 min | weeks 1–7, in pairs, not marked |
 | Break | 10 min | |
 | **Trial and cost check** | 20 min | your own billing page |
-| **Lab clinic** | 30 min | Lab 3 left-overs · Lab 4 pre-flight |
+| **Lab clinic** | 70 min | Lab 3 left-overs · Lab 4 pre-flight |
 
-No new material this week.
+No new material this week, and **no midterm**. The final in week 14 covers the whole course.
 
 ---
 
 <!-- _class: block -->
 
-<span class="min">120 minutes</span><span class="clock">0:00 – 2:00</span>
+<span class="min">15 minutes</span><span class="clock">0:00 – 0:15</span>
 
-# Midterm examination
+# Quiz 4
 
-Weeks 1–7 · Labs 1–3 · 60 marks
-
----
-
-## The rules
-
-- **120 minutes.** Papers are collected at 2:00, exactly.
-- **Allowed:** one A4 sheet of your own handwritten notes, both sides.
-- **No devices.** Phones and laptops closed and away.
-- Where a question asks about **your** system, answer about the one you actually built.
-- **A wrong prediction with a sound mechanism earns most of the marks.** Show the mechanism.
+Weeks 5–7
 
 <!--
-Leave this slide on the wall for the whole exam. Call 30 minutes and 10 minutes remaining.
+CLO-1, CLO-2, CLO-4. Storage, consistency, and what a machine commits you to — including Labs 2 and 3. Moved here from week 9 (D-74); the paper is unchanged. Key in the private repository.
 -->
 
 ---
 
-## Roughly a mark a minute
+<!-- _class: block -->
 
-60 marks in 120 minutes leaves time to **read every question first**.
+<span class="min">15 minutes</span><span class="clock">0:15 – 0:30</span>
 
-If a question seems to need a service name, a price or a console path, you are reading it wrong — none of them does.
+# Quiz 4, the answers
+
+The mechanism for each question, not the marks
+
+<!--
+Collect every paper first. Go question by question and ask for the mechanism. Marked scripts come back in week 9.
+-->
 
 ---
 
 <!-- _class: block -->
 
-<span class="min">Break — 10 minutes</span><span class="clock">2:00 – 2:10</span>
+<span class="min">50 minutes</span><span class="clock">0:30 – 1:20</span>
+
+# Practice questions
+
+Weeks 1–7 · the final's four kinds · in pairs · not marked
+
+---
+
+## Four questions, twelve minutes each
+
+**Trace** · **Interpret** · **Predict and explain** · **Choose and defend**
+
+- Answer in pairs, in writing. Then two minutes of answers from the room.
+- **A wrong prediction with a sound mechanism is a good answer.** That is how the final marks it.
+- At least one is about **your own** system: your Lab 2 VM, or your Lab 3 decision record.
+
+<!--
+Different scenarios from the real final. Press for mechanism every time. Twelve minutes, then the room, then the next question.
+-->
+
+---
+
+<!-- _class: punch -->
+
+## Before the break, one line: the one thing from weeks 1–7 I could not explain today.
+
+<!--
+It goes at the top of their revision sheet for the final. That is what this week's reading budget is for.
+-->
+
+---
+
+<!-- _class: block -->
+
+<span class="min">Break — 10 minutes</span><span class="clock">1:20 – 1:30</span>
 
 # Break
 
@@ -85,7 +117,7 @@ Then laptops out
 
 <!-- _class: block -->
 
-<span class="min">20 minutes</span><span class="clock">2:10 – 2:30</span>
+<span class="min">20 minutes</span><span class="clock">1:30 – 1:50</span>
 
 # Trial and cost check
 
@@ -119,7 +151,7 @@ Same treatment as week 15 (D-53): a success, not an embarrassment. Then delete i
 
 <!-- _class: block -->
 
-<span class="min">30 minutes</span><span class="clock">2:30 – 3:00</span>
+<span class="min">70 minutes</span><span class="clock">1:50 – 3:00</span>
 
 # Lab clinic
 
@@ -153,4 +185,4 @@ Students with neither may leave. Say so: the session ends when they are ready fo
 
 Managed containers and serverless
 
-**Quiz 4** · **Lab 4 starts**
+**Lab 4 starts**

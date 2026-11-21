@@ -21,9 +21,9 @@ Render:  bash course/slides/render.sh 09
 Cloud Computing: Principles and Practice
 
 <!--
-TIMING: 180 min total — 95 concepts · 15 quiz · 60 practical · 10 break. The discussion prompt replaces concept time; it is never added on top.
+TIMING: 180 min total — 95 concepts · 15 discussion · 60 practical · 10 break.
 Guide: course/teaching-guides/week-09.md
-Before you start: Quiz 4 printed. application/ open with tests/test_two_instances_disagree.py ready to run. Remind them to have their Lab 3 code committed in application/ before anyone builds.
+Before you start: the marked Quiz 4 scripts, to hand back. application/ open with tests/test_two_instances_disagree.py ready to run. Remind them to have their Lab 3 code committed in application/ before anyone builds.
 -->
 
 ---
@@ -324,12 +324,20 @@ Lovely for isolation. It also **multiplies the vCPU-seconds you are billed for**
 
 <span class="min">15 minutes</span><span class="clock">1:45 – 2:00</span>
 
-# Quiz 4
+# Discussion
 
-Weeks 5–7
+"My thing vanished"
+
+---
+
+## Works in testing. Breaks in production once a week.
+
+Always at peak load. Always with users reporting **"my thing vanished"**.
+
+**Three minutes in pairs:** the diagnosis, and the evidence you would want to confirm it.
 
 <!--
-CLO-1, CLO-2, CLO-4. Storage, consistency, and what a machine commits you to — including Labs 2 and 3. Today's managed-execution material is not assessed. Key in the private repository.
+Converge on per-instance state plus scaling. Then press on why testing did not catch it: one instance is always enough to pass. This block used to be Quiz 4, which moved to week 8 (D-74).
 -->
 
 ---

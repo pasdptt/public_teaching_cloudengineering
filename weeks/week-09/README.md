@@ -16,6 +16,5 @@ Managed containers, serverless, statelessness.
 
 ## Due
 
-- **Quiz 4**, in the session (15 minutes, on paper)
 
 The [weekly schedule](../../course/weekly-schedule.md) has the plan for every week.

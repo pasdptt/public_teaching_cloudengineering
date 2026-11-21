@@ -23,7 +23,7 @@ Cloud Computing: Principles and Practice
 <!--
 TIMING: 180 min total — 85 concepts · 25 discussion · 60 practical · 10 break.
 Guide: course/teaching-guides/week-07.md
-Before you start: application/docapp/service.py open at create_job, ready to project. Lab 3 is due at the end of the week. Next week is the midterm — announce the format before the session ends.
+Before you start: application/docapp/service.py open at create_job, ready to project. Lab 3 is due at the end of the week. Next week is Quiz 4 and consolidation; there is no midterm (D-74). Say so before the session ends.
 -->
 
 ---
@@ -377,10 +377,10 @@ BEFORE ANYONE LEAVES: bucket deleted, versioning checked, verification output sh
 
 # Next week
 
-**Midterm** — 120 minutes, weeks 1–7 and Labs 1–3
+**Quiz 4** — weeks 5–7 · then practice questions on weeks 1–7
 
-One A4 sheet of your own handwritten notes · no devices
+No midterm: the final in week 14 covers the whole course
 
 <!--
-Say the format out loud, and point at weeks/week-08/student-notes.md for how to prepare in the 180 minutes the week allows.
+Say it out loud: no midterm, and about half the final is weeks 1–7. Point at weeks/week-08/student-notes.md for how to prepare in the 180 minutes the week allows.
 -->

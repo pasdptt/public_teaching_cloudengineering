@@ -5,17 +5,18 @@ Checks that can be made mechanically, so they are not re-argued every session:
 
   1. Every relative Markdown link points at a file that exists.
   2. Every row of the weekly workload table sums to exactly 180 minutes.
-  3. Assessment weights (quizzes, labs, project, midterm, final) sum to 100%, and the lab
-     weight divides evenly across six labs.
+  3. Assessment weights (quizzes, labs, project, final) sum to 100%, and the lab weight
+     divides evenly across six labs, as every lab brief and rubric states. There is no
+     midterm (D-74); a midterm weight coming back is reported.
   4. No answer-key, solution or credential-shaped content in this public repo.
   5. Every course learning outcome (CLO-1..9) is referenced in the assessment plan.
   6. Every teaching guide's session plan sums to exactly 180 contact minutes, and every
      week has an authored guide and authored student notes.
   7. Every quiz (six of them; private, D-71) is authored, states the weeks it covers, has question marks that
      add up to its stated total, and Quiz 6 does not reach into same-day infrastructure material.
-  8. The two exam weeks (8 and 14) each give a 120-minute block to the exam, and the exam
-     format document exists. Twelve teaching weeks is a structural claim (D-66); this is the
-     part of it a script can check.
+  8. Week 14 gives a 150-minute block to the final, week 8 gives one to Quiz 4 and none to an
+     exam, and the exam format document exists. Twelve teaching weeks is a structural claim
+     (D-66, D-74); this is the part of it a script can check.
 
 Run from anywhere:  python3 planning/audit.py
 Exit code 0 = clean, 1 = problems found.
@@ -84,14 +85,15 @@ if plan.exists():
     for name, pat in (("quizzes", r"Quizzes\s*\|\s*\*\*(\d+)%\*\*"),
                       ("labs", r"Labs\s*\|\s*\*\*(\d+)%\*\*"),
                       ("project", r"Project\s*\|\s*\*\*(\d+)%\*\*"),
-                      ("midterm", r"Midterm exam\s*\|\s*\*\*(\d+)%\*\*"),
                       ("final", r"Final exam\s*\|\s*\*\*(\d+)%\*\*")):
         m = re.search(pat, text)
         if m:
             weights[name] = int(m.group(1))
         else:
             problems.append(f"could not find {name} weight in assessment-plan.md")
-    if len(weights) == 5:
+    if re.search(r"Midterm exam\s*\|\s*\*\*\d+%", text):
+        problems.append("assessment-plan.md has a midterm weight again, but there is no midterm (D-74)")
+    if len(weights) == 4:
         total = sum(weights.values())
         if total != 100:
             problems.append(f"assessment weights sum to {total}%, not 100% ({weights})")
@@ -102,7 +104,7 @@ if plan.exists():
         per_lab = weights["labs"] / 6
         share = f"{per_lab:g}% of the final grade"
         share_re = re.compile(r"(?<![\d.])" + re.escape(share))
-        for lab in sorted((ROOT / "labs").glob("lab-0*")):
+        for lab in sorted((ROOT / "weeks").glob("week-*/lab-0*")):   # D-72: labs live in weeks
             for doc in ("README.md", "rubric.md"):
                 f = lab / doc
                 if f.exists() and not share_re.search(f.read_text(encoding="utf-8")):
@@ -235,20 +237,26 @@ if (QUIZ_DIR / "quiz-07.md").exists():
 
 # ----------------------------------------------------------- 8. exam weeks
 #
-# D-66 cut teaching to twelve weeks by giving weeks 8 and 14 to written exams. If either
-# week's session plan stops giving the exam its 120 minutes, teaching has crept back in.
-exam_doc = ROOT / "weeks" / "week-08" / "exams.md"   # D-72: the exam rules live in week 8
+# D-66 cut teaching to twelve weeks; D-74 removed the midterm. Week 14 gives the final its 150
+# minutes, and week 8 holds Quiz 4 and no exam. If week 14's plan stops giving the final its
+# block, or an exam block reappears in week 8, the structure has drifted.
+exam_doc = ROOT / "weeks" / "week-14" / "exams.md"   # D-74: the exam rules live with the exam
 if not exam_doc.exists():
-    problems.append("weeks/week-08/exams.md is missing (exam format, D-68)")
-for wk in (8, 14):
+    problems.append("weeks/week-14/exams.md is missing (exam format, D-68, D-74)")
+EXAM_ROW = re.compile(r"^\|\s*\**[^|]*exam[^|]*\**\s*\|\s*(\d+)\s*\|", re.I | re.M)
+for wk, want in ((8, None), (14, 150)):
     guide = ROOT / "course" / "teaching-guides" / f"week-{wk:02d}.md"
     if not guide.exists():
         continue  # already reported by check 6
-    rows = [ln for ln in guide.read_text(encoding="utf-8").splitlines()
-            if re.match(r"^\|\s*\**[^|]*exam[^|]*\**\s*\|\s*120\s*\|", ln, re.I)]
-    if not rows:
-        problems.append(f"week {wk:02d} session plan has no 120-minute exam block (D-66)")
-notes.append("exam weeks 8 and 14 checked for a 120-minute exam block")
+    blocks = [int(m) for m in EXAM_ROW.findall(guide.read_text(encoding="utf-8"))]
+    if want is None and blocks:
+        problems.append(f"week {wk:02d} session plan has an exam block, but there is no midterm (D-74)")
+    if want is not None and want not in blocks:
+        problems.append(f"week {wk:02d} session plan has no {want}-minute exam block (D-74)")
+week8 = ROOT / "course" / "teaching-guides" / "week-08.md"
+if week8.exists() and not re.search(r"^\|\s*\**Quiz 4\**\s*\|\s*15\s*\|", week8.read_text(encoding="utf-8"), re.M):
+    problems.append("week 08 session plan has no 15-minute Quiz 4 block (D-74)")
+notes.append("exam weeks checked: week 14 has a 150-minute final, week 8 has Quiz 4 and no exam")
 
 # ------------------------------------------------- 9. slide decks, if present
 #
@@ -294,9 +302,9 @@ notes.append(f"slide decks checked: {len(decks)} (timings must sum to 180)")
 # live inside the weeks, and the teaching guides live in course/teaching-guides/. Nothing may
 # remain at, or point to, the old places. The history files keep old paths on purpose.
 RETIRED_DIRS = ["labs", "exams", "project"]
-RETIRED_REF = re.compile(r"\b(labs/lab-0\d|exams/README\.md|(?<!week-11/)(?<!\()project/(brief|rubric|milestones)\.md"
+RETIRED_REF = re.compile(r"\b(labs/lab-0\d|exams/README\.md|week-08/exams\.md|(?<!week-11/)(?<!\()project/(brief|rubric|milestones)\.md"
                          r"|weeks/week-\d\d/teaching-guide\.md)")
-HISTORY = {"planning/progress.md", "planning/decisions.md",
+HISTORY = {"planning/progress.md", "planning/decisions.md", "planning/open-questions.md",
            "planning/2026-11-13-week-folders-design.md", "planning/2026-11-13-week-folders-plan.md"}
 for d in RETIRED_DIRS:
     if (ROOT / d).exists():

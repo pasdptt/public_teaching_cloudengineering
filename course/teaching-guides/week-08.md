@@ -1,22 +1,26 @@
-# Week 8 — Teaching guide: Midterm examination
+# Week 8 — Teaching guide: Consolidation, Quiz 4 and the lab clinic
 
 | | |
 |---|---|
-| **Outcomes** | CLO-1, CLO-2, CLO-3, CLO-4; CLO-5 foundations (exam evidence) |
-| **Assessment** | **Midterm exam** — 120 min, 60 marks, weeks 1–7 (`weeks/week-08/exams.md`) |
-| **Practical** | Trial and cost check · lab clinic. **No new material** |
-| **Prep time** | Paper and key: ~6 h first delivery, ~2 h subsequently. Session: ~30 min |
+| **Outcomes** | CLO-1, CLO-2, CLO-4 (Quiz 4); CLO-1 to CLO-4 practised, not assessed |
+| **Assessment** | **Quiz 4** — weeks 5–7, 15 min, in the session. Moved here from week 9 (D-74) |
+| **Practical** | Practice questions · trial and cost check · lab clinic. **No new material** |
+| **Prep time** | Practice questions: ~2 h first delivery, ~20 min subsequently. Session: ~30 min |
 
-> **Added 2026-11-05 (D-66).** The course teaches in twelve of its fifteen weeks. This week is
-> the mid-semester exam, placed at the one point where an exam can sit between labs rather than
-> inside one: Lab 3 closed in week 7 and Lab 4 opens in week 9.
+> **Changed 2026-11-21 (D-74).** This week was the midterm, a 120-minute exam worth 15%. The
+> midterm was removed: the final in week 14 is now cumulative, worth 25%, with about half its
+> marks on weeks 1–7. Quiz 4 moves here from week 9. It already covers weeks 5–7, and in this
+> week it sits after Lab 3 closes, on a day with no lecture to compete with. The time the exam
+> used goes to practice questions in the final's style, and to a longer clinic.
 
 ## Session objectives
 
-1. Every student sits the midterm under the same conditions.
-2. Every student states, out loud and from their own billing page, how much trial credit and
+1. Every student sits Quiz 4 under the same conditions.
+2. Every student finds, on paper, one thing from weeks 1–7 they cannot yet explain, while
+   there is time to fix it before the final.
+3. Every student states, out loud and from their own billing page, how much trial credit and
    how many trial days they have left.
-3. Nobody starts week 9 with an unresolved Lab 3 problem or a container that will not build.
+4. Nobody starts week 9 with an unresolved Lab 3 problem or a container that will not build.
 
 ---
 
@@ -24,34 +28,46 @@
 
 | Block | Min | Content |
 |---|---|---|
-| **Midterm examination** | 120 | Written, in the room. Start on time; collect at 120 minutes exactly |
+| **Quiz 4** | 15 | Weeks 5–7, on paper. The paper is in the instructor repository |
+| Quiz 4, the answers | 15 | Collect the papers first, then go through each question |
+| **Practice questions** | 50 | Weeks 1–7 in the final's four question kinds, in pairs, not marked |
 | Break | 10 | |
 | **Trial and cost check** | 20 | Every student, their own billing page, in the room |
-| **Lab clinic** | 30 | Outstanding Lab 3 issues · Lab 4 pre-flight. No new content |
+| **Lab clinic** | 70 | Outstanding Lab 3 issues · Lab 4 pre-flight. No new content |
 
-**180 minutes exactly.** The two blocks after the exam are support, not teaching: nothing in
-them is examined or required by a later lab that is not already in that lab's brief.
+**180 minutes exactly.** Nothing after the quiz is examined or required by a later lab that is
+not already in that lab's brief.
 
 ---
 
-## The exam (120 min)
+## Quiz 4 (15 min) and its answers (15 min)
 
-- **The paper is in the instructor repository** (`exam-papers/midterm.md`), with its key.
-  It does not exist yet; writing it is the main preparation this week needs. Write it to
-  `weeks/week-08/exams.md`: 60 marks, the four question kinds, nothing that needs recall.
-- **Check every question against the rule.** Weeks 1–7 and Labs 1–3 only. A question that
-  needs managed execution, queues or Terraform is out of scope, however natural it feels.
-- **Use their own systems.** At least one question should ask about the VM each student ran in
-  Lab 2 or the decision record they wrote in Lab 3 — the quizzes have shown that questions about
-  a student's own work are the hardest to answer without understanding.
-- **Allowed:** one A4 sheet of handwritten notes, both sides. No devices. Say this in week 7,
-  and again in the week 7 notes.
-- **Mark within a week.** The feedback is most useful before Lab 4's prediction is written,
-  and marking ten 60-mark scripts is roughly three to four hours (`course/workload-budget.md`).
+- **The paper and key are in the instructor repository** (`quizzes/quiz-04.md`,
+  `quiz-keys/quiz-04-key.md`). They are unchanged by the move: they were written for weeks 5–7,
+  after Labs 2 and 3.
+- **Go through the answers straight after collecting the papers.** In week 9 there was no time
+  for this. Here there is, and the quiz's value is mostly in the feedback. Do the mechanism for
+  each question, not the marks. Hand the marked scripts back in week 9.
+
+## Practice questions (50 min)
+
+Write **four questions** on weeks 1–7, one of each kind in [`weeks/week-14/exams.md`](../../weeks/week-14/exams.md):
+trace, interpret, predict and explain, choose and defend. Keep them in the instructor
+repository with the final practice set (`exam-papers/`), because they are the first half of
+it.
+
+- **Twelve minutes a question, in pairs**, then two minutes of answers from the room. Ask for
+  the mechanism, and let a wrong prediction with a good mechanism stand as a good answer. That
+  is how the final marks it.
+- **At least one question about their own system**: the VM from Lab 2, or the decision record
+  from Lab 3.
+- **Different scenarios from the final.** The real paper must not repeat them.
+- **End with one minute of writing:** *the one thing from weeks 1–7 I could not explain today.*
+  It goes on the top of their revision sheet, and it is what the week 8 reading budget is for.
 
 ## Trial and cost check (20 min)
 
-The midterm week is roughly a third of the way through the 90-day trial window. It is the
+Week 8 is roughly a third of the way through the 90-day trial window. It is the
 last comfortable moment to find a student whose credit is draining.
 
 Every student opens **their own** billing page and says three things, out loud:
@@ -65,7 +81,7 @@ A student who finds something running has found something useful. Ask how it sur
 Lab 2 or Lab 3 teardown — the same treatment week 15 gives it (D-53). Then delete it, together,
 and verify it with `operations/cleanup.md`.
 
-## Lab clinic (30 min)
+## Lab clinic (70 min)
 
 Not a lecture, and not new material. Two lists on the board:
 
@@ -80,6 +96,6 @@ at 180 minutes.
 
 ## Links
 
-- Exam format: [`weeks/week-08/exams.md`](../../weeks/week-08/exams.md)
+- Exam format: [`weeks/week-14/exams.md`](../../weeks/week-14/exams.md)
 - Assessment weights: [`course/assessment-plan.md`](../assessment-plan.md)
 - Previous week: [`week-07`](week-07.md) · Next week: [`week-09`](week-09.md)

@@ -1,7 +1,7 @@
 # Week 14 — Final examination, peer review, and synthesis reading
 
-**The final exam is this week**, in the session: 120 minutes, cumulative, weighted towards
-weeks 9–13 ([`weeks/week-08/exams.md`](../week-08/exams.md)). **Lab 6 is due at the start of the
+**The final exam is this week**, in the session: 150 minutes, cumulative, about half on weeks
+1–7 and half on weeks 9–13 ([`exams.md`](exams.md)). **Lab 6 is due at the start of the
 session.** After the exam and a break, you will **peer-review another group's project**.
 
 **These notes are not lectured and not examined.** They are the method for the peer review,
@@ -159,8 +159,10 @@ reason recorded.
 
 ## The peer review, this week, in the session
 
-You will read another group's work and answer four questions **in writing**, in silence, before
-anyone talks:
+You will read another group's work and answer four questions **in writing**. Questions 1 and
+3 are answered in the session, in silence, before anyone talks. Questions 2 and 4 are answered
+afterwards, in writing, and sent to the authors on Teams within two days. Take about 15 minutes
+of your project time for them:
 
 1. Where does state live in this design, and what happens if the component holding it is
    replaced mid-request?
@@ -168,7 +170,7 @@ anyone talks:
 3. Take one claim from their evidence. What would have to be true for it to be **wrong**?
 4. What is the strongest version of an alternative they rejected?
 
-Then twenty minutes of discussion, ten each way. **When your work is being reviewed, you may
+Then ten minutes of discussion, five each way. **When your work is being reviewed, you may
 ask clarifying questions and you may not defend it.** That rule is not politeness — the entire
 value is in hearing how your design reads to someone who did not build it, and a defence ends
 that immediately.

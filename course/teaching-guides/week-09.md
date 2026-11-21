@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Outcomes** | CLO-1, CLO-2, CLO-5 |
-| **Assessment** | **Quiz 4** (weeks 5–7) |
+| **Assessment** | None. Quiz 4 moved to week 8 (D-74) |
 | **Practical** | Lab 4 Parts 0–3 |
 | **Prep time** | ~3.5 h first delivery, ~1 h subsequently |
 
@@ -30,12 +30,12 @@
 | Break | 10 | |
 | Cold start | 15 | What is actually happening, in order |
 | Concurrency, and what it costs | 15 | 1 vs 80, and the per-request/per-hour crossover |
-| **Quiz 4** | 15 | Weeks 5–7 |
+| **Discussion** | 15 | "My thing vanished": per-instance state plus scaling (below) |
 | Practical | 60 | Lab 4 Parts 0–3 |
 
-**180 minutes exactly.** 95 concepts · 15 quiz · 60 practical, plus the break. The discussion
-prompt below is an alternative to part of the concept time, not an addition to it — in a quiz
-week there is no room for both, and the quiz is the fixed obligation.
+**180 minutes exactly.** 95 concepts · 15 discussion · 60 practical, plus the break. Quiz 4 used
+to take the discussion's 15 minutes. It moved to week 8 (D-74), so the prompt below now has a
+block of its own. Hand back the marked Quiz 4 scripts at the start.
 
 ---
 
@@ -147,7 +147,7 @@ billed for. Both halves of this block are the same decision seen from two direct
 
 ---
 
-## Discussion prompt — use it *instead of* concept time, not on top of it
+## Discussion (15 min)
 
 > A team moves a service to managed execution. It works in testing and breaks in production
 > once a week, always at peak load, always with users reporting "my thing vanished".

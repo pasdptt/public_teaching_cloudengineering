@@ -5,11 +5,11 @@
 
 | | |
 |---|---|
-| **Credit format** | 15 weeks × 3 contact hours: **12 teaching weeks**, a midterm week (8), and final exam and project weeks (14–15) |
+| **Credit format** | 15 weeks × 3 contact hours: **12 teaching weeks**, a consolidation week (8), and final exam and project weeks (14–15) |
 | **Audience** | Junior/senior CS undergraduates and early graduate students, one shared course |
 | **Class size** | ~10 students, one instructor, no teaching assistant |
 | **Cloud platform** | Google Cloud Platform, funded by the $300 / 90-day new-user trial |
-| **Assessment** | Quizzes 10% · Labs 30% · Project 30% · Midterm 15% · Final exam 15% |
+| **Assessment** | Quizzes 15% · Labs 30% · Project 30% · Final exam 25% |
 | **Independent work** | ~180 minutes per week, total |
 
 ---
@@ -114,11 +114,11 @@ one-week lab in week 13:
 
 ### Examinations
 
-A **midterm in week 8** covering weeks 1–7, and a **final in week 14**, cumulative but weighted
-towards weeks 9–13. Both are 120 minutes, written, in the room. Neither week teaches new
-material. They ask what the quizzes ask, at more length: explain a mechanism, interpret a
-measurement, trace a request, defend a choice. Format and allowed materials:
-`weeks/week-08/exams.md`.
+One exam: the **final in week 14**, 150 minutes, written, in the room. It is cumulative, with
+about half its marks on weeks 1–7 and half on weeks 9–13. There is **no midterm**. Week 8
+teaches nothing new: it holds Quiz 4 and practice questions in the final's style. The final asks
+what the quizzes ask, at more length: explain a mechanism, interpret a measurement, trace a
+request, defend a choice. Format and allowed materials: `weeks/week-14/exams.md`.
 
 ### Project
 
@@ -137,11 +137,10 @@ as much; both members answer individual questions.
 
 | Component | Weight | Form |
 |---|---|---|
-| Quizzes (6 × ~10–15 min, weeks 2, 4, 6, 9, 11, 13) | **10%** | Individual, in class, during the discussion block |
+| Quizzes (6 × ~10–15 min, weeks 2, 4, 6, 8, 11, 13) | **15%** | Individual, in class |
 | Labs (6, substantial) | **30%** | Individual submission |
 | Integrative project | **30%** | Individual or pair, with individual accountability |
-| Midterm exam (week 8, 120 min) | **15%** | Individual, written, in class |
-| Final exam (week 14, 120 min) | **15%** | Individual, written, in class |
+| Final exam (week 14, 150 min, cumulative) | **25%** | Individual, written, in class |
 | | **100%** | |
 
 Quiz scores are normalised before the category weight is applied, so quizzes of slightly
@@ -249,7 +248,7 @@ not earn marks, whoever or whatever wrote it.
 **Start each week at `weeks/week-NN/README.md`:** what to read, what to do, what is due. Each
 week's folder holds its notes and slides, and the lab that starts that week (Lab 1 in week 2,
 Lab 2 in week 4, Lab 3 in week 6, Lab 4 in week 9, Lab 5 in week 11, Lab 6 in week 13). The
-exam rules are in `weeks/week-08/exams.md` and the project in `weeks/week-11/project/`.
+exam rules are in `weeks/week-14/exams.md` and the project in `weeks/week-11/project/`.
 
 Course-wide: `course/` design documents · `application/` the course application · `infra/`
 Terraform · `operations/` setup (including `github-101.md`, a self-reading guide to git and

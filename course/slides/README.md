@@ -50,8 +50,8 @@ its mood, and it stays strict so that nothing changes as you step through a deck
 | 5 | [Networking and access boundaries](https://claude.ai/artifact/AsdYRw31iwvXMdU3yeaPUd) | 31 |
 | 6 | [Storage abstractions](https://claude.ai/artifact/7XQupUBwbESPSXDj2Hug3B) | 34 |
 | 7 | [Replication, consistency, choosing](https://claude.ai/artifact/Cb7kBoLPQRimc6FEpCyYHG) | 33 |
-| 8 | [Midterm](https://claude.ai/artifact/L4KayoWqrhQsRuyHmUDeq2) | 12 |
-| 9 | [Managed containers and serverless](https://claude.ai/artifact/V8rbrxY6wWjzJFq1NUS7Zf) | 36 |
+| 8 | [Consolidation](https://claude.ai/artifact/L4KayoWqrhQsRuyHmUDeq2) | 14 |
+| 9 | [Managed containers and serverless](https://claude.ai/artifact/V8rbrxY6wWjzJFq1NUS7Zf) | 37 |
 | 10 | [Horizontal scaling and measurement](https://claude.ai/artifact/E1xW4c83h31pjPBYtXUv3m) | 33 |
 | 11 | [Queues and event-driven processing](https://claude.ai/artifact/VAGuskEQxSoeHzJzHDiW27) | 35 |
 | 12 | [Partial failure, resilience and observability](https://claude.ai/artifact/HwiGyDnvAywGjA9fEwnqKt) | 33 |
@@ -192,8 +192,8 @@ directive and does not become a note.
 | 5 | Networking and access boundaries | 31 |
 | 6 | Storage abstractions | 34 |
 | 7 | Replication, consistency, choosing | 33 |
-| 8 | Midterm — logistics only | 12 |
-| 9 | Managed containers and serverless | 36 |
+| 8 | Consolidation — Quiz 4 and logistics only | 14 |
+| 9 | Managed containers and serverless | 37 |
 | 10 | Horizontal scaling and measurement | 33 |
 | 11 | Queues and event-driven processing | 35 |
 | 12 | Partial failure, resilience and observability | 33 |

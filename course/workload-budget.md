@@ -54,13 +54,13 @@ quiz is wrong and gets rewritten.
 | 5 | 25 | 155 | 0 | 180 | Lab 2 completion, including teardown verification. |
 | 6 | 30 | 150 | 0 | 180 | Lab 3 first half. |
 | 7 | 25 | 155 | 0 | 180 | Lab 3 completion + decision record. |
-| 8 | 30 | 0 | 150 | 180 | **Midterm week.** No lab is open. Reading = re-reading the weeks 1–7 notes; "Other" = revision from your own Lab 1–3 write-ups and the practice questions. |
+| 8 | 30 | 0 | 150 | 180 | **Consolidation week**, Quiz 4, no midterm (D-74). No lab is open. Reading = re-reading the weeks 1–7 notes; "Other" = Quiz 4 preparation and revising weeks 1–7 for the cumulative final, from your own Lab 1–3 write-ups. |
 | 9 | 30 | 150 | 0 | 180 | Lab 4 first half (containerise and deploy). |
 | 10 | 20 | 160 | 0 | 180 | Lab 4 load experiment and comparison write-up. Reading trimmed; the experiment is the learning. |
 | 11 | 30 | 130 | 20 | 180 | "Other" = read the project brief and think about scope. Lab 5 start is sized to leave room. |
 | 12 | 15 | 135 | 30 | 180 | **Tightest week.** Lab 5 completion + failure experiment (135) and the project proposal (30). Reading cut to 15 min — the week's reading is deliberately short and the proposal is deliberately brief. |
 | 13 | 30 | 150 | 0 | 180 | **Lab 6, in one week** (D-67). Reading raised to 30: the notes carry what the halved concept block could not. |
-| 14 | 15 | 105 | 60 | 180 | **Final-exam week.** Reading = the synthesis notes, which are the method for the peer review. Project (105). "Other" (60) = final-exam revision. |
+| 14 | 15 | 105 | 60 | 180 | **Final-exam week.** Reading = the synthesis notes, which are the method for the peer review. Project (105), including ~15 min for the two peer-review answers written after the session. "Other" (60) = final-exam revision of weeks 9–13; weeks 1–7 were revised in week 8. |
 | 15 | 0 | 150 | 30 | 180 | "Other" = demonstration preparation, final cleanup verification, reflection. |
 
 **Every week totals 180 minutes.** Where a week carries an extra obligation — trial
@@ -140,7 +140,7 @@ These are **not** part of the student budget and are also unvalidated estimates.
 | Session preparation (first delivery) | 3–4 h | per week |
 | Session preparation (subsequent deliveries) | 1–1.5 h | per week |
 | Quiz marking (~10 students, short answers) | 30–45 min | 6 times |
-| Exam marking (~10 scripts, written answers) | 3–4 h | twice, weeks 8 and 14 |
+| Exam marking (~10 scripts, written answers, 75 marks) | 4–5 h | once, week 14 |
 | Lab marking (~10 students, rubric-based) | 2.5–4 h | 6 times |
 | Project design review | 15 min per group | week 13 |
 | Project marking incl. defence notes | 30–45 min per group | week 15 |
@@ -180,8 +180,8 @@ Re-open this budget if any of the following is observed:
   delivery. First remedy: make Part 3's "three things deliberately the same" the only written
   answer in that part, and drop the cost estimate in Part 6 to the per-project/per-account
   question alone. Never remedy it by moving Lab 6 work into week 14, which is exam week.
-- **Exam revision spills into lab time.** If students report that week 8 or week 14 revision
-  needed more than its allocation, the exam is asking for recall it should not — the same rule
+- **Exam revision spills into lab time.** If students report that the week 8 or week 14
+  revision for the final needed more than its allocation, the exam is asking for recall it should not — the same rule
   as for quizzes, and the fix is to the paper, not the budget.
 - **CI setup in week 3 overruns its 20 minutes.** Likely causes are repository permissions or
   a student without a GitHub account. Fix the account problem in week 1, not week 3.

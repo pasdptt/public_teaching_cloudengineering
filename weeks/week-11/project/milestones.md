@@ -112,12 +112,14 @@ extension's cleverest part.
 
 ## Week 14 — Final exam, peer review, and your experiment running
 
-The session opens with the **final exam** (120 minutes); the peer review follows the break.
+The session opens with the **final exam** (150 minutes); the 20-minute peer review follows the
+break.
 **Bring** whatever exists: your architecture sketch, your proposal with its smallest version, and
 any evidence so far. It does not need to be finished; the review is more useful when it is not.
 
-In the session you exchange with another student or pair, write answers to four questions about
-their design in silence, then read them your answers. **When your work is being reviewed, you
+In the session you exchange with another student or pair, write answers to two of four questions
+about their design in silence, then read them your answers. The other two you answer in writing
+afterwards and send on Teams within two days. **When your work is being reviewed, you
 may ask clarifying questions but you may not defend it.** The point is to hear how your design
 reads to someone who did not build it. The sheets are not graded, and they are the best
 rehearsal there is for the questions in week 15.

@@ -385,7 +385,7 @@ will be right every time.
 
 ## Next week
 
-**The final exam** — 120 minutes, cumulative, weighted towards weeks 9–13
-([`weeks/week-08/exams.md`](../week-08/exams.md)). Then a structured **peer review** of another
+**The final exam** — 150 minutes, cumulative, about half on weeks 1–7 and half on weeks 9–13
+([`weeks/week-14/exams.md`](../week-14/exams.md)). Then a structured **peer review** of another
 group's project, for which this week's design review is the preparation. The week 14 notes
 are short and are the method for that review. No new material.

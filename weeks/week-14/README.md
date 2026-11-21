@@ -6,17 +6,17 @@
 
 - [Student notes](student-notes.md) — about **15 minutes**: the synthesis notes, which are the method for the peer review.
 - Slides: [present on claude.ai](https://claude.ai/artifact/ChvS4FJvjkx92WtPkGkzEf) · [Markdown source](slides.md)
-- [Exam format, coverage and rules](../week-08/exams.md)
+- [Exam format, coverage and rules](exams.md)
 - Project: [brief](../week-11/project/brief.md) · [milestones](../week-11/project/milestones.md) · [rubric](../week-11/project/rubric.md)
 
 ## Do
 
-- **In the session:** Peer review.
+- **In the session:** Final exam · peer review.
 - **Your own time this week:** about 180 minutes — 15 reading, 105 lab or project, 60 other.
 
 ## Due
 
-- **The final exam**, in the session (120 minutes) — see [exams.md](../week-08/exams.md)
+- **The final exam**, in the session (150 minutes) — see [exams.md](exams.md)
 - **Lab 6**, at the start of this week's session — [rubric](../week-13/lab-06/rubric.md) · [how to hand in](../../operations/lab-submission.md)
 
 The [weekly schedule](../../course/weekly-schedule.md) has the plan for every week.

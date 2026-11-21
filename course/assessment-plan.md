@@ -2,25 +2,26 @@
 
 | Component | Weight | Count | Individual? |
 |---|---|---|---|
-| Quizzes | **10%** | 6 | Yes |
+| Quizzes | **15%** | 6 | Yes |
 | Labs | **30%** | 6 | Yes |
 | Project | **30%** | 1 | Individual or pair, with individual accountability |
-| Midterm exam | **15%** | 1 (week 8) | Yes |
-| Final exam | **15%** | 1 (week 14) | Yes |
+| Final exam | **25%** | 1 (week 14) | Yes |
 | | **100%** | | |
 
 The same required work, outcomes and criteria apply to undergraduate and graduate students
 (A-09). A midterm and a final examination were added when the teaching was compressed to
-twelve weeks; that superseded A-10's "no exams" and D-02's weights (D-66, D-68). **The weights
+twelve weeks; that superseded A-10's "no exams" and D-02's weights (D-66, D-68). The
+instructor then removed the midterm (D-74, 2026-11-21): the final became cumulative, longer
+and worth 25%, and the quizzes rose to 15%. **The weights
 above are a default, adopted so work could proceed, and are the instructor's to change** —
 `planning/audit.py` checks only that they sum to 100% and that the lab weight divides evenly
 across six labs.
 
 ---
 
-## Quizzes — 10%
+## Quizzes — 15%
 
-Six quizzes of **10–15 minutes**, in weeks 2, 4, 6, 9, 11, 13, taken during the
+Six quizzes of **10–15 minutes**, in weeks 2, 4, 6, 8, 11, 13, taken during the
 discussion block of the session. They do not extend contact time.
 
 ### What a quiz covers
@@ -33,7 +34,7 @@ and never something first encountered in a lab that has not yet been completed.
 | 1 | 2 | 1 | CLO-1, CLO-2 (intro) |
 | 2 | 4 | 1–3 | CLO-1, CLO-2, CLO-3 (intro) |
 | 3 | 6 | 3–5 | CLO-3, CLO-4 (intro) |
-| 4 | 9 | 5–7 | CLO-1, CLO-2, CLO-4 |
+| 4 | 8 | 5–7 | CLO-1, CLO-2, CLO-4 |
 | 5 | 11 | 7, 9, 10 | CLO-5, CLO-6 (intro) |
 | 6 | 13 | 10–12 | CLO-5, CLO-6; CLO-7 and CLO-9 via their threads only |
 
@@ -137,28 +138,30 @@ a late lab compounds. A per-lab grace window is preferable to an open late polic
 
 ---
 
-## Examinations — 30%
+## Final examination — 25%
 
-Two written examinations of **120 minutes**, sat in the room during the session: the
-**midterm in week 8** (15%) and the **final in week 14** (15%). Format, coverage and allowed
-materials are in [`weeks/week-08/exams.md`](../weeks/week-08/exams.md); the papers and their keys are in the
-instructor repository and never in this one.
+One written examination of **150 minutes and 75 marks**, sat in the room during the week 14
+session. Format, coverage and allowed materials are in
+[`weeks/week-14/exams.md`](../weeks/week-14/exams.md); the paper and its key are in the
+instructor repository and never in this one. There is no midterm (D-74). Week 8 holds Quiz 4
+and unmarked practice questions instead.
 
 | Exam | Week | Covers weeks | Outcomes |
 |---|---|---|---|
-| Midterm | 8 | 1–7 | CLO-1, CLO-2, CLO-3, CLO-4; CLO-5 foundations |
-| Final | 14 | 1–13, weighted towards 9–13 | CLO-2, CLO-5, CLO-6, CLO-7, CLO-9; one design-defence question for CLO-8 |
+| Final | 14 | 1–13, about half the marks on 1–7 and half on 9–13 | CLO-1 to CLO-7 and CLO-9; one design-defence question for CLO-8 |
 
 The exams follow the quiz rules, at greater length: scenarios, diagrams and measurements to
 interpret, never recall of service names, prices or console paths. **An exam that needs a
 separate study session beyond its week's revision allowance is asking for recall, and is
-rewritten** — the same rule `course/workload-budget.md` applies to quizzes. Neither exam
-asks for anything first met in a lab that had not been completed by the exam week.
+rewritten** — the same rule `course/workload-budget.md` applies to quizzes. Its revision
+allowance is split: 180 minutes in week 8 for weeks 1–7, and 60 in week 14 for weeks 9–13. The
+exam sits after Lab 6 is due, so it asks for nothing first met in an unfinished lab.
 
-**Why exams and not more quizzes.** The compression removed one quiz slot and the week 13–14
-project time. Two exams give the course individual, invigilated evidence for every outcome —
-including CLO-7 and CLO-9, whose only other individual evidence is lab work done outside the
-room — without adding contact time, since they occupy weeks that no longer teach.
+**Why one cumulative exam.** The final is the course's only invigilated evidence for every
+outcome, including CLO-7 and CLO-9, whose only other individual evidence is lab work done
+outside the room. With no midterm, weeks 1–7 have to be on it in proportion, which is why it is
+half the paper and why the exam is longer. It still adds no contact time, because it occupies
+a week that no longer teaches.
 
 ---
 
@@ -234,19 +237,18 @@ group, not a longer session.
 
 | Component | Weight |
 |---|---|
-| 6 quizzes, normalised and averaged | 10.0% |
+| 6 quizzes, normalised and averaged | 15.0% |
 | 6 labs × 5% | 30.0% |
 | Project | 30.0% |
-| Midterm exam | 15.0% |
-| Final exam | 15.0% |
+| Final exam | 25.0% |
 | **Total** | **100.0%** |
 
 | Outcome | Assessed in |
 |---|---|
-| CLO-1 | Q1, Q2, Q4, midterm, project defence |
-| CLO-2 | Q1, Q2, Q4, Lab 1, Lab 4, midterm, final |
-| CLO-3 | Q2, Q3, Lab 2, midterm |
-| CLO-4 | Q3, Q4, Lab 3, midterm, project |
+| CLO-1 | Q1, Q2, Q4, final, project defence |
+| CLO-2 | Q1, Q2, Q4, Lab 1, Lab 4, final |
+| CLO-3 | Q2, Q3, Lab 2, final |
+| CLO-4 | Q3, Q4, Lab 3, final, project |
 | CLO-5 | Q5, Q6, Lab 4, Lab 5, final, project |
 | CLO-6 | Q5, Q6, Lab 4, Lab 5, final, project |
 | CLO-7 | Q6 (cleanup thread), Lab 6, final, project cleanup |

@@ -26,7 +26,7 @@
       "start": "s01"
     },
     "part1": {
-      "description": "Final examination — 120 minutes",
+      "description": "Final examination — 150 minutes",
       "start": "s03"
     },
     "part2": {
@@ -34,7 +34,7 @@
       "start": "s05"
     },
     "part3": {
-      "description": "Peer review — 50 minutes",
+      "description": "Peer review — 20 minutes",
       "start": "s06"
     }
   },

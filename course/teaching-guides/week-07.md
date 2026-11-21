@@ -137,6 +137,7 @@ settles it, and a committed prediction now is worth marks then.
 - Student notes: `weeks/week-07/student-notes.md`
 - Lab: `weeks/week-06/lab-03/README.md` · Rubric: `weeks/week-06/lab-03/rubric.md`
 - The race: `application/docapp/service.py`, `create_job`
-- Next week: **the midterm** (`course/teaching-guides/week-08.md`). Announce the format before
-  the session ends — 120 minutes, weeks 1–7, one A4 sheet of handwritten notes, no devices.
+- Next week: **Quiz 4 and consolidation** (`course/teaching-guides/week-08.md`). Say before the
+  session ends that there is no midterm (D-74): Quiz 4 covers weeks 5–7, and the final in week
+  14 covers the whole course, about half of it weeks 1–7.
 - Week 9: managed execution — the application that now holds no state gets several copies

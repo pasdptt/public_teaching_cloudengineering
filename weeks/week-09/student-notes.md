@@ -1,6 +1,6 @@
 # Week 9 — Managed containers and serverless
 
-**Quiz 4 this week** (weeks 5–7). **Lab 4 starts.**
+**Lab 4 starts.** Your marked Quiz 4 comes back in the session.
 
 ---
 
@@ -159,7 +159,7 @@ the free-tier shape, and how you read logs. Those are worth knowing and not wort
 
 | | |
 |---|---|
-| Read these notes; prepare for Quiz 4 (weeks 5–7) | 30 min |
+| Read these notes | 30 min |
 | Lab 4 Parts 0–3: predict, build, deploy, and break it on purpose | 150 min |
 
 Part 0 must be written **before** you run anything, and it is marked. Do not reconstruct it

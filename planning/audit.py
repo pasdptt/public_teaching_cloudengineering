@@ -38,9 +38,14 @@ def md_files():
 
 # ---------------------------------------------------------------- 1. links
 LINK = re.compile(r"\[[^\]]*\]\(([^)]+)\)")
+# Code is not a link: a fenced block (indented or not) or an inline code span can show
+# Markdown link syntax as an example, and it never renders as a link.
+FENCE = re.compile(r"^[ \t]*(`{3,}|~{3,})[^\n]*\n.*?^[ \t]*\1[ \t]*$", re.M | re.S)
+CODE_SPAN = re.compile(r"(`+)(?!`).+?(?<!`)\1", re.S)
 checked = 0
 for p in md_files():
-    for target in LINK.findall(p.read_text(encoding="utf-8")):
+    prose = CODE_SPAN.sub("", FENCE.sub("", p.read_text(encoding="utf-8")))
+    for target in LINK.findall(prose):
         if target.startswith(("http://", "https://", "#", "mailto:")):
             continue
         target = target.split("#", 1)[0]

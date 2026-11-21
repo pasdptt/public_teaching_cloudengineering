@@ -415,8 +415,11 @@ working as intended.
 **`pytest: command not found`** — use `python3 -m pytest`, which does not depend on your
 PATH.
 
-**`docker: Cannot connect to the Docker daemon`** — the engine is not running. Start Docker
-Desktop (or Podman Desktop) and wait for it to report ready.
+**`docker: Cannot connect to the Docker daemon`**, or on newer Docker **`failed to connect to
+the docker API at unix:///…/docker.sock … no such file or directory`** — the `docker` command
+is installed but the engine is not running, usually after a restart. Start Docker Desktop (or
+Podman Desktop; on macOS, `open -a Docker`) and wait until `docker info` answers. To stop it
+recurring, turn on *Start Docker Desktop when you sign in* (Settings → General).
 
 **`curl` on Windows PowerShell behaves oddly** — PowerShell aliases `curl` to
 `Invoke-WebRequest`, which takes different arguments. Use `curl.exe` explicitly, or work in

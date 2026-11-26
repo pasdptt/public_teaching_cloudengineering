@@ -39,7 +39,7 @@ PRIVATE_DIRS = ("exam-papers", "quiz-keys", "lab-solutions", "pilot-evidence", "
 PRIVATE_NAMES = [
     re.compile(r"(^|/)midterm[^/]*\.(md|pdf|docx?)$", re.I),
     re.compile(r"(^|/)final(-paper)?\.(md|pdf|docx?)$", re.I),    # the final paper, anywhere
-    re.compile(r"(^|/)(final-)?practice[^/]*\.(md|pdf|docx?)$", re.I),   # the practice set (D-71)
+    re.compile(r"(^|/)[^/]*practice[^/]*\.(md|pdf|docx?)$", re.I),   # practice sets: final, week 8 (D-71, D-74)
     re.compile(r"(^|/)quiz-\d+\.(md|pdf|docx?)$", re.I),            # a quiz paper (D-71)
     re.compile(r"-key\.[a-z]+$", re.I),
     re.compile(r"answer[-_ ]?key", re.I),

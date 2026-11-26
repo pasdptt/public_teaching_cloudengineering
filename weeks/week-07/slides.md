@@ -381,6 +381,8 @@ BEFORE ANYONE LEAVES: bucket deleted, versioning checked, verification output sh
 
 No midterm: the final in week 14 covers the whole course
 
+Bring your Lab 1–3 write-ups
+
 <!--
-Say it out loud: no midterm, and about half the final is weeks 1–7. Point at weeks/week-08/student-notes.md for how to prepare in the 180 minutes the week allows.
+Say it out loud: no midterm, and about half the final is weeks 1–7. Three of the practice questions are about their own Lab 1–3 work. Point at weeks/week-08/student-notes.md for how to prepare in the 180 minutes the week allows.
 -->

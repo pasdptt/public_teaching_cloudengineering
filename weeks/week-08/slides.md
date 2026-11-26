@@ -85,9 +85,9 @@ Weeks 1–7 · the final's four kinds · in pairs · not marked
 
 **Trace** · **Interpret** · **Predict and explain** · **Choose and defend**
 
-- Answer in pairs, in writing. Then two minutes of answers from the room.
+- **Ten minutes in pairs**, in writing. Then two minutes of answers from the room.
 - **A wrong prediction with a sound mechanism is a good answer.** That is how the final marks it.
-- At least one is about **your own** system: your Lab 2 VM, or your Lab 3 decision record.
+- Three are about **your own** system: your Lab 1 store, your Lab 2 VM, your Lab 3 decision record.
 
 <!--
 Different scenarios from the real final. Press for mechanism every time. Twelve minutes, then the room, then the next question.

@@ -5,7 +5,7 @@
 | **Outcomes** | CLO-1, CLO-2, CLO-4 (Quiz 4); CLO-1 to CLO-4 practised, not assessed |
 | **Assessment** | **Quiz 4** — weeks 5–7, 15 min, in the session. Moved here from week 9 (D-74) |
 | **Practical** | Practice questions · trial and cost check · lab clinic. **No new material** |
-| **Prep time** | Practice questions: ~2 h first delivery, ~20 min subsequently. Session: ~30 min |
+| **Prep time** | Re-read the practice key: ~20 min. Session: ~30 min |
 
 > **Changed 2026-11-21 (D-74).** This week was the midterm, a 120-minute exam worth 15%. The
 > midterm was removed: the final in week 14 is now cumulative, worth 25%, with about half its
@@ -51,16 +51,18 @@ not already in that lab's brief.
 
 ## Practice questions (50 min)
 
-Write **four questions** on weeks 1–7, one of each kind in [`weeks/week-14/exams.md`](../../weeks/week-14/exams.md):
-trace, interpret, predict and explain, choose and defend. Keep them in the instructor
-repository with the final practice set (`exam-papers/`), because they are the first half of
-it.
+**Four questions** on weeks 1–7, one of each kind in [`weeks/week-14/exams.md`](../../weeks/week-14/exams.md):
+trace, interpret, predict and explain, choose and defend. Each is 5 marks, the size of one
+question on the final. They are in the instructor repository, `exam-papers/week-08-practice.md`,
+with a key beside it. They are the first half of the final practice set. Print one per pair.
 
-- **Twelve minutes a question, in pairs**, then two minutes of answers from the room. Ask for
-  the mechanism, and let a wrong prediction with a good mechanism stand as a good answer. That
-  is how the final marks it.
-- **At least one question about their own system**: the VM from Lab 2, or the decision record
-  from Lab 3.
+- **Twelve minutes a question:** ten in pairs, in writing, then two minutes of answers from the
+  room. Ask for the mechanism, and let a wrong prediction with a good mechanism stand as a good
+  answer. That is how the final marks it. Record how long pairs actually take: it is the first
+  evidence of whether the final is the right length.
+- **Three of the four are about their own system**: the job store from Lab 1, the VM from Lab 2
+  with the Lab 3 code on it, and the decision record from Lab 3. Tell students in week 7 to
+  bring their Lab 1–3 write-ups.
 - **Different scenarios from the final.** The real paper must not repeat them.
 - **End with one minute of writing:** *the one thing from weeks 1–7 I could not explain today.*
   It goes on the top of their revision sheet, and it is what the week 8 reading budget is for.

@@ -139,5 +139,6 @@ settles it, and a committed prediction now is worth marks then.
 - The race: `application/docapp/service.py`, `create_job`
 - Next week: **Quiz 4 and consolidation** (`course/teaching-guides/week-08.md`). Say before the
   session ends that there is no midterm (D-74): Quiz 4 covers weeks 5–7, and the final in week
-  14 covers the whole course, about half of it weeks 1–7.
+  14 covers the whole course, about half of it weeks 1–7. Ask them to bring their Lab 1–3
+  write-ups: three of the week 8 practice questions are about what they built.
 - Week 9: managed execution — the application that now holds no state gets several copies

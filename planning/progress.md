@@ -854,11 +854,23 @@ The instructor changed the weights and removed the midterm.
 paper and key. Both are listed in `exam-papers/README.md`. The decks for weeks 7, 8, 9, 13 and
 14 were regenerated and republished.
 
+### Week 8 practice questions written (2026-11-26, D-74)
+
+- **Four questions on weeks 1–7**, one of each kind the final asks, 5 marks each. They are in the
+  private repo, `exam-papers/week-08-practice.md`, with a key beside it. Three are about the
+  student's own Lab 1, Lab 2 and Lab 3 work. The key lists the four scenarios the final must not
+  reuse.
+- **The timing is now explicit**: ten minutes in pairs and two from the room, four times, in the
+  week 8 guide and slide. The old wording could be read as 56 minutes in a 50-minute block.
+  Week 7 now tells students to bring their Lab 1–3 write-ups.
+- **`leakcheck.py`'s name rule** matched only `practice…` and `final-practice…`, so it would not
+  have refused `week-08-practice.md`. It now matches `practice` anywhere in a file name, and
+  `.gitignore` has `*-practice*.md`. The content fingerprint would have caught the file anyway.
+
 ### Still to author
 
-The final paper and key, and the week 8 practice questions (private, `exam-papers/`) · instructor solutions for Labs 2, 4
-and 6. Operational guidance is
-authored **with** each cloud exercise, never afterwards.
+The final paper and key (private, `exam-papers/`) · instructor solutions for Labs 2, 4 and 6.
+Operational guidance is authored **with** each cloud exercise, never afterwards.
 
 ## Stage D — audit and package · NOT STARTED
 

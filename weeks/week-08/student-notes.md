@@ -18,15 +18,16 @@ Exam format: [`weeks/week-14/exams.md`](../week-14/exams.md).
 | Trial and cost check | 20 min — your own billing page, in the room |
 | Lab clinic | 70 min — outstanding Lab 3 issues, and a local container build before Lab 4 |
 
-**Bring a laptop.** You need it for the second half.
+**Bring a laptop, with your Lab 1–3 write-ups to hand.** Three of the practice questions are
+about what you built, and you need the laptop for the second half.
 
 ## What the practice questions ask
 
 The same kinds of question as the final: trace a request across a boundary, interpret a
 measurement, predict what a change does and explain why, choose between designs and say what
-the choice costs. Several are about **your own** system — the VM you ran in Lab 2, the
-decision record you wrote in Lab 3. Nothing is marked. The point is to find what you cannot
-yet explain while there are six weeks left to fix it.
+the choice costs. Three are about **your own** system: the job store you wrote in Lab 1, the
+VM you ran in Lab 2, and the decision record you wrote in Lab 3. Nothing is marked. The point
+is to find what you cannot yet explain while there are six weeks left to fix it.
 
 ## How to prepare (~180 minutes, and no more)
 
